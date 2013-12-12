@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<title>The Incredible Accessible Modal Window</title>
+<script src="../../../jquery/jquery-1.6.4.min.js"></script>
+<script src="modal-window.js"></script>
+<style type="text/css">
+#modalOverlay {
+	width:100%;
+	height:100%;
+	z-index:2; /* places the modal overlay between the main page and the modal dialog*/
+	background-color:#000;
+	opacity:0.5;
+	position:fixed;
+	top:0;
+	left:0;
+	display:none;
+	margin:0;
+	padding:0;
+}
+
+#modal {
+	width:50%;
+	margin-left:auto;
+	margin-right:auto;
+	padding: 5px;
+	border: thin #000 solid;
+	background-color:#fff;
+	z-index:3; /* places the modal dialog on top of everything else */
+	position:fixed;
+	top:25%;
+	left:25%;
+	display:none;
+}
+#modal h1 {
+	text-align:center;
+}
+
+.modalCloseButton {
+	float:right;
+	position:absolute;
+	top:10px;
+	left:95%;
+}
+.modalCloseButton img {
+	border:0;
+}
+
+.screen-reader-offscreen {
+   position:absolute;
+   left:-999px;
+   width:1px;
+   height:1px;
+   top:auto;
+}
+
+</style>
+</head>
+
+<body>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40224544-1', 'ncsu.edu');
+  ga('send', 'pageview');
+
+</script>
+<div id="mainPage" aria-hidden="false">
+  <h1>The Incredible Accessible Modal Window</h1>
+  <p><a href="http://accessibility.oit.ncsu.edu/blog/2013/09/13/the-incredible-accessible-modal-dialog/">Read the blog post about creating this demonstration.</a></p>
+  <p>This page demonstrates how to make a modal window as accessible as possible to assistive technology users. Modal windows are especially problematic for screen reader users. Often times the user is able to &quot;escape&quot; the window and interact with other parts of the page when they should not be able to. This is partially due to the way screen reader software interacts with the Web browser.</p>
+  <h2>The Accessible Modal Window in Action</h2>
+  <p>To see this in action, you just need to <button id="startModal">view the modal window</button>. If the modal window works as planned, once the modal window is visible you should not be able to interact with other links on the main page like <a href="http://accessibility.ncsu.edu">going to our main accessibility page</a>. If you can interact with the page behind the modal window, guidance is given for how to get back to the modal window.</p>
+  <h2>Features</h2>
+  <p>This example implements the following features:</p>
+  <ol>
+    <li>The page is divided into three sections:
+      <ol>
+        <li>&lt;div id=&quot;mainPage&gt;&lt;/div&gt;</li>
+        <li>&lt;div id=&quot;modal&quot; role=&quot;dialog&quot;&gt;&lt;/div&gt;</li>
+        <li>&lt;div id=&quot;modalOverlay&quot;&gt;&lt;/div&gt;</li>
+      </ol>
+    </li>
+    <li>When the modal dialog is displayed, an overlay is placed over top of the mainPage so it is
+      <ol>
+        <li>visually grayed out in order to indicate you cannot interact with what is behind the window</li>
+        <li>not clickable with the mouse</li>
+      </ol>
+    </li>
+    <li>When the modal dialog is displayed, the mainPage is marked with aria-hidden=&quot;true&quot; to prevent screen readers from interacting with it once the modal dialog is open</li>
+    <li>Keyboard access is limited to only interacting with the modal dialog once it is visible
+      <ol>
+        <li>The tab key loops through all of the keyboard focusable items within the modal window</li>
+        <li>This is determined programmatically through the DOM each time the tab key is pressed so you do not have to create an explicit list of focusable items within the modal window to keep track of</li>
+        <li>The escape key is mapped to the function to close the modal window</li>
+        <li>The enter key is mapped to the submit function of the modal window</li>
+      </ol>
+    </li>
+    <li>The beginning of the modal dialog is marked with an h1</li>
+    <li>There are offscreen instructions that describe the modal dialog and how to interact with it
+      <ol>
+        <li>The instructions are attached through the aria-labelledby attribute.</li>
+        <li>note, the maximum length of text in an aria-labelledby attribute for JAWS is around 240 characters. Other screen readers do not have this limitation.</li>
+      </ol>
+    </li>
+    <li>There is a shim in place for VoiceOver in Safari support since this combination does not announce the aria-labelledby attribute of an element with role=&quot;dialog&quot; when an item within the element receives focus. The shim makes the modal window itself programmatically focusable (tabindex=&quot;-1&quot;) and sets the focus to the modal window itself instead of the first focusable item within the modal window. This goes against the <a href="http://www.w3.org/TR/wai-aria-practices/#modal_dialog">ARIA Authoring Practices for modal dialog windows</a>.</li>
+  	<li>Configurations Tested
+  		<ul>
+  			<li>JAWS 14.0.6005 in IE 10.0.9200.16635 in Windows 7, Service Pack 1: <strong>Passed</strong></li>
+  			<li>NVDA 2013.1.1 in Firefox 23.0.1 in Windows 7, Service Pack 1: <strong>Passed</strong></li>
+  			<li>VoiceOver in Safari 6.0.5 (8536.30.1) in OS X 10.8.4: <strong>Passed, with shim</strong></li>
+  			<li>ChromeVox 1.29.1 in Chrome 29.0.1547.62 in OS X 10.8.4: <strong>Passed</strong></li>
+  			<li>Orca 3.4.2 in Firefox 23.0 in Ubuntu 12.04: <strong>Partial Functionality - does not support aria-hidden</strong></li>
+  		</ul>
+  	</li>
+  </ol>
+</div>
+<div id="modal" aria-hidden="true" aria-labelledby="modalTitle modalDescription" role="dialog">
+  <div id="modalDescription" class="screen-reader-offscreen">Beginning of dialog window. It begins with a heading 1 called &quot;Registration Form&quot;. Escape will cancel and close the window. This form does not collect any actual information.</div>
+  <h1 id="modalTitle">Registration Form</h1>
+  <form name="form1" method="post" action="">
+		<p>
+			<label for="firstName">First Name</label>
+			<input type="text" name="firstName" id="firstName">
+		</p>
+		<p>
+			<label for="lastName">Last Name</label>
+			<input type="text" name="lastName" id="lastName">
+		</p>
+		<p>
+			<label for="email">Email Address</label>
+			<input type="text" name="email" id="email">
+		</p>
+		<p>
+			<input type="button" name="button" id="enter" value="Submit">
+			<input type="button" name="cancelButton" id="cancelButton" value="Cancel">
+		</p>
+		<a id="modalCloseButton" class="modalCloseButton" href="javascript:void(0)" title="Close registration form"><img id="cancel" src="x.png" alt="close the registration form"></a>
+
+  </form>
+</div>
+<div id="modalOverlay" tabindex="-1"></div>
+
+</body>
+</html>

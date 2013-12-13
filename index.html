@@ -132,11 +132,11 @@
                 </li>
             </ol>
         </div>
-        <div id="modal" aria-hidden="true" aria-labelledby="modalTitle modalDescription" role="dialog">
-            <div role="document">
+        <div id="modal" aria-hidden="true" aria-labelledby="modalTitle" aria-describedby="modalDescription" role="dialog">
+            <div role="document"> <!-- Optional role if you want screen reader users to be able to interact with objects other than focusable elements and their labels.  -->
                 <div id="modalDescription" class="screen-reader-offscreen">Beginning of dialog window. It begins with a heading 1 called &quot;Registration Form&quot;. Escape will cancel and close the window. This form does not collect any actual information.</div>
                 <h1 id="modalTitle">Registration Form</h1>
-                <p>These are the onscreen instructions. Can screen reader users read this text with the virtual cursor?</p>
+                <p>These are the onscreen instructions that are not attached explicitly to a focusable element. Can screen reader users read this text with the virtual cursor?</p>
                 <form name="form1" method="post" action="">
                     <p>
                         <label for="firstName">First Name</label>
@@ -157,7 +157,7 @@
                     <a id="modalCloseButton" class="modalCloseButton" href="javascript:void(0)" title="Close registration form"><img id="cancel" src="x.png" alt="close the registration form"></a>
 
                 </form>
-            </div>
+            </div> <!-- Matching div for optional role="document" -->
         </div>
         <div id="modalOverlay" tabindex="-1"></div>
 

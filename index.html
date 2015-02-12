@@ -3,59 +3,9 @@
     <head>
         <meta charset="utf-8">
         <title>The Incredible Accessible Modal Window, Version 2</title>
-        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
         <script src="modal-window.js"></script>
-        <style type="text/css">
-            #modalOverlay {
-                width:100%;
-                height:100%;
-                z-index:2; /* places the modal overlay between the main page and the modal dialog*/
-                background-color:#000;
-                opacity:0.5;
-                position:fixed;
-                top:0;
-                left:0;
-                display:none;
-                margin:0;
-                padding:0;
-            }
-
-            #modal {
-                width:50%;
-                margin-left:auto;
-                margin-right:auto;
-                padding: 5px;
-                border: thin #000 solid;
-                background-color:#fff;
-                z-index:3; /* places the modal dialog on top of everything else */
-                position:fixed;
-                top:25%;
-                left:25%;
-                display:none;
-            }
-            #modal h1 {
-                text-align:center;
-            }
-
-            .modalCloseButton {
-                float:right;
-                position:absolute;
-                top:10px;
-                left:95%;
-            }
-            .modalCloseButton img {
-                border:0;
-            }
-
-            .screen-reader-offscreen {
-                position:absolute;
-                left:-999px;
-                width:1px;
-                height:1px;
-                top:auto;
-            }
-
-        </style>
+        <link media="all" rel="stylesheet" href="modal-window.css" />
     </head>
 
     <body>
@@ -77,16 +27,15 @@
 
         </script>
         <div id="mainPage" aria-hidden="false">
-            <h1>The Incredible Accessible Modal Window, Version 2</h1>
-            <p><a href="#">Read the blog post about the updates to this demonstration (link coming soon).</a></p>
+            <h1>The Incredible Accessible Modal Window, Version 3</h1>
+            <p><a href="#">Read the blog post about the updates to this demonstration.</a></p>
             <p><a href="https://github.com/gdkraus/accessible-modal-dialog">Get the code on GitHub</a></p>
             <p>This page demonstrates how to make a modal window as accessible as possible to assistive technology users. Modal windows are especially problematic for screen reader users. Often times the user is able to &quot;escape&quot; the window and interact with other parts of the page when they should not be able to. This is partially due to the way screen reader software interacts with the Web browser.</p>
             <h2>What's New In Version 2?</h2>
-            <p>Version 2 builds on <a href="http://accessibility.oit.ncsu.edu/training/aria/modal-window/">Version 1</a> and incorporates some new features and handles improvements in screen reader support.</p>
+            <p>Version 3 builds on <a href="http://accessibility.oit.ncsu.edu/training/aria/modal-window/version-2/">Version 2</a>. It is a relatively minor update.</p>
             <ul>
-                <li>A shim that had to be used for VoiceOver support is no longer necessary in OS X 10.9.</li>
-                <li>There is a way to allow screen reader users to use their virtual cursor to read the contents of the modal dialog by including a role=&quot;document&quot; container inside the role=&quot;dialog&quot;. All screen readers could already read via the virtual cursor except for NVDA. One could argue this is a shim for NVDA, but it's not clear from the spec who is correct. A role=&quot;document&quot; is to be treated as an application, but other screen readers still let you browse via the virtual cursor. NVDA does not even let you enable the virtual cursor unless you add the role=&quot;document&quot; container.</li>
-                <li>The description of the modal dialog is now referenced by aria-describedby.</li>
+                <li>The role=&quot;document&quot; is removed because NVDA now allows you to browse modal windows.</li>
+                <li>The close button is really a button now instead of a link, which it should have been a long time ago.</li>
             </ul>
             <h2>The Accessible Modal Window in Action</h2>
             <p>To see this in action, you just need to <button id="startModal">view the modal window</button>. If the modal window works as planned, once the modal window is visible you should not be able to interact with other links on the main page like <a href="http://accessibility.ncsu.edu">going to our main accessibility page</a>. If you can interact with the page behind the modal window, guidance is given for how to get back to the modal window.</p>
@@ -126,11 +75,7 @@
                         <li>Orca does not announce either the aria-labelledby or aria-describedby attributes, but users can still read the title and instructions via the virtual cursor.</li>
                     </ol>
                 </li>
-                <li>This configuration also wraps the entire inner contents of the modal dialog with a role=&quot;document&quot;. This allows all screen reader users the ability to use their virtual cursor inside of the modal dialog. This facilitates navigating more complex modal dialogs. This is optional and only necessary if you have elements in the modal dialog that are not focusable or are not labels of focusable elements.
-                    <ul>
-                        <li>All of the screen readers except for NVDA already allow for the virtual cursor to be used in a role=&quot;dialog&quot;, <strong>however</strong>, this goes against the W3C spec. A dialog should be considered an application, and all users should only be able to navigate to focusable items, unless an alternative navigation method is provided by the page. </li>
-                        <li>Providing this functionality allows NVDA users to also have this feature.</li>
-                    </ul>
+                <li>Note, there used to be a role=&quot;document&quot; which wrapped all of the contents of the modal window. This was only necessary because NVDA previously did not allow you to fully browse all of the contents of the modal window. NVDA now allows full browsing of the contents so this is not needed anymore.
                 </li>
                 <li>Note, there used to be a shim in place to handle a support problem in VoiceOver. In OS X 10.9 this bug has been fixed and the shim is no longer needed.</li>
                 <li>Configurations Tested
@@ -148,7 +93,7 @@
 			<div id="modalDescription" class="screen-reader-offscreen">Beginning of dialog window. It begins with a heading 1 called &quot;Registration Form&quot;. Escape will cancel and close the window. This form does not collect any actual information.</div>
 			<h1 id="modalTitle">Registration Form</h1>
 			<p>These are the onscreen instructions that are not attached explicitly to a focusable element. Can screen reader users read this text with the virtual cursor?</p>
-			<form name="form1" method="post" action="">
+			<form name="form1" onSubmit="return false;">
 				<p>
 					<label for="firstName">First Name</label>
 					<input type="text" name="firstName" id="firstName">
@@ -165,7 +110,7 @@
 					<input type="button" name="button" id="enter" value="Submit">
 					<input type="button" name="cancelButton" id="cancelButton" value="Cancel">
 				</p>
-				<a id="modalCloseButton" class="modalCloseButton" href="javascript:void(0)" title="Close registration form"><img id="cancel" src="x.png" alt="close the registration form"></a>
+				<button id="modalCloseButton" class="modalCloseButton" title="Close registration form"><img id="cancel" src="x.png" alt="close the registration form"></button>
 
 			</form>
         </div>

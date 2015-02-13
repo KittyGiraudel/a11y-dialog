@@ -56,9 +56,6 @@ $(document).ready(function() {
     jQuery('#modalCloseButton').click(function(e) {
         hideModal();
     });
-    jQuery('#modalCloseButton').keydown(function(event) {
-        trapSpaceKey($(this), event, hideModal);
-    })
     jQuery('#modal').keydown(function(event) {
         trapTabKey($(this), event);
     })

@@ -2,7 +2,7 @@
 <html lang="en-US">
     <head>
         <meta charset="utf-8">
-        <title>The Incredible Accessible Modal Window, Version 2</title>
+        <title>The Incredible Accessible Modal Window, Version 3</title>
         <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
         <script src="modal-window.js"></script>
         <link media="all" rel="stylesheet" href="modal-window.css" />
@@ -80,10 +80,10 @@
                 <li>Note, there used to be a shim in place to handle a support problem in VoiceOver. In OS X 10.9 this bug has been fixed and the shim is no longer needed.</li>
                 <li>Configurations Tested
                     <ul>
-                        <li>JAWS 15.0.4203 in IE 11.0.9600.16428 in Windows 7, Service Pack 1: <strong>Passed</strong></li>
-                        <li>NVDA 2013.3 in Firefox 26.0 in Windows 7, Service Pack 1: <strong>Passed</strong></li>
-                        <li>VoiceOver in Safari 7.0 (9537.71) in OS X 10.9.0: <strong>Passed - although aria-describedby is not read automatically</strong></li>
-                        <li>ChromeVox 1.31.0 in Chrome 31.0.1650.63 in OS X 10.9.0: <strong>Passed</strong></li>
+                        <li>JAWS 16.0.1925 in IE 11.0.9600.17501 in Windows 7, Service Pack 1: <strong>Passed - although aria-describedby is not read automatically</strong></li>
+                        <li>NVDA 2014.4 in Firefox 35.0.1 in Windows 7, Service Pack 1: <strong>Passed</strong></li>
+                        <li>VoiceOver in Safari 8.02 (9537.71) in OS X 10.10.1: <strong>Passed - although aria-describedby is not read automatically</strong></li>
+                        <li>ChromeVox 41.0.2269.0 in Chrome 40.0.2214.111 in OS X 10.10.1: <strong>Partial functionality. If the modal window is opened using the CV Key and space, the focus is not shifted to the modal window and it stays in the parent window where you can still interact with it. If the user simply presses space, the focus behaves correctly.</strong></li>
                         <li>Orca 3.4.2 in Firefox 26.0 in Ubuntu 12.04: <strong>Partial Functionality - does not support aria-hidden and does not announce the title of the window</strong></li>
                     </ul>
                 </li>

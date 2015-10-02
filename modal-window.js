@@ -65,7 +65,6 @@ $(document).ready(function() {
 
 });
 
-
 function trapSpaceKey(obj, evt, f) {
     // if space key pressed
     if (evt.which == 32) {
@@ -155,25 +154,29 @@ function enterButtonModal() {
     hideModal();
 }
 
+function setFocusToFirstItemInModal(obj){
+    // get list of all children elements in given object
+    var o = obj.find('*');
+
+    // set the focus to the first keyboard focusable item
+    o.filter(focusableElementsString).filter(':visible').first().focus();
+}
+
 function showModal(obj) {
     jQuery('#mainPage').attr('aria-hidden', 'true'); // mark the main page as hidden
     jQuery('#modalOverlay').css('display', 'block'); // insert an overlay to prevent clicking and make a visual change to indicate the main apge is not available
     jQuery('#modal').css('display', 'block'); // make the modal window visible
     jQuery('#modal').attr('aria-hidden', 'false'); // mark the modal window as visible
 
+    // attach a listener to redirect the tab to the modal window if the user somehow gets out of the modal window
+    jQuery('body').on('focusin','#mainPage',function() {
+        setFocusToFirstItemInModal(jQuery('#modal'));
+    })
+
     // save current focus
     focusedElementBeforeModal = jQuery(':focus');
 
-    // get list of all children elements in given object
-    var o = obj.find('*');
-
-    // Safari and VoiceOver shim
-    // if VoiceOver in Safari is used, set the initial focus to the modal window itself instead of the first keyboard focusable item. This causes VoiceOver to announce the aria-labelled attributes. Otherwise, Safari and VoiceOver will not announce the labels attached to the modal window.
-
-    // set the focus to the first keyboard focusable item
-    o.filter(focusableElementsString).filter(':visible').first().focus();
-
-
+    setFocusToFirstItemInModal(obj);
 }
 
 function hideModal() {
@@ -181,6 +184,9 @@ function hideModal() {
     jQuery('#modal').css('display', 'none'); // hide the modal window
     jQuery('#modal').attr('aria-hidden', 'true'); // mark the modal window as hidden
     jQuery('#mainPage').attr('aria-hidden', 'false'); // mark the main page as visible
+
+    // remove the listener which redirects tab keys in the main content area to the modal
+    jQuery('body').off('focusin','#mainPage');
 
     // set focus back to element that had it before the modal was opened
     focusedElementBeforeModal.focus();

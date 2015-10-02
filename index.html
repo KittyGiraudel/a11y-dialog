@@ -1,105 +1,105 @@
 <!doctype html>
 <html lang="en-US">
-    <head>
-        <meta charset="utf-8">
-        <title>The Incredible Accessible Modal Window, Version 3</title>
-        <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-        <script src="modal-window.js"></script>
-        <link media="all" rel="stylesheet" href="modal-window.css" />
-    </head>
+<head>
+    <meta charset="utf-8">
+    <title>The Incredible Accessible Modal Window, Version 3</title>
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="modal-window.js"></script>
+    <link media="all" rel="stylesheet" href="modal-window.css" />
+</head>
 
-    <body>
-        <div id="mainPage" aria-hidden="false">
-            <h1>The Incredible Accessible Modal Window, Version 4</h1>
-            <p><a href="#">Read the blog post about the updates to this demonstration.</a></p>
-            <p><a href="https://github.com/gdkraus/accessible-modal-dialog">Get the code on GitHub</a></p>
-            <p>This page demonstrates how to make a modal window as accessible as possible to assistive technology users. Modal windows are especially problematic for screen reader users. Often times the user is able to &quot;escape&quot; the window and interact with other parts of the page when they should not be able to. This is partially due to the way screen reader software interacts with the Web browser.</p>
-            <h2>What's New In Version 4?</h2>
-            <p>Version 4 builds on <a href="http://accessibility.oit.ncsu.edu/training/aria/modal-window/version-3/">Version 3</a>.</p>
-            <ul>
-                <li>Due to high demand, the role=&quot;document&quot; is added back to the contents of the modal. This makes it so NVDA automatically switches into document reading mode inside of the modal. NVDA had previously let you toggle the reading mode, but since many modals contain items that require document browsing mode, I've added this back in as the default.</li>
-                <li>There is now a check that when the modal window is open, detects any time the #mainPage or any of its contents receives focus and will redirect the focus to the modal window. This was necessary because of the modal window was open and you went to the address bar, if you started tabbing again you would interact with the main page.</li>
-                <li>Both the documentation and the live demo now live on GitHub.</li>
-            </ul>
-            <h2>The Accessible Modal Window in Action</h2>
-            <p>To see this in action, you just need to <button id="startModal">view the modal window</button>. If the modal window works as planned, once the modal window is visible you should not be able to interact with other links on the main page like <a href="http://accessibility.ncsu.edu">going to our main accessibility page</a>. If you can interact with the page behind the modal window, guidance is given for how to get back to the modal window.</p>
-            <h2>Features</h2>
-            <p>This example implements the following features:</p>
-            <ol>
-                <li>The page is divided into three sections:
-                    <ol>
-                        <li>&lt;div id=&quot;mainPage&gt;&lt;/div&gt;</li>
-                        <li>&lt;div id=&quot;modal&quot; role=&quot;dialog&quot;&gt;&lt;/div&gt;</li>
-                        <li>&lt;div id=&quot;modalOverlay&quot;&gt;&lt;/div&gt;</li>
-                    </ol>
-                </li>
-                <li>When the modal dialog is displayed, an overlay is placed over top of the mainPage so it is
-                    <ol>
-                        <li>visually grayed out in order to indicate you cannot interact with what is behind the window</li>
-                        <li>not clickable with the mouse</li>
-                    </ol>
-                </li>
-                <li>When the modal dialog is displayed, the mainPage is marked with aria-hidden=&quot;true&quot; to prevent screen readers from interacting with it once the modal dialog is open. Additionally, the mainPage gets an even listener for any time it or any of its children receive focus. When they do receive focus, the user's focus is redirected to the modal window.</li>
-                <li>Keyboard access is limited to only interacting with the modal dialog once it is visible
-                    <ol>
-                        <li>The tab key loops through all of the keyboard focusable items within the modal window</li>
-                        <li>This is determined programmatically through the DOM each time the tab key is pressed so you do not have to create an explicit list of focusable items within the modal window to keep track of</li>
-                        <li>The escape key is mapped to the function to close the modal window</li>
-                        <li>The enter key is mapped to the submit function of the modal window</li>
-                    </ol>
-                </li>
-                <li>The title of the modal dialog is identified through the aria-labelledby attribute.</li>
-                <li>The beginning of the modal dialog is marked with an h1</li>
-                <li>There are offscreen instructions that describe the modal dialog and how to interact with it
-                    <ol>
-                        <li>The instructions are attached through the aria-describedby attribute.</li>
-                        <li>In a previous version of this demonstration, the description was attached through the aria-labelledby attribute. It is more semantically correct to put the description/overview of the window in the aria-describedby attribute.</li>
-                        <li>JAWS, NVDA, and ChromeVox announce both the aria-labelledby and aria-describedby attributes when the modal dialog opens.</li>
-                        <li>VoiceOver only announces the aria-labelledby attribute, but users can still read the instructions via the virtual cursor.</li>
-                        <li>Orca does not announce either the aria-labelledby or aria-describedby attributes, but users can still read the title and instructions via the virtual cursor.</li>
-                    </ol>
-                </li>
-                <li>The contents of the modal are wrapped in role=&quot;document&quot;. This is to aid NVDA users so they can more easily browse the contents of the modal. NVDA previously added support for fully browsing the contents of the modal, but it requires the user to switch browsing modes in NVDA. Using role=&quot;document&quot; automatically puts the user in the mode where they can fully browse the contents.</li>
-                <li>Configurations Tested
-                    <ul>
-                        <li>JAWS 16.0.1925 in IE 11.0.9600.17501 in Windows 7, Service Pack 1: <strong>Passed - although aria-describedby is not read automatically</strong></li>
-                        <li>NVDA 2014.4 in Firefox 35.0.1 in Windows 7, Service Pack 1: <strong>Passed</strong></li>
-                        <li>Window Eyes 9.0.0.0 in IE 11.0.9600.17501 in Windows 7, Service Pack 1: <strong>Passed - although the title of the modal window and the aria-describedby is not read automatically</strong></li>
-                        <li>VoiceOver in Safari 8.02 (9537.71) in OS X 10.10.1: <strong>Passed - although aria-describedby is not read automatically</strong></li>
-                        <li>ChromeVox 41.0.2269.0 in Chrome 40.0.2214.111 in OS X 10.10.1: <strong>Partial functionality. If the modal window is opened using the CV Key and space, the focus is not shifted to the modal window and it stays in the parent window where you can still interact with it. If the user simply presses space, the focus behaves correctly.</strong></li>
-                        <li>Orca 3.10.3 in Firefox 35.0.1 in Ubuntu 14.04: <strong>Partial Functionality - does not support aria-hidden and does not announce the title of the window</strong></li>
-                    </ul>
-                </li>
-            </ol>
-        </div>
-        <div id="modal" aria-hidden="true" aria-labelledby="modalTitle" aria-describedby="modalDescription" role="dialog">
-            <div role="document">
-    			<div id="modalDescription" class="screen-reader-offscreen">Beginning of dialog window. It begins with a heading 1 called &quot;Registration Form&quot;. Escape will cancel and close the window. This form does not collect any actual information.</div>
-    			<h1 id="modalTitle">Registration Form</h1>
-    			<p>These are the onscreen instructions that are not attached explicitly to a focusable element. Can screen reader users read this text with the virtual cursor?</p>
-    			<form name="form1" onSubmit="return false;">
-    				<p>
-    					<label for="firstName">First Name</label>
-    					<input type="text" name="firstName" id="firstName">
-    				</p>
-    				<p>
-    					<label for="lastName">Last Name</label>
-    					<input type="text" name="lastName" id="lastName">
-    				</p>
-    				<p>
-    					<label for="email">Email Address</label>
-    					<input type="text" name="email" id="email">
-    				</p>
-    				<p>
-    					<input type="button" name="button" id="enter" value="Submit">
-    					<input type="button" name="cancelButton" id="cancelButton" value="Cancel">
-    				</p>
-    				<button id="modalCloseButton" class="modalCloseButton" title="Close registration form"><img id="cancel" src="x.png" alt="close the registration form"></button>
+<body>
+    <div id="mainPage" aria-hidden="false">
+        <h1>The Incredible Accessible Modal Window, Version 4</h1>
+        <p><a href="#">Read the blog post about the updates to this demonstration.</a></p>
+        <p><a href="https://github.com/gdkraus/accessible-modal-dialog">Get the code on GitHub</a></p>
+        <p>This page demonstrates how to make a modal window as accessible as possible to assistive technology users. Modal windows are especially problematic for screen reader users. Often times the user is able to &quot;escape&quot; the window and interact with other parts of the page when they should not be able to. This is partially due to the way screen reader software interacts with the Web browser.</p>
+        <h2>What's New In Version 4?</h2>
+        <p>Version 4 builds on <a href="http://accessibility.oit.ncsu.edu/training/aria/modal-window/version-3/">Version 3</a>.</p>
+        <ul>
+            <li>Due to high demand, the role=&quot;document&quot; is added back to the contents of the modal. This makes it so NVDA automatically switches into document reading mode inside of the modal. NVDA had previously let you toggle the reading mode, but since many modals contain items that require document browsing mode, I've added this back in as the default.</li>
+            <li>There is now a check that when the modal window is open, detects any time the #mainPage or any of its contents receives focus and will redirect the focus to the modal window. This was necessary because of the modal window was open and you went to the address bar, if you started tabbing again you would interact with the main page.</li>
+            <li>Both the documentation and the live demo now live on GitHub.</li>
+        </ul>
+        <h2>The Accessible Modal Window in Action</h2>
+        <p>To see this in action, you just need to <button id="startModal">view the modal window</button>. If the modal window works as planned, once the modal window is visible you should not be able to interact with other links on the main page like <a href="http://accessibility.ncsu.edu">going to our main accessibility page</a>. If you can interact with the page behind the modal window, guidance is given for how to get back to the modal window.</p>
+        <h2>Features</h2>
+        <p>This example implements the following features:</p>
+        <ol>
+            <li>The page is divided into three sections:
+                <ol>
+                    <li>&lt;div id=&quot;mainPage&gt;&lt;/div&gt;</li>
+                    <li>&lt;div id=&quot;modal&quot; role=&quot;dialog&quot;&gt;&lt;/div&gt;</li>
+                    <li>&lt;div id=&quot;modalOverlay&quot;&gt;&lt;/div&gt;</li>
+                </ol>
+            </li>
+            <li>When the modal dialog is displayed, an overlay is placed over top of the mainPage so it is
+                <ol>
+                    <li>visually grayed out in order to indicate you cannot interact with what is behind the window</li>
+                    <li>not clickable with the mouse</li>
+                </ol>
+            </li>
+            <li>When the modal dialog is displayed, the mainPage is marked with aria-hidden=&quot;true&quot; to prevent screen readers from interacting with it once the modal dialog is open. Additionally, the mainPage gets an even listener for any time it or any of its children receive focus. When they do receive focus, the user's focus is redirected to the modal window.</li>
+            <li>Keyboard access is limited to only interacting with the modal dialog once it is visible
+                <ol>
+                    <li>The tab key loops through all of the keyboard focusable items within the modal window</li>
+                    <li>This is determined programmatically through the DOM each time the tab key is pressed so you do not have to create an explicit list of focusable items within the modal window to keep track of</li>
+                    <li>The escape key is mapped to the function to close the modal window</li>
+                    <li>The enter key is mapped to the submit function of the modal window</li>
+                </ol>
+            </li>
+            <li>The title of the modal dialog is identified through the aria-labelledby attribute.</li>
+            <li>The beginning of the modal dialog is marked with an h1</li>
+            <li>There are offscreen instructions that describe the modal dialog and how to interact with it
+                <ol>
+                    <li>The instructions are attached through the aria-describedby attribute.</li>
+                    <li>In a previous version of this demonstration, the description was attached through the aria-labelledby attribute. It is more semantically correct to put the description/overview of the window in the aria-describedby attribute.</li>
+                    <li>JAWS, NVDA, and ChromeVox announce both the aria-labelledby and aria-describedby attributes when the modal dialog opens.</li>
+                    <li>VoiceOver only announces the aria-labelledby attribute, but users can still read the instructions via the virtual cursor.</li>
+                    <li>Orca does not announce either the aria-labelledby or aria-describedby attributes, but users can still read the title and instructions via the virtual cursor.</li>
+                </ol>
+            </li>
+            <li>The contents of the modal are wrapped in role=&quot;document&quot;. This is to aid NVDA users so they can more easily browse the contents of the modal. NVDA previously added support for fully browsing the contents of the modal, but it requires the user to switch browsing modes in NVDA. Using role=&quot;document&quot; automatically puts the user in the mode where they can fully browse the contents.</li>
+            <li>Configurations Tested
+                <ul>
+                    <li>JAWS 16.0.1925 in IE 11.0.9600.17501 in Windows 7, Service Pack 1: <strong>Passed - although aria-describedby is not read automatically</strong></li>
+                    <li>NVDA 2014.4 in Firefox 35.0.1 in Windows 7, Service Pack 1: <strong>Passed</strong></li>
+                    <li>Window Eyes 9.0.0.0 in IE 11.0.9600.17501 in Windows 7, Service Pack 1: <strong>Passed - although the title of the modal window and the aria-describedby is not read automatically</strong></li>
+                    <li>VoiceOver in Safari 8.02 (9537.71) in OS X 10.10.1: <strong>Passed - although aria-describedby is not read automatically</strong></li>
+                    <li>ChromeVox 41.0.2269.0 in Chrome 40.0.2214.111 in OS X 10.10.1: <strong>Partial functionality. If the modal window is opened using the CV Key and space, the focus is not shifted to the modal window and it stays in the parent window where you can still interact with it. If the user simply presses space, the focus behaves correctly.</strong></li>
+                    <li>Orca 3.10.3 in Firefox 35.0.1 in Ubuntu 14.04: <strong>Partial Functionality - does not support aria-hidden and does not announce the title of the window</strong></li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+    <div id="modal" aria-hidden="true" aria-labelledby="modalTitle" aria-describedby="modalDescription" role="dialog">
+        <div role="document">
+         <div id="modalDescription" class="screen-reader-offscreen">Beginning of dialog window. It begins with a heading 1 called &quot;Registration Form&quot;. Escape will cancel and close the window. This form does not collect any actual information.</div>
+         <h1 id="modalTitle">Registration Form</h1>
+         <p>These are the onscreen instructions that are not attached explicitly to a focusable element. Can screen reader users read this text with the virtual cursor?</p>
+         <form name="form1" onSubmit="return false;">
+            <p>
+               <label for="firstName">First Name</label>
+               <input type="text" name="firstName" id="firstName">
+           </p>
+           <p>
+               <label for="lastName">Last Name</label>
+               <input type="text" name="lastName" id="lastName">
+           </p>
+           <p>
+               <label for="email">Email Address</label>
+               <input type="text" name="email" id="email">
+           </p>
+           <p>
+               <input type="button" name="button" id="enter" value="Submit">
+               <input type="button" name="cancelButton" id="cancelButton" value="Cancel">
+           </p>
+           <button id="modalCloseButton" class="modalCloseButton" title="Close registration form"><img id="cancel" src="x.png" alt="close the registration form"></button>
 
-    			</form>
-            </div>
-        </div>
-        <div id="modalOverlay" tabindex="-1"></div>
+       </form>
+   </div>
+</div>
+<div id="modalOverlay" tabindex="-1"></div>
 
-    </body>
+</body>
 </html>

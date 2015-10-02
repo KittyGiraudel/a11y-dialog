@@ -65,15 +65,6 @@ $(document).ready(function() {
 
 });
 
-function trapSpaceKey(obj, evt, f) {
-    // if space key pressed
-    if (evt.which == 32) {
-        // fire the user passed event
-        f();
-        evt.preventDefault();
-    }
-}
-
 function trapEscapeKey(obj, evt) {
 
     // if escape pressed

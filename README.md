@@ -50,6 +50,12 @@ The following button will close the modal in which it lives when interacted with
 <button type="button" data-modal-hide title="Close the modal">&times;</button>
 ```
 
+The following button will close the modal with the `my-awesome-modal` id when interacted with. Given that the only focusable elements when the modal is open are the focusable children of the modal itself, it seems rather unlikely that you will ever need this but in case you do, well you can.
+
+```html
+<button type="button" data-modal-hide="my-awesome-modal" title="Close the modal">&times;</button>
+```
+
 Regarding the JS API, it simply consists on `show()` and `hide()` methods on the modal instance.
 
 ```javascript

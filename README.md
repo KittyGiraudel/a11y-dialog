@@ -16,6 +16,14 @@ You can try the [live demo](http://edenspiekermann.github.io/accessible-modal-di
 - Addition of `[tabindex]:not([value="-1"])` to focusable elements;
 - Cleaner code.
 
+## Install
+
+```
+npm install accessible-modal-dialog --save
+```
+
+Or you could also copy/paste the script in your project directly, but you will be disconnected from this repository, making it hard for your to get updates.
+
 ## Initialising the modal
 
 You will find a concrete demo in the [example](https://github.com/edenspiekermann/accessible-modal-dialog/tree/master/example) folder of this repository, but basically here is the gist:
@@ -50,7 +58,7 @@ The following button will close the modal in which it lives when interacted with
 <button type="button" data-modal-hide title="Close the modal">&times;</button>
 ```
 
-The following button will close the modal with the `my-awesome-modal` id when interacted with. Given that the only focusable elements when the modal is open are the focusable children of the modal itself, it seems rather unlikely that you will ever need this but in case you do, well you can.
+The following button will close the modal with the `my-awesome-modal` id when interacted with. Given that the only focusable elements when the modal is open are the focusable children of the modal itself, it seems rather unlikely that you will ever need this but in case you do, well you can.g
 
 ```html
 <button type="button" data-modal-hide="my-awesome-modal" title="Close the modal">&times;</button>

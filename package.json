@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "example": "cp index.js example/index.js && git subtree push --prefix example origin gh-pages",
-    "lint": "semistandard index.js"
+    "example": "cp accessible-modal-dialog.js example/ && git subtree push --prefix example origin gh-pages",
+    "lint": "semistandard accessible-modal-dialog.js"
   },
   "devDependencies": {
     "semistandard": "^7.0.5"

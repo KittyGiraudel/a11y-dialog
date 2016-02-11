@@ -4,6 +4,8 @@ This repository is a fork from [accessible-modal-dialog](https://github.com/gdkr
 
 The original repository being apparently unmaintained, we decided to fork it and release our own version of the accessible modal dialog. All credits to the original author.
 
+You can try the [live demo](http://edenspiekermann.github.io/accessible-modal-dialog/).
+
 ## What’s new in Edenspiekermann’s version?
 
 - No more dependency to jQuery (vanilla JS only); 
@@ -56,4 +58,12 @@ modal.show();
 
 // Hide the modal
 modal.hide();
+```
+
+## Deploy example
+
+The [example page](http://edenspiekermann.github.io/accessible-modal-dialog/) is deployed through [GitHub Pages](https://pages.github.com/). 
+
+```
+npm run example
 ```

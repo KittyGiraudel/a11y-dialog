@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "example": "cp index.js example/index.js && git subtree push --prefix example origin gh-pages",
+  }
+}

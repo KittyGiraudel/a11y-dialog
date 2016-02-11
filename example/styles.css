@@ -1,0 +1,60 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font: 125% / 1.5 sans-serif;
+  padding: 2em 0;
+}
+
+.main {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 1em;
+}
+
+.modal-overlay {
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.66);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: none;
+}
+
+.modal {
+  padding: 20px;
+  border: solid rgba(0, 0, 0, 0.1);
+  background-color: rgb(255, 255, 255);
+  z-index: 3;
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  max-width: 90%;
+  width: 700px;
+  transform: translate(-50%, -50%);
+}
+
+.modal h1 {
+  text-align: center;
+  margin-top: 0;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px;
+  transform: scale(1.1);
+}
+
+.screen-reader-offscreen {
+  position: absolute;
+  left: -999px;
+  width: 1px;
+  height: 1px;
+  top: auto;
+}

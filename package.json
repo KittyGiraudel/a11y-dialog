@@ -1,5 +1,9 @@
 {
   "scripts": {
-    "example": "cp index.js example/index.js && git subtree push --prefix example origin gh-pages"
+    "example": "cp index.js example/index.js && git subtree push --prefix example origin gh-pages",
+    "lint": "semistandard index.js"
+  },
+  "devDependencies": {
+    "semistandard": "^7.0.5"
   }
 }

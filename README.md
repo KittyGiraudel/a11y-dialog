@@ -10,7 +10,7 @@ You can try the [live demo](http://edenspiekermann.github.io/accessible-modal-di
 
 - No more dependency to jQuery (vanilla JS only); 
 - Possibility to have several different modals on the page;
-- DOM API for modal openers (`data-show-modal="modal-id"`) and closers (`data-hide-modal`);
+- DOM API for modal openers (`data-modal-show="modal-id"`) and closers (`data-modal-hide`);
 - JS API to manually show and hide modals (`modal.show()`, `modal.hide()`);
 - JS API to know whether a modal is hidden or shown (`modal.shown`);
 - Addition of `[tabindex]:not([value="-1"])` to focusable elements;
@@ -41,13 +41,13 @@ There are 2 ways of toggling the modal. Either through the DOM API, or directly 
 The following button will open the modal with the `my-awesome-modal` id when interacted with.
 
 ```html
-<button type="button" data-show-modal="my-awesome-modal">Open the modal</button>
+<button type="button" data-modal-show="my-awesome-modal">Open the modal</button>
 ```
 
 The following button will close the modal in which it lives when interacted with.
 
 ```html
-<button type="button" data-hide-modal title="Close the modal">&times;</button>
+<button type="button" data-modal-hide title="Close the modal">&times;</button>
 ```
 
 Regarding the JS API, it simply consists on `show()` and `hide()` methods on the modal instance.

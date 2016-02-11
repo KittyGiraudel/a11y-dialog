@@ -104,8 +104,8 @@
     this.$overlay = overlay || $('#modal-overlay');
 
     this.$modal = node;
-    this.$closers = $$('[data-hide-modal]', this.$modal);
-    this.$openers = $$('[data-show-modal="' + this.$modal.id + '"]');
+    this.$closers = $$('[data-modal-hide]', this.$modal);
+    this.$openers = $$('[data-modal-show="' + this.$modal.id + '"]');
     this.shown = false;
 
     bindListeners(this);

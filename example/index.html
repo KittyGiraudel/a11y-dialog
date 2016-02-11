@@ -16,7 +16,7 @@
       
       <h2>The Accessible Modal Window in Action</h2>
   
-      <p>To see this in action, you just need to <button data-show-modal="my-accessible-modal">view the modal window</button>. If the modal window works as planned, once the modal window is visible you should not be able to interact with other links on the main page like <a href="https://github.com/">going to the main GitHub page</a>. If you can interact with the page behind the modal window, guidance is given for how to get back to the modal window.</p>
+      <p>To see this in action, you just need to <button data-modal-show="my-accessible-modal">view the modal window</button>. If the modal window works as planned, once the modal window is visible you should not be able to interact with other links on the main page like <a href="https://github.com/">going to the main GitHub page</a>. If you can interact with the page behind the modal window, guidance is given for how to get back to the modal window.</p>
 
       <h2>Edenspiekermann’s additions</h2>
 
@@ -24,7 +24,7 @@
       <ul>
         <li>No more dependency to jQuery;</li>
         <li>The ability to have multiple modals on a same page;</li>
-        <li>A DOM API to open and close modals (<code>data-show-modal="modal-id"</code> and <code>data-hide-modal</code>)</li>
+        <li>A DOM API to open and close modals (<code>data-modal-show="modal-id"</code> and <code>data-modal-hide</code>)</li>
         <li>A JS API to open and close modals manually (<code>modal.show()</code> and <code>modal.hide()</code>)</li>
         <li>A JS API to know whether a modal is hidden or shown (<code>modal.shown</code>)</li>
         <li>A better respect for <code>[tabindex="-1"]</code> elements</li>
@@ -58,7 +58,7 @@
             <button type="submit" name="button">Submit</button>
           </p>
 
-          <button data-hide-modal class="modal-close" title="Close registration form">&times;</button>
+          <button data-modal-hide class="modal-close" title="Close registration form">&times;</button>
         </form>
       </div>
     </div>

@@ -83,7 +83,7 @@
     instance.$modal.addEventListener('click', function (event) {
       event.stopPropagation();
     });
-  };
+  }
 
   // Helper function to focus first focusable item in node
   function setFocusToFirstItem (node) {
@@ -107,7 +107,7 @@
     this.$closers = $$('[data-hide-modal]', this.$modal);
     this.$openers = $$('[data-show-modal="' + this.$modal.id + '"]');
     this.shown = false;
-    
+
     bindListeners(this);
   };
 
@@ -120,7 +120,7 @@
     this.$main.setAttribute('aria-hidden', 'true');
     this.$modal.setAttribute('aria-hidden', 'false');
     this.$overlay.style.display = 'block';
-    this.$modal.style.display = 'block'; 
+    this.$modal.style.display = 'block';
 
     focusedElementBeforeModal = document.activeElement;
     setFocusToFirstItem(this.$modal);
@@ -140,5 +140,5 @@
     focusedElementBeforeModal.focus();
   };
 
-  global.Modal = Modal
+  global.Modal = Modal;
 }(window));

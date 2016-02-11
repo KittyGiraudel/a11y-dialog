@@ -2,13 +2,23 @@
 
 This page demonstrates how to make a modal window as accessible as possible to assistive technology users. Modal windows are especially problematic for screen reader users. Often times the user is able to "escape" the window and interact with other parts of the page when they should not be able to. This is partially due to the way screen reader software interacts with the Web browser.
 
-## What's New In Version 4?
+## What’s new in Edenspiekermann’s version?
+
+- No more dependency to jQuery (vanilla JS only); 
+- Possibility to have several different modals on the page;
+- DOM API for modal openers (`data-show-modal="modal-id"`) and closers (`data-hide-modal`);
+- JS API to manually show and hide modals (`modal.show()`, `modal.hide()`);
+- JS API to know whether a modal is hidden or shown (`modal.shown`);
+- Addition of `[tabindex]:not([value="-1"])` to focusable elements;
+- Cleaner code.
+
+## What’s new in version 4?
 
 * Due to high demand, the role="document" is added back to the contents of the modal. This makes it so NVDA automatically switches into document reading mode inside of the modal. NVDA had previously let you toggle the reading mode, but since many modals contain items that require document browsing mode, I've added this back in as the default.
 * There is now a check that when the modal window is open, detects any time the #mainPage or any of its contents receives focus and will redirect the focus to the modal window. This was necessary because of the modal window was open and you went to the address bar, if you started tabbing again you would interact with the main page.
 * Both the documentation and the [live demo](http://gdkraus.github.io/accessible-modal-dialog/) now live on GitHub.
 
-##Features
+## Features
 
 This example implements the following features:
 

@@ -1,3 +1,35 @@
+/* -------------------------------------------------------------------------- *\
+ * Necessary styling for the modal to work
+ * -------------------------------------------------------------------------- */
+
+.modal-overlay {
+  z-index: 2;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.66);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: none;
+}
+
+.modal {
+  background-color: rgb(255, 255, 255);
+  z-index: 3;
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+/* -------------------------------------------------------------------------- *\
+ * Demo styling
+ * -------------------------------------------------------------------------- */
+
 * {
   box-sizing: border-box;
 }
@@ -13,44 +45,42 @@ body {
   padding: 0 1em;
 }
 
-.modal-overlay {
-  z-index: 2;
-  background-color: rgba(0, 0, 0, 0.66);
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  display: none;
-}
-
 .modal {
   padding: 20px;
-  border: solid rgba(0, 0, 0, 0.1);
-  background-color: rgb(255, 255, 255);
-  z-index: 3;
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
   max-width: 90%;
   width: 700px;
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  border-radius: 2px;
+}
+
+.modal-overlay {
+  background-color: rgba(43, 46, 56, 0.9);
 }
 
 .modal h1 {
-  text-align: center;
-  margin-top: 0;
+  margin: 0;
+  color: #2980b9;
+  font-size: 1.25em;
 }
 
 .modal-close {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: 5px;
-  transform: scale(1.1);
+  top: 0;
+  right: 0;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  font-weight: bold;
+  font-size: 1.25em;
+  width: 1.2em;
+  height: 1.2em;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.modal-close:hover,
+.modal-close:active {
+  color: #e74c3c;
 }
 
 .modal-close-remote {
@@ -74,4 +104,40 @@ body {
   width: 1px;
   height: 1px;
   top: auto;
+}
+
+form p {
+  display: flex;
+}
+
+form p:last-of-type {
+  justify-content: flex-end;
+}
+
+form label {
+  font-weight: bold;
+}
+
+form input {
+  flex: 1;
+  margin-left: 1em;
+}
+
+form button {
+  background-color: #81c784;
+  color: white;
+  border: 0;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 12px 0;
+  min-width: 120px;
+  cursor: pointer;
+  transition: 0.15s;
+  display: inline-block;
+  border-radius: 2px;
+}
+
+form button:hover,
+form button:active {
+  background-color: #66bb6a;
 }

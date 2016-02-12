@@ -31,48 +31,70 @@ You will find a concrete demo in the [example](https://github.com/edenspiekerman
 
 ### HTML
 
+Here is the basic markup, which can be enhanced. Pay extra attention to the comments.
+
 ```html
+<!--
+  Main container related notes:
+  - It doesn’t have to be a `main` element, however this is recommended.
+  - It doesn’t have to have the `aria-label="Content"` attribute, however this is recommended.
+  - It can have a different id than `main`, however you will have to pass it as a second argument to the Modal instance. See further down.
+-->
 <main id="main" aria-label="Content">
   <!--
     Here lives the main content of the page.
-
-    Notes:
-    - It doesn’t have to be a `main` element, however this is recommended.
-    - It doesn’t have to have the `aria-label` attribute, however this is recommended.
-    - It can have a different id than `main`, however you will have to pass it as a second argument to the Modal instance. See further down.
   -->
 </main>
 
-<div class="modal" hidden="true" id="my-accessible-modal">
-  <div class="modal-overlay" tabindex="-1" data-modal-hide></div>
-  <div class="modal-content" >
-    <!-- 
-      Here lives the main content of the modal.
+<!--
+  Modal container related notes:
+  - It is not the actual modal, just the container with which the script interacts.
+  - It has to have the `hidden` attribute.
+  - It can have a different id than `my-accessible-modal`.
+-->
+<div id="my-accessible-modal" hidden>
 
-      Modal container related notes:
-      - It is not the actual modal, just the container with which the script interacts.
-      - It doesn’t have to have a class.
-      - It has to have the `hidden="true"` attribute.
-      - It can have a different id than `my-accessible-modal`.
+  <!--
+    Overlay related notes:
+    - It has to have the `tabindex="-1"` attribute.
+    - It doesn’t have to have the `data-modal-hide` attribute, however this is recommended. It hides the modal when clicking outside of it.
+  -->
+  <div tabindex="-1" data-modal-hide></div>
 
-      Overlay related notes:
-      - It doesn’t have to have a class.
-      - It has to have the `tabindex="-1"` attribute.
-      - It doesn’t have to have the `data-modal-hide` attribute, however this is recommended. It hides the modal when clicking outside of it.
+  <!--
+    Modal content relates notes:
+    - It is the actual visual modal element.
+    - It has to have the `role="dialog"` attribute.
+    - It doesn’t have to have a direct child with the `role="document"`, however this is recommended.
+  -->
+  <div role="dialog">
+    <div role="document">
+      <!-- 
+        Here lives the main content of the modal.
+      -->
 
-      Modal content relates notes:
-      - It is the actual visual modal element.
-      - It doesn’t have to have a class.
-
-      Closing button related notes:
-      - It doesn’t have to have a class.
-      - It does have to have the `type="button"` attribute.
-      - It does have to have the `data-modal-hide` attribute.
-      - It does have to have an aria-label attribute if you use an icon as content.
-    -->
-    <button type="button" class="modal-close" data-modal-hide aria-label="Close this modal">&times;</button>
+      <!--
+        Closing button related notes:
+        - It does have to have the `type="button"` attribute.
+        - It does have to have the `data-modal-hide` attribute.
+        - It does have to have an aria-label attribute if you use an icon as content.
+      -->
+      <button type="button" data-modal-hide aria-label="Close this modal">
+        &times;
+      </button>
+    </div>
   </div>
 </div>
+```
+
+### CSS
+
+Internet Explorer does not support the `hidden` attribute, so you have to specify the following rule to make it work on IE:
+
+```css
+[hidden] {
+  display: none;
+}
 ```
 
 ### JavaScript

@@ -14,7 +14,7 @@ You can try the [live demo](http://edenspiekermann.github.io/accessible-modal-di
 - JS API to manually show and hide modals (`modal.show()`, `modal.hide()`);
 - JS API to know whether a modal is hidden or shown (`modal.shown`);
 - Addition of `[tabindex]:not([value="-1"])` to focusable elements;
-- No more manipulation of the `display` property through the JS layer, the hiding implementation is entirely up to CSS;
+- Proper usage of the `hidden` attribute;
 - Cleaner code.
 
 ## Install
@@ -29,22 +29,21 @@ Or you could also copy/paste the script in your project directly, but you will b
 
 You will find a concrete demo in the [example](https://github.com/edenspiekermann/accessible-modal-dialog/tree/master/example) folder of this repository, but basically here is the gist:
 
-### DOM
+### HTML
 
 ```html
-<main id="main" aria-label="Content" aria-hidden="false">
+<main id="main" aria-label="Content">
   <!--
     Here lives the main content of the page.
 
     Notes:
     - It doesn’t have to be a `main` element, however this is recommended.
-    - It doesn’t have to have the `aria-hidden` attribute, however this is recommended.
     - It doesn’t have to have the `aria-label` attribute, however this is recommended.
     - It can have a different id than `main`, however you will have to pass it as a second argument to the Modal instance. See further down.
   -->
 </main>
 
-<div class="modal" aria-hidden="true" id="my-accessible-modal">
+<div class="modal" hidden="true" id="my-accessible-modal">
   <div class="modal-overlay" tabindex="-1" data-modal-hide></div>
   <div class="modal-content" >
     <!-- 
@@ -53,7 +52,7 @@ You will find a concrete demo in the [example](https://github.com/edenspiekerman
       Modal container related notes:
       - It is not the actual modal, just the container with which the script interacts.
       - It doesn’t have to have a class.
-      - It has to have the `aria-hidden="true"` attribute.
+      - It has to have the `hidden="true"` attribute.
       - It can have a different id than `my-accessible-modal`.
 
       Overlay related notes:
@@ -76,18 +75,7 @@ You will find a concrete demo in the [example](https://github.com/edenspiekerman
 </div>
 ```
 
-### Styling
-
-You will have to implement some styles for the modal to “work” (visually speaking). The script itself does not take care of any styling whatsoever, not even the `display` property. It basically mostly toggles the `aria-hidden` attribute on the main element and the modal itself. You can use this to show and hide the modal:
-
-```css
-.modal[aria-hidden="true"] {
-  display: none;
-}
-```
-
 ### JavaScript
-
 
 ```javascript
 // Get the modal element (with the accessor method you want)

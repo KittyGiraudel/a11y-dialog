@@ -11,19 +11,22 @@
   left: 0;
   bottom: 0;
   right: 0;
-  display: none;
 }
 
 .modal {
   background-color: rgb(255, 255, 255);
   z-index: 3;
-  display: none;
   position: fixed;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+}
+
+.modal[aria-hidden="true"],
+.modal[aria-hidden="true"] ~ .modal-overlay {
+  display: none;
 }
 
 /* -------------------------------------------------------------------------- *\

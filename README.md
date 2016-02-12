@@ -14,6 +14,7 @@ You can try the [live demo](http://edenspiekermann.github.io/accessible-modal-di
 - JS API to manually show and hide modals (`modal.show()`, `modal.hide()`);
 - JS API to know whether a modal is hidden or shown (`modal.shown`);
 - Addition of `[tabindex]:not([value="-1"])` to focusable elements;
+- No more manipulation of the `display` property through the JS layer, the hiding implementation is entirely up to CSS;
 - Cleaner code.
 
 ## Install
@@ -23,6 +24,15 @@ npm install accessible-modal-dialog --save
 ```
 
 Or you could also copy/paste the script in your project directly, but you will be disconnected from this repository, making it hard for your to get updates.
+
+Note that you will have to implement some styles for the modal to “work” (visually speaking). The script itself does not take care of any styling whatsoever, not even the `display` property. Displaying and positioning the modal and the overlay are entirely up to your CSS implementation. For the display part, something like the following works like a charm:
+
+```css
+.modal[aria-hidden="true"],
+.modal[aria-hidden="true"] ~ .modal-overlay {
+  display: none;
+}
+```
 
 ## Initialising the modal
 
@@ -36,10 +46,10 @@ var modalEl = document.getElementById('my-awesome-modal');
 var modal = new Modal(modalEl);
 ```
 
-The script assumes the main document of the page has a `main` id, and the overlay element has a `modal-overlay` id. If it is not the case, you can pass these two nodes respectively as second and third arguments to the `Modal` constructor:
+The script assumes the main document of the page has a `main` id. If it is not the case, you can pass the main node as second argument to the `Modal` constructor:
 
 ```javascript
-var modal = new Modal(modalEl, mainEl, overlayEl);
+var modal = new Modal(modalEl, mainEl);
 ```
 
 ## Toggling the modal

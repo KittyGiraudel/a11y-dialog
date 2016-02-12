@@ -86,21 +86,6 @@ body {
   color: #e74c3c;
 }
 
-.modal-close-remote {
-  position: fixed;
-  bottom: 10px;
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-  -ms-transform: translateX(-50%);
-  transform: translateX(-50%);
-  z-index: 4;
-  display: none;
-}
-
-.modal[aria-hidden="false"] ~ .modal-close-remote {
-  display: inline-block;
-}
-
 .screen-reader-offscreen {
   position: absolute;
   left: -999px;

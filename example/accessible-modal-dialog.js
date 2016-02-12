@@ -15,11 +15,6 @@
     });
   }
 
-  // Helper function to get first node in context matching selector
-  function $ (selector, context) {
-    return (context || document).querySelector(selector);
-  }
-
   // Helper function to get all nodes in context matching selector as an array
   function $$ (selector, context) {
     var nodes = (context || document).querySelectorAll(selector);
@@ -97,12 +92,9 @@
    * Modal constructor
    * @param {Node} node - Modal element
    * @param {Node} main - Main element of the page
-   * @param {Node} overlay - Overlay element
    */
-  var Modal = function (node, main, overlay) {
-    this.$main = main || $('#main');
-    this.$overlay = overlay || $('#modal-overlay');
-
+  var Modal = function (node, main) {
+    this.$main = main || document.querySelector('#main');
     this.$modal = node;
     this.$openers = $$('[data-modal-show="' + this.$modal.id + '"]');
     this.$closers = $$('[data-modal-hide]', this.$modal)
@@ -120,8 +112,6 @@
 
     this.$main.setAttribute('aria-hidden', 'true');
     this.$modal.setAttribute('aria-hidden', 'false');
-    this.$overlay.style.display = 'block';
-    this.$modal.style.display = 'block';
 
     focusedElementBeforeModal = document.activeElement;
     setFocusToFirstItem(this.$modal);
@@ -135,8 +125,6 @@
 
     this.$modal.setAttribute('aria-hidden', 'true');
     this.$main.setAttribute('aria-hidden', 'false');
-    this.$overlay.style.display = 'none';
-    this.$modal.style.display = 'none';
 
     focusedElementBeforeModal.focus();
   };

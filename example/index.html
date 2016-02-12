@@ -24,10 +24,11 @@
       <ul>
         <li>No more dependency to jQuery;</li>
         <li>The ability to have multiple modals on a same page;</li>
-        <li>A DOM API to open and close modals (<code>data-modal-show="modal-id"</code> and <code>data-modal-hide</code>)</li>
-        <li>A JS API to open and close modals manually (<code>modal.show()</code> and <code>modal.hide()</code>)</li>
-        <li>A JS API to know whether a modal is hidden or shown (<code>modal.shown</code>)</li>
-        <li>A better respect for <code>[tabindex="-1"]</code> elements</li>
+        <li>A DOM API to open and close modals (<code>data-modal-show="modal-id"</code> and <code>data-modal-hide</code>);</li>
+        <li>A JS API to open and close modals manually (<code>modal.show()</code> and <code>modal.hide()</code>);</li>
+        <li>A JS API to know whether a modal is hidden or shown (<code>modal.shown</code>);</li>
+        <li>A better respect for <code>[tabindex="-1"]</code> elements;</li>
+        <li>No more manipulation of the <code>display</code> property through the JS layer, the hiding implementation is entirely up to CSS;</li>
         <li>Cleaner code.</li>
       </ul>
     </main>
@@ -73,8 +74,7 @@
       document.addEventListener('DOMContentLoaded', function () {
         var modalEl = document.getElementById('my-accessible-modal');
         var mainEl = document.getElementById('main');
-        var overlayEl = document.getElementById('modal-overlay');
-        var modal = new window.Modal(modalEl, mainEl, overlayEl);
+        var modal = new window.Modal(modalEl, mainEl);
         
         // To manually control the modal:
         // modal.show()

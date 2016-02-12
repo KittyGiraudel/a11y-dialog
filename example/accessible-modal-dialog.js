@@ -1,17 +1,12 @@
 (function (global) {
   'use strict';
 
-  // Helper function to check if a node is visible in the viewport
-  function isVisible (node) {
-    return !!(node.offsetWidth || node.offsetHeight || node.getClientRects().length);
-  }
-
   // Helper function to get all focusable children from a node
   function getFocusableChildren (node) {
     var focusableElements = ['a[href]', 'area[href]', 'input:not([disabled])', 'select:not([disabled])', 'textarea:not([disabled])', 'button:not([disabled])', 'iframe', 'object', 'embed', '[contenteditable]', '[tabindex]:not([value="-1"])'];
 
     return $$(focusableElements.join(','), node).filter(function (child) {
-      return isVisible(child);
+      return !!(child.offsetWidth || child.offsetHeight || child.getClientRects().length);
     });
   }
 

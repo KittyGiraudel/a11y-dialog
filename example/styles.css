@@ -35,6 +35,8 @@ body {
   left: 50%;
   max-width: 90%;
   width: 700px;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
 
@@ -55,6 +57,8 @@ body {
   position: fixed;
   bottom: 10px;
   left: 50%;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
   transform: translateX(-50%);
   z-index: 4;
   display: none;

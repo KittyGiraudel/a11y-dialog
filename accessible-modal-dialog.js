@@ -64,15 +64,6 @@
         setFocusToFirstItem(instance.$modal);
       }
     }, true);
-
-    document.addEventListener('click', function (event) {
-      if (instance.shown === false) return;
-      instance.hide();
-    });
-
-    instance.$modal.addEventListener('click', function (event) {
-      event.stopPropagation();
-    });
   }
 
   // Helper function to focus first focusable item in node

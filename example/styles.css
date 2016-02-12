@@ -13,7 +13,7 @@
   right: 0;
 }
 
-.modal {
+.modal-content {
   background-color: rgb(255, 255, 255);
   z-index: 3;
   position: fixed;
@@ -24,8 +24,7 @@
   transform: translate(-50%, -50%);
 }
 
-.modal[aria-hidden="true"],
-.modal[aria-hidden="true"] ~ .modal-overlay {
+.modal[aria-hidden="true"] {
   display: none;
 }
 
@@ -48,7 +47,7 @@ body {
   padding: 0 1em;
 }
 
-.modal {
+.modal-content {
   padding: 20px;
   max-width: 90%;
   width: 700px;

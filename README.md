@@ -14,7 +14,7 @@ You can try the [live demo](http://edenspiekermann.github.io/accessible-modal-di
 - JS API to manually show and hide modals (`modal.show()`, `modal.hide()`);
 - JS API to know whether a modal is hidden or shown (`modal.shown`);
 - Addition of `[tabindex]:not([value="-1"])` to focusable elements;
-- Proper usage of the `hidden` attribute;
+- No more `display` manipulation in JS, the hiding mechanism is entirely up to the CSS layer (using `[aria-hidden]` selectors);
 - Cleaner code.
 
 ## Install
@@ -49,10 +49,10 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
 <!--
   Modal container related notes:
   - It is not the actual modal, just the container with which the script interacts.
-  - It has to have the `hidden` attribute.
+  - It has to have the `aria-hidden="true"` attribute.
   - It can have a different id than `my-accessible-modal`.
 -->
-<div id="my-accessible-modal" hidden>
+<div id="my-accessible-modal" aria-hidden="true">
 
   <!--
     Overlay related notes:
@@ -89,10 +89,10 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
 
 ### CSS
 
-Internet Explorer does not support the `hidden` attribute, so you have to specify the following rule to make it work on IE:
+You will have to implement some styles for the modal to “work” (visually speaking). The script itself does not take care of any styling whatsoever, not even the `display` property. It basically mostly toggles the `aria-hidden` attribute on the main element and the modal itself. You can use this to show and hide the modal:
 
 ```css
-[hidden] {
+.modal[aria-hidden="true"] {
   display: none;
 }
 ```

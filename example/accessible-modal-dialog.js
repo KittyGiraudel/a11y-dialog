@@ -94,7 +94,7 @@
   Modal.prototype.show = function () {
     this.shown = true;
 
-    this.$node.removeAttribute('hidden');
+    this.$node.setAttribute('aria-hidden', 'false');
     this.$main.setAttribute('aria-hidden', 'true');
 
     focusedElementBeforeModal = document.activeElement;
@@ -107,7 +107,7 @@
   Modal.prototype.hide = function () {
     this.shown = false;
 
-    this.$node.setAttribute('hidden', 'true');
+    this.$node.setAttribute('aria-hidden', 'true');
     this.$main.setAttribute('aria-hidden', 'false');
 
     focusedElementBeforeModal.focus();

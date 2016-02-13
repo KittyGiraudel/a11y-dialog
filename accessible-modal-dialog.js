@@ -19,8 +19,7 @@
   // Helper function trapping the tab key inside a node
   function trapTabKey (node, event) {
     var focusableChildren = getFocusableChildren(node);
-    var focusedItem = document.activeElement;
-    var focusedItemIndex = focusableChildren.indexOf(focusedItem);
+    var focusedItemIndex = focusableChildren.indexOf(document.activeElement);
 
     if (event.shiftKey && focusedItemIndex === 0) {
       focusableChildren[focusableChildren.length - 1].focus();
@@ -34,14 +33,13 @@
   // Helper function to bind listeners for a Modal instance
   function bindListeners (instance) {
     instance.$openers.forEach(function ($opener) {
-      $opener.addEventListener('click', function (event) {
-        event.stopPropagation();
+      $opener.addEventListener('click', function () {
         instance.show();
       });
     });
 
     instance.$closers.forEach(function ($closer) {
-      $closer.addEventListener('click', function (event) {
+      $closer.addEventListener('click', function () {
         instance.hide();
       });
     });
@@ -55,13 +53,13 @@
       }
 
       if (event.which === 9) {
-        trapTabKey(instance.$modal, event);
+        trapTabKey(instance.$node, event);
       }
     });
 
     document.body.addEventListener('focus', function (event) {
-      if (instance.shown && !instance.$modal.contains(event.target)) {
-        setFocusToFirstItem(instance.$modal);
+      if (instance.shown && !instance.$node.contains(event.target)) {
+        setFocusToFirstItem(instance.$node);
       }
     }, true);
   }
@@ -81,10 +79,10 @@
    */
   var Modal = function (node, main) {
     this.$main = main || document.querySelector('#main');
-    this.$modal = node;
-    this.$openers = $$('[data-modal-show="' + this.$modal.id + '"]');
-    this.$closers = $$('[data-modal-hide]', this.$modal)
-      .concat($$('[data-modal-hide="' + this.$modal.id + '"]'));
+    this.$node = node;
+    this.$openers = $$('[data-modal-show="' + this.$node.id + '"]');
+    this.$closers = $$('[data-modal-hide]', this.$node)
+      .concat($$('[data-modal-hide="' + this.$node.id + '"]'));
     this.shown = false;
 
     bindListeners(this);
@@ -96,11 +94,11 @@
   Modal.prototype.show = function () {
     this.shown = true;
 
-    this.$modal.removeAttribute('hidden');
+    this.$node.removeAttribute('hidden');
     this.$main.setAttribute('aria-hidden', 'true');
 
     focusedElementBeforeModal = document.activeElement;
-    setFocusToFirstItem(this.$modal);
+    setFocusToFirstItem(this.$node);
   };
 
   /**
@@ -109,7 +107,7 @@
   Modal.prototype.hide = function () {
     this.shown = false;
 
-    this.$modal.setAttribute('hidden', 'true');
+    this.$node.setAttribute('hidden', 'true');
     this.$main.setAttribute('aria-hidden', 'false');
 
     focusedElementBeforeModal.focus();

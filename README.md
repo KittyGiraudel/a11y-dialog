@@ -15,7 +15,7 @@ You can try the [live demo](http://edenspiekermann.github.io/accessible-modal-di
 - JS API to know whether a modal is hidden or shown (`modal.shown`);
 - Addition of `[tabindex]:not([value="-1"])` to focusable elements;
 - No more `display` manipulation in JS, the hiding mechanism is entirely up to the CSS layer (using `[aria-hidden]` selectors);
-- Cleaner code.
+- Cleaner code resulting in only 700 bytes (O.7Kb!) once gzipped.
 
 ## Install
 

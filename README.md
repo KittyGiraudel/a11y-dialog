@@ -6,6 +6,9 @@ The original repository being apparently unmaintained, we decided to fork it and
 
 You can try the [live demo](http://edenspiekermann.github.io/accessible-modal-dialog/).
 
+![CodeShip test status](https://codeship.com/projects/7dd06120-b6f8-0133-792c-265d84c132f8/status?branch=master)
+
+
 ## What’s new in Edenspiekermann’s version?
 
 - No more dependency (not even jQuery);

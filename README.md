@@ -160,5 +160,5 @@ npm test
 The [example page](http://edenspiekermann.github.io/accessible-modal-dialog/) is deployed through [GitHub Pages](https://pages.github.com/). 
 
 ```
-npm run example
+npm run deploy
 ```

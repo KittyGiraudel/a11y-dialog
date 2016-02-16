@@ -16,9 +16,12 @@
     "accessible-modal-dialog.js"
   ],
   "scripts": {
-    "example": "cp accessible-modal-dialog.js example/ && git subtree push --prefix example origin gh-pages",
-    "lint": "semistandard accessible-modal-dialog.js",
+    "copy": "cp accessible-modal-dialog.js example",
     "minify": "uglifyjs accessible-modal-dialog.js -o accessible-modal-dialog.min.js -c -m",
+    "build": "npm run minify && npm run copy",
+    "predeploy": "npm run build",
+    "deploy": "git subtree push --prefix example origin gh-pages",
+    "lint": "semistandard accessible-modal-dialog.js",
     "test": "casperjs test tests/index.js"
   },
   "devDependencies": {

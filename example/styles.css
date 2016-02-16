@@ -87,7 +87,7 @@ body {
 
 .screen-reader-offscreen {
   position: absolute;
-  left: -999px;
+  left: -9999px;
   width: 1px;
   height: 1px;
   top: auto;

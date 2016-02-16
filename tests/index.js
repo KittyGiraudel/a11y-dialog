@@ -2,7 +2,7 @@
 
 var modalID = 'my-accessible-modal';
 
-casper.test.begin('Modal test suite', 26, function (test) {
+casper.test.begin('Modal test suite', 34, function (test) {
 
   function testAriaHidden (isModalOpen) {
     var modal = '#' + modalID;
@@ -73,6 +73,19 @@ casper.test.begin('Modal test suite', 26, function (test) {
       testAriaHidden(false);
     });
 
+    casper.then(function () {
+      this.echo('');
+      this.echo('Test modal opening through JS API');
+      casper.page.evaluateJavaScript('function () { window.m.show(); }');
+      testAriaHidden(true);
+    });
+
+    casper.then(function () {
+      this.echo('');
+      this.echo('Test modal closing through JS API');
+      casper.page.evaluateJavaScript('function () { window.m.hide(); }');
+      testAriaHidden(false);
+    });
   });
 
   casper.run(function () {

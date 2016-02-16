@@ -2,7 +2,7 @@
 
 var modalID = 'my-accessible-modal';
 
-casper.test.begin('Modal test suite', 36, function (test) {
+casper.test.begin('Modal test suite', 37, function (test) {
 
   function testAriaHidden (isModalOpen) {
     test.assertExist('#main[aria-hidden="' + isModalOpen + '"]', 'Main element has `aria-hidden="' + isModalOpen + '"`');
@@ -96,6 +96,18 @@ casper.test.begin('Modal test suite', 36, function (test) {
       test.assertEvalEquals(function () {
         return document.activeElement.textContent;
       }, '×', 'Focus should loop inside modal');
+      this.click(closer);
+    });
+
+    this.then(function () {
+      this.echo('\nTest focus on modal closing');
+      this.page.sendEvent('keypress', this.page.event.key.Tab, null, null, 0); // Get into document
+      this.page.sendEvent('keypress', this.page.event.key.Tab, null, null, 0);
+      this.click(opener);
+      this.click(closer);
+      test.assertEvalEquals(function () {
+        return document.activeElement.textContent;
+      }, 'Get the code on GitHub', 'Focus should go back to where it was after modal closing');
     });
   });
 

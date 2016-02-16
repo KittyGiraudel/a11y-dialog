@@ -12,8 +12,7 @@
 
   // Helper function to get all nodes in context matching selector as an array
   function $$ (selector, context) {
-    var nodes = (context || document).querySelectorAll(selector);
-    return nodes.length ? Array.prototype.slice.call(nodes) : [];
+    return Array.prototype.slice.call((context || document).querySelectorAll(selector) || []);
   }
 
   // Helper function trapping the tab key inside a node

@@ -16,7 +16,7 @@
     "accessible-modal-dialog.js"
   ],
   "scripts": {
-    "copy": "cp accessible-modal-dialog.js example",
+    "copy": "cp accessible-modal-dialog.js example/main.js",
     "minify": "uglifyjs accessible-modal-dialog.js -o accessible-modal-dialog.min.js -c -m",
     "build": "npm run minify && npm run copy",
     "predeploy": "npm run build",

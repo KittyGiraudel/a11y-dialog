@@ -4,15 +4,25 @@
   "description": "A tiny script to make modal dialogs accessible to assistive technology users.",
   "homepage": "https://github.com/edenspiekermann/accessible-modal-dialog",
   "main": "accessible-modal-dialog.js",
-  "keywords": ["modal", "dialog", "accessibility", "a11y", "focus"],
+  "keywords": [
+    "modal",
+    "dialog",
+    "accessibility",
+    "a11y",
+    "focus"
+  ],
   "author": "Hugo Giraudel <h.giraudel@de.edenspiekermann.com> (www.edenspiekermann.com/people/hugo-giraudel)",
-  "files": ["accessible-modal-dialog.js"],
+  "files": [
+    "accessible-modal-dialog.js"
+  ],
   "scripts": {
     "example": "cp accessible-modal-dialog.js example/ && git subtree push --prefix example origin gh-pages",
     "lint": "semistandard accessible-modal-dialog.js",
-    "minify": "uglifyjs accessible-modal-dialog.js -o accessible-modal-dialog.min.js -c -m"
+    "minify": "uglifyjs accessible-modal-dialog.js -o accessible-modal-dialog.min.js -c -m",
+    "test": "casperjs test tests/index.js"
   },
   "devDependencies": {
+    "casperjs": "^1.1.0-beta5",
     "semistandard": "^7.0.5",
     "uglify-js": "^2.6.1"
   }

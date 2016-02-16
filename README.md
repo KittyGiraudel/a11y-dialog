@@ -147,6 +147,14 @@ modal.show();
 modal.hide();
 ```
 
+## Tests
+
+[CasperJS](http://casperjs.org) is being used to run browser tests. CasperJS has some [dependencies](http://docs.casperjs.org/en/latest/installation.html#prerequisites) that have to be installed manually. Be sure to satisfy them before running the tests.
+
+```
+npm test
+```
+
 ## Deploy example
 
 The [example page](http://edenspiekermann.github.io/accessible-modal-dialog/) is deployed through [GitHub Pages](https://pages.github.com/). 

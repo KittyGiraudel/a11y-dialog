@@ -1,6 +1,6 @@
 {
   "name": "accessible-modal-dialog",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A tiny script to make modal dialogs accessible to assistive technology users.",
   "homepage": "https://github.com/edenspiekermann/accessible-modal-dialog",
   "main": "accessible-modal-dialog.js",

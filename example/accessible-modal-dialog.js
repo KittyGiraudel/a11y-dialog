@@ -30,40 +30,6 @@
     }
   }
 
-  // Helper function to bind listeners for a Modal instance
-  function bindListeners (instance) {
-    instance.$openers.forEach(function ($opener) {
-      $opener.addEventListener('click', function () {
-        instance.show();
-      });
-    });
-
-    instance.$closers.forEach(function ($closer) {
-      $closer.addEventListener('click', function () {
-        instance.hide();
-      });
-    });
-
-    document.addEventListener('keydown', function (event) {
-      if (instance.shown === false) return;
-
-      if (event.which === 27) {
-        event.preventDefault();
-        instance.hide();
-      }
-
-      if (event.which === 9) {
-        trapTabKey(instance.$node, event);
-      }
-    });
-
-    document.body.addEventListener('focus', function (event) {
-      if (instance.shown && !instance.$node.contains(event.target)) {
-        setFocusToFirstItem(instance.$node);
-      }
-    }, true);
-  }
-
   // Helper function to focus first focusable item in node
   function setFocusToFirstItem (node) {
     var focusableChildren = getFocusableChildren(node);
@@ -78,39 +44,52 @@
    * @param {Node} main - Main element of the page
    */
   var Modal = function (node, main) {
-    this.$main = main || document.querySelector('#main');
-    this.$node = node;
-    this.$openers = $$('[data-modal-show="' + this.$node.id + '"]');
-    this.$closers = $$('[data-modal-hide]', this.$node)
-      .concat($$('[data-modal-hide="' + this.$node.id + '"]'));
+    var that = this;
+    main = main || document.querySelector('#main');
     this.shown = false;
 
-    bindListeners(this);
-  };
+    $$('[data-modal-show="' + node.id + '"]').forEach(function (opener) {
+      opener.addEventListener('click', show);
+    });
 
-  /**
-   * Method to display the modal
-   */
-  Modal.prototype.show = function () {
-    this.shown = true;
+    $$('[data-modal-hide]', node).concat($$('[data-modal-hide="' + node.id + '"]')).forEach(function (closer) {
+      closer.addEventListener('click', hide);
+    });
 
-    this.$node.setAttribute('aria-hidden', 'false');
-    this.$main.setAttribute('aria-hidden', 'true');
+    document.addEventListener('keydown', function (event) {
+      if (that.shown && event.which === 27) {
+        event.preventDefault();
+        hide();
+      }
 
-    focusedElementBeforeModal = document.activeElement;
-    setFocusToFirstItem(this.$node);
-  };
+      if (that.shown && event.which === 9) {
+        trapTabKey(node, event);
+      }
+    });
 
-  /**
-   * Method to hide the modal
-   */
-  Modal.prototype.hide = function () {
-    this.shown = false;
+    document.body.addEventListener('focus', function (event) {
+      if (that.shown && !node.contains(event.target)) {
+        setFocusToFirstItem(node);
+      }
+    }, true);
 
-    this.$node.setAttribute('aria-hidden', 'true');
-    this.$main.setAttribute('aria-hidden', 'false');
+    this.show = show;
+    this.hide = hide;
 
-    focusedElementBeforeModal.focus();
+    function show () {
+      that.shown = true;
+      node.setAttribute('aria-hidden', 'false');
+      main.setAttribute('aria-hidden', 'true');
+      focusedElementBeforeModal = document.activeElement;
+      setFocusToFirstItem(node);
+    }
+
+    function hide () {
+      that.shown = false;
+      node.setAttribute('aria-hidden', 'true');
+      main.setAttribute('aria-hidden', 'false');
+      focusedElementBeforeModal.focus();
+    }
   };
 
   global.Modal = Modal;

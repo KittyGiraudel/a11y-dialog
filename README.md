@@ -17,6 +17,8 @@ You can try the [live demo](http://edenspiekermann.github.io/accessible-modal-di
 - No more `display` manipulation in JS, the hiding mechanism is entirely up to the CSS layer (using `[aria-hidden]` selectors);
 - Cleaner code resulting in only 700 bytes (O.7Kb!) once gzipped.
 
+*Note: the script should run seamlessly in Internet Explorer 9 and above.*
+
 ## Install
 
 ```

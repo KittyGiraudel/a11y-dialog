@@ -18,7 +18,7 @@ You can try the [live demo](http://edenspiekermann.github.io/accessible-modal-di
 - Addition of `[tabindex]:not([value="-1"])` to focusable elements;
 - No more `display` manipulation in JS, the hiding mechanism is entirely up to the CSS layer (using `[aria-hidden]` selectors);
 - Full test coverage with [CasperJS](http://casperjs.org) and [CodeShip](https://codeship.com);
-- Cleaner code resulting in only 700 bytes (O.7Kb!) once gzipped.
+- Cleaner code resulting in only 700 bytes (0.7Kb!) once gzipped.
 
 *Note: the script should run seamlessly in Internet Explorer 9 and above.*
 

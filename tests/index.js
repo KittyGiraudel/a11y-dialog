@@ -85,7 +85,7 @@ casper.test.begin('Modal test suite', 37, function (test) {
       this.click(opener);
       test.assertEvalEquals(function () {
         return document.activeElement.name;
-      }, 'firstName', 'First focusable element is focused');
+      }, 'EMAIL', 'First focusable element is focused');
       this.click(closer);
     });
 

@@ -5,10 +5,17 @@ var modalID = 'my-accessible-modal';
 casper.test.begin('Modal test suite', 37, function (test) {
 
   function testAriaHidden (isModalOpen) {
-    test.assertExist('#main[aria-hidden="' + isModalOpen + '"]', 'Main element has `aria-hidden="' + isModalOpen + '"`');
-    test.assertDoesntExist('#main[aria-hidden="' + !isModalOpen + '"]', 'Main element has `aria-hidden="' + !isModalOpen + '"`');
-    test.assertExist('#' + modalID + '[aria-hidden="' + !isModalOpen + '"]', 'Modal element has `aria-hidden="' + !isModalOpen + '"`');
-    test.assertDoesntExist('#' + modalID + '[aria-hidden="' + isModalOpen + '"]', 'Modal element has `aria-hidden="' + isModalOpen + '"`');
+    if (isModalOpen === true) {
+      test.assertDoesntExist('#main:not([aria-hidden])');
+      test.assertExist('#main[aria-hidden="true"]');
+      test.assertExist('#' + modalID + ':not([aria-hidden])');
+      test.assertDoesntExist('#' + modalID + '[aria-hidden="true"]');
+    } else {
+      test.assertExist('#main:not([aria-hidden])');
+      test.assertDoesntExist('#main[aria-hidden="true"]');
+      test.assertDoesntExist('#' + modalID + ':not([aria-hidden])');
+      test.assertExist('#' + modalID + '[aria-hidden="true"]');
+    }
   }
 
   casper.start('http://edenspiekermann.github.io/accessible-modal-dialog/', function () {

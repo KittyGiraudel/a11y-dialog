@@ -12,7 +12,6 @@
 
 .modal-overlay {
   z-index: 2;
-  background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.66);
   position: fixed;
   top: 0;
@@ -159,8 +158,10 @@ form {
 
 @media screen and (min-width: 700px) {
   form {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: row;
   }
 }
 
@@ -180,6 +181,9 @@ form input {
 
 @media screen and (min-width: 700px) {
   form input {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
     flex: 1;
     border-right: 0;
     width: auto;

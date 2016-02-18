@@ -45,7 +45,10 @@
   var Modal = function (node, main) {
     var that = this;
     main = main || document.querySelector('#main');
+
     this.shown = false;
+    this.show = show;
+    this.hide = hide;
 
     $$('[data-modal-show="' + node.id + '"]').forEach(function (opener) {
       opener.addEventListener('click', show);
@@ -72,12 +75,9 @@
       }
     }, true);
 
-    this.show = show;
-    this.hide = hide;
-
     function show () {
       that.shown = true;
-      node.setAttribute('aria-hidden', 'false');
+      node.removeAttribute('aria-hidden');
       main.setAttribute('aria-hidden', 'true');
       focusedElementBeforeModal = document.activeElement;
       setFocusToFirstItem(node);
@@ -86,7 +86,7 @@
     function hide () {
       that.shown = false;
       node.setAttribute('aria-hidden', 'true');
-      main.setAttribute('aria-hidden', 'false');
+      main.removeAttribute('aria-hidden');
       focusedElementBeforeModal.focus();
     }
   };

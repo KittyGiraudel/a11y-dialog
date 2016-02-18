@@ -37,10 +37,16 @@
  * -------------------------------------------------------------------------- */
 
 .modal-content {
-  padding: 20px;
+  padding: 1em;
   max-width: 90%;
-  width: 700px;
+  width: 600px;
   border-radius: 2px;
+}
+
+@media screen and (min-width: 700px) {
+  .modal-content {
+    padding: 2em;
+  }
 }
 
 .modal-overlay {
@@ -66,6 +72,13 @@
   text-align: center;
   cursor: pointer;
   transition: 0.15s;
+}
+
+@media screen and (min-width: 700px) {
+  .modal-close {
+    top: 1em;
+    right: 1em;
+  }
 }
 
 /* -------------------------------------------------------------------------- *\
@@ -111,14 +124,6 @@ a:active {
  * Helpers
  * -------------------------------------------------------------------------- */
 
-.screen-reader-offscreen {
-  position: absolute;
-  left: -9999px;
-  width: 1px;
-  height: 1px;
-  top: auto;
-}
-
 .link-like {
   background-color: transparent;
   text-decoration: underline;
@@ -148,37 +153,38 @@ footer {
  * Form styling
  * -------------------------------------------------------------------------- */
 
-@media screen and (min-width: 500px) {
-  form {
-    overflow: hidden;
-    margin: 0 -10px;
-  }
+form {
+  margin-top: 2em;
+}
 
-  form p {
-    float: left;
-    width: 50%;
-    padding: 10px;
-    margin-top: 0;
+@media screen and (min-width: 700px) {
+  form {
+    display: flex;
+    flex-direction: row;
   }
 }
 
 form label {
   font-weight: bold;
-  display: block;
-  margin-bottom: 5px;
+  margin: 5px 10px 5px 0;
+  vertical-align: middle;
 }
 
 form input {
   font: inherit;
-  display: block;
+  padding: 0.25em;
+  border: 1px solid silver;
   width: 100%;
-  padding: 5px;
+  margin: 0.25em 0 1em;
 }
 
-form p:last-of-type {
-  float: none;
-  width: auto;
-  margin-bottom: 0;
+@media screen and (min-width: 700px) {
+  form input {
+    flex: 1;
+    border-right: 0;
+    width: auto;
+    margin: 0;
+  }
 }
 
 form button {
@@ -191,7 +197,6 @@ form button {
   cursor: pointer;
   transition: 0.15s;
   display: inline-block;
-  border-radius: 2px;
 }
 
 form button:hover,

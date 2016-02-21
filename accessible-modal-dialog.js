@@ -3,7 +3,7 @@
 
   // Helper function to get all focusable children from a node
   function getFocusableChildren (node) {
-    var focusableElements = ['a[href]', 'area[href]', 'input:not([disabled])', 'select:not([disabled])', 'textarea:not([disabled])', 'button:not([disabled])', 'iframe', 'object', 'embed', '[contenteditable]', '[tabindex]:not([tabindex="-1"])'];
+    var focusableElements = ['a[href]', 'area[href]', 'input:not([disabled])', 'select:not([disabled])', 'textarea:not([disabled])', 'button:not([disabled])', 'iframe', 'object', 'embed', '[contenteditable]', '[tabindex]:not([tabindex^="-"])'];
 
     return $$(focusableElements.join(','), node).filter(function (child) {
       return !!(child.offsetWidth || child.offsetHeight || child.getClientRects().length);

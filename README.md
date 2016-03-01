@@ -8,6 +8,7 @@ You can try the [live demo](http://edenspiekermann.github.io/accessible-modal-di
 
 ![CodeShip test status](https://codeship.com/projects/7dd06120-b6f8-0133-792c-265d84c132f8/status?branch=master)
 
+**Note: version 1.x.x is published on npm under [accessible-modal-dialog](https://www.npmjs.com/package/accessible-modal-dialog). Package name changed to [a11y-dialog](https://www.npmjs.com/package/a11y-dialog-dialog) starting version 2.0.0.**
 
 ## What’s new in Edenspiekermann’s version?
 

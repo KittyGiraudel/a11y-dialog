@@ -25,7 +25,7 @@ You can try the [live demo](http://edenspiekermann.github.io/accessible-modal-di
 ## Install
 
 ```
-npm install accessible-modal-dialog --save
+npm install a11y-dialog --save
 ```
 
 Or you could also copy/paste the script in your project directly, but you will be disconnected from this repository, making it hard for your to get updates.

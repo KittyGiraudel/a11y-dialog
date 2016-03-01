@@ -1,7 +1,7 @@
 {
-  "name": "accessible-modal-dialog",
-  "version": "1.0.3",
-  "description": "A tiny script to make modal dialogs accessible to assistive technology users.",
+  "name": "a11y-dialog",
+  "version": "2.0.0",
+  "description": "A tiny script to make dialog windows accessible to assistive technology users.",
   "homepage": "https://github.com/edenspiekermann/accessible-modal-dialog",
   "main": "a11y-dialog.js",
   "keywords": [

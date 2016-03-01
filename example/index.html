@@ -4,13 +4,13 @@
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>A11y Dialog</title>
+      <title>Accessible Modal Window — ESPI Version</title>
       <link rel="stylesheet" href="./styles.css" />
   </head>
 
   <body>
     <main class="main" id="main" aria-label="Content">
-      <h1>A11y Dialog</h1>
+      <h1>Accessible Modal Window — <span>ESPI</span> Version</h1>
 
       <p><a href="https://github.com/edenspiekermann/accessible-modal-dialog">Get the code on GitHub</a> — <button class="link-like" data-modal-show="my-accessible-modal">Open the modal</button></p>
 
@@ -51,7 +51,7 @@
       document.addEventListener('DOMContentLoaded', function () {
         var modalEl = document.getElementById('my-accessible-modal');
         var mainEl = document.getElementById('main');
-        var modal = new window.A11yDialog(modalEl, mainEl);
+        var modal = new window.Modal(modalEl, mainEl);
 
         // To manually control the modal:
         // modal.show()

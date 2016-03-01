@@ -38,11 +38,11 @@
   var focusedElementBeforeModal;
 
   /**
-   * Modal constructor
-   * @param {Node} node - Modal element
+   * A11yDialog constructor
+   * @param {Node} node - Dialog element
    * @param {Node} main - Main element of the page
    */
-  var Modal = function (node, main) {
+  var A11yDialog = function (node, main) {
     var that = this;
     main = main || document.querySelector('#main');
 
@@ -91,5 +91,5 @@
     }
   };
 
-  global.Modal = Modal;
+  global.A11yDialog = A11yDialog;
 }(window));

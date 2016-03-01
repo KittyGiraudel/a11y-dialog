@@ -43,7 +43,7 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
   Main container related notes:
   - It doesn’t have to be a `main` element, however this is recommended.
   - It doesn’t have to have the `aria-label="Content"` attribute, however this is recommended.
-  - It can have a different id than `main`, however you will have to pass it as a second argument to the Modal instance. See further down.
+  - It can have a different id than `main`, however you will have to pass it as a second argument to the A11yDialog instance. See further down.
 -->
 <main id="main" aria-label="Content">
   <!--
@@ -108,14 +108,14 @@ You will have to implement some styles for the modal to “work” (visually spe
 // Get the modal element (with the accessor method you want)
 var modalEl = document.getElementById('my-awesome-modal');
 
-// Instanciate a new Modal module
-var modal = new Modal(modalEl);
+// Instanciate a new A11yDialog module
+var modal = new A11yDialog(modalEl);
 ```
 
-The script assumes the main document of the page has a `main` id. If it is not the case, you can pass the main node as second argument to the `Modal` constructor:
+The script assumes the main document of the page has a `main` id. If it is not the case, you can pass the main node as second argument to the `A11yDialog` constructor:
 
 ```javascript
-var modal = new Modal(modalEl, mainEl);
+var modal = new A11yDialog(modalEl, mainEl);
 ```
 
 ## Toggling the modal

@@ -23,8 +23,8 @@ casper.test.begin('Modal test suite', 37, function (test) {
       console.log('CONSOLE: ' + msg);
     };
 
-    this.page.injectJs('./accessible-modal-dialog.js');
-    this.page.evaluateJavaScript('function () { window.m = new window.Modal(document.getElementById("' + modalID + '")); }');
+    this.page.injectJs('./a11y-dialog.js');
+    this.page.evaluateJavaScript('function () { window.m = new window.A11yDialog(document.getElementById("' + modalID + '")); }');
     this.emit('page.loaded');
   });
 

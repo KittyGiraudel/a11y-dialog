@@ -1,4 +1,4 @@
-# The Incredible Accessible Modal Window
+# A11y Dialog
 
 This repository is a fork from [accessible-modal-dialog](https://github.com/gdkraus/accessible-modal-dialog) by [Greg Kraus](https://github.com/gdkraus). We at [Edenspiekermann](http://edenspiekermann.com) are big fans of the original version, although we discovered we could improve it and make it even better. On top of that, the original script depends on jQuery, which happened to be a problem for us.
 
@@ -25,7 +25,7 @@ You can try the [live demo](http://edenspiekermann.github.io/accessible-modal-di
 ## Install
 
 ```
-npm install accessible-modal-dialog --save
+npm install a11y-dialog --save
 ```
 
 Or you could also copy/paste the script in your project directly, but you will be disconnected from this repository, making it hard for your to get updates.

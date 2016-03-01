@@ -35,14 +35,15 @@
     if (focusableChildren.length) focusableChildren[0].focus();
   }
 
-  var focusedElementBeforeModal;
+  var focusedBeforeDialog;
 
   /**
-   * Modal constructor
-   * @param {Node} node - Modal element
+   * A11yDialog constructor
+   * @param {Node} node - Dialog element
    * @param {Node} main - Main element of the page
    */
-  var Modal = function (node, main) {
+  var A11yDialog = function (node, main) {
+    var namespace = 'data-a11y-dialog';
     var that = this;
     main = main || document.querySelector('#main');
 
@@ -50,11 +51,11 @@
     this.show = show;
     this.hide = hide;
 
-    $$('[data-modal-show="' + node.id + '"]').forEach(function (opener) {
+    $$('[' + namespace + '-show="' + node.id + '"]').forEach(function (opener) {
       opener.addEventListener('click', show);
     });
 
-    $$('[data-modal-hide]', node).concat($$('[data-modal-hide="' + node.id + '"]')).forEach(function (closer) {
+    $$('[' + namespace + '-hide]', node).concat($$('[' + namespace + '-hide="' + node.id + '"]')).forEach(function (closer) {
       closer.addEventListener('click', hide);
     });
 
@@ -79,7 +80,7 @@
       that.shown = true;
       node.removeAttribute('aria-hidden');
       main.setAttribute('aria-hidden', 'true');
-      focusedElementBeforeModal = document.activeElement;
+      focusedBeforeDialog = document.activeElement;
       setFocusToFirstItem(node);
     }
 
@@ -87,9 +88,9 @@
       that.shown = false;
       node.setAttribute('aria-hidden', 'true');
       main.removeAttribute('aria-hidden');
-      focusedElementBeforeModal.focus();
+      focusedBeforeDialog.focus();
     }
   };
 
-  global.Modal = Modal;
+  global.A11yDialog = A11yDialog;
 }(window));

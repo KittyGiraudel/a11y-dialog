@@ -1,9 +1,9 @@
 {
-  "name": "accessible-modal-dialog",
-  "version": "1.0.3",
-  "description": "A tiny script to make modal dialogs accessible to assistive technology users.",
+  "name": "a11y-dialog",
+  "version": "2.0.0",
+  "description": "A tiny script to make dialog windows accessible to assistive technology users.",
   "homepage": "https://github.com/edenspiekermann/accessible-modal-dialog",
-  "main": "accessible-modal-dialog.js",
+  "main": "a11y-dialog.js",
   "keywords": [
     "modal",
     "dialog",
@@ -13,15 +13,15 @@
   ],
   "author": "Hugo Giraudel <h.giraudel@de.edenspiekermann.com> (www.edenspiekermann.com/people/hugo-giraudel)",
   "files": [
-    "accessible-modal-dialog.js"
+    "a11y-dialog.js"
   ],
   "scripts": {
-    "copy": "cp accessible-modal-dialog.js example/main.js",
-    "minify": "uglifyjs accessible-modal-dialog.js -o accessible-modal-dialog.min.js -c -m",
+    "copy": "cp a11y-dialog.js example/main.js",
+    "minify": "uglifyjs a11y-dialog.js -o a11y-dialog.min.js -c -m",
     "build": "npm run minify && npm run copy",
     "predeploy": "npm run build",
     "deploy": "git subtree push --prefix example origin gh-pages",
-    "lint": "semistandard accessible-modal-dialog.js",
+    "lint": "semistandard a11y-dialog.js",
     "test": "casperjs test tests/index.js"
   },
   "devDependencies": {

@@ -1,16 +1,16 @@
 /* -------------------------------------------------------------------------- *\
- * Necessary styling for the modal to work
+ * Necessary styling for the dialog to work
  * -------------------------------------------------------------------------- */
 
-.modal[aria-hidden="true"] {
+.dialog[aria-hidden="true"] {
   display: none;
 }
 
 /* -------------------------------------------------------------------------- *\
- * Styling to make the modal look like a modal
+ * Styling to make the dialog look like a dialog
  * -------------------------------------------------------------------------- */
 
-.modal-overlay {
+.dialog-overlay {
   z-index: 2;
   background-color: rgba(0, 0, 0, 0.66);
   position: fixed;
@@ -20,7 +20,7 @@
   right: 0;
 }
 
-.modal-content {
+.dialog-content {
   background-color: rgb(255, 255, 255);
   z-index: 3;
   position: fixed;
@@ -32,10 +32,10 @@
 }
 
 /* -------------------------------------------------------------------------- *\
- * Extra modal styling to make it shiny
+ * Extra dialog styling to make it shiny
  * -------------------------------------------------------------------------- */
 
-.modal-content {
+.dialog-content {
   padding: 1em;
   max-width: 90%;
   width: 600px;
@@ -43,21 +43,21 @@
 }
 
 @media screen and (min-width: 700px) {
-  .modal-content {
+  .dialog-content {
     padding: 2em;
   }
 }
 
-.modal-overlay {
+.dialog-overlay {
   background-color: rgba(43, 46, 56, 0.9);
 }
 
-.modal h1 {
+.dialog h1 {
   margin: 0;
   font-size: 1.25em;
 }
 
-.modal-close {
+.dialog-close {
   position: absolute;
   top: 0.5em;
   right: 0.5em;
@@ -74,7 +74,7 @@
 }
 
 @media screen and (min-width: 700px) {
-  .modal-close {
+  .dialog-close {
     top: 1em;
     right: 1em;
   }

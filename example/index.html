@@ -12,11 +12,11 @@
     <main class="main" id="main" aria-label="Content">
       <h1>A11y Dialog</h1>
 
-      <p><a href="https://github.com/edenspiekermann/accessible-modal-dialog">Get the code on GitHub</a> — <button class="link-like" data-modal-show="my-accessible-modal">Open the dialog window</button></p>
+      <p><a href="https://github.com/edenspiekermann/accessible-modal-dialog">Get the code on GitHub</a> — <button class="link-like" data-modal-show="my-accessible-dialog">Open the dialog window</button></p>
 
       <p>This page demonstrates how to make a dialog window as accessible as possible to assistive technology users. Dialog windows are especially problematic for screen reader users. Often times the user is able to “escape” the window and interact with other parts of the page when they should not be able to. This is partially due to the way screen reader software interacts with the browser.</p>
 
-      <p>To see this in action, you just need to <button class="link-like" data-modal-show="my-accessible-modal">open the dialog window</button>. Once it’s open, you should not be able to interact with other links on the main page like <a href="https://github.com/edenspiekermann/accessible-modal-dialog">going to the main GitHub page</a>. The focus is said to be “trapped” inside the dialog until the user explicitely decides to leave it.</p>
+      <p>To see this in action, you just need to <button class="link-like" data-modal-show="my-accessible-dialog">open the dialog window</button>. Once it’s open, you should not be able to interact with other links on the main page like <a href="https://github.com/edenspiekermann/accessible-modal-dialog">going to the main GitHub page</a>. The focus is said to be “trapped” inside the dialog until the user explicitely decides to leave it.</p>
 
       <p>On top of that, this implementation provides all the usual mandatory bits from a dialog window: correct usage or ARIA landmarks, absolute freedom in regard to the styling, closing when pressing <code>ESC</code>, closing when clicking the background overlay, closing when clicking the close button, a simple yet powerful DOM API, for half a kilobyte of JavaScript. Oh, and also it is fully tested using a headless browser to make sure it works as intended.</p>
 
@@ -27,20 +27,20 @@
       </footer>
     </main>
 
-    <div class="modal" aria-hidden="true" id="my-accessible-modal">
-      <div class="modal-overlay" tabindex="-1" data-modal-hide></div>
-      <div class="modal-content" aria-labelledby="modalTitle" aria-describedby="modalDescription" role="dialog">
+    <div class="dialog" aria-hidden="true" id="my-accessible-dialog">
+      <div class="dialog-overlay" tabindex="-1" data-modal-hide></div>
+      <div class="dialog-content" aria-labelledby="dialogTitle" aria-describedby="dialogDescription" role="dialog">
         <div role="document">
-          <h1 id="modalTitle">Subscribe to ESPI Newsletter</h1>
+          <h1 id="dialogTitle">Subscribe to ESPI Newsletter</h1>
 
-          <p id="modalDescription">Fill in the ridiculously small form below to receive our ridiculously cool newsletter!</p>
+          <p id="dialogDescription">Fill in the ridiculously small form below to receive our ridiculously cool newsletter!</p>
 
           <form action="http://edenspiekermann.us10.list-manage.com/subscribe/post?u=927d6a7cf437da88aac7a87ec&amp;id=6823ab7bb8" method="post" target="_blank">
             <label for="email">Email (required)</label>
             <input type="email" name="EMAIL" id="email" placeholder="john.doe@gmail.com" required>
             <button type="submit" name="button">Sign up</button>
           </form>
-          <button data-modal-hide class="modal-close" title="Close registration form">&times;</button>
+          <button data-modal-hide class="dialog-close" title="Close registration form">&times;</button>
         </div>
       </div>
     </div>
@@ -49,13 +49,13 @@
     <script>
     (function () {
       document.addEventListener('DOMContentLoaded', function () {
-        var modalEl = document.getElementById('my-accessible-modal');
+        var dialogEl = document.getElementById('my-accessible-dialog');
         var mainEl = document.getElementById('main');
-        var modal = new window.A11yDialog(modalEl, mainEl);
+        var dialog = new window.A11yDialog(dialogEl, mainEl);
 
-        // To manually control the modal:
-        // modal.show()
-        // modal.hide()
+        // To manually control the dialog:
+        // dialog.show()
+        // dialog.hide()
       });
     }());
     </script>

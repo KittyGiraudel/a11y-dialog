@@ -18,7 +18,7 @@ casper.test.begin('Dialog window test suite', 37, function (test) {
     }
   }
 
-  casper.start('http://edenspiekermann.github.io/accessible-modal-dialog/', function () {
+  casper.start('http://edenspiekermann.github.io/a11y-dialog/', function () {
     this.page.onConsoleMessage = function (msg, lineNum, sourceId) {
       console.log('CONSOLE: ' + msg);
     };

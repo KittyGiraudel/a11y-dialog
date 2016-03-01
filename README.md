@@ -12,7 +12,7 @@ You can try the [live demo](http://edenspiekermann.github.io/accessible-modal-di
 
 - No more dependency (not even jQuery);
 - Possibility to have several different dialog windows on the page;
-- DOM API for dialog openers (`data-modal-show="dialog-id"`) and closers (`data-modal-hide`);
+- DOM API for dialog openers (`data-a11y-dialog-show="dialog-id"`) and closers (`data-a11y-dialog-hide`);
 - JS API to manually show and hide dialog windows as well as knowing their status (`dialog.show()`, `dialog.hide()`, `dialog.shown`);
 - Addition of `[tabindex]:not([value="-1"])` to focusable elements;
 - No more `display` manipulation in JS, the hiding mechanism is entirely up to the CSS layer (using `[aria-hidden]` selectors);
@@ -61,9 +61,9 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
   <!--
     Overlay related notes:
     - It has to have the `tabindex="-1"` attribute.
-    - It doesn’t have to have the `data-modal-hide` attribute, however this is recommended. It hides the dialog when clicking outside of it.
+    - It doesn’t have to have the `data-a11y-dialog-hide` attribute, however this is recommended. It hides the dialog when clicking outside of it.
   -->
-  <div tabindex="-1" data-modal-hide></div>
+  <div tabindex="-1" data-a11y-dialog-hide></div>
 
   <!--
     Dialog window content related notes:
@@ -80,10 +80,10 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
       <!--
         Closing button related notes:
         - It does have to have the `type="button"` attribute.
-        - It does have to have the `data-modal-hide` attribute.
+        - It does have to have the `data-a11y-dialog-hide` attribute.
         - It does have to have an aria-label attribute if you use an icon as content.
       -->
-      <button type="button" data-modal-hide aria-label="Close this dialog window">
+      <button type="button" data-a11y-dialog-hide aria-label="Close this dialog window">
         &times;
       </button>
     </div>
@@ -124,19 +124,19 @@ There are 2 ways of toggling the dialog. Either through the DOM API, or directly
 The following button will open the dialog with the `my-awesome-dialog` id when interacted with.
 
 ```html
-<button type="button" data-modal-show="my-awesome-dialog">Open the dialog</button>
+<button type="button" data-a11y-dialog-show="my-awesome-dialog">Open the dialog</button>
 ```
 
 The following button will close the dialog in which it lives when interacted with.
 
 ```html
-<button type="button" data-modal-hide aria-label="Close the dialog">&times;</button>
+<button type="button" data-a11y-dialog-hide aria-label="Close the dialog">&times;</button>
 ```
 
 The following button will close the dialog with the `my-awesome-dialog` id when interacted with. Given that the only focusable elements when the dialog is open are the focusable children of the dialog itself, it seems rather unlikely that you will ever need this but in case you do, well you can.
 
 ```html
-<button type="button" data-modal-hide="my-awesome-dialog" aria-label="Close the dialog">&times;</button>
+<button type="button" data-a11y-dialog-hide="my-awesome-dialog" aria-label="Close the dialog">&times;</button>
 ```
 
 Regarding the JS API, it simply consists on `show()` and `hide()` methods on the dialog instance.

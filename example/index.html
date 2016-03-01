@@ -12,11 +12,11 @@
     <main class="main" id="main" aria-label="Content">
       <h1>A11y Dialog</h1>
 
-      <p><a href="https://github.com/edenspiekermann/accessible-modal-dialog">Get the code on GitHub</a> — <button class="link-like" data-modal-show="my-accessible-dialog">Open the dialog window</button></p>
+      <p><a href="https://github.com/edenspiekermann/accessible-modal-dialog">Get the code on GitHub</a> — <button class="link-like" data-a11y-dialog-show="my-accessible-dialog">Open the dialog window</button></p>
 
       <p>This page demonstrates how to make a dialog window as accessible as possible to assistive technology users. Dialog windows are especially problematic for screen reader users. Often times the user is able to “escape” the window and interact with other parts of the page when they should not be able to. This is partially due to the way screen reader software interacts with the browser.</p>
 
-      <p>To see this in action, you just need to <button class="link-like" data-modal-show="my-accessible-dialog">open the dialog window</button>. Once it’s open, you should not be able to interact with other links on the main page like <a href="https://github.com/edenspiekermann/accessible-modal-dialog">going to the main GitHub page</a>. The focus is said to be “trapped” inside the dialog until the user explicitely decides to leave it.</p>
+      <p>To see this in action, you just need to <button class="link-like" data-a11y-dialog-show="my-accessible-dialog">open the dialog window</button>. Once it’s open, you should not be able to interact with other links on the main page like <a href="https://github.com/edenspiekermann/accessible-modal-dialog">going to the main GitHub page</a>. The focus is said to be “trapped” inside the dialog until the user explicitely decides to leave it.</p>
 
       <p>On top of that, this implementation provides all the usual mandatory bits from a dialog window: correct usage or ARIA landmarks, absolute freedom in regard to the styling, closing when pressing <code>ESC</code>, closing when clicking the background overlay, closing when clicking the close button, a simple yet powerful DOM API, for half a kilobyte of JavaScript. Oh, and also it is fully tested using a headless browser to make sure it works as intended.</p>
 
@@ -28,7 +28,7 @@
     </main>
 
     <div class="dialog" aria-hidden="true" id="my-accessible-dialog">
-      <div class="dialog-overlay" tabindex="-1" data-modal-hide></div>
+      <div class="dialog-overlay" tabindex="-1" data-a11y-dialog-hide></div>
       <div class="dialog-content" aria-labelledby="dialogTitle" aria-describedby="dialogDescription" role="dialog">
         <div role="document">
           <h1 id="dialogTitle">Subscribe to ESPI Newsletter</h1>
@@ -40,7 +40,7 @@
             <input type="email" name="EMAIL" id="email" placeholder="john.doe@gmail.com" required>
             <button type="submit" name="button">Sign up</button>
           </form>
-          <button data-modal-hide class="dialog-close" title="Close registration form">&times;</button>
+          <button data-a11y-dialog-hide class="dialog-close" title="Close registration form">&times;</button>
         </div>
       </div>
     </div>

@@ -30,8 +30,8 @@ casper.test.begin('Modal test suite', 37, function (test) {
 
   casper.on('page.loaded', function () {
     var modal = '#' + modalID;
-    var opener = '[data-modal-show="' + modalID + '"]';
-    var closer = modal + ' [data-modal-hide]';
+    var opener = '[data-a11y-dialog-show="' + modalID + '"]';
+    var closer = modal + ' [data-a11y-dialog-hide]';
     var overlay = modal + ' > .modal-overlay';
 
     this.then(function () {

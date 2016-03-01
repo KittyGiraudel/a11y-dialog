@@ -1,4 +1,4 @@
-# The Incredible Accessible Modal Window
+# A11y Dialog
 
 This repository is a fork from [accessible-modal-dialog](https://github.com/gdkraus/accessible-modal-dialog) by [Greg Kraus](https://github.com/gdkraus). We at [Edenspiekermann](http://edenspiekermann.com) are big fans of the original version, although we discovered we could improve it and make it even better. On top of that, the original script depends on jQuery, which happened to be a problem for us.
 
@@ -8,13 +8,12 @@ You can try the [live demo](http://edenspiekermann.github.io/accessible-modal-di
 
 ![CodeShip test status](https://codeship.com/projects/7dd06120-b6f8-0133-792c-265d84c132f8/status?branch=master)
 
-
 ## What’s new in Edenspiekermann’s version?
 
 - No more dependency (not even jQuery);
-- Possibility to have several different modals on the page;
-- DOM API for modal openers (`data-modal-show="modal-id"`) and closers (`data-modal-hide`);
-- JS API to manually show and hide modals as well as knowing their status (`modal.show()`, `modal.hide()`, `modal.shown`);
+- Possibility to have several different dialog windows on the page;
+- DOM API for dialog openers (`data-modal-show="dialog-id"`) and closers (`data-modal-hide`);
+- JS API to manually show and hide dialog windows as well as knowing their status (`dialog.show()`, `dialog.hide()`, `dialog.shown`);
 - Addition of `[tabindex]:not([value="-1"])` to focusable elements;
 - No more `display` manipulation in JS, the hiding mechanism is entirely up to the CSS layer (using `[aria-hidden]` selectors);
 - Full test coverage with [CasperJS](http://casperjs.org) and [CodeShip](https://codeship.com);
@@ -52,30 +51,30 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
 </main>
 
 <!--
-  Modal container related notes:
-  - It is not the actual modal, just the container with which the script interacts.
+  Dialog container related notes:
+  - It is not the actual dialog window, just the container with which the script interacts.
   - It has to have the `aria-hidden="true"` attribute.
-  - It can have a different id than `my-accessible-modal`.
+  - It can have a different id than `my-accessible-dialog`.
 -->
-<div id="my-accessible-modal" aria-hidden="true">
+<div id="my-accessible-dialog" aria-hidden="true">
 
   <!--
     Overlay related notes:
     - It has to have the `tabindex="-1"` attribute.
-    - It doesn’t have to have the `data-modal-hide` attribute, however this is recommended. It hides the modal when clicking outside of it.
+    - It doesn’t have to have the `data-modal-hide` attribute, however this is recommended. It hides the dialog when clicking outside of it.
   -->
   <div tabindex="-1" data-modal-hide></div>
 
   <!--
-    Modal content relates notes:
-    - It is the actual visual modal element.
+    Dialog window content related notes:
+    - It is the actual visual dialog element.
     - It has to have the `role="dialog"` attribute.
     - It doesn’t have to have a direct child with the `role="document"`, however this is recommended.
   -->
   <div role="dialog">
     <div role="document">
       <!-- 
-        Here lives the main content of the modal.
+        Here lives the main content of the dialog.
       -->
 
       <!--
@@ -84,7 +83,7 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
         - It does have to have the `data-modal-hide` attribute.
         - It does have to have an aria-label attribute if you use an icon as content.
       -->
-      <button type="button" data-modal-hide aria-label="Close this modal">
+      <button type="button" data-modal-hide aria-label="Close this dialog window">
         &times;
       </button>
     </div>
@@ -94,10 +93,10 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
 
 ### CSS
 
-You will have to implement some styles for the modal to “work” (visually speaking). The script itself does not take care of any styling whatsoever, not even the `display` property. It basically mostly toggles the `aria-hidden` attribute on the main element and the modal itself. You can use this to show and hide the modal:
+You will have to implement some styles for the dialog to “work” (visually speaking). The script itself does not take care of any styling whatsoever, not even the `display` property. It basically mostly toggles the `aria-hidden` attribute on the main element and the dialog itself. You can use this to show and hide the dialog:
 
 ```css
-.modal[aria-hidden="true"] {
+.dialog[aria-hidden="true"] {
   display: none;
 }
 ```
@@ -105,49 +104,49 @@ You will have to implement some styles for the modal to “work” (visually spe
 ### JavaScript
 
 ```javascript
-// Get the modal element (with the accessor method you want)
-var modalEl = document.getElementById('my-awesome-modal');
+// Get the dialog element (with the accessor method you want)
+var dialogEl = document.getElementById('my-awesome-dialog');
 
 // Instanciate a new A11yDialog module
-var modal = new A11yDialog(modalEl);
+var dialog = new A11yDialog(dialogEl);
 ```
 
 The script assumes the main document of the page has a `main` id. If it is not the case, you can pass the main node as second argument to the `A11yDialog` constructor:
 
 ```javascript
-var modal = new A11yDialog(modalEl, mainEl);
+var dialog = new A11yDialog(dialogEl, mainEl);
 ```
 
-## Toggling the modal
+## Toggling the dialog window
 
-There are 2 ways of toggling the modal. Either through the DOM API, or directly with JavaScript. Both ways are inter-operable so feel free to use both if you need it.
+There are 2 ways of toggling the dialog. Either through the DOM API, or directly with JavaScript. Both ways are inter-operable so feel free to use both if you need it.
 
-The following button will open the modal with the `my-awesome-modal` id when interacted with.
+The following button will open the dialog with the `my-awesome-dialog` id when interacted with.
 
 ```html
-<button type="button" data-modal-show="my-awesome-modal">Open the modal</button>
+<button type="button" data-modal-show="my-awesome-dialog">Open the dialog</button>
 ```
 
-The following button will close the modal in which it lives when interacted with.
+The following button will close the dialog in which it lives when interacted with.
 
 ```html
-<button type="button" data-modal-hide aria-label="Close the modal">&times;</button>
+<button type="button" data-modal-hide aria-label="Close the dialog">&times;</button>
 ```
 
-The following button will close the modal with the `my-awesome-modal` id when interacted with. Given that the only focusable elements when the modal is open are the focusable children of the modal itself, it seems rather unlikely that you will ever need this but in case you do, well you can.g
+The following button will close the dialog with the `my-awesome-dialog` id when interacted with. Given that the only focusable elements when the dialog is open are the focusable children of the dialog itself, it seems rather unlikely that you will ever need this but in case you do, well you can.
 
 ```html
-<button type="button" data-modal-hide="my-awesome-modal" aria-label="Close the modal">&times;</button>
+<button type="button" data-modal-hide="my-awesome-dialog" aria-label="Close the dialog">&times;</button>
 ```
 
-Regarding the JS API, it simply consists on `show()` and `hide()` methods on the modal instance.
+Regarding the JS API, it simply consists on `show()` and `hide()` methods on the dialog instance.
 
 ```javascript
-// Show the modal
-modal.show();
+// Show the dialog
+dialog.show();
 
-// Hide the modal
-modal.hide();
+// Hide the dialog
+dialog.hide();
 ```
 
 ## Tests

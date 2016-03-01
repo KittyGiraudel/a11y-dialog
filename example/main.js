@@ -35,7 +35,7 @@
     if (focusableChildren.length) focusableChildren[0].focus();
   }
 
-  var focusedElementBeforeModal;
+  var focusedBeforeDialog;
 
   /**
    * A11yDialog constructor
@@ -79,7 +79,7 @@
       that.shown = true;
       node.removeAttribute('aria-hidden');
       main.setAttribute('aria-hidden', 'true');
-      focusedElementBeforeModal = document.activeElement;
+      focusedBeforeDialog = document.activeElement;
       setFocusToFirstItem(node);
     }
 
@@ -87,7 +87,7 @@
       that.shown = false;
       node.setAttribute('aria-hidden', 'true');
       main.removeAttribute('aria-hidden');
-      focusedElementBeforeModal.focus();
+      focusedBeforeDialog.focus();
     }
   };
 

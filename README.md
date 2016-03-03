@@ -8,16 +8,15 @@ You can try the [live demo](http://edenspiekermann.github.io/a11y-dialog/).
 
 ![CodeShip test status](https://codeship.com/projects/7dd06120-b6f8-0133-792c-265d84c132f8/status?branch=master)
 
-## What’s new in Edenspiekermann’s version?
+## Nice things to know
 
-- No more dependency (not even jQuery);
+- No dependency (not even jQuery);
 - Possibility to have several different dialog windows on the page;
-- DOM API for dialog openers (`data-a11y-dialog-show="dialog-id"`) and closers (`data-a11y-dialog-hide`);
-- JS API to manually show and hide dialog windows as well as knowing their status (`dialog.show()`, `dialog.hide()`, `dialog.shown`);
-- Addition of `[tabindex]:not([value="-1"])` to focusable elements;
-- No more `display` manipulation in JS, the hiding mechanism is entirely up to the CSS layer (using `[aria-hidden]` selectors);
+- DOM API (`data-a11y-dialog-show="dialog-id"`, `data-a11y-dialog-hide`);
+- JS API (`dialog.show()`, `dialog.hide()`, `dialog.shown`);
+- No `display` manipulation in JS, the hiding mechanism is entirely up to the CSS layer (using `[aria-hidden]` selectors);
 - Full test coverage with [CasperJS](http://casperjs.org) and [CodeShip](https://codeship.com);
-- Cleaner code resulting in only 650 bytes (0.65Kb!) once gzipped.
+- Clean code resulting in only 650 bytes (0.65Kb!) once gzipped.
 
 *Note: the script should run seamlessly in Internet Explorer 9 and above.*
 

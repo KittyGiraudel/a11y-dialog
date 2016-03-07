@@ -1,0 +1,25 @@
+{
+  "name": "espi-a11y-dialog",
+  "description": "A tiny script to make dialog windows accessible to assistive technology users.",
+  "main": "a11y-dialog.js",
+  "authors": [
+    "Hugo Giraudel <h.giraudel@de.edenspiekermann.com> (www.edenspiekermann.com/people/hugo-giraudel)"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "modal",
+    "dialog",
+    "accessibility",
+    "a11y",
+    "focus"
+  ],
+  "homepage": "https://github.com/edenspiekermann/a11y-dialog",
+  "moduleType": ["globals"],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

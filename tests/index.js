@@ -36,7 +36,7 @@ casper.test.begin('Dialog window test suite', 37, function (test) {
 
     this.then(function () {
       this.echo('\nTest dialog shape');
-      test.assertEvalEquals(function () { return typeof window.a11yDialog; }, 'function', 'Dialog window constructor is being defined');
+      test.assertEvalEquals(function () { return typeof window.A11yDialog; }, 'function', 'Dialog window constructor is being defined');
       test.assertEvalEquals(function () { return typeof m.hide; }, 'function', 'Dialog window instance has a `hide` method');
       test.assertEvalEquals(function () { return typeof m.show; }, 'function', 'Dialog window instance has a `show` method');
     });

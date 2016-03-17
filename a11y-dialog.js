@@ -89,7 +89,7 @@
       that.shown = false;
       node.setAttribute('aria-hidden', 'true');
       main.removeAttribute('aria-hidden');
-      focusedBeforeDialog.focus();
+      focusedBeforeDialog && focusedBeforeDialog.focus();
       document.body.removeEventListener('focus', maintainFocus, true);
     }
   };

@@ -70,11 +70,11 @@
       }
     });
 
-    document.body.addEventListener('focus', function (event) {
+    function maintainFocus (event) {
       if (that.shown && !node.contains(event.target)) {
         setFocusToFirstItem(node);
       }
-    }, true);
+    }
 
     function show () {
       that.shown = true;
@@ -82,6 +82,7 @@
       main.setAttribute('aria-hidden', 'true');
       focusedBeforeDialog = document.activeElement;
       setFocusToFirstItem(node);
+      document.body.addEventListener('focus', maintainFocus, true);
     }
 
     function hide () {
@@ -89,6 +90,7 @@
       node.setAttribute('aria-hidden', 'true');
       main.removeAttribute('aria-hidden');
       focusedBeforeDialog.focus();
+      document.body.removeEventListener('focus', maintainFocus, true);
     }
   };
 

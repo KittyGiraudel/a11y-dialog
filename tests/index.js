@@ -1,126 +1,169 @@
-/* global casper */
+describe('A11yDialog', function () {
+  var del, mel, dialog, opener, closer, actual, expected;
 
-var dialogID = 'my-accessible-dialog';
+  function keydown (k, shift) {
+    var oEvent = document.createEvent('KeyboardEvent');
+    Object.defineProperty(oEvent, 'keyCode', { get: function() { return this.keyCodeVal; } });
+    Object.defineProperty(oEvent, 'which', { get: function() { return this.keyCodeVal; } });     
 
-casper.test.begin('Dialog window test suite', 37, function (test) {
-
-  function testAriaHidden (isDialogOpen) {
-    if (isDialogOpen === true) {
-      test.assertDoesntExist('#main:not([aria-hidden])');
-      test.assertExist('#main[aria-hidden="true"]');
-      test.assertExist('#' + dialogID + ':not([aria-hidden])');
-      test.assertDoesntExist('#' + dialogID + '[aria-hidden="true"]');
+    if (oEvent.initKeyboardEvent) {
+      oEvent.initKeyboardEvent("keydown", true, true, document.defaultView, false, false, shift, false, shift, k);
     } else {
-      test.assertExist('#main:not([aria-hidden])');
-      test.assertDoesntExist('#main[aria-hidden="true"]');
-      test.assertDoesntExist('#' + dialogID + ':not([aria-hidden])');
-      test.assertExist('#' + dialogID + '[aria-hidden="true"]');
+      oEvent.initKeyEvent("keydown", true, true, document.defaultView, false, false, shift, false, k, 0);
     }
+
+    oEvent.keyCodeVal = k;
+
+    if (oEvent.keyCode !== k) {
+      alert("keyCode mismatch " + oEvent.keyCode + "(" + oEvent.which + ")");
+    }
+
+    document.dispatchEvent(oEvent);
   }
 
-  casper.start('http://edenspiekermann.github.io/a11y-dialog/', function () {
-    this.page.onConsoleMessage = function (msg, lineNum, sourceId) {
-      console.log('CONSOLE: ' + msg);
-    };
+  function afterTest () {
+    dialog && dialog.hide && dialog.hide();
+    dialog = undefined;
+    actual = undefined;
+    expected = undefined;
+  }
 
-    this.page.injectJs('./a11y-dialog.js');
-    this.page.evaluateJavaScript('function () { window.m = new window.A11yDialog(document.getElementById("' + dialogID + '")); }');
-    this.emit('page.loaded');
-  });
+  function afterAllTests () {
+    document.querySelector('.test-suite').style.display = 'none';
+  }
 
-  casper.on('page.loaded', function () {
-    var dialog = '#' + dialogID;
-    var opener = '[data-a11y-dialog-show="' + dialogID + '"]';
-    var closer = dialog + ' [data-a11y-dialog-hide]';
-    var overlay = dialog + ' > .dialog-overlay';
+  after(afterAllTests);
+  afterEach(afterTest);
 
-    this.then(function () {
-      this.echo('\nTest dialog shape');
-      test.assertEvalEquals(function () { return typeof window.A11yDialog; }, 'function', 'Dialog window constructor is being defined');
-      test.assertEvalEquals(function () { return typeof m.hide; }, 'function', 'Dialog window instance has a `hide` method');
-      test.assertEvalEquals(function () { return typeof m.show; }, 'function', 'Dialog window instance has a `show` method');
+  describe('JS API', function () {
+    it('Dialog should correctly open with JS API', function () {
+      del = document.getElementById('dialog-0');
+      mel = document.getElementById('main-0');
+      dialog = new A11yDialog(del, mel);
+      dialog.show();
+
+      actual = del.getAttribute('aria-hidden');
+      expected = null;
+      expect(actual).to.be.equal(expected);
+
+      actual = mel.getAttribute('aria-hidden');
+      expected = 'true';
+      expect(actual).to.be.equal(expected);
     });
 
-    this.then(function () {
-      this.echo('\nTest initial setup');
-      test.assertExist(dialog, 'Dialog window element exists in the DOM');
-      test.assertExist(opener, 'Dialog window opener element exists in the DOM');
-      test.assertNotVisible(dialog, 'Dialog window is hidden by default');
-      testAriaHidden(false);
-    });
+    it('Dialog should correctly close with JS API', function () {
+      del = document.getElementById('dialog-1');
+      mel = document.getElementById('main-1');
+      dialog = new A11yDialog(del, mel);
+      dialog.show();
+      dialog.hide();
 
-    this.then(function () {
-      this.echo('\nTest dialog window opening');
-      this.click(opener);
-      testAriaHidden(true);
-    });
+      actual = del.getAttribute('aria-hidden');
+      expected = 'true';
+      expect(actual).to.be.equal(expected);
 
-    this.then(function () {
-      this.echo('\nTest dialog window closing through overlay');
-      this.click(overlay);
-      testAriaHidden(false);
-    });
-
-    this.then(function () {
-      this.echo('\nTest dialog window closing through closer');
-      this.click(opener);
-      this.click(closer);
-      testAriaHidden(false);
-    });
-
-    this.then(function () {
-      this.echo('\nTest dialog window closing through ESCAPE key');
-      this.click(opener);
-      this.page.sendEvent('keypress', this.page.event.key.Escape, null, null, 0);
-      testAriaHidden(false);
-    });
-
-    this.then(function () {
-      this.echo('\nTest dialog window opening through JS API');
-      this.page.evaluateJavaScript('function () { window.m.show(); }');
-      testAriaHidden(true);
-    });
-
-    this.then(function () {
-      this.echo('\nTest dialog closing through JS API');
-      this.page.evaluateJavaScript('function () { window.m.hide(); }');
-      testAriaHidden(false);
-    });
-
-    this.then(function () {
-      this.echo('\nTest focus on dialog window opening');
-      this.click(opener);
-      test.assertEvalEquals(function () {
-        return document.activeElement.name;
-      }, 'EMAIL', 'First focusable element is focused');
-      this.click(closer);
-    });
-
-    this.then(function () {
-      this.echo('\nTest focus trap');
-      this.click(opener);
-      this.page.sendEvent('keypress', this.page.event.key.Tab, null, null, 0x02000000);
-      test.assertEvalEquals(function () {
-        return document.activeElement.textContent;
-      }, '×', 'Focus should loop inside dialog');
-      this.click(closer);
-    });
-
-    this.then(function () {
-      this.echo('\nTest focus on dialog window closing');
-      this.page.sendEvent('keypress', this.page.event.key.Tab, null, null, 0); // Get into document
-      this.page.sendEvent('keypress', this.page.event.key.Tab, null, null, 0);
-      this.click(opener);
-      this.click(closer);
-      test.assertEvalEquals(function () {
-        return document.activeElement.textContent;
-      }, 'Get the code on GitHub', 'Focus should go back to where it was after dialog window closing');
+      actual = mel.getAttribute('aria-hidden');
+      expected = null;
+      expect(actual).to.be.equal(expected);
     });
   });
 
-  casper.run(function () {
-    this.test.done();
-    this.exit();
+  describe('DOM API', function () {
+    it('Dialog should correctly open with DOM API', function () {
+      del = document.getElementById('dialog-2');
+      mel = document.getElementById('main-2');
+      dialog = new A11yDialog(del, mel);
+      opener = document.getElementById('opener-2');
+      opener.click();
+
+      actual = del.getAttribute('aria-hidden');
+      expected = null;
+      expect(actual).to.be.equal(expected);
+
+      actual = mel.getAttribute('aria-hidden');
+      expected = 'true';
+      expect(actual).to.be.equal(expected);
+    });
+
+    it('Dialog should correctly close with DOM API', function () {
+      del = document.getElementById('dialog-3');
+      mel = document.getElementById('main-3');
+      dialog = new A11yDialog(del, mel);
+      dialog.show();
+      closer = document.getElementById('closer-3');
+      closer.click();
+
+      actual = del.getAttribute('aria-hidden');
+      expected = 'true';
+      expect(actual).to.be.equal(expected);
+
+      actual = mel.getAttribute('aria-hidden');
+      expected = null;
+      expect(actual).to.be.equal(expected);
+    });
+
+    it('Dialog should correctly close when clicking overlay', function () {
+      del = document.getElementById('dialog-4');
+      mel = document.getElementById('main-4');
+      dialog = new A11yDialog(del, mel);
+      dialog.show();
+      closer = document.getElementById('closer-4');
+      closer.click();
+
+      actual = del.getAttribute('aria-hidden');
+      expected = 'true';
+      expect(actual).to.be.equal(expected);
+
+      actual = mel.getAttribute('aria-hidden');
+      expected = null;
+      expect(actual).to.be.equal(expected);
+    });
   });
 
+  describe('Keyboard Events', function () {
+    it('Dialog should correctly close with ESC', function () {
+      del = document.getElementById('dialog-7');
+      mel = document.getElementById('main-7');
+      dialog = new A11yDialog(del, mel);
+      dialog.show();
+      keydown(27);
+
+      actual = del.getAttribute('aria-hidden');
+      expected = 'true';
+      expect(actual).to.be.equal(expected);
+
+      actual = mel.getAttribute('aria-hidden');
+      expected = null;
+      expect(actual).to.be.equal(expected);
+    });
+  });
+
+  describe('Focus handling', function () {
+    it('Dialog should correctly move focus to first focusable element in dialog when open', function () {
+      del = document.getElementById('dialog-5');
+      mel = document.getElementById('main-5');
+      document.getElementById('focus-handler-5').focus();
+
+      dialog = new A11yDialog(del, mel);
+      dialog.show();
+      console.log(document.activeElement);
+      actual = document.activeElement.id;
+      expected = 'focus-receiver-5';
+      expect(actual).to.be.equal(expected);
+    });
+
+    it('Dialog should correctly move focus back to initial focus when closed', function () {
+      del = document.getElementById('dialog-6');
+      mel = document.getElementById('main-6');
+      document.getElementById('focus-handler-6').focus();
+
+      dialog = new A11yDialog(del, mel);
+      dialog.show();
+      dialog.hide();
+
+      actual = document.activeElement.id;
+      expected = 'focus-handler-6';
+      expect(actual).to.be.equal(expected);
+    });
+  });
 });

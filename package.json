@@ -3,7 +3,7 @@
   "version": "2.0.3",
   "description": "A tiny script to make dialog windows accessible to assistive technology users.",
   "homepage": "https://github.com/edenspiekermann/a11y-dialog",
-  "main": "a11y-dialog.js",
+  "main": "lib/a11y-dialog.js",
   "keywords": [
     "modal",
     "dialog",
@@ -15,18 +15,28 @@
   "files": [
     "a11y-dialog.js"
   ],
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
   "scripts": {
-    "copy": "cp a11y-dialog.js example/main.js",
-    "minify": "uglifyjs a11y-dialog.js -o a11y-dialog.min.js -c -m",
-    "build": "npm run minify && npm run copy",
+    "minify": "uglifyjs ./lib/a11y-dialog.js -o ./lib/a11y-dialog.min.js -c -m",
+    "build": "npm run prepublish && npm run minify",
     "predeploy": "npm run build",
+    "prepublish": "webpack --config deploy-webpack.config.js && webpack --config example-webpack.config.js",
     "deploy": "git subtree push --prefix example origin gh-pages",
-    "lint": "semistandard a11y-dialog.js",
-    "test": "casperjs test tests/index.js"
+    "test": "mocha --compilers js:babel-core/register --colors -w ./tests/*.spec.js"
   },
   "devDependencies": {
+    "babel-cli": "^6.6.5",
+    "babel-core": "^6.7.2",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.6.0",
     "casperjs": "^1.1.0-beta5",
+    "mocha": "^2.4.5",
     "semistandard": "^7.0.5",
-    "uglify-js": "^2.6.1"
+    "uglify-js": "^2.6.1",
+    "webpack": "^1.12.14"
   }
 }

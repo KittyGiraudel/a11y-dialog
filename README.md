@@ -1,3 +1,5 @@
+#JUST FOR FUN AND LEARN ES6 VERSION
+
 # A11y Dialog
 
 This repository is a fork from [accessible-modal-dialog](https://github.com/gdkraus/a11y-dialog) by [Greg Kraus](https://github.com/gdkraus). We at [Edenspiekermann](http://edenspiekermann.com) are big fans of the original version, although we discovered we could improve it and make it even better. On top of that, the original script depends on jQuery, which happened to be a problem for us.
@@ -20,21 +22,9 @@ You can try the [live demo](http://edenspiekermann.github.io/a11y-dialog/).
 
 *Note: the script should run seamlessly in Internet Explorer 9 and above.*
 
-## Install
-
-```
-npm install a11y-dialog --save
-```
-
-```
-bower install espi-a11y-dialog
-```
-
-Or you could also copy/paste the script in your project directly, but you will be disconnected from this repository, making it hard for your to get updates.
-
 ## Usage
 
-You will find a concrete demo in the [example](https://github.com/edenspiekermann/a11y-dialog/tree/master/example) folder of this repository, but basically here is the gist:
+You will find a concrete demo in the [example](https://github.com/debhash/a11y-dialog/tree/master/example) folder of this repository, but basically here is the gist:
 
 ### HTML
 
@@ -76,7 +66,7 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
   -->
   <div role="dialog">
     <div role="document">
-      <!-- 
+      <!--
         Here lives the main content of the dialog.
       -->
 
@@ -152,17 +142,13 @@ dialog.show();
 dialog.hide();
 ```
 
-## Tests
+## Test
 
-[Mocha](https://mochajs.org/) and [expect.js](https://github.com/Automattic/expect.js) are used to run browser tests.
-
-```
-npm test
-```
+Soon
 
 ## Deploy example
 
-The [example page](http://edenspiekermann.github.io/a11y-dialog/) is deployed through [GitHub Pages](https://pages.github.com/). 
+The [example page](http://edenspiekermann.github.io/a11y-dialog/) is deployed through [GitHub Pages](https://pages.github.com/).
 
 ```
 npm run deploy

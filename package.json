@@ -22,10 +22,9 @@
     "predeploy": "npm run build",
     "deploy": "git subtree push --prefix example origin gh-pages",
     "lint": "semistandard a11y-dialog.js",
-    "test": "casperjs test tests/index.js"
+    "test": "open tests/index.html"
   },
   "devDependencies": {
-    "casperjs": "^1.1.0-beta5",
     "semistandard": "^7.0.5",
     "uglify-js": "^2.6.1"
   }

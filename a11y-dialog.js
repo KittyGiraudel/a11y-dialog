@@ -94,6 +94,12 @@
     }
   };
 
+  if (typeof window.define === 'function' && window.define.amd) {
+    window.define('a11y-dialog', [], function () {
+      return A11yDialog;
+    });
+  }
+
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = A11yDialog;
   } else {

@@ -94,5 +94,9 @@
     }
   };
 
-  global.A11yDialog = A11yDialog;
+  if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    module.exports = A11yDialog;
+  } else {
+    global.A11yDialog = A11yDialog;
+  }
 }(window));

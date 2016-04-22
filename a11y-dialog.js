@@ -94,15 +94,13 @@
     }
   };
 
-  if (typeof window.define === 'function' && window.define.amd) {
-    window.define('a11y-dialog', [], function () {
-      return A11yDialog;
-    });
-  }
-
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = A11yDialog;
-  } else {
+  } else if (typeof define === 'function' && define.amd) {
+    define('A11yDialog', [], function () {
+      return A11yDialog;
+    });
+  } else if (typeof global === 'object') {
     global.A11yDialog = A11yDialog;
   }
 }(window));

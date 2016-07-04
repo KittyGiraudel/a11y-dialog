@@ -166,4 +166,31 @@ describe('A11yDialog', function () {
       expect(actual).to.be.equal(expected);
     });
   });
+
+  describe('JS Events', function () {
+    it('Dialog should emit a "dialog:show" event when shown', function (done) {
+      del = document.getElementById('dialog-8');
+      mel = document.getElementById('main-8');
+
+      del.addEventListener('dialog:show', function() {
+        done();
+      });
+
+      dialog = new A11yDialog(del, mel);
+      dialog.show();
+    });
+
+    it('Dialog should emit a "dialog:hide" event when hidden', function (done) {
+      del = document.getElementById('dialog-9');
+      mel = document.getElementById('main-9');
+
+      del.addEventListener('dialog:hide', function() {
+        done();
+      });
+
+      dialog = new A11yDialog(del, mel);
+      dialog.show();
+      dialog.hide();
+    });
+  });
 });

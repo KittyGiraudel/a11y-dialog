@@ -1,6 +1,21 @@
 (function (global) {
   'use strict';
 
+  // Helper function for dispatching cross browser dispatch events
+  // from http://youmightnotneedjquery.com/#trigger_custom
+  function dispatchEvent (el, eventName) {
+    var event;
+
+    if (window.CustomEvent) {
+      event = new CustomEvent(eventName);
+    } else {
+      event = document.createEvent('CustomEvent');
+      event.initCustomEvent(eventName, true, true);
+    }
+
+    el.dispatchEvent(event);
+  }
+
   // Helper function to get all focusable children from a node
   function getFocusableChildren (node) {
     var focusableElements = ['a[href]', 'area[href]', 'input:not([disabled])', 'select:not([disabled])', 'textarea:not([disabled])', 'button:not([disabled])', 'iframe', 'object', 'embed', '[contenteditable]', '[tabindex]:not([tabindex^="-"])'];
@@ -83,6 +98,7 @@
       focusedBeforeDialog = document.activeElement;
       setFocusToFirstItem(node);
       document.body.addEventListener('focus', maintainFocus, true);
+      dispatchEvent(node, 'dialog:show');
     }
 
     function hide () {
@@ -91,6 +107,7 @@
       main.removeAttribute('aria-hidden');
       focusedBeforeDialog && focusedBeforeDialog.focus();
       document.body.removeEventListener('focus', maintainFocus, true);
+      dispatchEvent(node, 'dialog:hide');
     }
   };
 

@@ -152,6 +152,15 @@ dialog.show();
 dialog.hide();
 ```
 
+## Events
+When showing and hiding, the `dialog:show` and `dialog:hide` events are emitted. Example
+
+```javascript
+dialog.addEventListener('dialog:show', function(e) {
+  // e.target.id
+});
+```
+
 ## Tests
 
 [Mocha](https://mochajs.org/) and [expect.js](https://github.com/Automattic/expect.js) are used to run browser tests.
@@ -162,7 +171,7 @@ npm test
 
 ## Deploy example
 
-The [example page](http://edenspiekermann.github.io/a11y-dialog/) is deployed through [GitHub Pages](https://pages.github.com/). 
+The [example page](http://edenspiekermann.github.io/a11y-dialog/) is deployed through [GitHub Pages](https://pages.github.com/).
 
 ```
 npm run deploy

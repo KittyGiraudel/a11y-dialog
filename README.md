@@ -14,6 +14,7 @@ You can try the [live demo](http://edenspiekermann.github.io/a11y-dialog/).
 - Possibility to have several different dialog windows on the page;
 - DOM API (`data-a11y-dialog-show="dialog-id"`, `data-a11y-dialog-hide`);
 - JS API (`dialog.show()`, `dialog.hide()`, `dialog.shown`);
+- DOM events (`dialog:open`, `dialog:close`);
 - No `display` manipulation in JS, the hiding mechanism is entirely up to the CSS layer (using `[aria-hidden]` selectors);
 - Full test coverage with [CasperJS](http://casperjs.org) and [CodeShip](https://codeship.com);
 - Clean code resulting in only 650 bytes (0.65Kb!) once gzipped.
@@ -153,13 +154,16 @@ dialog.hide();
 ```
 
 ## Events
-When showing and hiding, the `dialog:show` and `dialog:hide` events are emitted. Example
+
+When showing and hiding, the `dialog:show` and `dialog:hide` events are emitted.
 
 ```javascript
-dialog.addEventListener('dialog:show', function(e) {
+dialog.addEventListener('dialog:show', function (e) {
   // e.target.id
 });
 ```
+
+When using several dialogs on the same page, the `id` of the toggled dialog is being passed to the event in `event.target.id`.
 
 ## Tests
 

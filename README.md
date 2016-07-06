@@ -6,8 +6,6 @@ The original repository being apparently unmaintained, we decided to fork it and
 
 You can try the [live demo](http://edenspiekermann.github.io/a11y-dialog/).
 
-![CodeShip test status](https://codeship.com/projects/7dd06120-b6f8-0133-792c-265d84c132f8/status?branch=master)
-
 ## Nice things to know
 
 - No dependency (not even jQuery);

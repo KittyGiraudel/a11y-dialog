@@ -156,7 +156,7 @@ dialog.hide();
 When showing and hiding, the `dialog:show` and `dialog:hide` events are emitted.
 
 ```javascript
-dialog.addEventListener('dialog:show', function (e) {
+dialogEl.addEventListener('dialog:show', function (e) {
   // e.target.id
 });
 ```

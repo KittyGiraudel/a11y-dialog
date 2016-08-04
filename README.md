@@ -71,10 +71,19 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
     Dialog window content related notes:
     - It is the actual visual dialog element.
     - It has to have the `role="dialog"` attribute.
+    - It doesn’t have to have the `aria-labelledby` attribute however this is recommended. It should match the `id` of the dialog title.
     - It doesn’t have to have a direct child with the `role="document"`, however this is recommended.
   -->
-  <div role="dialog">
+  <div role="dialog" aria-labelledby="dialog-title">
     <div role="document">
+      <!--
+        Dialog title related notes:
+        - It should have a different content than `Dialog Title`.
+        - It can have a different id than `dialog-title`.
+        - It does not have to have the `tabindex="0"` attribute however it is recommended so the dialog doesn’t jump directly to a field, displaying keyboard on mobiles.
+      -->
+      <h1 id="dialog-title" tabindex="0">Dialog Title</h1>
+
       <!--
         Here lives the main content of the dialog.
       -->

@@ -180,8 +180,9 @@ npm run deploy
 ```
 
 ## Supported browsers
- * Chrome 15+
- * Firefox 11+
- * Opera 11.60+
- * Safari 9.1.2+
- * IE9+
+
+* Chrome
+* Firefox
+* Safari
+* Opera 11.60+
+* Internet Explorer 9+

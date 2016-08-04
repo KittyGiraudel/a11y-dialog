@@ -75,7 +75,7 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
   -->
   <div role="dialog">
     <div role="document">
-      <!-- 
+      <!--
         Here lives the main content of the dialog.
       -->
 
@@ -178,3 +178,10 @@ The [example page](http://edenspiekermann.github.io/a11y-dialog/) is deployed th
 ```
 npm run deploy
 ```
+
+## Supported browsers
+ * Chrome 15+
+ * Firefox 11+
+ * Opera 11.60+
+ * Safari 9.1.2+
+ * IE9+

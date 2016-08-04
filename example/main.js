@@ -4,33 +4,26 @@
   // Helper function for dispatching cross browser dispatch events
   // from http://youmightnotneedjquery.com/#trigger_custom
   function dispatchEvent (el, eventName) {
-    var event;
-
     // IE < Edge Polyfill
     // from https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
-    (function () {
-      if ( typeof window.CustomEvent === "function" ) return false;
-
-      function CustomEvent ( event, params ) {
-        params = params || { bubbles: false, cancelable: false, detail: undefined };
-        var evt = document.createEvent( 'CustomEvent' );
-        evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
-        return evt;
-       }
-
-      CustomEvent.prototype = window.Event.prototype;
-
-      window.CustomEvent = CustomEvent;
-    })();
-
-    if (window.CustomEvent) {
-      event = new CustomEvent(eventName);
-    } else {
-      event = document.createEvent('CustomEvent');
-      event.initCustomEvent(eventName, true, true);
+    function _CustomEvent (event, params) {
+      params = params || { bubbles: false, cancelable: false, detail: undefined };
+      var evt = document.createEvent('CustomEvent');
+      evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+      return evt;
     }
 
-    el.dispatchEvent(event);
+    _CustomEvent.prototype = global.Event.prototype;
+
+    var event;
+
+    if (global.CustomEvent) {
+      event = new global.CustomEvent(eventName);
+    } else {
+      event = new _CustomEvent(eventName)
+    }
+
+    event && el.dispatchEvent(event);
   }
 
   // Helper function to get all focusable children from a node

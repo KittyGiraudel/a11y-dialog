@@ -15,7 +15,7 @@ You can try the [live demo](http://edenspiekermann.github.io/a11y-dialog/).
 - DOM events (`dialog:open`, `dialog:close`);
 - No `display` manipulation in JS, the hiding mechanism is entirely up to the CSS layer (using `[aria-hidden]` selectors);
 - Full test coverage with [CasperJS](http://casperjs.org) and [CodeShip](https://codeship.com);
-- Clean code resulting in only 830 bytes (0.83Kb!) once gzipped.
+- Clean code resulting in only 880 bytes (0.88Kb!) once gzipped.
 
 *Note: the script should run seamlessly in Internet Explorer 9 and above.*
 

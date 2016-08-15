@@ -17,7 +17,7 @@
 
     var event;
 
-    if (global.CustomEvent) {
+    if (global.CustomEvent && typeof global.CustomEvent === 'function') {
       event = new global.CustomEvent(eventName);
     } else {
       event = new _CustomEvent(eventName)

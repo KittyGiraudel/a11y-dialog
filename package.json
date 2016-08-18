@@ -13,7 +13,8 @@
   ],
   "author": "Hugo Giraudel (www.edenspiekermann.com/people/hugo-giraudel)",
   "files": [
-    "a11y-dialog.js"
+    "a11y-dialog.js",
+    "a11y-dialog.min.js"
   ],
   "scripts": {
     "copy": "cp a11y-dialog.js example/main.js",

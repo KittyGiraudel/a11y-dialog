@@ -18,9 +18,9 @@
     var event;
 
     if (global.CustomEvent && typeof global.CustomEvent === 'function') {
-      event = new global.CustomEvent(eventName, {detail: emmiter});
+      event = new global.CustomEvent(eventName, { detail: emmiter });
     } else {
-      event = new _CustomEvent(eventName, {bubbles: false, cancelable: false, detail: emmiter});
+      event = new _CustomEvent(eventName, { bubbles: false, cancelable: false, detail: emmiter });
     }
 
     event && el.dispatchEvent(event);

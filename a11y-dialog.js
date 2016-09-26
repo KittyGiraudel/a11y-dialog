@@ -3,7 +3,7 @@
 
   // Helper function for dispatching cross browser dispatch events
   // from http://youmightnotneedjquery.com/#trigger_custom
-  function dispatchEvent (el, eventName) {
+  function dispatchEvent (el, eventName, emmiter) {
     // IE < Edge Polyfill
     // from https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
     function _CustomEvent (event, params) {
@@ -18,9 +18,9 @@
     var event;
 
     if (global.CustomEvent && typeof global.CustomEvent === 'function') {
-      event = new global.CustomEvent(eventName);
+      event = new global.CustomEvent(eventName, { detail: emmiter });
     } else {
-      event = new _CustomEvent(eventName)
+      event = new _CustomEvent(eventName, { bubbles: false, cancelable: false, detail: emmiter });
     }
 
     event && el.dispatchEvent(event);
@@ -108,7 +108,7 @@
       focusedBeforeDialog = document.activeElement;
       setFocusToFirstItem(node);
       document.body.addEventListener('focus', maintainFocus, true);
-      dispatchEvent(node, 'dialog:show');
+      dispatchEvent(node, 'dialog:show', this);
     }
 
     function hide () {
@@ -117,7 +117,7 @@
       main.removeAttribute('aria-hidden');
       focusedBeforeDialog && focusedBeforeDialog.focus();
       document.body.removeEventListener('focus', maintainFocus, true);
-      dispatchEvent(node, 'dialog:hide');
+      dispatchEvent(node, 'dialog:hide', this);
     }
   };
 

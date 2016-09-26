@@ -165,12 +165,13 @@ dialog.hide();
 When showing and hiding, the `dialog:show` and `dialog:hide` events are emitted.
 
 ```javascript
-dialogEl.addEventListener('dialog:show', function (e) {
-  // e.target.id
+dialogEl.addEventListener('dialog:show', function (event) {
+  // Dialog element: event.target
+  // Toggle element: event.detail
 });
 ```
 
-When using several dialogs on the same page, the `id` of the toggled dialog is being passed to the event in `event.target.id`.
+The toggled dialog element is passed as `event.target`. The toggle element itself is passed as `event.detail`.
 
 ## Tests
 

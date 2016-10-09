@@ -68,7 +68,6 @@
    * @param {Node} main - Main element of the page
    */
   var A11yDialog = function (node, main) {
-    var namespace = 'data-a11y-dialog';
     var that = this;
     main = main || document.querySelector('#main');
 
@@ -76,11 +75,11 @@
     this.show = show;
     this.hide = hide;
 
-    $$('[' + namespace + '-show="' + node.id + '"]').forEach(function (opener) {
+    $$('[data-a11y-dialog-show="' + node.id + '"]').forEach(function (opener) {
       opener.addEventListener('click', show);
     });
 
-    $$('[' + namespace + '-hide]', node).concat($$('[' + namespace + '-hide="' + node.id + '"]')).forEach(function (closer) {
+    $$('[data-a11y-dialog-hide]', node).concat($$('[data-a11y-dialog-hide="' + node.id + '"]')).forEach(function (closer) {
       closer.addEventListener('click', hide);
     });
 

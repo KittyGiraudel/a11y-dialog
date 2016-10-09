@@ -84,7 +84,7 @@
       closer.addEventListener('click', hide);
     });
 
-    document.addEventListener('keydown', function (event) {
+    function bindKeypress (event) {
       if (that.shown && event.which === 27) {
         event.preventDefault();
         hide();
@@ -93,7 +93,7 @@
       if (that.shown && event.which === 9) {
         trapTabKey(node, event);
       }
-    });
+    }
 
     function maintainFocus (event) {
       if (that.shown && !node.contains(event.target)) {
@@ -108,6 +108,7 @@
       focusedBeforeDialog = document.activeElement;
       setFocusToFirstItem(node);
       document.body.addEventListener('focus', maintainFocus, true);
+      document.addEventListener('keydown', bindKeypress);
       dispatchEvent(node, 'dialog:show', this);
     }
 
@@ -117,6 +118,7 @@
       main.removeAttribute('aria-hidden');
       focusedBeforeDialog && focusedBeforeDialog.focus();
       document.body.removeEventListener('focus', maintainFocus, true);
+      document.removeEventListener('keydown', bindKeypress);
       dispatchEvent(node, 'dialog:hide', this);
     }
   };

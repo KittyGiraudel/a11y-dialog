@@ -68,18 +68,21 @@
    * @param {Node} main - Main element of the page
    */
   var A11yDialog = function (node, main) {
-    var that = this;
     main = main || document.querySelector('#main');
+    var that = this;
+    var openers = $$('[data-a11y-dialog-show="' + node.id + '"]');
+    var closers = $$('[data-a11y-dialog-hide]', node)
+      .concat($$('[data-a11y-dialog-hide="' + node.id + '"]'));
 
     this.shown = false;
     this.show = show;
     this.hide = hide;
 
-    $$('[data-a11y-dialog-show="' + node.id + '"]').forEach(function (opener) {
+    openers.forEach(function (opener) {
       opener.addEventListener('click', show);
     });
 
-    $$('[data-a11y-dialog-hide]', node).concat($$('[data-a11y-dialog-hide="' + node.id + '"]')).forEach(function (closer) {
+    closers.forEach(function (closer) {
       closer.addEventListener('click', hide);
     });
 

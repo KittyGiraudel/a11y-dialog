@@ -66,6 +66,22 @@ describe('A11yDialog', function () {
       expected = null;
       expect(actual).to.be.equal(expected);
     });
+
+    it('Dialog should correctly destroy with JS API', function () {
+      del = document.getElementById('dialog-1');
+      mel = document.getElementById('main-1');
+      dialog = new A11yDialog(del, mel);
+      dialog.show();
+      dialog.destroy();
+
+      actual = del.getAttribute('aria-hidden');
+      expected = 'true';
+      expect(actual).to.be.equal(expected);
+
+      actual = mel.getAttribute('aria-hidden');
+      expected = null;
+      expect(actual).to.be.equal(expected);
+    });
   });
 
   describe('DOM API', function () {

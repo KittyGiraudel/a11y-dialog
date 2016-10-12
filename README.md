@@ -160,7 +160,7 @@ dialog.show();
 dialog.hide();
 ```
 
-There is also a `destroy()` method that will hide the dialog and remove the event listeners the instance registered.
+There is also a `destroy()` method that will hide the dialog and remove the event listeners the instance registered. Note that it will *not* remove the dialog element from the DOM.
 
 ## Events
 

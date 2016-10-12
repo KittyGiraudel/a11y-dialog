@@ -127,9 +127,11 @@
 
     function destroy () {
       hide();
+
       openers.forEach(function (opener) {
         opener.removeEventListener('click', show);
       });
+
       closers.forEach(function (closer) {
         closer.removeEventListener('click', hide);
       });

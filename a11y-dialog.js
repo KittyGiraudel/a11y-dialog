@@ -77,6 +77,7 @@
     this.shown = false;
     this.show = show;
     this.hide = hide;
+    this.destroy = destroy;
 
     openers.forEach(function (opener) {
       opener.addEventListener('click', show);
@@ -122,6 +123,16 @@
       document.body.removeEventListener('focus', maintainFocus, true);
       document.removeEventListener('keydown', bindKeypress);
       dispatchEvent(node, 'dialog:hide', this);
+    }
+
+    function destroy () {
+      hide();
+      openers.forEach(function (opener) {
+        opener.removeEventListener('click', show);
+      });
+      closers.forEach(function (closer) {
+        closer.removeEventListener('click', hide);
+      });
     }
   };
 

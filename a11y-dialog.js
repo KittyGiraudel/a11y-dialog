@@ -74,8 +74,8 @@
     var closers = $$('[data-a11y-dialog-hide]', node)
       .concat($$('[data-a11y-dialog-hide="' + node.id + '"]'));
 
-    if (this.hasAttribute('aria-hidden')) {
-      this.shown = !JSON.parse(this.getAttribute('aria-hidden'));
+    if (node.hasAttribute('aria-hidden')) {
+      this.shown = !JSON.parse(node.getAttribute('aria-hidden'));
     }
 
     this.show = show;

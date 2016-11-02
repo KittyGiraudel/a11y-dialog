@@ -150,4 +150,4 @@
   } else if (typeof global === 'object') {
     global.A11yDialog = A11yDialog;
   }
-}(window));
+}(this));

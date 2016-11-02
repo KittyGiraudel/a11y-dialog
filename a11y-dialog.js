@@ -13,12 +13,12 @@
       return evt;
     }
 
-    _CustomEvent.prototype = global.Event.prototype;
+    _CustomEvent.prototype = window.Event.prototype;
 
     var event;
 
-    if (global.CustomEvent && typeof global.CustomEvent === 'function') {
-      event = new global.CustomEvent(eventName, { detail: emmiter });
+    if (window.CustomEvent && typeof window.CustomEvent === 'function') {
+      event = new window.CustomEvent(eventName, { detail: emmiter });
     } else {
       event = new _CustomEvent(eventName, { bubbles: false, cancelable: false, detail: emmiter });
     }

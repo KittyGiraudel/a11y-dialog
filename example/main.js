@@ -13,12 +13,12 @@
       return evt;
     }
 
-    _CustomEvent.prototype = global.Event.prototype;
+    _CustomEvent.prototype = window.Event.prototype;
 
     var event;
 
-    if (global.CustomEvent && typeof global.CustomEvent === 'function') {
-      event = new global.CustomEvent(eventName, { detail: emmiter });
+    if (window.CustomEvent && typeof window.CustomEvent === 'function') {
+      event = new window.CustomEvent(eventName, { detail: emmiter });
     } else {
       event = new _CustomEvent(eventName, { bubbles: false, cancelable: false, detail: emmiter });
     }
@@ -108,6 +108,8 @@
     }
 
     function show () {
+      if (that.shown) return;
+
       that.shown = true;
       node.removeAttribute('aria-hidden');
       main.setAttribute('aria-hidden', 'true');
@@ -119,6 +121,8 @@
     }
 
     function hide () {
+      if (!that.shown) return;
+
       that.shown = false;
       node.setAttribute('aria-hidden', 'true');
       main.removeAttribute('aria-hidden');

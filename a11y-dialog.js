@@ -108,6 +108,10 @@
     }
 
     function show () {
+      if (that.shown) {
+        return;
+      }
+
       that.shown = true;
       node.removeAttribute('aria-hidden');
       main.setAttribute('aria-hidden', 'true');
@@ -119,6 +123,10 @@
     }
 
     function hide () {
+      if (!that.shown) {
+        return;
+      }
+
       that.shown = false;
       node.setAttribute('aria-hidden', 'true');
       main.removeAttribute('aria-hidden');

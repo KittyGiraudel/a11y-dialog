@@ -12,7 +12,7 @@ You can try the [live demo](http://edenspiekermann.github.io/a11y-dialog/).
 - Possibility to have several different dialog windows on the page;
 - DOM API (`data-a11y-dialog-show="dialog-id"`, `data-a11y-dialog-hide`);
 - JS API (`dialog.show()`, `dialog.hide()`, `dialog.destroy()`, `dialog.shown`);
-- DOM events (`dialog:open`, `dialog:close`);
+- DOM events (`dialog:show`, `dialog:hide`);
 - No `display` manipulation in JS, the hiding mechanism is entirely up to the CSS layer (using `[aria-hidden]` selectors);
 - Full test coverage with [CasperJS](http://casperjs.org) and [CodeShip](https://codeship.com);
 - Clean code resulting in only 940 bytes (0.94Kb!) once gzipped.

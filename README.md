@@ -116,7 +116,7 @@ You will have to implement some styles for the dialog to “work” (visually sp
 
 ```javascript
 // Get the dialog element (with the accessor method you want)
-var dialogEl = document.getElementById('my-awesome-dialog');
+var dialogEl = document.getElementById('my-accessible-dialog');
 
 // Instanciate a new A11yDialog module
 var dialog = new A11yDialog(dialogEl);
@@ -132,10 +132,10 @@ var dialog = new A11yDialog(dialogEl, mainEl);
 
 There are 2 ways of toggling the dialog. Either through the DOM API, or directly with JavaScript. Both ways are inter-operable so feel free to use both if you need it.
 
-The following button will open the dialog with the `my-awesome-dialog` id when interacted with.
+The following button will open the dialog with the `my-accessible-dialog` id when interacted with.
 
 ```html
-<button type="button" data-a11y-dialog-show="my-awesome-dialog">Open the dialog</button>
+<button type="button" data-a11y-dialog-show="my-accessible-dialog">Open the dialog</button>
 ```
 
 The following button will close the dialog in which it lives when interacted with.
@@ -144,10 +144,10 @@ The following button will close the dialog in which it lives when interacted wit
 <button type="button" data-a11y-dialog-hide aria-label="Close the dialog">&times;</button>
 ```
 
-The following button will close the dialog with the `my-awesome-dialog` id when interacted with. Given that the only focusable elements when the dialog is open are the focusable children of the dialog itself, it seems rather unlikely that you will ever need this but in case you do, well you can.
+The following button will close the dialog with the `my-accessible-dialog` id when interacted with. Given that the only focusable elements when the dialog is open are the focusable children of the dialog itself, it seems rather unlikely that you will ever need this but in case you do, well you can.
 
 ```html
-<button type="button" data-a11y-dialog-hide="my-awesome-dialog" aria-label="Close the dialog">&times;</button>
+<button type="button" data-a11y-dialog-hide="my-accessible-dialog" aria-label="Close the dialog">&times;</button>
 ```
 
 Regarding the JS API, it simply consists on `show()` and `hide()` methods on the dialog instance.

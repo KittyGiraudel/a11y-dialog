@@ -20,10 +20,13 @@
     "copy": "cp a11y-dialog.js example/main.js",
     "minify": "uglifyjs a11y-dialog.js -o a11y-dialog.min.js -c -m",
     "build": "npm run minify && npm run copy",
+    "postbuild": "npm run add-version",
     "predeploy": "npm run build",
     "deploy": "git subtree push --prefix example origin gh-pages",
     "lint": "semistandard a11y-dialog.js",
-    "test": "open tests/index.html"
+    "test": "open tests/index.html",
+    "extract-version": "cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]'",
+    "add-version": "echo \"/*! a11y-dialog $(npm run extract-version --silent) — © Edenspiekermann */\n$(cat a11y-dialog.min.js)\" > a11y-dialog.min.js"
   },
   "devDependencies": {
     "semistandard": "^7.0.5",

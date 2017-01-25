@@ -162,6 +162,10 @@ dialog.hide();
 
 There is also a `destroy()` method that will hide the dialog and remove the event listeners the instance registered. Note that it will *not* remove the dialog element from the DOM.
 
+```javascript
+dialog.destroy();
+```
+
 ## Events
 
 When showing and hiding, the `dialog:show` and `dialog:hide` events are emitted.

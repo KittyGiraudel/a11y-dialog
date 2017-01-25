@@ -8,14 +8,14 @@ You can try the [live demo](http://edenspiekermann.github.io/a11y-dialog/).
 
 ## Nice things to know
 
-- No dependency (not even jQuery);
-- Possibility to have several different dialog windows on the page;
-- DOM API (`data-a11y-dialog-show="dialog-id"`, `data-a11y-dialog-hide`);
-- JS API (`dialog.show()`, `dialog.hide()`, `dialog.destroy()`, `dialog.shown`);
-- DOM events (`dialog:show`, `dialog:hide`);
-- No `display` manipulation in JS, the hiding mechanism is entirely up to the CSS layer (using `[aria-hidden]` selectors);
-- Full test coverage with [CasperJS](http://casperjs.org) and [CodeShip](https://codeship.com);
-- Clean code resulting in only 940 bytes (0.94Kb!) once gzipped.
+- No dependency (not even jQuery)
+- Possibility to have several different dialog windows on the page
+- DOM API (`data-a11y-dialog-show="dialog-id"`, `data-a11y-dialog-hide`)
+- JS API (`dialog.show()`, `dialog.hide()`, `dialog.destroy()`, `dialog.shown`)
+- JS events (`show`, `hide`, `destroy`)
+- No `display` manipulation in JS, the hiding mechanism is entirely up to the CSS layer (using `[aria-hidden]` selectors)
+- Full test coverage with Mocha
+- Clean code resulting in only 1.2Kb once gzipped
 
 *Note: the script should run seamlessly in Internet Explorer 9 and above.*
 
@@ -54,7 +54,8 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
   Dialog container related notes:
   - It is not the actual dialog window, just the container with which the script interacts.
   - It has to have the `aria-hidden="true"` attribute.
-  - It can have a different id than `my-accessible-dialog`.
+  - It can have a different id than `my-accessible-dialog`, but it needs an `id`
+  anyway.
 -->
 <div id="my-accessible-dialog" aria-hidden="true">
 
@@ -120,10 +121,10 @@ var dialogEl = document.getElementById('my-accessible-dialog');
 var dialog = new A11yDialog(dialogEl);
 ```
 
-The script assumes the main container of the page has a `main` id. If it is not the case, you can pass the main node as second argument to the `A11yDialog` constructor:
+The script will toggle the `aria-hidden` attribute of the siblings of the dialog element as a default. You can change this behaviour by passing a `NodeList`, an `Element` or a selector as second argument to the `A11yDialog` constructor:
 
 ```javascript
-var dialog = new A11yDialog(dialogEl, mainEl);
+var dialog = new A11yDialog(dialogEl, targetsEl);
 ```
 
 ## Toggling the dialog window
@@ -166,16 +167,29 @@ dialog.destroy();
 
 ## Events
 
-When showing and hiding, the `dialog:show` and `dialog:hide` events are emitted.
+When shown, hidden and destroyed, the instance will emit certain events. It is possible to subscribe to these with the `on()` method which will receive the dialog DOM element.
 
 ```javascript
-dialogEl.addEventListener('dialog:show', function (event) {
-  // Dialog element: event.target
-  // Toggle element: event.detail
+dialog.on('show', function (el) {
+  // Do something when dialog gets shown
+});
+
+dialog.on('hide', function (el) {
+  // Do something when dialog gets hidden
+});
+
+dialog.on('destroy', function (el) {
+  // Do something when dialog gets destroyed
 });
 ```
 
-The toggled dialog element is passed as `event.target`. The toggle element itself is passed as `event.detail`.
+You can unregister these handlers with the `off()` method.
+
+```javascript
+dialog.on('show', doSomething);
+// …
+dialog.off('show', doSomething);
+```
 
 ## Tests
 

@@ -184,29 +184,39 @@ describe('A11yDialog', function () {
   });
 
   describe('JS Events', function () {
-    it('Dialog should emit a "dialog:show" event when shown', function (done) {
+    it('Dialog should emit a "show" event when shown', function (done) {
       del = document.getElementById('dialog-8');
       mel = document.getElementById('main-8');
 
-      del.addEventListener('dialog:show', function() {
-        done();
-      });
 
       dialog = new A11yDialog(del, mel);
+      dialog.on('show', function () {
+        done();
+      });
       dialog.show();
     });
 
-    it('Dialog should emit a "dialog:hide" event when hidden', function (done) {
+    it('Dialog should emit a "hide" event when hidden', function (done) {
       del = document.getElementById('dialog-9');
       mel = document.getElementById('main-9');
 
-      del.addEventListener('dialog:hide', function() {
+      dialog = new A11yDialog(del, mel);
+      dialog.on('hide', function () {
         done();
       });
-
-      dialog = new A11yDialog(del, mel);
       dialog.show();
       dialog.hide();
+    });
+
+    it('Dialog should emit a "destroy" event when destroyed', function (done) {
+      del = document.getElementById('dialog-10');
+      mel = document.getElementById('main-10');
+
+      dialog = new A11yDialog(del, mel);
+      dialog.on('destroy', function () {
+        done();
+      });
+      dialog.destroy();
     });
   });
 });

@@ -167,18 +167,18 @@ dialog.destroy();
 
 ## Events
 
-When shown, hidden and destroyed, the instance will emit certain events. It is possible to subscribe to these with the `on()` method which will receive the dialog DOM element.
+When shown, hidden and destroyed, the instance will emit certain events. It is possible to subscribe to these with the `on()` method which will receive the dialog DOM element and the trigger DOM element (if any).
 
 ```javascript
-dialog.on('show', function (el) {
+dialog.on('show', function (dialogEl, triggerEl) {
   // Do something when dialog gets shown
 });
 
-dialog.on('hide', function (el) {
+dialog.on('hide', function (dialogEl, triggerEl) {
   // Do something when dialog gets hidden
 });
 
-dialog.on('destroy', function (el) {
+dialog.on('destroy', function (dialogEl, triggerEl) {
   // Do something when dialog gets destroyed
 });
 ```

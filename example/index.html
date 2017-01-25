@@ -53,8 +53,9 @@
         var mainEl = document.getElementById('main');
         var dialog = new window.A11yDialog(dialogEl, mainEl);
 
-        dialog.on('show', function (el) {
-          console.log(el);
+        dialog.on('show', function (dialogEl, triggerEl) {
+          console.log(dialogEl);
+          console.log(triggerEl);
         });
 
         // To manually control the dialog:

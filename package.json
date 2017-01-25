@@ -26,7 +26,10 @@
     "lint": "semistandard a11y-dialog.js",
     "test": "open tests/index.html",
     "extract-version": "cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]'",
-    "add-version": "echo \"/*! a11y-dialog $(npm run extract-version --silent) — © Edenspiekermann */\n$(cat a11y-dialog.min.js)\" > a11y-dialog.min.js"
+    "add-version": "echo \"/*! a11y-dialog $(npm run extract-version --silent) — © Edenspiekermann */\n$(cat a11y-dialog.min.js)\" > a11y-dialog.min.js",
+    "compress": "gzip -9 -fkc a11y-dialog.min.js > a11y-dialog.min.js.gz",
+    "show": "ls -lh a11y-dialog.min.js.gz | awk '{print \"Gzipped script size:\", $5\"B\"}'",
+    "size": "npm run build --silent && npm run compress --silent && npm run show --silent && rm a11y-dialog.min.js.gz"
   },
   "devDependencies": {
     "semistandard": "^7.0.5",

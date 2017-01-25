@@ -290,6 +290,8 @@
   // @param {Function} handler
   A11yDialog.prototype.on = function (type, handler) {
     this._listeners[type].push(handler);
+
+    return this;
   };
 
   // Unregister an existing callback for the given event type
@@ -301,6 +303,8 @@
     if (index > -1) {
       this._listeners[type].splice(index, 1);
     }
+
+    return this;
   };
 
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {

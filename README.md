@@ -42,15 +42,14 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
 ```html
 <!--
   Main container related notes:
-  - It doesn’t have to be a `main` element, however this is recommended.
   - It doesn’t have to have the `aria-label="Content"` attribute, however this is recommended.
   - It can have a different id than `main`, however you will have to pass it as a second argument to the A11yDialog instance. See further down.
 -->
-<main id="main" aria-label="Content">
+<div id="main" aria-label="Content">
   <!--
     Here lives the main content of the page.
   -->
-</main>
+</div>
 
 <!--
   Dialog container related notes:
@@ -104,7 +103,7 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
 
 ### CSS
 
-You will have to implement some styles for the dialog to “work” (visually speaking). The script itself does not take care of any styling whatsoever, not even the `display` property. It basically mostly toggles the `aria-hidden` attribute on the main element and the dialog itself. You can use this to show and hide the dialog:
+You will have to implement some styles for the dialog to “work” (visually speaking). The script itself does not take care of any styling whatsoever, not even the `display` property. It basically mostly toggles the `aria-hidden` attribute on the main container element and the dialog itself. You can use this to show and hide the dialog:
 
 ```css
 .dialog[aria-hidden="true"] {
@@ -122,7 +121,7 @@ var dialogEl = document.getElementById('my-accessible-dialog');
 var dialog = new A11yDialog(dialogEl);
 ```
 
-The script assumes the main document of the page has a `main` id. If it is not the case, you can pass the main node as second argument to the `A11yDialog` constructor:
+The script assumes the main container of the page has a `main` id. If it is not the case, you can pass the main node as second argument to the `A11yDialog` constructor:
 
 ```javascript
 var dialog = new A11yDialog(dialogEl, mainEl);

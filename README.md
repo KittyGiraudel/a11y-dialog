@@ -42,10 +42,9 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
 ```html
 <!--
   Main container related notes:
-  - It doesn’t have to have the `aria-label="Content"` attribute, however this is recommended.
   - It can have a different id than `main`, however you will have to pass it as a second argument to the A11yDialog instance. See further down.
 -->
-<div id="main" aria-label="Content">
+<div id="main">
   <!--
     Here lives the main content of the page.
   -->

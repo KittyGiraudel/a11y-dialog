@@ -85,9 +85,9 @@
   // @param {Element} node
   // @return {Array<Element>}
   function getSiblings (node) {
-    return toArray(node.parentNode.childNodes).filter(function (sibling) {
-      return sibling.id !== node.id;
-    });
+    var siblings = toArray(node.parentNode.childNodes)
+    siblings.splice(siblings.indexOf(node), 1)
+    return siblings
   }
 
   // Instanciate a dialog
@@ -95,10 +95,6 @@
   // @param {(NodeList | Element | string)} targets
   // @return {A11yDialog}
   function A11yDialog (node, targets) {
-    if (!node || !node.id) {
-      throw new Error('A11yDialog requires an `id` attribute to function properly.');
-    }
-
     // Prebind the functions that will be bound in addEventListener and
     // removeEventListener to avoid losing references
     this._show = this.show.bind(this);

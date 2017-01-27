@@ -1,25 +1,29 @@
 # A11y Dialog
 
-This repository is a fork from [accessible-modal-dialog](https://github.com/gdkraus/accessible-modal-dialog) by [Greg Kraus](https://github.com/gdkraus). We at [Edenspiekermann](http://edenspiekermann.com) are big fans of the original version, although we discovered we could improve it and make it even better. On top of that, the original script depends on jQuery, which happened to be a problem for us.
+a11y-dialog is a lightweight (1.2Kb) yet flexible script to create accessible dialog windows. It has no dependency, a JavaScript API, a DOM API and event handling.
+
+* [Introduction](#introduction)
+* [Installation](#installation)
+* [Usage](#usage)
+  * [Expected DOM structure](#expected-dom-structure)
+  * [Styling layer](#styling-layer)
+  * [JavaScript instantiation](#javascript-instantiation)
+* [DOM API](#dom-api)
+* [JS API](#js-api)
+* [Events](#events)
+* [Tests & deployment](#tests--deployment)
+* [Supported browsers](#supported-browsers)
+* [Example ↗](http://edenspiekermann.github.io/a11y-dialog/)
+
+## Introduction
+
+This repository is a fork from [accessible-modal-dialog ↗](https://github.com/gdkraus/accessible-modal-dialog) by Greg Kraus. We at Edenspiekermann are big fans of the original version, although we discovered we could improve it and make it even better. On top of that, the original script depends on jQuery, which happened to be a problem for us.
 
 The original repository being apparently unmaintained, we decided to fork it and release our own version of the accessible modal dialog. All credits to the original author.
 
-You can try the [live demo](http://edenspiekermann.github.io/a11y-dialog/).
+You can try the [live demo ↗](http://edenspiekermann.github.io/a11y-dialog/).
 
-## Nice things to know
-
-- No dependency (not even jQuery)
-- Possibility to have several different dialog windows on the page
-- DOM API (`data-a11y-dialog-show="dialog-id"`, `data-a11y-dialog-hide`)
-- JS API (`dialog.show()`, `dialog.hide()`, `dialog.destroy()`, `dialog.shown`)
-- JS events (`show`, `hide`, `destroy`)
-- No `display` manipulation in JS, the hiding mechanism is entirely up to the CSS layer (using `[aria-hidden]` selectors)
-- Full test coverage with Mocha
-- Clean code resulting in only 1.2Kb once gzipped
-
-*Note: the script should run seamlessly in Internet Explorer 9 and above.*
-
-## Install
+## Installation
 
 ```
 npm install a11y-dialog --save
@@ -35,7 +39,7 @@ Or you could also copy/paste the script in your project directly, but you will b
 
 You will find a concrete demo in the [example](https://github.com/edenspiekermann/a11y-dialog/tree/master/example) folder of this repository, but basically here is the gist:
 
-### HTML
+### Expected DOM structure
 
 Here is the basic markup, which can be enhanced. Pay extra attention to the comments.
 
@@ -102,35 +106,38 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
 </div>
 ```
 
-### CSS
+### Styling layer
 
-You will have to implement some styles for the dialog to “work” (visually speaking). The script itself does not take care of any styling whatsoever, not even the `display` property. It basically mostly toggles the `aria-hidden` attribute on the main container element and the dialog itself. You can use this to show and hide the dialog:
+You will have to implement some styles for the dialog to “work” (visually speaking). The script itself does not take care of any styling whatsoever, not even the `display` property. It basically mostly toggles the `aria-hidden` attribute on the dialog itself and its counterpart containers. You can use this to show and hide the dialog:
 
 ```css
-.dialog[aria-hidden="true"] {
+.dialog[aria-hidden='true'] {
   display: none;
 }
 ```
 
-### JavaScript
+### JavaScript instantiation
 
 ```javascript
 // Get the dialog element (with the accessor method you want)
-var dialogEl = document.getElementById('my-accessible-dialog');
+const el = document.getElementById('my-accessible-dialog');
 
-// Instanciate a new A11yDialog module
-var dialog = new A11yDialog(dialogEl);
+// Instantiate a new A11yDialog module
+const dialog = new A11yDialog(el);
 ```
 
-The script will toggle the `aria-hidden` attribute of the siblings of the dialog element as a default. You can change this behaviour by passing a `NodeList`, an `Element` or a selector as second argument to the `A11yDialog` constructor:
+As recommended in the [HTML section](#expected-dom-structure) of this documentation, the dialog element is supposed to be on the same level as your content container(s). Therefore, the script will toggle the `aria-hidden` attribute of the siblings of the dialog element as a default. You can change this behaviour by passing a `NodeList`, an `Element` or a selector as second argument to the `A11yDialog` constructor:
 
 ```javascript
-var dialog = new A11yDialog(dialogEl, targetsEl);
+const dialog = new A11yDialog(el, containers);
 ```
 
-## Toggling the dialog window
+## DOM API
 
-There are 2 ways of toggling the dialog. Either through the DOM API, or directly with JavaScript. Both ways are inter-operable so feel free to use both if you need it.
+The DOM API relies on `data-*` attributes. They all live under the `data-a11y-dialog-*` namespace for consistency, clarity and robustness. Two attributes are recognised:
+
+* `data-a11y-dialog-show`: the `id` of the dialog element is expected as a value
+* `data-a11y-dialog-hide`: the `id` of the dialog element is expected as a value; if omitted, the closest parent dialog element (if any) will be the target
 
 The following button will open the dialog with the `my-accessible-dialog` id when interacted with.
 
@@ -149,6 +156,8 @@ The following button will close the dialog with the `my-accessible-dialog` id wh
 ```html
 <button type="button" data-a11y-dialog-hide="my-accessible-dialog" aria-label="Close the dialog">&times;</button>
 ```
+
+## JS API
 
 Regarding the JS API, it simply consists on `show()` and `hide()` methods on the dialog instance.
 
@@ -192,15 +201,13 @@ dialog.on('show', doSomething);
 dialog.off('show', doSomething);
 ```
 
-## Tests
+## Tests & deployment
 
 [Mocha](https://mochajs.org/) and [expect.js](https://github.com/Automattic/expect.js) are used to run browser tests.
 
 ```
 npm test
 ```
-
-## Deploy example
 
 The [example page](http://edenspiekermann.github.io/a11y-dialog/) is deployed through [GitHub Pages](https://pages.github.com/).
 

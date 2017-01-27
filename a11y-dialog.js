@@ -115,11 +115,10 @@
     // Keep a collection of nodes to disable/enable when toggling the dialog
     this._targets = collect(targets) || getSiblings(this.node);
 
-    // Define the value of the `shown` property based on the initial value of
-    // the `aria-hidden` attribute from the dialog element
-    if (this.node.hasAttribute('aria-hidden')) {
-      this.shown = !JSON.parse(this.node.getAttribute('aria-hidden'));
-    }
+    // Make sure the dialog element is disabled on load, and that the `shown`
+    // property is synced with its value
+    this.node.setAttribute('aria-hidden', true)
+    this.shown = false
 
     // Keep a collection of dialog openers, each of which will be bound a click
     // event listener to open the dialog

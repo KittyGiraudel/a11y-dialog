@@ -4,6 +4,8 @@
   'use strict';
 
   var FOCUSABLE_ELEMENTS = ['a[href]', 'area[href]', 'input:not([disabled])', 'select:not([disabled])', 'textarea:not([disabled])', 'button:not([disabled])', 'iframe', 'object', 'embed', '[contenteditable]', '[tabindex]:not([tabindex^="-"])'];
+  var TAB_KEY = 9;
+  var ESCAPE_KEY = 27;
   var focusedBeforeDialog;
 
   // Convert a NodeList into an array
@@ -85,15 +87,15 @@
   // @param {Element} node
   // @return {Array<Element>}
   function getSiblings (node) {
-    var siblings = toArray(node.parentNode.childNodes)
-    siblings.splice(siblings.indexOf(node), 1)
-    return siblings
+    var siblings = toArray(node.parentNode.childNodes);
+    siblings.splice(siblings.indexOf(node), 1);
+    return siblings;
   }
 
-  // Instanciate a dialog
+  // Define the constructor to instantiate a dialog
+  // @constructor
   // @param {Element} node
   // @param {(NodeList | Element | string)} targets
-  // @return {A11yDialog}
   function A11yDialog (node, targets) {
     // Prebind the functions that will be bound in addEventListener and
     // removeEventListener to avoid losing references
@@ -143,14 +145,14 @@
   A11yDialog.prototype._bindKeypress = function (event) {
     // If the dialog is shown and the ESCAPE key is being pressed, prevent any
     // further effects from the ESCAPE key and hide the dialog
-    if (this.shown && event.which === 27) {
+    if (this.shown && event.which === ESCAPE_KEY) {
       event.preventDefault();
       this.hide();
     }
 
     // If the dialog is shown and the TAB key is being pressed, make sure the
     // focus stays trapped within the dialog element
-    if (this.shown && event.which === 9) {
+    if (this.shown && event.which === TAB_KEY) {
       trapTabKey(this.node, event);
     }
   };
@@ -177,10 +179,7 @@
       return;
     }
 
-    // Set the `shown` attribute to `true`
     this.shown = true;
-
-    // Remove the `aria-hidden` attribute from the dialog element entirely
     this.node.removeAttribute('aria-hidden');
 
     // Iterate over the targets to disable them by setting their `aria-hidden`
@@ -224,10 +223,7 @@
       return;
     }
 
-    // Set the `shown` attribute to `false`
     this.shown = false;
-
-    // Set the `aria-hidden` attribute from the dialog element to `true`
     this.node.setAttribute('aria-hidden', 'true');
 
     // Iterate over the targets to enable them by remove their `aria-hidden`

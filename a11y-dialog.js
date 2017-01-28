@@ -173,6 +173,7 @@
   // current focus within it, listen for some specific key presses and fire all
   // registered callbacks for `show` event
   // @param {Event} event
+  // @return {this}
   A11yDialog.prototype.show = function (event) {
     // If the dialog is already open, abort
     if (this.shown) {
@@ -211,12 +212,15 @@
     this._listeners.show.forEach(function (listener) {
       listener(this.node, event ? event.target : void 0);
     }.bind(this));
+
+    return this;
   };
 
   // Hide the dialog element, enable all the targets (siblings), restore the
   // focus to the previously active element, stop listening for some specific
   // key presses and fire all registered callbacks for `hide` event
   // @param {Event} event
+  // @return {this}
   A11yDialog.prototype.hide = function (event) {
     // If the dialog is already closed, abort
     if (!this.shown) {
@@ -254,10 +258,13 @@
     this._listeners.hide.forEach(function (listener) {
       listener(this.node, event ? event.target : void 0);
     }.bind(this));
+
+    return this;
   };
 
   // Destroy the current instance (after making sure the dialog has been hidden)
   // and remove all associated listeners from dialog openers and closers
+  // @return {this}
   A11yDialog.prototype.destroy = function () {
     // Hide the dialog to avoid destroying an open instance
     this.hide();
@@ -276,6 +283,8 @@
     this._listeners.destroy.forEach(function (listener) {
       listener(this.node);
     }.bind(this));
+
+    return this;
   };
 
   // Register a new callback for the given event type

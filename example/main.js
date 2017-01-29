@@ -107,20 +107,24 @@
     // Keep a reference of the node on the instance
     this.node = node;
 
+    // Initialise everything needed for the dialog to work properly
+    this.create(targets);
+  }
+
+  // Set up everything necessary for the dialog to be functioning
+  // @param {(NodeList | Element | string)} targets
+  // @return {this}
+  A11yDialog.prototype.create = function (targets) {
     // Keep an object of listener types mapped to callback functions
-    this._listeners = {
-      show: [],
-      hide: [],
-      destroy: []
-    };
+    this._listeners = {};
 
     // Keep a collection of nodes to disable/enable when toggling the dialog
-    this._targets = collect(targets) || getSiblings(this.node);
+    this._targets = this._targets || collect(targets) || getSiblings(this.node);
 
     // Make sure the dialog element is disabled on load, and that the `shown`
     // property is synced with its value
-    this.node.setAttribute('aria-hidden', true)
-    this.shown = false
+    this.node.setAttribute('aria-hidden', true);
+    this.shown = false;
 
     // Keep a collection of dialog openers, each of which will be bound a click
     // event listener to open the dialog
@@ -136,38 +140,12 @@
     this._closers.forEach(function (closer) {
       closer.addEventListener('click', this._hide);
     }.bind(this));
+
+    // Execute all callbacks registered for the `create` event
+    this._fire('create', event);
+
+    return this;
   }
-
-  // Private event handler used when listening to some specific key presses
-  // (namely ESCAPE and TAB)
-  // @access private
-  // @param {Event} event
-  A11yDialog.prototype._bindKeypress = function (event) {
-    // If the dialog is shown and the ESCAPE key is being pressed, prevent any
-    // further effects from the ESCAPE key and hide the dialog
-    if (this.shown && event.which === ESCAPE_KEY) {
-      event.preventDefault();
-      this.hide();
-    }
-
-    // If the dialog is shown and the TAB key is being pressed, make sure the
-    // focus stays trapped within the dialog element
-    if (this.shown && event.which === TAB_KEY) {
-      trapTabKey(this.node, event);
-    }
-  };
-
-  // Private event handler used when making sure the focus stays within the
-  // currently open dialog
-  // @access private
-  // @param {Event} event
-  A11yDialog.prototype._maintainFocus = function (event) {
-    // If the dialog is shown and the focus is not within the dialog element,
-    // move it back to its first focusable child
-    if (this.shown && !this.node.contains(event.target)) {
-      setFocusToFirstItem(this.node);
-    }
-  };
 
   // Show the dialog element, disable all the targets (siblings), trap the
   // current focus within it, listen for some specific key presses and fire all
@@ -209,9 +187,7 @@
     document.addEventListener('keydown', this._bindKeypress);
 
     // Execute all callbacks registered for the `show` event
-    this._listeners.show.forEach(function (listener) {
-      listener(this.node, event ? event.target : void 0);
-    }.bind(this));
+    this._fire('show', event);
 
     return this;
   };
@@ -255,9 +231,7 @@
     document.removeEventListener('keydown', this._bindKeypress);
 
     // Execute all callbacks registered for the `hide` event
-    this._listeners.hide.forEach(function (listener) {
-      listener(this.node, event ? event.target : void 0);
-    }.bind(this));
+    this._fire('hide', event);
 
     return this;
   };
@@ -280,9 +254,10 @@
     }.bind(this));
 
     // Execute all callbacks registered for the `destroy` event
-    this._listeners.destroy.forEach(function (listener) {
-      listener(this.node);
-    }.bind(this));
+    this._fire('destroy');
+
+    // Keep an object of listener types mapped to callback functions
+    this._listeners = {};
 
     return this;
   };
@@ -291,6 +266,10 @@
   // @param {string} type
   // @param {Function} handler
   A11yDialog.prototype.on = function (type, handler) {
+    if (typeof this._listeners[type] === 'undefined') {
+     this._listeners[type] = [];
+    }
+
     this._listeners[type].push(handler);
 
     return this;
@@ -307,6 +286,46 @@
     }
 
     return this;
+  };
+
+  A11yDialog.prototype._fire = function (type, event) {
+    var listeners = this._listeners[type] || [];
+    var trigger = event ? event.target : void 0;
+
+    listeners.forEach(function (listener) {
+      listener(this.node, trigger);
+    }.bind(this));
+  };
+
+  // Private event handler used when listening to some specific key presses
+  // (namely ESCAPE and TAB)
+  // @access private
+  // @param {Event} event
+  A11yDialog.prototype._bindKeypress = function (event) {
+    // If the dialog is shown and the ESCAPE key is being pressed, prevent any
+    // further effects from the ESCAPE key and hide the dialog
+    if (this.shown && event.which === ESCAPE_KEY) {
+      event.preventDefault();
+      this.hide();
+    }
+
+    // If the dialog is shown and the TAB key is being pressed, make sure the
+    // focus stays trapped within the dialog element
+    if (this.shown && event.which === TAB_KEY) {
+      trapTabKey(this.node, event);
+    }
+  };
+
+  // Private event handler used when making sure the focus stays within the
+  // currently open dialog
+  // @access private
+  // @param {Event} event
+  A11yDialog.prototype._maintainFocus = function (event) {
+    // If the dialog is shown and the focus is not within the dialog element,
+    // move it back to its first focusable child
+    if (this.shown && !this.node.contains(event.target)) {
+      setFocusToFirstItem(this.node);
+    }
   };
 
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {

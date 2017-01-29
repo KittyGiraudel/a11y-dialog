@@ -24,9 +24,11 @@
       </div>
 
       <div class="test">
-        <div id="main-1"></div>
+        <div id="main-1">
+          <button type="button" data-a11y-dialog-show="dialog-1" id="opener-1">Toggle</button>
+        </div>
         <div class="dialog" aria-hidden="true" id="dialog-1">
-          <div tabindex="-1" data-a11y-dialog-hide></div>
+          <div tabindex="-1" data-a11y-dialog-hide id="closer-1"></div>
           <div role="dialog"><div role="document">Dialog 1</div></div>
         </div>
       </div>

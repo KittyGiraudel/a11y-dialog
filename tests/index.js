@@ -22,14 +22,13 @@ describe('A11yDialog', function () {
   }
 
   function afterTest () {
-    dialog && dialog.hide && dialog.hide();
+    dialog.destroy();
     dialog = undefined;
     actual = undefined;
     expected = undefined;
   }
 
   function afterAllTests () {
-    document.querySelector('.test-suite').style.display = 'none';
   }
 
   after(afterAllTests);
@@ -70,8 +69,12 @@ describe('A11yDialog', function () {
     it('Dialog should correctly destroy with JS API', function () {
       del = document.getElementById('dialog-1');
       mel = document.getElementById('main-1');
+      opener = document.getElementById('opener-1');
+      closer = document.getElementById('closer-1');
       dialog = new A11yDialog(del, mel);
-      dialog.show();
+      dialog.on('show', function () {});
+      dialog.on('hide', function () {});
+      dialog.on('destroy', function () {});
       dialog.destroy();
 
       actual = del.getAttribute('aria-hidden');
@@ -79,6 +82,21 @@ describe('A11yDialog', function () {
       expect(actual).to.be.equal(expected);
 
       actual = mel.getAttribute('aria-hidden');
+      expected = null;
+      expect(actual).to.be.equal(expected);
+
+      actual = Object.keys(dialog._listeners).length;
+      expected = 0;
+      expect(actual).to.be.equal(expected);
+
+      opener.click();
+      actual = del.getAttribute('aria-hidden');
+      expected = 'true';
+      expect(actual).to.be.equal(expected);
+
+      dialog.show();
+      closer.click();
+      actual = del.getAttribute('aria-hidden');
       expected = null;
       expect(actual).to.be.equal(expected);
     });

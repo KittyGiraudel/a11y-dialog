@@ -1,240 +1,357 @@
+function keydown (k, shift) {
+  var oEvent = document.createEvent('KeyboardEvent');
+  Object.defineProperty(oEvent, 'keyCode', { get: function() { return this.keyCodeVal; } });
+  Object.defineProperty(oEvent, 'which', { get: function() { return this.keyCodeVal; } });     
+
+  if (oEvent.initKeyboardEvent) {
+    oEvent.initKeyboardEvent("keydown", true, true, document.defaultView, false, false, shift, false, shift, k);
+  } else {
+    oEvent.initKeyEvent("keydown", true, true, document.defaultView, false, false, shift, false, k, 0);
+  }
+
+  oEvent.keyCodeVal = k;
+
+  if (oEvent.keyCode !== k) {
+    alert("keyCode mismatch " + oEvent.keyCode + "(" + oEvent.which + ")");
+  }
+
+  document.dispatchEvent(oEvent);
+}
+
+function toArray (collection) {
+  return Array.prototype.slice.call(collection);
+}
+
 describe('A11yDialog', function () {
-  var del, mel, dialog, opener, closer, actual, expected;
 
-  function keydown (k, shift) {
-    var oEvent = document.createEvent('KeyboardEvent');
-    Object.defineProperty(oEvent, 'keyCode', { get: function() { return this.keyCodeVal; } });
-    Object.defineProperty(oEvent, 'which', { get: function() { return this.keyCodeVal; } });     
+  after(function () {
+    document.querySelector('.test-suite').style.display = 'none';
+  });
 
-    if (oEvent.initKeyboardEvent) {
-      oEvent.initKeyboardEvent("keydown", true, true, document.defaultView, false, false, shift, false, shift, k);
-    } else {
-      oEvent.initKeyEvent("keydown", true, true, document.defaultView, false, false, shift, false, k, 0);
-    }
+  describe('when instantiated, it…', function () {
+    const scope = document.querySelector('#test-0');
+    const el = scope.querySelector('.dialog');
+    const targets = scope.querySelectorAll('.target');
+    const dialog = new A11yDialog(el, targets);
 
-    oEvent.keyCodeVal = k;
+    it('should save reference to dialog element', function () {
+      const actual = dialog.node;
+      const expected = el;
+      expect(actual).to.be.eql(expected);
+    });
 
-    if (oEvent.keyCode !== k) {
-      alert("keyCode mismatch " + oEvent.keyCode + "(" + oEvent.which + ")");
-    }
+    it('should prepare to store registered event callbacks', function () {
+      const actual = dialog._listeners;
+      const expected = {};
+      expect(actual).to.be.eql(expected);
+    });
+  });
 
-    document.dispatchEvent(oEvent);
-  }
+  describe('when shown, it…', function () {
+    const scope = document.querySelector('#test-1');
+    const el = scope.querySelector('.dialog');
+    const targets = scope.querySelectorAll('.target');
+    const secondary = scope.querySelector('.secondary');
+    const title = scope.querySelector('.dialog-title');
+    const previous = scope.querySelector('.previous');
+    const dialog = new A11yDialog(el, targets);
+    let proof = 0;
 
-  function afterTest () {
-    dialog.destroy();
-    dialog = undefined;
-    actual = undefined;
-    expected = undefined;
-  }
+    previous.focus();
+    dialog.on('show', function () { proof++; })
+    const result = dialog.show();
 
-  function afterAllTests () {
-  }
-
-  after(afterAllTests);
-  afterEach(afterTest);
-
-  describe('JS API', function () {
-    it('Dialog should correctly open with JS API', function () {
-      del = document.getElementById('dialog-0');
-      mel = document.getElementById('main-0');
-      dialog = new A11yDialog(del, mel);
-      dialog.show();
-
-      actual = del.getAttribute('aria-hidden');
-      expected = null;
-      expect(actual).to.be.equal(expected);
-
-      actual = mel.getAttribute('aria-hidden');
-      expected = 'true';
+    it('should set the `shown` property to `true`', function () {
+      const actual = dialog.shown;
+      const expected = true;
       expect(actual).to.be.equal(expected);
     });
 
-    it('Dialog should correctly close with JS API', function () {
-      del = document.getElementById('dialog-1');
-      mel = document.getElementById('main-1');
-      dialog = new A11yDialog(del, mel);
-      dialog.show();
-      dialog.hide();
-
-      actual = del.getAttribute('aria-hidden');
-      expected = 'true';
-      expect(actual).to.be.equal(expected);
-
-      actual = mel.getAttribute('aria-hidden');
-      expected = null;
+    it('should remove `aria-hidden` attribute from dialog element', function () {
+      const actual = el.getAttribute('aria-hidden');
+      const expected = null;
       expect(actual).to.be.equal(expected);
     });
 
-    it('Dialog should correctly destroy with JS API', function () {
-      del = document.getElementById('dialog-1');
-      mel = document.getElementById('main-1');
-      opener = document.getElementById('opener-1');
-      closer = document.getElementById('closer-1');
-      dialog = new A11yDialog(del, mel);
-      dialog.on('show', function () {});
-      dialog.on('hide', function () {});
-      dialog.on('destroy', function () {});
-      dialog.destroy();
+    it('should set `aria-hidden` to `true` to targets element', function () {
+      const actual = toArray(targets).map(function (target) {
+        return target.getAttribute('aria-hidden');
+      });
+      const expected = ['true', 'true'];
+      expect(actual).to.be.eql(expected);
+    });
 
-      actual = del.getAttribute('aria-hidden');
-      expected = 'true';
+    it('should save original `aria-hidden` from targets element', function () {
+      const actual = secondary.getAttribute('data-a11y-dialog-original');
+      const expected = 'something';
       expect(actual).to.be.equal(expected);
+    });
 
-      actual = mel.getAttribute('aria-hidden');
-      expected = null;
+    it('should set focus to first focusable element of dialog', function () {
+      const actual = document.activeElement;
+      const expected = title;
+      expect(actual).to.be.eql(expected);
+    });
+
+    it('should prevent the focus from being lost', function () {
+      document.body.focus();
+      const actual = document.activeElement;
+      const expected = title;
+      expect(actual).to.be.eql(expected);
+    });
+
+    it('should call registered `show` event callbacks', function () {
+      const actual = proof;
+      const expected = 1;
       expect(actual).to.be.equal(expected);
+    });
 
-      actual = Object.keys(dialog._listeners).length;
-      expected = 0;
-      expect(actual).to.be.equal(expected);
-
-      opener.click();
-      actual = del.getAttribute('aria-hidden');
-      expected = 'true';
-      expect(actual).to.be.equal(expected);
-
-      dialog.show();
-      closer.click();
-      actual = del.getAttribute('aria-hidden');
-      expected = null;
+    it('should return the dialog instance', function () {
+      const actual = A11yDialog.prototype.isPrototypeOf(result);
+      const expected = true;
       expect(actual).to.be.equal(expected);
     });
   });
 
-  describe('DOM API', function () {
-    it('Dialog should correctly open with DOM API', function () {
-      del = document.getElementById('dialog-2');
-      mel = document.getElementById('main-2');
-      dialog = new A11yDialog(del, mel);
-      opener = document.getElementById('opener-2');
-      opener.click();
+  describe('when hidden, it…', function () {
+    const scope = document.querySelector('#test-2');
+    const el = scope.querySelector('.dialog');
+    const targets = scope.querySelectorAll('.target');
+    const main = scope.querySelector('.main');
+    const secondary = scope.querySelector('.secondary');
+    const title = scope.querySelector('.dialog-title');
+    const previous = scope.querySelector('.previous');
+    const dialog = new A11yDialog(el, targets);
+    let proof = 1;
 
-      actual = del.getAttribute('aria-hidden');
-      expected = null;
-      expect(actual).to.be.equal(expected);
+    previous.focus();
+    dialog.on('hide', function () { proof--; });
+    const result = dialog.show().hide();
 
-      actual = mel.getAttribute('aria-hidden');
-      expected = 'true';
-      expect(actual).to.be.equal(expected);
-    });
-
-    it('Dialog should correctly close with DOM API', function () {
-      del = document.getElementById('dialog-3');
-      mel = document.getElementById('main-3');
-      dialog = new A11yDialog(del, mel);
-      dialog.show();
-      closer = document.getElementById('closer-3');
-      closer.click();
-
-      actual = del.getAttribute('aria-hidden');
-      expected = 'true';
-      expect(actual).to.be.equal(expected);
-
-      actual = mel.getAttribute('aria-hidden');
-      expected = null;
+    it('should set the `shown` property to `false`', function () {
+      const actual = dialog.shown;
+      const expected = false;
       expect(actual).to.be.equal(expected);
     });
 
-    it('Dialog should correctly close when clicking overlay', function () {
-      del = document.getElementById('dialog-4');
-      mel = document.getElementById('main-4');
-      dialog = new A11yDialog(del, mel);
-      dialog.show();
-      closer = document.getElementById('closer-4');
-      closer.click();
-
-      actual = del.getAttribute('aria-hidden');
-      expected = 'true';
+    it('should set `aria-hidden` attribute to `true` to dialog element', function () {
+      const actual = el.getAttribute('aria-hidden');
+      const expected = 'true';
       expect(actual).to.be.equal(expected);
+    });
 
-      actual = mel.getAttribute('aria-hidden');
-      expected = null;
+    it('should remove `aria-hidden` attribute from targets element', function () {
+      const actual = main.getAttribute('aria-hidden');
+      const expected = null;
+      expect(actual).to.be.eql(expected);
+    });
+
+    it('should restore original `aria-hidden` from targets element', function () {
+      const actual = secondary.getAttribute('aria-hidden');
+      const expected = 'something';
+      expect(actual).to.be.equal(expected);
+    });
+
+    it('should restore focus to previously focused element', function () {
+      const actual = document.activeElement;
+      const expected = previous;
+      expect(actual).to.be.eql(expected);
+    });
+
+    it('should stop preventing the focus from being lost', function () {
+      document.body.focus();
+      const actual = document.activeElement;
+      const expected = document.body;
+      expect(actual).to.be.eql(expected);
+    });
+
+    it('should call registered `hide` event callbacks', function () {
+      const actual = proof;
+      const expected = 0;
+      expect(actual).to.be.equal(expected);
+    });
+
+    it('should return the dialog instance', function () {
+      const actual = A11yDialog.prototype.isPrototypeOf(result);
+      const expected = true;
       expect(actual).to.be.equal(expected);
     });
   });
 
-  describe('Keyboard Events', function () {
-    it('Dialog should correctly close with ESC', function () {
-      del = document.getElementById('dialog-7');
-      mel = document.getElementById('main-7');
-      dialog = new A11yDialog(del, mel);
+  describe('when destroyed, it…', function () {
+    const scope = document.querySelector('#test-3');
+    const el = scope.querySelector('.dialog');
+    const targets = scope.querySelectorAll('.target');
+    const opener = scope.querySelector('[data-a11y-dialog-show="dialog-3"]')
+    const closer = scope.querySelector('[data-a11y-dialog-hide]')
+    const dialog = new A11yDialog(el, targets);
+    let proof = 1;
+
+    dialog.on('destroy', function () { proof += 2; });
+    const result = dialog.show().destroy();
+
+    it('should hide the dialog', function () {
+      const actual = dialog.shown;
+      const expected = false;
+      expect(actual).to.be.equal(expected);
+    });
+
+    it('should remove click listener from openers', function () {
+      opener.click();
+      const actual = dialog.shown;
+      const expected = false;
+      expect(actual).to.be.equal(expected);
+    });
+
+    it('should remove click listener from closers', function () {
+      closer.click();
+      const actual = dialog.shown;
+      const expected = false;
+      expect(actual).to.be.equal(expected);
+    });
+
+    it('should call registered `destroy` event callbacks', function () {
+      const actual = proof;
+      const expected = 3;
+      expect(actual).to.be.equal(expected);
+    });
+
+    it('should return the dialog instance', function () {
+      const actual = A11yDialog.prototype.isPrototypeOf(result);
+      const expected = true;
+      expect(actual).to.be.equal(expected);
+    });
+
+    it('should remove all registered listeners', function () {
+      const actual = dialog._listeners;
+      const expected = {};
+      expect(actual).to.be.eql(expected);
+    });
+  });
+
+  describe('when created, it…', function () {
+    const scope = document.querySelector('#test-4');
+    const el = scope.querySelector('.dialog');
+    const targets = scope.querySelectorAll('.target');
+    const opener = scope.querySelector('[data-a11y-dialog-show="dialog-4"]')
+    const closer = scope.querySelector('[data-a11y-dialog-hide]')
+    const dialog = new A11yDialog(el, targets);
+    let proof = 1;
+
+    dialog.on('create', function () { proof += 4; });
+    const result = dialog.create();
+
+    it('should collect the targets', function () {
+      const actual = dialog._targets;
+      const expected = targets;
+      expect(actual).to.be.eql(expected);
+    });
+
+    it('should set the `shown` property to `false`', function () {
+      const actual = dialog.shown;
+      const expected = false;
+      expect(actual).to.be.equal(expected);
+    });
+
+    it('should set `aria-hidden` to `true` to dialog element', function () {
+      const actual = el.getAttribute('aria-hidden');
+      const expected = 'true';
+      expect(actual).to.be.equal(expected);
+    });
+
+    it('should add click listener to openers', function () {
+      opener.click();
+      const actual = dialog.shown;
+      const expected = true;
+      expect(actual).to.be.equal(expected);
+    });
+
+    it('should add click listener to closers', function () {
+      closer.click();
+      const actual = dialog.shown;
+      const expected = false;
+      expect(actual).to.be.equal(expected);
+    });
+
+    it('should call registered `create` event callbacks', function () {
+      const actual = proof;
+      const expected = 5;
+      expect(actual).to.be.equal(expected);
+    });
+
+    it('should return the dialog instance', function () {
+      const actual = A11yDialog.prototype.isPrototypeOf(result);
+      const expected = true;
+      expect(actual).to.be.equal(expected);
+    });
+  });
+
+  describe('when listening to events, it…', function () {
+    const scope = document.querySelector('#test-0');
+    const el = scope.querySelector('.dialog');
+    const targets = scope.querySelectorAll('.target');
+    const dialog = new A11yDialog(el, targets);
+
+    const noop = function () {}
+
+    it('should properly register event listener', function () {
+      dialog.on('show', noop)
+      const actual = dialog._listeners.show[0];
+      const expected = noop;
+      expect(actual).to.be.eql(expected);
+    });
+
+    it('should properly unregister event listener', function () {
+      dialog.off('show', noop)
+      const actual = dialog._listeners.show.length;
+      const expected = 0;
+      expect(actual).to.be.equal(expected);
+    });
+
+    it('should silently fail to unregister an unknown event listener', function () {
+      dialog.off('show', 'foobar')
+      const actual = dialog._listeners.show.length;
+      const expected = 0;
+      expect(actual).to.be.equal(expected);
+    });
+  });
+
+  describe('when firing events, it…', function () {
+    const scope = document.querySelector('#test-0');
+    const el = scope.querySelector('.dialog');
+    const dialog = new A11yDialog(el);
+
+    it('should pass dialog element as first argument', function (done) {
+      dialog.on('show', function (dialogEl) {
+        const actual = dialogEl;
+        const expected = el;
+        expect(actual).to.be.eql(expected);
+        done();
+      }).show().hide();
+    });
+  });
+
+  describe('when listening to key presses, it…', function () {
+    const scope = document.querySelector('#test-0');
+    const el = scope.querySelector('.dialog');
+    const dialog = new A11yDialog(el);
+
+    it('should close dialog on ESC', function () {
       dialog.show();
       keydown(27);
 
-      actual = del.getAttribute('aria-hidden');
-      expected = 'true';
-      expect(actual).to.be.equal(expected);
-
-      actual = mel.getAttribute('aria-hidden');
-      expected = null;
-      expect(actual).to.be.equal(expected);
-    });
-  });
-
-  describe('Focus handling', function () {
-    it('Dialog should correctly move focus to first focusable element in dialog when open', function () {
-      del = document.getElementById('dialog-5');
-      mel = document.getElementById('main-5');
-      document.getElementById('focus-handler-5').focus();
-
-      dialog = new A11yDialog(del, mel);
-      dialog.show();
-      console.log(document.activeElement);
-      actual = document.activeElement.id;
-      expected = 'focus-receiver-5';
+      const actual = dialog.shown;
+      const expected = false;
       expect(actual).to.be.equal(expected);
     });
 
-    it('Dialog should correctly move focus back to initial focus when closed', function () {
-      del = document.getElementById('dialog-6');
-      mel = document.getElementById('main-6');
-      document.getElementById('focus-handler-6').focus();
-
-      dialog = new A11yDialog(del, mel);
+    it('should trap focus on TAB', function () {
       dialog.show();
-      dialog.hide();
+      keydown(9, true);
 
-      actual = document.activeElement.id;
-      expected = 'focus-handler-6';
+      const actual = document.activeElement;
+      const expected = scope.querySelector('.close-button');
       expect(actual).to.be.equal(expected);
-    });
-  });
-
-  describe('JS Events', function () {
-    it('Dialog should emit a "show" event when shown', function (done) {
-      del = document.getElementById('dialog-8');
-      mel = document.getElementById('main-8');
-
-
-      dialog = new A11yDialog(del, mel);
-      dialog.on('show', function () {
-        done();
-      });
-      dialog.show();
-    });
-
-    it('Dialog should emit a "hide" event when hidden', function (done) {
-      del = document.getElementById('dialog-9');
-      mel = document.getElementById('main-9');
-
-      dialog = new A11yDialog(del, mel);
-      dialog.on('hide', function () {
-        done();
-      });
-      dialog.show();
-      dialog.hide();
-    });
-
-    it('Dialog should emit a "destroy" event when destroyed', function (done) {
-      del = document.getElementById('dialog-10');
-      mel = document.getElementById('main-10');
-
-      dialog = new A11yDialog(del, mel);
-      dialog.on('destroy', function () {
-        done();
-      });
-      dialog.destroy();
     });
   });
 });

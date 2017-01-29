@@ -8,94 +8,13 @@
   var ESCAPE_KEY = 27;
   var focusedBeforeDialog;
 
-  // Convert a NodeList into an array
-  // @param {NodeList} collection
-  // @return {Array<Element>}
-  function toArray (collection) {
-    return Array.prototype.slice.call(collection);
-  }
-
-  // Query the DOM for nodes matching the given selector, scoped to context (or
-  // the whole document)
-  // @param {String} selector
-  // @param {Element} [context = document]
-  // @return {Array<Element>}
-  function $$ (selector, context) {
-    return toArray((context || document).querySelectorAll(selector));
-  }
-
-  // Return an array of Element based on given argument (NodeList, Element or
-  // string representing a selector)
-  // @param {(NodeList | Element | string)} target
-  // @return {Array<Element>}
-  function collect (target) {
-    if (NodeList.prototype.isPrototypeOf(target)) {
-      return toArray(target);
-    }
-
-    if (Element.prototype.isPrototypeOf(target)) {
-      return [target];
-    }
-
-    if (typeof target === 'string') {
-      return $$(target);
-    }
-  }
-
-  // Set the focus to the first focusable child of the given element
-  // @param {Element} node
-  function setFocusToFirstItem (node) {
-    var focusableChildren = getFocusableChildren(node);
-
-    if (focusableChildren.length) {
-      focusableChildren[0].focus();
-    }
-  }
-
-  // Get the focusable children of the given element
-  // @param {Element} node
-  // @return {Array<Element>}
-  function getFocusableChildren (node) {
-    return $$(FOCUSABLE_ELEMENTS.join(','), node).filter(function (child) {
-      return !!(child.offsetWidth || child.offsetHeight || child.getClientRects().length);
-    });
-  }
-
-  // Trap the focus inside the given element
-  // @param {Element} node
-  // @param {Event} event
-  function trapTabKey (node, event) {
-    var focusableChildren = getFocusableChildren(node);
-    var focusedItemIndex = focusableChildren.indexOf(document.activeElement);
-
-    // If the SHIFT key is being pressed while tabbing (moving backwards) and
-    // the currently focused item is the first one, move the focus to the last
-    // focusable item from the dialog element
-    if (event.shiftKey && focusedItemIndex === 0) {
-      focusableChildren[focusableChildren.length - 1].focus();
-      event.preventDefault();
-    // If the SHIFT key is not being pressed (moving forwards) and the currently
-    // focused item is the last one, move the focus to the first focusable item
-    // from the dialog element
-    } else if (!event.shiftKey && focusedItemIndex === focusableChildren.length - 1) {
-      focusableChildren[0].focus();
-      event.preventDefault();
-    }
-  }
-
-  // Retrieve siblings from given element
-  // @param {Element} node
-  // @return {Array<Element>}
-  function getSiblings (node) {
-    var siblings = toArray(node.parentNode.childNodes);
-    siblings.splice(siblings.indexOf(node), 1);
-    return siblings;
-  }
-
-  // Define the constructor to instantiate a dialog
-  // @constructor
-  // @param {Element} node
-  // @param {(NodeList | Element | string)} targets
+  /**
+   * Define the constructor to instantiate a dialog
+   * 
+   * @constructor
+   * @param {Element} node
+   * @param {(NodeList | Element | string)} targets
+   */
   function A11yDialog (node, targets) {
     // Prebind the functions that will be bound in addEventListener and
     // removeEventListener to avoid losing references
@@ -107,17 +26,20 @@
     // Keep a reference of the node on the instance
     this.node = node;
 
+    // Keep an object of listener types mapped to callback functions
+    this._listeners = {};
+
     // Initialise everything needed for the dialog to work properly
     this.create(targets);
   }
 
-  // Set up everything necessary for the dialog to be functioning
-  // @param {(NodeList | Element | string)} targets
-  // @return {this}
+  /**
+   * Set up everything necessary for the dialog to be functioning
+   * 
+   * @param {(NodeList | Element | string)} targets
+   * @return {this}
+   */
   A11yDialog.prototype.create = function (targets) {
-    // Keep an object of listener types mapped to callback functions
-    this._listeners = {};
-
     // Keep a collection of nodes to disable/enable when toggling the dialog
     this._targets = this._targets || collect(targets) || getSiblings(this.node);
 
@@ -147,15 +69,18 @@
     return this;
   }
 
-  // Show the dialog element, disable all the targets (siblings), trap the
-  // current focus within it, listen for some specific key presses and fire all
-  // registered callbacks for `show` event
-  // @param {Event} event
-  // @return {this}
+  /**
+   * Show the dialog element, disable all the targets (siblings), trap the
+   * current focus within it, listen for some specific key presses and fire all
+   * registered callbacks for `show` event
+   * 
+   * @param {Event} event
+   * @return {this}
+   */
   A11yDialog.prototype.show = function (event) {
     // If the dialog is already open, abort
     if (this.shown) {
-      return;
+      return this;
     }
 
     this.shown = true;
@@ -192,15 +117,18 @@
     return this;
   };
 
-  // Hide the dialog element, enable all the targets (siblings), restore the
-  // focus to the previously active element, stop listening for some specific
-  // key presses and fire all registered callbacks for `hide` event
-  // @param {Event} event
-  // @return {this}
+  /**
+   * Hide the dialog element, enable all the targets (siblings), restore the
+   * focus to the previously active element, stop listening for some specific
+   * key presses and fire all registered callbacks for `hide` event
+   *
+   * @param {Event} event
+   * @return {this}
+   */
   A11yDialog.prototype.hide = function (event) {
     // If the dialog is already closed, abort
     if (!this.shown) {
-      return;
+      return this;
     }
 
     this.shown = false;
@@ -236,9 +164,12 @@
     return this;
   };
 
-  // Destroy the current instance (after making sure the dialog has been hidden)
-  // and remove all associated listeners from dialog openers and closers
-  // @return {this}
+  /**
+   * Destroy the current instance (after making sure the dialog has been hidden)
+   * and remove all associated listeners from dialog openers and closers
+   *
+   * @return {this}
+   */
   A11yDialog.prototype.destroy = function () {
     // Hide the dialog to avoid destroying an open instance
     this.hide();
@@ -262,9 +193,12 @@
     return this;
   };
 
-  // Register a new callback for the given event type
-  // @param {string} type
-  // @param {Function} handler
+  /**
+   * Register a new callback for the given event type
+   *
+   * @param {string} type
+   * @param {Function} handler
+   */
   A11yDialog.prototype.on = function (type, handler) {
     if (typeof this._listeners[type] === 'undefined') {
      this._listeners[type] = [];
@@ -275,9 +209,12 @@
     return this;
   };
 
-  // Unregister an existing callback for the given event type
-  // @param {string} type
-  // @param {Function} handler
+  /**
+   * Unregister an existing callback for the given event type
+   *
+   * @param {string} type
+   * @param {Function} handler
+   */
   A11yDialog.prototype.off = function (type, handler) {
     var index = this._listeners[type].indexOf(handler);
 
@@ -288,6 +225,15 @@
     return this;
   };
 
+  /**
+   * Iterate over all registered handlers for given type and call them all with
+   * the dialog element as first argument, trigger (opener / closer) as second
+   * argument, if any.
+   *
+   * @access private
+   * @param {string} type
+   * @param {Event} event
+   */
   A11yDialog.prototype._fire = function (type, event) {
     var listeners = this._listeners[type] || [];
     var trigger = event ? event.target : void 0;
@@ -297,10 +243,13 @@
     }.bind(this));
   };
 
-  // Private event handler used when listening to some specific key presses
-  // (namely ESCAPE and TAB)
-  // @access private
-  // @param {Event} event
+  /**
+   * Private event handler used when listening to some specific key presses
+   * (namely ESCAPE and TAB)
+   *
+   * @access private
+   * @param {Event} event
+   */
   A11yDialog.prototype._bindKeypress = function (event) {
     // If the dialog is shown and the ESCAPE key is being pressed, prevent any
     // further effects from the ESCAPE key and hide the dialog
@@ -316,10 +265,13 @@
     }
   };
 
-  // Private event handler used when making sure the focus stays within the
-  // currently open dialog
-  // @access private
-  // @param {Event} event
+  /**
+   * Private event handler used when making sure the focus stays within the
+   * currently open dialog
+   * 
+   * @access private
+   * @param {Event} event
+   */
   A11yDialog.prototype._maintainFocus = function (event) {
     // If the dialog is shown and the focus is not within the dialog element,
     // move it back to its first focusable child
@@ -327,6 +279,116 @@
       setFocusToFirstItem(this.node);
     }
   };
+
+  /**
+   * Convert a NodeList into an array
+   *
+   * @param {NodeList} collection
+   * @return {Array<Element>}
+   */
+  function toArray (collection) {
+    return Array.prototype.slice.call(collection);
+  }
+
+  /**
+   * Query the DOM for nodes matching the given selector, scoped to context (or
+   * the whole document)
+   *
+   * @param {String} selector
+   * @param {Element} [context = document]
+   * @return {Array<Element>}
+   */
+  function $$ (selector, context) {
+    return toArray((context || document).querySelectorAll(selector));
+  }
+
+  /**
+   * Return an array of Element based on given argument (NodeList, Element or
+   * string representing a selector)
+   *
+   * @param {(NodeList | Element | string)} target
+   * @return {Array<Element>}
+   */
+  function collect (target) {
+    if (NodeList.prototype.isPrototypeOf(target)) {
+      return toArray(target);
+    }
+
+    if (Element.prototype.isPrototypeOf(target)) {
+      return [target];
+    }
+
+    if (typeof target === 'string') {
+      return $$(target);
+    }
+  }
+
+  /**
+   * Set the focus to the first focusable child of the given element
+   *
+   * @param {Element} node
+   */
+  function setFocusToFirstItem (node) {
+    var focusableChildren = getFocusableChildren(node);
+
+    if (focusableChildren.length) {
+      focusableChildren[0].focus();
+    }
+  }
+
+  /**
+   * Get the focusable children of the given element
+   *
+   * @param {Element} node
+   * @return {Array<Element>}
+   */
+  function getFocusableChildren (node) {
+    return $$(FOCUSABLE_ELEMENTS.join(','), node).filter(function (child) {
+      return !!(child.offsetWidth || child.offsetHeight || child.getClientRects().length);
+    });
+  }
+
+  /**
+   * Trap the focus inside the given element
+   *
+   * @param {Element} node
+   * @param {Event} event
+   */
+  function trapTabKey (node, event) {
+    var focusableChildren = getFocusableChildren(node);
+    var focusedItemIndex = focusableChildren.indexOf(document.activeElement);
+
+    // If the SHIFT key is being pressed while tabbing (moving backwards) and
+    // the currently focused item is the first one, move the focus to the last
+    // focusable item from the dialog element
+    if (event.shiftKey && focusedItemIndex === 0) {
+      focusableChildren[focusableChildren.length - 1].focus();
+      event.preventDefault();
+    // If the SHIFT key is not being pressed (moving forwards) and the currently
+    // focused item is the last one, move the focus to the first focusable item
+    // from the dialog element
+    } else if (!event.shiftKey && focusedItemIndex === focusableChildren.length - 1) {
+      focusableChildren[0].focus();
+      event.preventDefault();
+    }
+  }
+
+  /**
+   * Retrieve siblings from given element
+   *
+   * @param {Element} node
+   * @return {Array<Element>}
+   */
+  function getSiblings (node) {
+    var nodes = toArray(node.parentNode.childNodes);
+    var siblings = nodes.filter(function (node) {
+      return node.nodeType === 1;
+    });
+
+    siblings.splice(siblings.indexOf(node), 1);
+
+    return siblings;
+  }
 
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = A11yDialog;

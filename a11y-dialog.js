@@ -10,7 +10,7 @@
 
   /**
    * Define the constructor to instantiate a dialog
-   * 
+   *
    * @constructor
    * @param {Element} node
    * @param {(NodeList | Element | string)} targets
@@ -35,7 +35,7 @@
 
   /**
    * Set up everything necessary for the dialog to be functioning
-   * 
+   *
    * @param {(NodeList | Element | string)} targets
    * @return {this}
    */
@@ -64,16 +64,16 @@
     }.bind(this));
 
     // Execute all callbacks registered for the `create` event
-    this._fire('create', event);
+    this._fire('create');
 
     return this;
-  }
+  };
 
   /**
    * Show the dialog element, disable all the targets (siblings), trap the
    * current focus within it, listen for some specific key presses and fire all
    * registered callbacks for `show` event
-   * 
+   *
    * @param {Event} event
    * @return {this}
    */
@@ -201,7 +201,7 @@
    */
   A11yDialog.prototype.on = function (type, handler) {
     if (typeof this._listeners[type] === 'undefined') {
-     this._listeners[type] = [];
+      this._listeners[type] = [];
     }
 
     this._listeners[type].push(handler);
@@ -235,7 +235,7 @@
    * @param {Event} event
    */
   A11yDialog.prototype._fire = function (type, event) {
-    var listeners = this._listeners[type] || [];
+    var listeners = this._listeners[type] || [];
     var trigger = event ? event.target : void 0;
 
     listeners.forEach(function (listener) {
@@ -268,7 +268,7 @@
   /**
    * Private event handler used when making sure the focus stays within the
    * currently open dialog
-   * 
+   *
    * @access private
    * @param {Event} event
    */

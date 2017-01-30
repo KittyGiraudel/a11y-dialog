@@ -169,11 +169,18 @@ dialog.show();
 dialog.hide();
 ```
 
-There is also a `destroy()` method that will hide the dialog and remove the event listeners the instance registered. Note that it will *not* remove the dialog element from the DOM.
+For advanced usages, there are `create()` and `destroy()` methods. These are responsible for attaching click event listeners to dialog openers and closers. Note that the `create()` method is **automatically called on instantiation** so there is no need to call it again directly.
 
 ```javascript
+// Unbind click listeners from dialog openers and closers and remove all bound
+// custom event listeners registered with `.on()`
 dialog.destroy();
+
+// Bind click listeners to dialog openers and closers
+dialog.create();
 ```
+
+If necessary, the `create()` method also accepts the `targets` containers (the one toggled along with the dialog element) in the same form as the second argument from the constructor. If omitted, the one given to the constructor (or default) will be used.
 
 ## Events
 
@@ -188,8 +195,15 @@ dialog.on('hide', function (dialogEl, triggerEl) {
   // Do something when dialog gets hidden
 });
 
-dialog.on('destroy', function (dialogEl, triggerEl) {
+dialog.on('destroy', function (dialogEl) {
   // Do something when dialog gets destroyed
+});
+
+dialog.on('create', function (dialogEl) {
+  // Do something when dialog gets created
+  // Note: because the initial `create()` call is made from the constructor, it
+  // is not possible to react to this particular one (as registering will be
+  // done after instantiation)
 });
 ```
 

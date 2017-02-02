@@ -29,7 +29,12 @@
     "add-version": "echo \"/*! a11y-dialog $(npm run extract-version --silent) — © Edenspiekermann */\n$(cat a11y-dialog.min.js)\" > a11y-dialog.min.js",
     "compress": "gzip -9 -fkc a11y-dialog.min.js > a11y-dialog.min.js.gz",
     "show": "ls -lh a11y-dialog.min.js.gz | awk '{print \"Gzipped script size:\", $5\"B\"}'",
-    "size": "npm run build --silent && npm run compress --silent && npm run show --silent && rm a11y-dialog.min.js.gz"
+    "size": "npm run build --silent && npm run compress --silent && npm run show --silent && rm a11y-dialog.min.js.gz",
+    "docs:clean": "rimraf _book",
+    "docs:prepare": "gitbook install",
+    "docs:build": "npm run docs:prepare && gitbook build",
+    "docs:watch": "npm run docs:prepare && gitbook serve",
+    "docs:publish": "npm run docs:clean && npm run docs:build && cd _book && git init && git commit --allow-empty -m 'Update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'Update book' && git push git@github.com:edenspiekermann/a11y-dialog gh-pages --force"
   },
   "devDependencies": {
     "semistandard": "^7.0.5",

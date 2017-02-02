@@ -22,3 +22,6 @@
 
 
 * [Example ↗](http://edenspiekermann.github.io/a11y-dialog/example/)
+
+
+* [GitHub repository ↗](https://github.com/edenspiekermann/a11y-dialog)

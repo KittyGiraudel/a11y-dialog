@@ -1,19 +1,6 @@
-# A11y Dialog
+# [A11y Dialog](http://edenspiekermann.github.io/a11y-dialog/)
 
-a11y-dialog is a lightweight (1.2Kb) yet flexible script to create accessible dialog windows. It has no dependency, a JavaScript API, a DOM API and event handling.
-
-* [Introduction](#introduction)
-* [Installation](#installation)
-* [Usage](#usage)
-  * [Expected DOM structure](#expected-dom-structure)
-  * [Styling layer](#styling-layer)
-  * [JavaScript instantiation](#javascript-instantiation)
-* [DOM API](#dom-api)
-* [JS API](#js-api)
-* [Events](#events)
-* [Tests & deployment](#tests--deployment)
-* [Supported browsers](#supported-browsers)
-* [Example ↗](http://edenspiekermann.github.io/a11y-dialog/)
+[a11y-dialog](http://edenspiekermann.github.io/a11y-dialog/) is a lightweight (1.2Kb) yet flexible script to create accessible dialog windows. It has no dependency, a JavaScript API, a DOM API and event handling.
 
 ## Introduction
 
@@ -21,7 +8,7 @@ This repository is a fork from [accessible-modal-dialog ↗](https://github.com/
 
 The original repository being apparently unmaintained, we decided to fork it and release our own version of the accessible modal dialog. All credits to the original author.
 
-You can try the [live demo ↗](http://edenspiekermann.github.io/a11y-dialog/).
+You can try the [live demo ↗](http://edenspiekermann.github.io/a11y-dialog/example/).
 
 ## Installation
 
@@ -214,25 +201,3 @@ dialog.on('show', doSomething);
 // …
 dialog.off('show', doSomething);
 ```
-
-## Tests & deployment
-
-[Mocha](https://mochajs.org/) and [expect.js](https://github.com/Automattic/expect.js) are used to run browser tests.
-
-```
-npm test
-```
-
-The [example page](http://edenspiekermann.github.io/a11y-dialog/) is deployed through [GitHub Pages](https://pages.github.com/).
-
-```
-npm run deploy
-```
-
-## Supported browsers
-
-* Chrome
-* Firefox
-* Safari
-* Opera 11.60+
-* Internet Explorer 9+

@@ -12,6 +12,10 @@
     "focus"
   ],
   "author": "Hugo Giraudel (www.edenspiekermann.com/people/hugo-giraudel)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/edenspiekermann/a11y-dialog"
+  },
   "files": [
     "a11y-dialog.js",
     "a11y-dialog.min.js"

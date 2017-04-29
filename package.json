@@ -11,7 +11,7 @@
     "a11y",
     "focus"
   ],
-  "author": "Hugo Giraudel (www.edenspiekermann.com/people/hugo-giraudel)",
+  "author": "Hugo Giraudel (http://www.edenspiekermann.com/people/hugo-giraudel)",
   "repository": {
     "type": "git",
     "url": "https://github.com/edenspiekermann/a11y-dialog"

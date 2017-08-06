@@ -68,18 +68,6 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
   <div role="dialog" aria-labelledby="dialog-title">
     <div role="document">
       <!--
-        Dialog title related notes:
-        - It should have a different content than `Dialog Title`.
-        - It can have a different id than `dialog-title`.
-        - It does not have to have the `tabindex="0"` attribute however it is recommended so the dialog doesn’t jump directly to a field, displaying keyboard on mobiles.
-      -->
-      <h1 id="dialog-title" tabindex="0">Dialog Title</h1>
-
-      <!--
-        Here lives the main content of the dialog.
-      -->
-
-      <!--
         Closing button related notes:
         - It does have to have the `type="button"` attribute.
         - It does have to have the `data-a11y-dialog-hide` attribute.
@@ -88,6 +76,17 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
       <button type="button" data-a11y-dialog-hide aria-label="Close this dialog window">
         &times;
       </button>
+
+      <!--
+        Dialog title related notes:
+        - It should have a different content than `Dialog Title`.
+        - It can have a different id than `dialog-title`.
+      -->
+      <h1 id="dialog-title">Dialog Title</h1>
+
+      <!--
+        Here lives the main content of the dialog.
+      -->
     </div>
   </div>
 </div>

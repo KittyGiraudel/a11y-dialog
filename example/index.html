@@ -31,7 +31,9 @@
       <div class="dialog-overlay" tabindex="-1" data-a11y-dialog-hide></div>
       <div class="dialog-content" aria-labelledby="dialogTitle" aria-describedby="dialogDescription" role="dialog">
         <div role="document">
-          <h1 id="dialogTitle" tabindex="0">Subscribe to ESPI Newsletter</h1>
+          <button data-a11y-dialog-hide class="dialog-close" aria-label="Close this dialog window">&times;</button>
+
+          <h1 id="dialogTitle">Subscribe to ESPI Newsletter</h1>
 
           <p id="dialogDescription">Fill in the ridiculously small form below to receive our ridiculously cool newsletter!</p>
 
@@ -40,7 +42,6 @@
             <input type="email" name="EMAIL" id="email" placeholder="john.doe@gmail.com" required>
             <button type="submit" name="button">Sign up</button>
           </form>
-          <button data-a11y-dialog-hide class="dialog-close" aria-label="Close this dialog window">&times;</button>
         </div>
       </div>
     </div>

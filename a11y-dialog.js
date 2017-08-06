@@ -399,4 +399,4 @@
   } else if (typeof global === 'object') {
     global.A11yDialog = A11yDialog;
   }
-}(this));
+}(typeof global !== 'undefined' ? global : window));

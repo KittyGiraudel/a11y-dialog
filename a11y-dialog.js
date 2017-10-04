@@ -227,8 +227,8 @@
 
   /**
    * Iterate over all registered handlers for given type and call them all with
-   * the dialog element as first argument, trigger (opener / closer) as second
-   * argument, if any.
+   * the dialog element as first argument, event target as second argument, if
+   * any, actual trigger (opener / closer) as third argument, if any.
    *
    * @access private
    * @param {string} type
@@ -236,10 +236,11 @@
    */
   A11yDialog.prototype._fire = function (type, event) {
     var listeners = this._listeners[type] || [];
-    var trigger = event ? event.target : void 0;
+    var target = event ? event.target : void 0;
+    var currentTarget = event ? event.currentTarget : void 0;
 
     listeners.forEach(function (listener) {
-      listener(this.node, trigger);
+      listener(this.node, target, currentTarget);
     }.bind(this));
   };
 

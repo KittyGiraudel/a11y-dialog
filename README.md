@@ -170,14 +170,14 @@ If necessary, the `create()` method also accepts the `targets` containers (the o
 
 ## Events
 
-When shown, hidden and destroyed, the instance will emit certain events. It is possible to subscribe to these with the `on()` method which will receive the dialog DOM element and the trigger DOM element (if any).
+When shown, hidden and destroyed, the instance will emit certain events. It is possible to subscribe to these with the `on()` method which will receive the dialog DOM element, the [event target](https://developer.mozilla.org/en-US/docs/Web/API/Event/target) (if any) and the [event current target](https://developer.mozilla.org/en-US/docs/Web/API/Event/currentTarget) (if any).
 
 ```javascript
-dialog.on('show', function (dialogEl, triggerEl) {
+dialog.on('show', function (dialogEl, target, currentTarget) {
   // Do something when dialog gets shown
 });
 
-dialog.on('hide', function (dialogEl, triggerEl) {
+dialog.on('hide', function (dialogEl, target, currentTarget) {
   // Do something when dialog gets hidden
 });
 

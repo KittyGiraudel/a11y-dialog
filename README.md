@@ -10,12 +10,6 @@
 ✔︎ DOM and JS APIs  
 ✔︎ Fast and tiny  
  
-## Introduction
-
-This repository is a fork from [accessible-modal-dialog ↗](https://github.com/gdkraus/accessible-modal-dialog) by Greg Kraus. We at Edenspiekermann are big fans of the original version, although we discovered we could improve it and make it even better. On top of that, the original script depends on jQuery, which happened to be a problem for us.
-
-The original repository being apparently unmaintained, we decided to fork it and release our own version of the accessible modal dialog. All credits to the original author.
-
 You can try the [live demo ↗](http://edenspiekermann.github.io/a11y-dialog/example/).
 
 ## Installation
@@ -212,3 +206,9 @@ dialog.on('show', doSomething);
 // …
 dialog.off('show', doSomething);
 ```
+
+## Disclaimer & credits
+
+This repository is a fork from [accessible-modal-dialog ↗](https://github.com/gdkraus/accessible-modal-dialog) by Greg Kraus. We at Edenspiekermann are big fans of the original version, although we discovered we could improve it and make it even better. On top of that, the original script depends on jQuery, which happened to be a problem for us.
+
+The original repository being apparently unmaintained, we decided to fork it and release our own version of the accessible modal dialog. All credits to the original author.

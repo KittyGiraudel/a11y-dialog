@@ -3,7 +3,7 @@
 [a11y-dialog](http://edenspiekermann.github.io/a11y-dialog/) is a lightweight (1.2Kb) yet flexible script to create accessible dialog windows.
 
 ✔︎ No dependencies  
-✔︎ Closing modal on overlay click and <kbd>ESC</kbd>  
+✔︎ Closing dialog on overlay click and <kbd>ESC</kbd>  
 ✔︎ Toggling `aria-*` attributes  
 ✔︎ Trapping and restoring focus    
 ✔︎ Firing events  

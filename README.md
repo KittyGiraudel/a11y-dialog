@@ -1,7 +1,15 @@
 # [A11y Dialog](http://edenspiekermann.github.io/a11y-dialog/)
 
-[a11y-dialog](http://edenspiekermann.github.io/a11y-dialog/) is a lightweight (1.2Kb) yet flexible script to create accessible dialog windows. It has no dependency, a JavaScript API, a DOM API and event handling.
+[a11y-dialog](http://edenspiekermann.github.io/a11y-dialog/) is a lightweight (1.2Kb) yet flexible script to create accessible dialog windows.
 
+✔︎ No dependencies  
+✔︎ Closing modal on overlay click and <kbd>ESC</kbd>  
+✔︎ Toggling `aria-*` attributes  
+✔︎ Trapping and restoring focus    
+✔︎ Firing events  
+✔︎ DOM and JS APIs  
+✔︎ Fast and tiny  
+ 
 ## Introduction
 
 This repository is a fork from [accessible-modal-dialog ↗](https://github.com/gdkraus/accessible-modal-dialog) by Greg Kraus. We at Edenspiekermann are big fans of the original version, although we discovered we could improve it and make it even better. On top of that, the original script depends on jQuery, which happened to be a problem for us.

@@ -1,7 +1,8 @@
 {
   "name": "a11y-dialog",
   "version": "5.0.0",
-  "description": "A tiny script to make dialog windows accessible to assistive technology users.",
+  "description":
+    "A tiny script to make dialog windows accessible to assistive technology users.",
   "homepage": "https://github.com/edenspiekermann/a11y-dialog",
   "license": "MIT",
   "main": "a11y-dialog.js",
@@ -20,7 +21,6 @@
     "postbuild": "npm run add-version",
     "predeploy": "npm run build",
     "deploy": "git subtree push --prefix example origin gh-pages",
-    "lint": "semistandard a11y-dialog.js",
     "test": "open tests/index.html",
     "extract-version":
       "cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]'",
@@ -35,9 +35,21 @@
     "docs:prepare": "gitbook install",
     "docs:build": "npm run docs:prepare && gitbook build",
     "docs:watch": "npm run docs:prepare && gitbook serve",
-    "docs:publish": "npm run docs:clean && npm run docs:build && cd _book && git init && git commit --allow-empty -m 'Update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'Update book' && git push git@github.com:edenspiekermann/a11y-dialog gh-pages --force"
+    "docs:publish":
+      "npm run docs:clean && npm run docs:build && cd _book && git init && git commit --allow-empty -m 'Update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'Update book' && git push git@github.com:edenspiekermann/a11y-dialog gh-pages --force"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --no-semi --single-quote --print-width 80 --write",
+      "git add",
+      "eslint --fix",
+      "git add"
+    ]
   },
   "devDependencies": {
+    "husky": "^0.14.3",
+    "lint-staged": "^6.0.0",
+    "prettier": "^1.10.2",
     "semistandard": "^7.0.5",
     "uglify-js": "^2.6.1"
   }

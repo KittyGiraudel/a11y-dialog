@@ -332,15 +332,17 @@
   }
 
   /**
-   * Set the focus to the first focusable child of the given element
+   * Set the focus to the first element with `autofocus` or the first focusable
+   * child of the given element
    *
    * @param {Element} node
    */
   function setFocusToFirstItem (node) {
     var focusableChildren = getFocusableChildren(node);
+    var focused = node.querySelector('[autofocus]') || focusableChildren[0];
 
-    if (focusableChildren.length) {
-      focusableChildren[0].focus();
+    if (focused) {
+      focused.focus();
     }
   }
 

@@ -19,10 +19,6 @@ You can try the [live demo ↗](http://edenspiekermann.github.io/a11y-dialog/exa
 npm install a11y-dialog --save
 ```
 
-```
-bower install espi-a11y-dialog
-```
-
 ## Usage
 
 You will find a concrete demo in the [example](https://github.com/edenspiekermann/a11y-dialog/tree/master/example) folder of this repository, but basically here is the gist:

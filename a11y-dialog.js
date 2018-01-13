@@ -3,7 +3,17 @@
 (function (global) {
   'use strict';
 
-  var FOCUSABLE_ELEMENTS = ['a[href]', 'area[href]', 'input:not([disabled])', 'select:not([disabled])', 'textarea:not([disabled])', 'button:not([disabled])', 'iframe', 'object', 'embed', '[contenteditable]', '[tabindex]:not([tabindex^="-"])'];
+  var FOCUSABLE_ELEMENTS = [
+    'a[href]:not([tabindex^="-"]):not([inert])',
+    'area[href]:not([tabindex^="-"]):not([inert])',
+    'input:not([disabled]):not([inert])',
+    'select:not([disabled]):not([inert])',
+    'textarea:not([disabled]):not([inert])',
+    'button:not([disabled]):not([inert])',
+    'iframe:not([tabindex^="-"]):not([inert])',
+    '[contenteditable]:not([tabindex^="-"]):not([inert])',
+    '[tabindex]:not([tabindex^="-"]):not([inert])'
+  ];
   var TAB_KEY = 9;
   var ESCAPE_KEY = 27;
   var isDialogSupported = 'show' in document.createElement('dialog');

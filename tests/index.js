@@ -259,6 +259,12 @@ describe('A11yDialog', function () {
       expect(actual).to.be.equal(expected);
     });
 
+    it('should set `data-a11y-dialog-native` to dialog element if supported', function () {
+      const actual = el.hasAttribute('data-a11y-dialog-native');
+      const expected = 'show' in document.createElement('dialog');
+      expect(actual).to.be.equal(expected);
+    });
+
     it('should set `aria-hidden` to `true` to dialog element', function () {
       const actual = el.getAttribute('aria-hidden');
       const expected = 'true';

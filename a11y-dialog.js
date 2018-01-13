@@ -6,6 +6,7 @@
   var FOCUSABLE_ELEMENTS = ['a[href]', 'area[href]', 'input:not([disabled])', 'select:not([disabled])', 'textarea:not([disabled])', 'button:not([disabled])', 'iframe', 'object', 'embed', '[contenteditable]', '[tabindex]:not([tabindex^="-"])'];
   var TAB_KEY = 9;
   var ESCAPE_KEY = 27;
+  var isDialogSupported = 'show' in document.createElement('dialog');
   var focusedBeforeDialog;
 
   /**
@@ -47,6 +48,10 @@
     // property is synced with its value
     this.container.setAttribute('aria-hidden', true);
     this.shown = false;
+
+    if (isDialogSupported) {
+      this.container.setAttribute('data-a11y-dialog-native', '');
+    }
 
     // Keep a collection of dialog openers, each of which will be bound a click
     // event listener to open the dialog

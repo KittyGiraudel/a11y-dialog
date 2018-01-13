@@ -7,8 +7,7 @@
   "license": "MIT",
   "main": "a11y-dialog.js",
   "keywords": ["modal", "dialog", "accessibility", "a11y", "focus"],
-  "author":
-    "Hugo Giraudel (http://www.edenspiekermann.com/people/hugo-giraudel)",
+  "author": "Hugo Giraudel (https://hugogiraudel.com)",
   "repository": {
     "type": "git",
     "url": "https://github.com/edenspiekermann/a11y-dialog"

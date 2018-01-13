@@ -46,12 +46,10 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
 <!--
   Dialog container related notes:
   - It is not the actual dialog window, just the container with which the script interacts.
-  - It has to have the `aria-hidden="true"` attribute (if omitted, the script
-  will add it on instantiation anyway).
   - It can have a different id than `my-accessible-dialog`, but it needs an `id`
   anyway.
 -->
-<div id="my-accessible-dialog" aria-hidden="true">
+<div id="my-accessible-dialog">
 
   <!--
     Overlay related notes:

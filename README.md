@@ -1,8 +1,9 @@
 # [A11y Dialog](http://edenspiekermann.github.io/a11y-dialog/)
 
-[a11y-dialog](http://edenspiekermann.github.io/a11y-dialog/) is a lightweight (1.2Kb) yet flexible script to create accessible dialog windows.
+[a11y-dialog](http://edenspiekermann.github.io/a11y-dialog/) is a lightweight (1.3Kb) yet flexible script to create accessible dialog windows.
 
 ✔︎ No dependencies  
+✔︎ Leveraging the native `<dialog>` element  
 ✔︎ Closing dialog on overlay click and <kbd>ESC</kbd>  
 ✔︎ Toggling `aria-*` attributes  
 ✔︎ Trapping and restoring focus  
@@ -21,8 +22,6 @@ npm install a11y-dialog --save
 ```
 bower install espi-a11y-dialog
 ```
-
-Or you could also copy/paste the script in your project directly, but you will be disconnected from this repository, making it hard for your to get updates.
 
 ## Usage
 
@@ -245,6 +244,4 @@ Nested dialogs is a [questionable design pattern](https://ux.stackexchange.com/q
 
 ## Disclaimer & credits
 
-This repository is a fork from [accessible-modal-dialog ↗](https://github.com/gdkraus/accessible-modal-dialog) by Greg Kraus. We at Edenspiekermann are big fans of the original version, although we discovered we could improve it and make it even better. On top of that, the original script depends on jQuery, which happened to be a problem for us.
-
-The original repository being apparently unmaintained, we decided to fork it and release our own version of the accessible modal dialog. All credits to the original author.
+Originally, this repository was a fork from [accessible-modal-dialog ↗](https://github.com/gdkraus/accessible-modal-dialog) by Greg Kraus. It has gone through various stages since the initial implementation and both packages are no longer similar in the way they work.

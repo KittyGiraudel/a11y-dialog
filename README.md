@@ -63,10 +63,10 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
   <!--
     Dialog window content related notes:
     - It is the actual visual dialog element.
-    - It has to have the `role="dialog"` attribute.
+    - It has to be a `<dialog>` element.
     - It doesn’t have to have the `aria-labelledby` attribute however this is recommended. It should match the `id` of the dialog title.
   -->
-  <div role="dialog" aria-labelledby="dialog-title">
+  <dialog aria-labelledby="dialog-title">
     <!--
       Closing button related notes:
       - It does have to have the `type="button"` attribute.
@@ -87,7 +87,7 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
     <!--
       Here lives the main content of the dialog.
     -->
-  </div>
+  </dialog>
 </div>
 ```
 

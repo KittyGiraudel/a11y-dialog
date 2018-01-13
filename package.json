@@ -1,8 +1,7 @@
 {
   "name": "a11y-dialog",
-  "version": "4.0.1",
-  "description":
-    "A tiny script to make dialog windows accessible to assistive technology users.",
+  "version": "5.0.0",
+  "description": "A tiny script to make dialog windows accessible to assistive technology users.",
   "homepage": "https://github.com/edenspiekermann/a11y-dialog",
   "license": "MIT",
   "main": "a11y-dialog.js",
@@ -36,8 +35,7 @@
     "docs:prepare": "gitbook install",
     "docs:build": "npm run docs:prepare && gitbook build",
     "docs:watch": "npm run docs:prepare && gitbook serve",
-    "docs:publish":
-      "npm run docs:clean && npm run docs:build && cd _book && git init && git commit --allow-empty -m 'Update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'Update book' && git push git@github.com:edenspiekermann/a11y-dialog gh-pages --force"
+    "docs:publish": "npm run docs:clean && npm run docs:build && cd _book && git init && git commit --allow-empty -m 'Update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'Update book' && git push git@github.com:edenspiekermann/a11y-dialog gh-pages --force"
   },
   "devDependencies": {
     "semistandard": "^7.0.5",

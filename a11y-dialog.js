@@ -45,16 +45,19 @@
     // Keep a collection of nodes to disable/enable when toggling the dialog
     this._targets = this._targets || collect(targets) || getSiblings(this.container);
 
-    // Make sure the dialog element is disabled on load, and that the `shown`
-    // property is synced with its value
-    this.dialog.removeAttribute('open');
-    this.container.setAttribute('aria-hidden', true);
-    this.shown = false;
+    // Set the `shown` property to match the status from the DOM
+    this.shown = this.dialog.hasAttribute('open');
 
-    if (isDialogSupported) {
-      this.container.setAttribute('data-a11y-dialog-native', '');
-    } else {
+    if (!isDialogSupported) {
       this.dialog.setAttribute('role', 'dialog');
+
+      if (this.shown) {
+        this.container.removeAttribute('aria-hidden');
+      } else {
+        this.container.setAttribute('aria-hidden', true);
+      }
+    } else {
+      this.container.setAttribute('data-a11y-dialog-native', '');
     }
 
     // Keep a collection of dialog openers, each of which will be bound a click

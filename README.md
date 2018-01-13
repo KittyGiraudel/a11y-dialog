@@ -142,6 +142,8 @@ The following button will close the dialog with the `my-accessible-dialog` id wh
 <button type="button" data-a11y-dialog-hide="my-accessible-dialog" aria-label="Close the dialog">&times;</button>
 ```
 
+In addition, the library adds a `data-a11y-dialog-native` attribute (with no value) when the `<dialog>` element is natively supported. This attribute is essentially used to customise the styling layer based on user-agent support (or lack thereof).
+
 ## JS API
 
 Regarding the JS API, it simply consists on `show()` and `hide()` methods on the dialog instance.

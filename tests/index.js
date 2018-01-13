@@ -1,7 +1,7 @@
 function keydown (k, shift) {
   var oEvent = document.createEvent('KeyboardEvent');
   Object.defineProperty(oEvent, 'keyCode', { get: function() { return this.keyCodeVal; } });
-  Object.defineProperty(oEvent, 'which', { get: function() { return this.keyCodeVal; } });     
+  Object.defineProperty(oEvent, 'which', { get: function() { return this.keyCodeVal; } });
 
   if (oEvent.initKeyboardEvent) {
     oEvent.initKeyboardEvent("keydown", true, true, document.defaultView, false, false, shift, false, shift, k);
@@ -34,8 +34,14 @@ describe('A11yDialog', function () {
     const targets = scope.querySelectorAll('.target');
     const dialog = new A11yDialog(el, targets);
 
+    it('should save reference to dialog container', function () {
+      const actual = dialog.container;
+      const expected = el;
+      expect(actual).to.be.eql(expected);
+    });
+
     it('should save reference to dialog element', function () {
-      const actual = dialog.node;
+      const actual = dialog.dialog;
       const expected = el;
       expect(actual).to.be.eql(expected);
     });

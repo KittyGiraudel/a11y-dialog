@@ -24,8 +24,9 @@
     this._maintainFocus = this._maintainFocus.bind(this);
     this._bindKeypress = this._bindKeypress.bind(this);
 
-    // Keep a reference of the node on the instance
+    // Keep a reference of the node and the actual dialog on the instance
     this.container = node;
+    this.dialog = node.querySelector('dialog');
 
     // Keep an object of listener types mapped to callback functions
     this._listeners = {};
@@ -46,11 +47,14 @@
 
     // Make sure the dialog element is disabled on load, and that the `shown`
     // property is synced with its value
+    this.dialog.removeAttribute('open');
     this.container.setAttribute('aria-hidden', true);
     this.shown = false;
 
     if (isDialogSupported) {
       this.container.setAttribute('data-a11y-dialog-native', '');
+    } else {
+      this.dialog.setAttribute('role', 'dialog');
     }
 
     // Keep a collection of dialog openers, each of which will be bound a click
@@ -89,6 +93,13 @@
     }
 
     this.shown = true;
+
+    if (isDialogSupported) {
+      this.dialog.showModal();
+    } else {
+      this.dialog.setAttribute('open', '');
+    }
+
     this.container.removeAttribute('aria-hidden');
 
     // Iterate over the targets to disable them by setting their `aria-hidden`
@@ -108,7 +119,7 @@
     // it later, then set the focus to the first focusable child of the dialog
     // element
     focusedBeforeDialog = document.activeElement;
-    setFocusToFirstItem(this.container);
+    setFocusToFirstItem(this.dialog);
 
     // Bind a focus event listener to the body element to make sure the focus
     // stays trapped inside the dialog while open, and start listening for some
@@ -137,6 +148,13 @@
     }
 
     this.shown = false;
+
+    if (isDialogSupported) {
+      this.dialog.close();
+    } else {
+      this.dialog.removeAttribute('open');
+    }
+
     this.container.setAttribute('aria-hidden', 'true');
 
     // Iterate over the targets to enable them by remove their `aria-hidden`
@@ -264,7 +282,7 @@
     // If the dialog is shown and the TAB key is being pressed, make sure the
     // focus stays trapped within the dialog element
     if (this.shown && event.which === TAB_KEY) {
-      trapTabKey(this.container, event);
+      trapTabKey(this.dialog, event);
     }
   };
 
@@ -279,7 +297,7 @@
     // If the dialog is shown and the focus is not within the dialog element,
     // move it back to its first focusable child
     if (this.shown && !this.container.contains(event.target)) {
-      setFocusToFirstItem(this.container);
+      setFocusToFirstItem(this.dialog);
     }
   };
 

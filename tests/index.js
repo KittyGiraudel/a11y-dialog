@@ -23,6 +23,7 @@ function toArray (collection) {
 }
 
 describe('A11yDialog', function () {
+  const IS_DIALOG_SUPPORTED = 'show' in document.createElement('dialog');
 
   after(function () {
     document.querySelector('.test-suite').style.display = 'none';
@@ -83,14 +84,8 @@ describe('A11yDialog', function () {
       const actual = toArray(targets).map(function (target) {
         return target.getAttribute('aria-hidden');
       });
-      const expected = ['true', 'true'];
+      const expected = IS_DIALOG_SUPPORTED ? [null, null] : ['true', 'true'];
       expect(actual).to.be.eql(expected);
-    });
-
-    it('should save original `aria-hidden` from targets element', function () {
-      const actual = secondary.getAttribute('data-a11y-dialog-original');
-      const expected = 'something';
-      expect(actual).to.be.equal(expected);
     });
 
     it('should set focus to first focusable element of dialog', function () {
@@ -142,7 +137,7 @@ describe('A11yDialog', function () {
 
     it('should set `aria-hidden` attribute to `true` to dialog element', function () {
       const actual = el.getAttribute('aria-hidden');
-      const expected = 'true';
+      const expected = IS_DIALOG_SUPPORTED ? null : 'true';
       expect(actual).to.be.equal(expected);
     });
 
@@ -150,12 +145,6 @@ describe('A11yDialog', function () {
       const actual = main.getAttribute('aria-hidden');
       const expected = null;
       expect(actual).to.be.eql(expected);
-    });
-
-    it('should restore original `aria-hidden` from targets element', function () {
-      const actual = secondary.getAttribute('aria-hidden');
-      const expected = 'something';
-      expect(actual).to.be.equal(expected);
     });
 
     it('should restore focus to previously focused element', function () {
@@ -261,13 +250,13 @@ describe('A11yDialog', function () {
 
     it('should set `data-a11y-dialog-native` to dialog element if supported', function () {
       const actual = el.hasAttribute('data-a11y-dialog-native');
-      const expected = 'show' in document.createElement('dialog');
+      const expected = IS_DIALOG_SUPPORTED;
       expect(actual).to.be.equal(expected);
     });
 
-    it('should set `aria-hidden` to `true` to dialog element', function () {
+    it('should set `aria-hidden` to `true` to dialog element if <dialog> not supported', function () {
       const actual = el.getAttribute('aria-hidden');
-      const expected = 'true';
+      const expected = IS_DIALOG_SUPPORTED ? null : 'true';
       expect(actual).to.be.equal(expected);
     });
 

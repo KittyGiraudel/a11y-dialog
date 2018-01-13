@@ -1,4 +1,4 @@
-/* global NodeList, Element, define */
+/* global NodeList, Element, Event, define */
 
 (function (global) {
   'use strict';
@@ -98,7 +98,7 @@
     this.shown = true;
 
     if (isDialogSupported) {
-      this.dialog.showModal();
+      this.dialog.showModal(event instanceof Event ? void 0 : event);
     } else {
       this.dialog.setAttribute('open', '');
       this.container.removeAttribute('aria-hidden');
@@ -145,7 +145,7 @@
     this.shown = false;
 
     if (isDialogSupported) {
-      this.dialog.close();
+      this.dialog.close(event instanceof Event ? void 0 : event);
     } else {
       this.dialog.removeAttribute('open');
       this.container.setAttribute('aria-hidden', 'true');

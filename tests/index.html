@@ -1,225 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <style>
-      [aria-hidden="true"] { display: none; }
-    </style>
-    <meta charset="utf-8">
-    <title>A11y Dialog Tests</title>
-    <link href="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css" rel="stylesheet" />
-  </head>
+<head>
+  <style>
+    [aria-hidden="true"] {
+      display: none;
+    }
+  </style>
+  <meta charset="utf-8">
+  <title>A11y Dialog Tests</title>
+  <link href="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css" rel="stylesheet"
+  />
+</head>
 
-  <body>
-    <div id="mocha"></div>
+<body>
+  <div id="mocha"></div>
 
-    <div class="test-suite">
+  <div class="test-suite">
 
-      <div class="test" id="test-0">
-
-        <div class="target main">
-          Main
-          <a href="#" class="previous">Link</a>
-        </div>
-        <div class="dialog">
-          <div tabindex="-1" data-a11y-dialog-hide></div>
-          <dialog>
-            <h1 class="dialog-title" tabindex="0">Dialog Title</h1>
-            <button class="random-button">Random button</button>
-            <button class="close-button" data-a11y-dialog-hide>&times;</button>
-          </dialog>
-        </div>
-        <div class="target secondary">
-          Other target
-          <button data-a11y-dialog-show="dialog-0">Open</button>
-        </div>
-
+    <div class="test" id="test-CONSTRUCTOR">
+      <div class="main target">Main</div>
+      <div class="dialog">
+        <dialog></dialog>
       </div>
-
-      <div class="test" id="test-1">
-
-        <div class="target main">
-          Main
-          <a href="#" class="previous">Link</a>
-        </div>
-        <div class="dialog">
-          <div tabindex="-1" data-a11y-dialog-hide></div>
-          <dialog>
-            <h1 class="dialog-title" tabindex="0">Dialog Title</h1>
-          </dialog>
-        </div>
-        <div class="target secondary">Other target</div>
-
-      </div>
-
-      <div class="test" id="test-2">
-
-        <div class="target main">
-          Main
-          <a href="#" class="previous">Link</a>
-        </div>
-        <div class="dialog">
-          <div tabindex="-1" data-a11y-dialog-hide></div>
-          <dialog>
-            <h1 class="dialog-title" tabindex="0">Dialog Title</h1>
-          </dialog>
-        </div>
-        <div class="target secondary">Other target</div>
-
-      </div>
-
-      <div class="test" id="test-3">
-
-        <div class="target main">
-          Main
-          <a href="#" class="previous">Link</a>
-        </div>
-        <div class="dialog" id="dialog-3">
-          <div tabindex="-1" data-a11y-dialog-hide></div>
-          <dialog>
-            <h1 class="dialog-title" tabindex="0">Dialog Title</h1>
-          </dialog>
-        </div>
-        <div class="target secondary">
-          Other target
-          <button data-a11y-dialog-show="dialog-3">Open</button>
-        </div>
-
-      </div>
-
-      <div class="test" id="test-4">
-
-        <div class="target main">
-          Main
-          <a href="#" class="previous">Link</a>
-        </div>
-        <div class="dialog" id="dialog-4">
-          <div tabindex="-1" data-a11y-dialog-hide></div>
-          <dialog>
-            <h1 class="dialog-title" tabindex="0">Dialog Title</h1>
-          </dialog>
-        </div>
-        <div class="target secondary">
-          Other target
-          <button data-a11y-dialog-show="dialog-4">Open</button>
-        </div>
-
-      </div>
-
-    <!--
-      <div class="test">
-        <div id="main-0"></div>
-        <div class="dialog" id="dialog-0">
-          <div tabindex="-1" data-a11y-dialog-hide></div>
-          <dialog>Dialog 0</div>
-        </div>
-      </div>
-
-      <div class="test">
-        <div id="main-1">
-          <button type="button" data-a11y-dialog-show="dialog-1" id="opener-1">Toggle</button>
-        </div>
-        <div class="dialog" id="dialog-1">
-          <div tabindex="-1" data-a11y-dialog-hide id="closer-1"></div>
-          <dialog>Dialog 1</div>
-        </div>
-      </div>
-
-      <div class="test">
-        <div id="main-2">
-          <button type="button" data-a11y-dialog-show="dialog-2" id="opener-2">Toggle</button>
-        </div>
-        <div class="dialog" id="dialog-2">
-          <div tabindex="-1" data-a11y-dialog-hide></div>
-          <dialog>Dialog 2</div>
-        </div>
-      </div>
-
-      <div class="test">
-        <div id="main-3"></div>
-        <div class="dialog" id="dialog-3">
-          <div tabindex="-1" data-a11y-dialog-hide></div>
-          <dialog>
-            <button type="button" data-a11y-dialog-hide id="closer-3">&times;</button>
-          </dialog>
-        </div>
-      </div>
-
-      <div class="test">
-        <div id="main-4"></div>
-        <div class="dialog" id="dialog-4">
-          <div tabindex="-1" data-a11y-dialog-hide id="closer-4"></div>
-          <dialog></dialog>
-        </div>
-      </div>
-
-      <div class="test">
-        <div id="main-5">
-          <input type="text" id="focus-handler-5" />
-        </div>
-        <div class="dialog" id="dialog-5">
-          <div tabindex="-1" data-a11y-dialog-hide></div>
-          <dialog>
-            <input type="text" id="focus-receiver-5" />
-          </dialog>
-        </div>
-      </div>
-
-      <div class="test">
-        <div id="main-6">
-          <input type="text" id="focus-handler-6" />
-        </div>
-        <div class="dialog" id="dialog-6">
-          <div tabindex="-1" data-a11y-dialog-hide></div>
-          <dialog>
-            <input type="text" id="focus-receiver-6" />
-          </dialog>
-        </div>
-      </div>
-
-      <div class="test">
-        <div id="main-7"></div>
-        <div class="dialog" id="dialog-7">
-          <div tabindex="-1" data-a11y-dialog-hide></div>
-          <dialog></dialog>
-        </div>
-      </div>
-
-      <div class="test">
-        <div id="main-8"></div>
-        <div class="dialog" id="dialog-8">
-          <div tabindex="-1" data-a11y-dialog-hide></div>
-          <dialog>Dialog 8</dialog>
-        </div>
-      </div>
-
-      <div class="test">
-        <div id="main-9"></div>
-        <div class="dialog" id="dialog-9">
-          <div tabindex="-1" data-a11y-dialog-hide></div>
-          <dialog>Dialog 9</dialog>
-        </div>
-      </div>
-
-      <div class="test">
-        <div id="main-10"></div>
-        <div class="dialog" id="dialog-10">
-          <div tabindex="-1" data-a11y-dialog-hide></div>
-          <dialog>Dialog 10</dialog>
-        </div>
-      </div>
-      -->
     </div>
 
-    <script src="../a11y-dialog.js"></script>
-    <script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>
-    <script src="https://cdn.rawgit.com/Automattic/expect.js/0.3.1/index.js"></script>
-    <script>mocha.setup('bdd')</script>
-    <script src="./index.js"></script>
-    <script>
-      mocha.checkLeaks();
-      mocha.run();
-    </script>
-  </body>
+    <div class="test" id="test-FIRING_EVENTS">
+      <div class="main target">Main</div>
+      <div class="dialog">
+        <dialog></dialog>
+      </div>
+    </div>
+
+    <div class="test" id="test-LISTENING_EVENTS">
+      <div class="main target">Main</div>
+      <div class="dialog">
+        <dialog></dialog>
+      </div>
+    </div>
+
+    <div class="test" id="test-KEY_PRESSES">
+      <div class="main target">Main</div>
+      <div class="dialog">
+        <dialog>
+          <h1 class="dialog-title" tabindex="0">Dialog Title</h1>
+          <button class="close-button" data-a11y-dialog-hide>&times;</button>
+        </dialog>
+      </div>
+    </div>
+
+    <div class="test" id="test-CREATE">
+      <div class="main target">
+        <button data-a11y-dialog-show="dialog-DESTROY">Open</button>
+      </div>
+      <div class="dialog" id="dialog-DESTROY">
+        <dialog>
+          <button data-a11y-dialog-hide>Close</button>
+        </dialog>
+      </div>
+    </div>
+
+    <div class="test" id="test-SHOW">
+      <div class="main target">
+        <button data-a11y-dialog-show="dialog-DESTROY">Open</button>
+      </div>
+      <div class="dialog" id="dialog-DESTROY">
+        <dialog>
+          <button data-a11y-dialog-hide>Close</button>
+        </dialog>
+      </div>
+      <div class="secondary target"></div>
+    </div>
+
+    <div class="test" id="test-HIDE">
+      <div class="main target">
+        <button data-a11y-dialog-show="dialog-DESTROY">Open</button>
+      </div>
+      <div class="dialog" id="dialog-DESTROY">
+        <dialog>
+          <button data-a11y-dialog-hide>Close</button>
+        </dialog>
+      </div>
+    </div>
+
+    <div class="test" id="test-DESTROY">
+      <div class="main target">
+        <button data-a11y-dialog-show="dialog-DESTROY">Open</button>
+      </div>
+      <div class="dialog" id="dialog-DESTROY">
+        <dialog>
+          <button data-a11y-dialog-hide>Close</button>
+        </dialog>
+      </div>
+    </div>
+  </div>
+
+  <script src="../a11y-dialog.js"></script>
+  <script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>
+  <script src="https://cdn.rawgit.com/Automattic/expect.js/0.3.1/index.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sinon.js/5.0.0/sinon.min.js"></script>
+  <script>mocha.setup('bdd')</script>
+  <script src="./index.js"></script>
+  <script>
+    mocha.run();
+  </script>
+</body>
 
 </html>

@@ -207,15 +207,10 @@ dialog.on('show', doSomething);
 dialog.off('show', doSomething);
 ```
 
-## Opening a Dialog on top of another Dialog
-_Disclaimer: this is a [questionable design pattern](https://ux.stackexchange.com/questions/52042/is-it-acceptable-to-open-a-modal-popup-on-top-of-another-modal-popup), that we discourage, that is not referenced anywhere in the new native [HTML 5.2 Dialog Spec](https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element) and, therefore, that we don't support by default._
 
-We start the section with a disclaimer to emphatize that this is not an advisable path, though we decided to it here it is a popular "problem" around the web.
-That beeing said, if you've faced this situation our advice follows the sequence:
-1. Can the UI/UX be updated? _If yes, then change it._
-1. Can you close the first Dialog before open the Second? _Try that._
-1. Can't do any of the previous options? [_Well sometimes we gotta do what we gotta do..._](https://github.com/edenspiekermann/a11y-dialog/issues/80)
+## Nested dialogs
 
+Nested dialogs is a [questionable design pattern](https://ux.stackexchange.com/questions/52042/is-it-acceptable-to-open-a-modal-popup-on-top-of-another-modal-popup) that is not referenced anywhere in the [HTML 5.2 Dialog specification](https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element). Therefore it is discouraged and not supported by default by the library. That being said, if you still want to run with it, [Renato de Leão explains how in edenspiekermann/a11y-dialog#80](https://github.com/edenspiekermann/a11y-dialog/issues/80#issuecomment-377691629).
 
 ## Disclaimer & credits
 

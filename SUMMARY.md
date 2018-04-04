@@ -21,7 +21,7 @@
 * [Events](README.md#events)
 
 
-* [Edge Cases](README.md#opening-a-dialog-on-top-of-another-dialog)
+* [Nested dialogs](README.md#nested-dialogs)
 
 
 * [Example ↗](http://edenspiekermann.github.io/a11y-dialog/example/)

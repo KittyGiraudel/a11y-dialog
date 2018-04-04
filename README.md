@@ -207,6 +207,16 @@ dialog.on('show', doSomething);
 dialog.off('show', doSomething);
 ```
 
+## Opening a Dialog on top of another Dialog
+_Disclaimer: this is a [questionable design pattern](https://ux.stackexchange.com/questions/52042/is-it-acceptable-to-open-a-modal-popup-on-top-of-another-modal-popup), that we discourage, that is not referenced anywhere in the new native [HTML 5.2 Dialog Spec](https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element) and, therefore, that we don't support by default._
+
+We start the section with a disclaimer to emphatize that this is not an advisable path, though we decided to it here it is a popular "problem" around the web.
+That beeing said, if you've faced this situation our advice follows the sequence:
+1. Can the UI/UX be updated? _If yes, then change it._
+1. Can you close the first Dialog before open the Second? _Try that._
+1. Can't do any of the previous options? [_Well sometimes we gotta do what we gotta do..._](https://github.com/edenspiekermann/a11y-dialog/issues/80)
+
+
 ## Disclaimer & credits
 
 This repository is a fork from [accessible-modal-dialog ↗](https://github.com/gdkraus/accessible-modal-dialog) by Greg Kraus. We at Edenspiekermann are big fans of the original version, although we discovered we could improve it and make it even better. On top of that, the original script depends on jQuery, which happened to be a problem for us.

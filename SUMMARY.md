@@ -21,6 +21,9 @@
 * [Events](README.md#events)
 
 
+* [Nested dialogs](README.md#nested-dialogs)
+
+
 * [Example ↗](http://edenspiekermann.github.io/a11y-dialog/example/)
 
 

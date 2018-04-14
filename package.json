@@ -19,8 +19,6 @@
     "minify": "uglifyjs a11y-dialog.js -o a11y-dialog.min.js -c -m",
     "build": "npm run minify && npm run copy",
     "postbuild": "npm run add-version",
-    "predeploy": "npm run build",
-    "deploy": "git subtree push --prefix example origin gh-pages",
     "lint": "semistandard a11y-dialog.js",
     "test": "open tests/index.html",
     "extract-version":

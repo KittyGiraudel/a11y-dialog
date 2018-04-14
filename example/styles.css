@@ -35,12 +35,31 @@
  * Extra dialog styling to make it shiny
  * -------------------------------------------------------------------------- */
 
+@keyframes fade-in {
+  from { opacity: 0;  }
+  to { opacity: 1;  }
+}
+
+@keyframes appear {
+  from { transform: translate(-50%, -40%); opacity: 0; }
+  to { transform: translate(-50%, -50%); opacity: 1; }
+}
+
+.dialog:not([aria-hidden='true']) > .dialog-overlay {
+  animation: fade-in 200ms 1 both;
+}
+
+.dialog:not([aria-hidden='true']) > .dialog-content {
+  animation: appear 400ms 150ms 1 both;
+}
+
 .dialog-content {
   padding: 1em;
   max-width: 90%;
   width: 600px;
   border-radius: 2px;
 }
+
 
 @media screen and (min-width: 700px) {
   .dialog-content {

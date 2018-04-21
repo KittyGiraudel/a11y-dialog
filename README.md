@@ -1,15 +1,16 @@
 # [A11y Dialog](http://edenspiekermann.github.io/a11y-dialog/)
 
-[a11y-dialog](http://edenspiekermann.github.io/a11y-dialog/) is a lightweight (1.2Kb) yet flexible script to create accessible dialog windows.
+[a11y-dialog](http://edenspiekermann.github.io/a11y-dialog/) is a lightweight (1.3Kb) yet flexible script to create accessible dialog windows.
 
 ✔︎ No dependencies  
+✔︎ Leveraging the native `<dialog>` element  
 ✔︎ Closing dialog on overlay click and <kbd>ESC</kbd>  
 ✔︎ Toggling `aria-*` attributes  
-✔︎ Trapping and restoring focus    
+✔︎ Trapping and restoring focus  
 ✔︎ Firing events  
 ✔︎ DOM and JS APIs  
 ✔︎ Fast and tiny  
- 
+
 You can try the [live demo ↗](http://edenspiekermann.github.io/a11y-dialog/example/).
 
 ## Installation
@@ -17,12 +18,6 @@ You can try the [live demo ↗](http://edenspiekermann.github.io/a11y-dialog/exa
 ```
 npm install a11y-dialog --save
 ```
-
-```
-bower install espi-a11y-dialog
-```
-
-Or you could also copy/paste the script in your project directly, but you will be disconnected from this repository, making it hard for your to get updates.
 
 ## Usage
 
@@ -46,12 +41,10 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
 <!--
   Dialog container related notes:
   - It is not the actual dialog window, just the container with which the script interacts.
-  - It has to have the `aria-hidden="true"` attribute (if omitted, the script
-  will add it on instantiation anyway).
   - It can have a different id than `my-accessible-dialog`, but it needs an `id`
   anyway.
 -->
-<div id="my-accessible-dialog" aria-hidden="true">
+<div id="my-accessible-dialog">
 
   <!--
     Overlay related notes:
@@ -63,43 +56,74 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
   <!--
     Dialog window content related notes:
     - It is the actual visual dialog element.
-    - It has to have the `role="dialog"` attribute.
+    - It has to be a `<dialog>` element.
     - It doesn’t have to have the `aria-labelledby` attribute however this is recommended. It should match the `id` of the dialog title.
-    - It doesn’t have to have a direct child with the `role="document"`, however this is recommended.
   -->
-  <div role="dialog" aria-labelledby="dialog-title">
-    <div role="document">
-      <!--
-        Closing button related notes:
-        - It does have to have the `type="button"` attribute.
-        - It does have to have the `data-a11y-dialog-hide` attribute.
-        - It does have to have an aria-label attribute if you use an icon as content.
-      -->
-      <button type="button" data-a11y-dialog-hide aria-label="Close this dialog window">
-        &times;
-      </button>
+  <dialog aria-labelledby="dialog-title">
+    <!--
+      Closing button related notes:
+      - It does have to have the `type="button"` attribute.
+      - It does have to have the `data-a11y-dialog-hide` attribute.
+      - It does have to have an aria-label attribute if you use an icon as content.
+    -->
+    <button type="button" data-a11y-dialog-hide aria-label="Close this dialog window">
+      &times;
+    </button>
 
-      <!--
-        Dialog title related notes:
-        - It should have a different content than `Dialog Title`.
-        - It can have a different id than `dialog-title`.
-      -->
-      <h1 id="dialog-title">Dialog Title</h1>
+    <!--
+      Dialog title related notes:
+      - It should have a different content than `Dialog Title`.
+      - It can have a different id than `dialog-title`.
+    -->
+    <h1 id="dialog-title">Dialog Title</h1>
 
-      <!--
-        Here lives the main content of the dialog.
-      -->
-    </div>
-  </div>
+    <!--
+      Here lives the main content of the dialog.
+    -->
+  </dialog>
 </div>
 ```
 
 ### Styling layer
 
-You will have to implement some styles for the dialog to “work” (visually speaking). The script itself does not take care of any styling whatsoever, not even the `display` property. It basically mostly toggles the `aria-hidden` attribute on the dialog itself and its counterpart containers. You can use this to show and hide the dialog:
+The script itself does not take care of any styling whatsoever, not even the `display` property. It basically mostly toggles the `aria-hidden` attribute on the dialog itself and its counterpart containers.
+
+In browsers supporting the `<dialog>` element, its visibility will be handled by the user-agent itself. Until support gets better across the board, the styling layer is up to the implementor (you).
+
+We recommend using at least the following styles to make everything work on both supporting and non-supporting user-agents:
 
 ```css
-.dialog[aria-hidden='true'] {
+/**
+ * When the native `<dialog>` element is supported, the overlay is implied and
+ * can be styled with `::backdrop`, which means the DOM one should be removed.
+ *
+ * The `data-a11y-dialog-native` attribute is set by the script when the
+ * `<dialog>` element is properly supported.
+ *
+ * Feel free to replace `:first-child` with the overlay selector you prefer.
+ */
+[data-a11y-dialog-native] > :first-child {
+  display: none;
+}
+
+/**
+ * When the `<dialog>` element is not supported, its default display is `inline`
+ * which can cause layout issues. This makes sure the dialog is correctly
+ * displayed when open.
+ */
+dialog[open] {
+  display: block;
+}
+
+/**
+ * When the native `<dialog>` element is not supported, the script toggles the
+ * `aria-hidden` attribute on the container. If `aria-hidden` is set to `true`,
+ * the container should be hidden entirely.
+ *
+ * Feel free to replace `.dialog-container` with the container selector you
+ * prefer.
+ */
+.dialog-container[aria-hidden='true'] {
   display: none;
 }
 ```
@@ -145,6 +169,8 @@ The following button will close the dialog with the `my-accessible-dialog` id wh
 <button type="button" data-a11y-dialog-hide="my-accessible-dialog" aria-label="Close the dialog">&times;</button>
 ```
 
+In addition, the library adds a `data-a11y-dialog-native` attribute (with no value) when the `<dialog>` element is natively supported. This attribute is essentially used to customise the styling layer based on user-agent support (or lack thereof).
+
 ## JS API
 
 Regarding the JS API, it simply consists on `show()` and `hide()` methods on the dialog instance.
@@ -156,6 +182,8 @@ dialog.show();
 // Hide the dialog
 dialog.hide();
 ```
+
+When the `<dialog>` element is natively supported, the argument passed to `show()` and `hide()` is being passed to the native call to [`showModal()`](https://www.w3.org/TR/html52/interactive-elements.html#dom-htmldialogelement-showmodal) and [`close()`](https://www.w3.org/TR/html52/interactive-elements.html#dom-htmldialogelement-close). If necessary, the `returnValue` can be read using `dialog.dialog.returnValue`.
 
 For advanced usages, there are `create()` and `destroy()` methods. These are responsible for attaching click event listeners to dialog openers and closers. Note that the `create()` method is **automatically called on instantiation** so there is no need to call it again directly.
 
@@ -214,6 +242,4 @@ Nested dialogs is a [questionable design pattern](https://ux.stackexchange.com/q
 
 ## Disclaimer & credits
 
-This repository is a fork from [accessible-modal-dialog ↗](https://github.com/gdkraus/accessible-modal-dialog) by Greg Kraus. We at Edenspiekermann are big fans of the original version, although we discovered we could improve it and make it even better. On top of that, the original script depends on jQuery, which happened to be a problem for us.
-
-The original repository being apparently unmaintained, we decided to fork it and release our own version of the accessible modal dialog. All credits to the original author.
+Originally, this repository was a fork from [accessible-modal-dialog ↗](https://github.com/gdkraus/accessible-modal-dialog) by Greg Kraus. It has gone through various stages since the initial implementation and both packages are no longer similar in the way they work.

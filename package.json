@@ -1,14 +1,13 @@
 {
   "name": "a11y-dialog",
-  "version": "4.0.1",
+  "version": "5.0.0",
   "description":
     "A tiny script to make dialog windows accessible to assistive technology users.",
   "homepage": "https://github.com/edenspiekermann/a11y-dialog",
   "license": "MIT",
   "main": "a11y-dialog.js",
   "keywords": ["modal", "dialog", "accessibility", "a11y", "focus"],
-  "author":
-    "Hugo Giraudel (http://www.edenspiekermann.com/people/hugo-giraudel)",
+  "author": "Hugo Giraudel (https://hugogiraudel.com)",
   "repository": {
     "type": "git",
     "url": "https://github.com/edenspiekermann/a11y-dialog"
@@ -37,7 +36,18 @@
     "docs:publish":
       "npm run docs:clean && npm run docs:build && cd _book && git init && git commit --allow-empty -m 'Update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'Update book' && git push git@github.com:edenspiekermann/a11y-dialog gh-pages --force"
   },
+  "lint-staged": {
+    "*.js": [
+      "prettier --no-semi --single-quote --print-width 80 --write",
+      "git add",
+      "eslint --fix",
+      "git add"
+    ]
+  },
   "devDependencies": {
+    "husky": "^0.14.3",
+    "lint-staged": "^6.0.0",
+    "prettier": "^1.10.2",
     "semistandard": "^7.0.5",
     "uglify-js": "^2.6.1"
   }

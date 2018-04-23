@@ -42,6 +42,10 @@ describe('A11yDialog', () => {
       expect(window.scope.instance.shown).to.eql(false);
     });
 
+    it('should set the `role` to `dialog` to dialog element', () => {
+      expect(window.scope.instance.dialog.getAttribute('role')).to.eql('dialog');
+    });
+
     it('should set `data-a11y-dialog-native` to dialog element if supported', () => {
       expect(
         window.scope.container.hasAttribute('data-a11y-dialog-native')

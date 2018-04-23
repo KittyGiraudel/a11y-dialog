@@ -59,9 +59,12 @@
     // Set the `shown` property to match the status from the DOM
     this.shown = this.dialog.hasAttribute('open');
 
-    if (!isDialogSupported) {
-      this.dialog.setAttribute('role', 'dialog');
+    // Despite using a `<dialog>` element, `role="dialog"` is not necessarily
+    // implied by all screen-readers (yet)
+    // See: https://github.com/edenspiekermann/a11y-dialog/commit/6ba711a777aed0dbda0719a18a02f742098c64d9#commitcomment-28694166
+    this.dialog.setAttribute('role', 'dialog');
 
+    if (!isDialogSupported) {
       if (this.shown) {
         this.container.removeAttribute('aria-hidden');
       } else {

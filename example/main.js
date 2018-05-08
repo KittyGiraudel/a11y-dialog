@@ -116,6 +116,10 @@
 
     this.shown = true;
 
+    // Keep a reference to the currently focused element to be able to restore
+    // it later
+    focusedBeforeDialog = document.activeElement;
+
     if (isDialogSupported) {
       this.dialog.showModal(event instanceof Event ? void 0 : event);
     } else {
@@ -129,10 +133,7 @@
       });
     }
 
-    // Keep a reference to the currently focused element to be able to restore
-    // it later, then set the focus to the first focusable child of the dialog
-    // element
-    focusedBeforeDialog = document.activeElement;
+    // Set the focus to the first focusable child of the dialog element
     setFocusToFirstItem(this.dialog);
 
     // Bind a focus event listener to the body element to make sure the focus

@@ -89,6 +89,30 @@ describe('A11yDialog', () => {
     });
   });
 
+  describe('When created with specific params, it…', () => {
+    it('should proxy <dialog> if supported and useDialogElement=true', () => {
+      window.scope = {
+        params: {
+          useDialogElement: true
+        }
+      };
+      setup(document.querySelector('#test-WITH_DIALOG_EL'));
+      expect(window.scope.instance.useDialogElement).to.eql(IS_DIALOG_SUPPORTED);
+      teardown();
+    });
+
+    it('should not proxy <dialog> if useDialogElement=false', () => {
+      window.scope = {
+        params: {
+          useDialogElement: false
+        }
+      };
+      setup(document.querySelector('#test-WITHOUT_DIALOG_EL'));
+      expect(window.scope.instance.useDialogElement).to.eql(false);
+      teardown();
+    });
+  });
+
   describe('When shown, it…', () => {
     before(() => {
       setup(document.querySelector('#test-SHOW'));
@@ -358,7 +382,9 @@ function setup(scope) {
   window.scope = window.scope || {};
   Object.assign(window.scope, {
     container: scope.querySelector('.dialog'),
-    dialog: scope.querySelector('dialog'),
+    dialog:
+      scope.querySelector('dialog') ||
+      scope.querySelector('[data-a11y-dialog-element]'),
     targets: scope.querySelectorAll('.target'),
     main: scope.querySelector('.main'),
     opener: scope.querySelector('[data-a11y-dialog-show]'),
@@ -367,7 +393,8 @@ function setup(scope) {
   });
   window.scope.instance = new A11yDialog(
     window.scope.container,
-    window.scope.targets
+    window.scope.targets,
+    window.scope.params
   );
 }
 

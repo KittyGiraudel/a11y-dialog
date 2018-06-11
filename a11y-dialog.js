@@ -16,6 +16,9 @@
   ];
   var TAB_KEY = 9;
   var ESCAPE_KEY = 27;
+  var DEFAULT_OPTIONS = {
+    useDialogElement: true
+  };
   var isDialogSupported = 'show' in document.createElement('dialog');
   var focusedBeforeDialog;
 
@@ -26,7 +29,7 @@
    * @param {Element} node
    * @param {(NodeList | Element | string)} targets
    */
-  function A11yDialog(node, targets) {
+  function A11yDialog(node, targets, params) {
     // Prebind the functions that will be bound in addEventListener and
     // removeEventListener to avoid losing references
     this._show = this.show.bind(this);
@@ -34,9 +37,16 @@
     this._maintainFocus = this._maintainFocus.bind(this);
     this._bindKeypress = this._bindKeypress.bind(this);
 
+    var options = mergeDefaultOptions(params);
+
     // Keep a reference of the node and the actual dialog on the instance
     this.container = node;
-    this.dialog = node.querySelector('dialog');
+    this.dialog =
+      node.querySelector('dialog') ||
+      node.querySelector('[data-a11y-dialog-element]');
+
+    this.useDialogElement =
+      isDialogSupported && options.useDialogElement === true;
 
     // Keep an object of listener types mapped to callback functions
     this._listeners = {};
@@ -64,7 +74,7 @@
     // See: https://github.com/edenspiekermann/a11y-dialog/commit/6ba711a777aed0dbda0719a18a02f742098c64d9#commitcomment-28694166
     this.dialog.setAttribute('role', 'dialog');
 
-    if (!isDialogSupported) {
+    if (!this.useDialogElement) {
       if (this.shown) {
         this.container.removeAttribute('aria-hidden');
       } else {
@@ -120,7 +130,7 @@
     // it later
     focusedBeforeDialog = document.activeElement;
 
-    if (isDialogSupported) {
+    if (this.useDialogElement) {
       this.dialog.showModal(event instanceof Event ? void 0 : event);
     } else {
       this.dialog.setAttribute('open', '');
@@ -164,7 +174,7 @@
 
     this.shown = false;
 
-    if (isDialogSupported) {
+    if (this.useDialogElement) {
       this.dialog.close(event instanceof Event ? void 0 : event);
     } else {
       this.dialog.removeAttribute('open');
@@ -313,6 +323,27 @@
       setFocusToFirstItem(this.dialog);
     }
   };
+
+  /**
+   * Merge the given options with the default ones into a new options object
+   *
+   * @param {Object} params
+   * @return {Object}
+   */
+  function mergeDefaultOptions(params) {
+    var options = {};
+    for (var defaultOption in DEFAULT_OPTIONS) {
+      options[defaultOption] = DEFAULT_OPTIONS[defaultOption];
+    }
+    if (!params) {
+      return options;
+    }
+
+    for (var givenOption in params) {
+      options[givenOption] = params[givenOption];
+    }
+    return options;
+  }
 
   /**
    * Convert a NodeList into an array

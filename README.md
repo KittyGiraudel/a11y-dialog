@@ -56,7 +56,8 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
   <!--
     Dialog window content related notes:
     - It is the actual visual dialog element.
-    - It has to be a `<dialog>` element.
+    - It has to be a `<dialog>` element by default.
+    - It can be a `<div>` with the `data-a11y-dialog-element` attribute if you want to avoid using a `<dialog>` (see "Usage without <dialog>" for more info).
     - It doesn’t have to have the `aria-labelledby` attribute however this is recommended. It should match the `id` of the dialog title.
   -->
   <dialog aria-labelledby="dialog-title">
@@ -239,6 +240,18 @@ dialog.off('show', doSomething);
 ## Nested dialogs
 
 Nested dialogs is a [questionable design pattern](https://ux.stackexchange.com/questions/52042/is-it-acceptable-to-open-a-modal-popup-on-top-of-another-modal-popup) that is not referenced anywhere in the [HTML 5.2 Dialog specification](https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element). Therefore it is discouraged and not supported by default by the library. That being said, if you still want to run with it, [Renato de Leão explains how in edenspiekermann/a11y-dialog#80](https://github.com/edenspiekermann/a11y-dialog/issues/80#issuecomment-377691629).
+
+## Usage without `<dialog>`
+
+The library is made around the native `<dialog>` element, but its support is currently not wide-spread nor bug-free. While it is totally acceptable for some use cases, it might not be for some others. If you find that it's too early to use `<dialog>` in production, you can disable its support and be sure the modal has the same behavior across all browsers. This is possible by doing two things:
+
+  - In the DOM, replace the `<dialog>` element by a `<div data-a11y-dialog-element>`.
+  - when instanciating the dialog in JavaScript, pass a third option to the constructor:
+
+  ```diff
+  -const dialog = new A11yDialog(el, containers);
+  +const dialog = new A11yDialog(el, containers, {useDialogElement: false});
+  ```
 
 ## Disclaimer & credits
 

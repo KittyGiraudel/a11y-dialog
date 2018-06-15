@@ -36,7 +36,8 @@
 
     // Keep a reference of the node and the actual dialog on the instance
     this.container = node;
-    this.dialog = node.querySelector('dialog');
+    this.dialog = node.querySelector('dialog, [role="dialog"]');
+    this.useDialog = isDialogSupported && this.dialog.nodeName === 'DIALOG';
 
     // Keep an object of listener types mapped to callback functions
     this._listeners = {};
@@ -64,7 +65,7 @@
     // See: https://github.com/edenspiekermann/a11y-dialog/commit/6ba711a777aed0dbda0719a18a02f742098c64d9#commitcomment-28694166
     this.dialog.setAttribute('role', 'dialog');
 
-    if (!isDialogSupported) {
+    if (!this.useDialog) {
       if (this.shown) {
         this.container.removeAttribute('aria-hidden');
       } else {
@@ -120,7 +121,7 @@
     // it later
     focusedBeforeDialog = document.activeElement;
 
-    if (isDialogSupported) {
+    if (this.useDialog) {
       this.dialog.showModal(event instanceof Event ? void 0 : event);
     } else {
       this.dialog.setAttribute('open', '');
@@ -164,7 +165,7 @@
 
     this.shown = false;
 
-    if (isDialogSupported) {
+    if (this.useDialog) {
       this.dialog.close(event instanceof Event ? void 0 : event);
     } else {
       this.dialog.removeAttribute('open');

@@ -26,6 +26,11 @@ describe('A11yDialog', () => {
     it('should call the `create` method', () => {
       expect(window.scope.spy.calledOnce).to.eql(true);
     });
+
+    it('should work with a div with dialog role', () => {
+      setup(document.querySelector('#test-NO_DIALOG'));
+      expect(window.scope.instance.dialog).to.eql(window.scope.dialog);
+    });
   });
 
   describe('When created, it…', () => {
@@ -358,7 +363,7 @@ function setup(scope) {
   window.scope = window.scope || {};
   Object.assign(window.scope, {
     container: scope.querySelector('.dialog'),
-    dialog: scope.querySelector('dialog'),
+    dialog: scope.querySelector('dialog, [role="dialog"]'),
     targets: scope.querySelectorAll('.target'),
     main: scope.querySelector('.main'),
     opener: scope.querySelector('[data-a11y-dialog-show]'),

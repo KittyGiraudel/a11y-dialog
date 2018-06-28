@@ -18,7 +18,6 @@
   ];
   var TAB_KEY = 9;
   var ESCAPE_KEY = 27;
-  var isDialogSupported = 'show' in document.createElement('dialog');
   var focusedBeforeDialog;
 
   /**
@@ -39,7 +38,10 @@
     // Keep a reference of the node and the actual dialog on the instance
     this.container = node;
     this.dialog = node.querySelector('dialog, [role="dialog"]');
-    this.useDialog = isDialogSupported && this.dialog.nodeName === 'DIALOG';
+    this.useDialog = (
+      'show' in document.createElement('dialog') &&
+      this.dialog.nodeName === 'DIALOG'
+    );
 
     // Keep an object of listener types mapped to callback functions
     this._listeners = {};

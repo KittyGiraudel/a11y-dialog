@@ -242,7 +242,7 @@ Nested dialogs is a [questionable design pattern](https://ux.stackexchange.com/q
 
 ## Implementations
 
-If you happen to work with [React](https://github.com/facebook/react/) or [Vue](https://github.com/vuejs/vue) in your project, you're lucky! There are already great light-weight wrapper implemented for a11y-dialog:
+If you happen to work with [React](https://github.com/facebook/react/) or [Vue](https://github.com/vuejs/vue) in your project, you’re lucky! There are already great light-weight wrapper implemented for a11y-dialog:
 
 - [React A11yDialog](https://github.com/HugoGiraudel/react-a11y-dialog)
 - [Vue A11yDialog](https://github.com/morkro/vue-a11y-dialog)

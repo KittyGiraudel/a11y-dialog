@@ -26,8 +26,9 @@
    * @constructor
    * @param {Element} node
    * @param {(NodeList | Element | string)} targets
+   * @param {(NodeList | Element | string)} focusTrapIgnore
    */
-  function A11yDialog(node, targets) {
+  function A11yDialog(node, targets, focusTrapIgnore) {
     // Prebind the functions that will be bound in addEventListener and
     // removeEventListener to avoid losing references
     this._show = this.show.bind(this);
@@ -45,6 +46,8 @@
 
     // Keep an object of listener types mapped to callback functions
     this._listeners = {};
+
+    this.focusTrapIgnore = focusTrapIgnore;
 
     // Initialise everything needed for the dialog to work properly
     this.create(targets);
@@ -98,6 +101,9 @@
         closer.addEventListener('click', this._hide);
       }.bind(this)
     );
+    // Keep a collection of containers which contain children than can be focused event if the dialog is open
+    this._focusTrapIgnore =
+      this._focusTrapIgnore || collect(this.focusTrapIgnore);    
 
     // Execute all callbacks registered for the `create` event
     this._fire('create');
@@ -314,10 +320,32 @@
   A11yDialog.prototype._maintainFocus = function(event) {
     // If the dialog is shown and the focus is not within the dialog element,
     // move it back to its first focusable child
-    if (this.shown && !this.container.contains(event.target)) {
+    if (this.shown && !this.container.contains(event.target) && !this._isIgnoredByFocusTrap(event.target)) {
       setFocusToFirstItem(this.dialog);
     }
   };
+
+  /**
+   * Determine if the focuced element is in a container that's excluded from focus trap
+   * 
+   * @access private
+   * @param {Element} node
+   * @return {bool}
+   */
+  A11yDialog.prototype._isIgnoredByFocusTrap = function(element) {
+    if (!this._focusTrapIgnore) {
+      return false;
+    }
+
+    var shouldIgnore = false;
+    this._focusTrapIgnore.forEach(function(container) {
+      if (container.contains(element)) {
+        shouldIgnore = true;
+      }
+    });
+    return shouldIgnore;
+  }
+
 
   /**
    * Convert a NodeList into an array

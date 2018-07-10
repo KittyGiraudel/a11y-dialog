@@ -144,6 +144,12 @@ As recommended in the [HTML section](#expected-dom-structure) of this documentat
 const dialog = new A11yDialog(el, containers);
 ```
 
+A11y Dialog prevents focus from escaping the dialog element. In case you need to focus something outside the dialog (e.g. dropdown, datepicker), you can change this behaviour by passing a `NodeList`, an `Element` or a selector as third argument to the `A11yDialog` constructor. Anything inside the supplied containers can be focused programatically. Just make sure to return the focus back to the trigger element.
+
+```javascript
+const dialog = new A11yDialog(el, containers, focusTrapIgnore);
+```
+
 ## DOM API
 
 The DOM API relies on `data-*` attributes. They all live under the `data-a11y-dialog-*` namespace for consistency, clarity and robustness. Two attributes are recognised:

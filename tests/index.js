@@ -301,6 +301,21 @@ describe('A11yDialog', () => {
       expect(document.activeElement).to.eql(window.scope.closeButton);
     });
   });
+
+  describe('When listening to key presses on role="alertdialog", it…', () => {
+    before(() => {
+      setup(document.querySelector('#test-KEY_PRESSES_ALERTDIALOG'));
+    });
+
+    after(teardown);
+
+    it('should NOT close dialog on ESC', () => {
+      window.scope.instance.show();
+      keydown(27);
+
+      expect(window.scope.instance.shown).to.eql(true);
+    });
+  });
 });
 
 function keydown(k, shift) {

@@ -56,8 +56,15 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
   <!--
     Dialog window content related notes:
     - It is the actual visual dialog element.
-    - It doesn’t have to be a `<dialog>` element, it can be a `<div>` element with the `dialog` role (e.g. `<div role="dialog">`).
+    - It may have the `alertdialog` role to make it 'modal'.
+    - It doesn’t have to be a `<dialog>` element, it can be a `<div>` element with the `dialog` or `alertdialog` role (e.g. `<div role="dialog">`).
     - It doesn’t have to have the `aria-labelledby` attribute however this is recommended. It should match the `id` of the dialog title.
+    
+    Regarding the use of the `alertdialog` role:
+    - The dialog won't close when pressing the `esc` key.
+    - You should remove the `data-a11y-dialog-hide` attribute from the Overlay to comply with the WAI-ARIA Recommendation.
+    - You should consider removing the close button below if the dialog can or needs to receive a response from the user.
+    - See https://www.w3.org/TR/wai-aria-1.1/#alertdialog for details.
   -->
   <dialog aria-labelledby="dialog-title">
     <!--

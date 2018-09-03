@@ -56,15 +56,9 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
   <!--
     Dialog window content related notes:
     - It is the actual visual dialog element.
-    - It may have the `alertdialog` role to make it 'modal'.
+    - It may have the `alertdialog` role to make it behave like a “modal”. See the “Usage as a modal” section of the docs.
     - It doesn’t have to be a `<dialog>` element, it can be a `<div>` element with the `dialog` or `alertdialog` role (e.g. `<div role="dialog">`).
     - It doesn’t have to have the `aria-labelledby` attribute however this is recommended. It should match the `id` of the dialog title.
-    
-    Regarding the use of the `alertdialog` role:
-    - The dialog won't close when pressing the `esc` key.
-    - You should remove the `data-a11y-dialog-hide` attribute from the Overlay to comply with the WAI-ARIA Recommendation.
-    - You should consider removing the close button below if the dialog can or needs to receive a response from the user.
-    - See https://www.w3.org/TR/wai-aria-1.1/#alertdialog for details.
   -->
   <dialog aria-labelledby="dialog-title">
     <!--
@@ -150,6 +144,18 @@ As recommended in the [HTML section](#expected-dom-structure) of this documentat
 ```javascript
 const dialog = new A11yDialog(el, containers);
 ```
+
+### Usage as a “modal”
+
+By default, a11y-dialog behaves as a dialog: it is closable with the <kbd>ESC</kbd> key, and by clicking the backdrop. However, it is possible to make it work like a “modal”, which would remove these features.
+
+To do so:
+
+1. Add `role="alertdialog"` to the `<dialog>` element or replace`role="dialog"` with `role="alertdialog"` in case you don’t use the `<dialog>` element. This will make sure <kbd>ESC</kbd> doesn’t close the modal.
+2. Remove `data-a11y-dialog-hide` from the overlay element. This makes sure it is not possible to close the modal by clicking outside of it.
+3. In case the user actively needs to operate with the modal, you might consider removing the close button from it. Be sure to still offer a way to eventually close the modal.
+
+For more information about modals, refer to the [WAI ARIA recommendations](https://www.w3.org/TR/wai-aria-1.1/#alertdialog).
 
 ## DOM API
 

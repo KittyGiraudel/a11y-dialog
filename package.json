@@ -1,18 +1,26 @@
 {
-  "name": "a11y-dialog",
-  "version": "5.1.2",
-  "description":
-    "A tiny script to make dialog windows accessible to assistive technology users.",
-  "homepage": "https://github.com/edenspiekermann/a11y-dialog",
+  "name": "jk-a11y-dialog",
+  "version": "5.1.3",
+  "description": "A tiny script to make dialog windows accessible to assistive technology users. Forked from edenspiekermann https://github.com/edenspiekermann/a11y-dialog",
+  "homepage": "https://github.com/jurajk/a11y-dialog",
   "license": "MIT",
   "main": "a11y-dialog.js",
-  "keywords": ["modal", "dialog", "accessibility", "a11y", "focus"],
+  "keywords": [
+    "modal",
+    "dialog",
+    "accessibility",
+    "a11y",
+    "focus"
+  ],
   "author": "Hugo Giraudel (https://hugogiraudel.com)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/edenspiekermann/a11y-dialog"
+    "url": "https://github.com/jurajk/a11y-dialog"
   },
-  "files": ["a11y-dialog.js", "a11y-dialog.min.js"],
+  "files": [
+    "a11y-dialog.js",
+    "a11y-dialog.min.js"
+  ],
   "scripts": {
     "copy": "cp a11y-dialog.js example/main.js",
     "minify": "uglifyjs a11y-dialog.js -o a11y-dialog.min.js -c -m",
@@ -20,21 +28,16 @@
     "postbuild": "npm run add-version",
     "lint": "semistandard a11y-dialog.js",
     "test": "open tests/index.html",
-    "extract-version":
-      "cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]'",
-    "add-version":
-      "echo \"/*! a11y-dialog $(npm run extract-version --silent) — © Edenspiekermann */\n$(cat a11y-dialog.min.js)\" > a11y-dialog.min.js",
+    "extract-version": "cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]'",
+    "add-version": "echo \"/*! a11y-dialog $(npm run extract-version --silent) — © Edenspiekermann */\n$(cat a11y-dialog.min.js)\" > a11y-dialog.min.js",
     "compress": "gzip -9 -fkc a11y-dialog.min.js > a11y-dialog.min.js.gz",
-    "show":
-      "ls -lh a11y-dialog.min.js.gz | awk '{print \"Gzipped script size:\", $5\"B\"}'",
-    "size":
-      "npm run build --silent && npm run compress --silent && npm run show --silent && rm a11y-dialog.min.js.gz",
+    "show": "ls -lh a11y-dialog.min.js.gz | awk '{print \"Gzipped script size:\", $5\"B\"}'",
+    "size": "npm run build --silent && npm run compress --silent && npm run show --silent && rm a11y-dialog.min.js.gz",
     "docs:clean": "rimraf _book",
     "docs:prepare": "gitbook install",
     "docs:build": "npm run docs:prepare && gitbook build",
     "docs:watch": "npm run docs:prepare && gitbook serve",
-    "docs:publish":
-      "npm run docs:clean && npm run docs:build && cd _book && git init && git commit --allow-empty -m 'Update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'Update book' && git push git@github.com:edenspiekermann/a11y-dialog gh-pages --force"
+    "docs:publish": "npm run docs:clean && npm run docs:build && cd _book && git init && git commit --allow-empty -m 'Update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'Update book' && git push git@github.com:edenspiekermann/a11y-dialog gh-pages --force"
   },
   "lint-staged": {
     "*.js": [

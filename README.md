@@ -1,6 +1,6 @@
-# [A11y Dialog](http://edenspiekermann.github.io/a11y-dialog/)
+# [A11y Dialog](https://github.com/jurajk/a11y-dialog)
 
-[a11y-dialog](http://edenspiekermann.github.io/a11y-dialog/) is a lightweight (1.3Kb) yet flexible script to create accessible dialog windows.
+[a11y-dialog](https://github.com/jurajk/a11y-dialog) is a lightweight (1.3Kb) yet flexible script to create accessible dialog windows. Forked from [edenspiekermann](http://edenspiekermann.github.io/a11y-dialog/)
 
 ✔︎ No dependencies  
 ✔︎ Leveraging the native `<dialog>` element  
@@ -256,3 +256,5 @@ If you happen to work with [React](https://github.com/facebook/react/) or [Vue](
 ## Disclaimer & credits
 
 Originally, this repository was a fork from [accessible-modal-dialog ↗](https://github.com/gdkraus/accessible-modal-dialog) by Greg Kraus. It has gone through various stages since the initial implementation and both packages are no longer similar in the way they work.
+
+This repository is a fork from [edenspiekermann](http://edenspiekermann.github.io/a11y-dialog/)

@@ -37,7 +37,8 @@
 
     // Keep a reference of the node and the actual dialog on the instance
     this.container = node;
-    this.dialog = node.querySelector('dialog, [role="dialog"]');
+    this.dialog = node.querySelector('dialog, [role="dialog"], [role="alertdialog"]');
+    this.role = this.dialog.getAttribute('role') || 'dialog';
     this.useDialog = (
       'show' in document.createElement('dialog') &&
       this.dialog.nodeName === 'DIALOG'
@@ -67,7 +68,7 @@
     // Despite using a `<dialog>` element, `role="dialog"` is not necessarily
     // implied by all screen-readers (yet)
     // See: https://github.com/edenspiekermann/a11y-dialog/commit/6ba711a777aed0dbda0719a18a02f742098c64d9#commitcomment-28694166
-    this.dialog.setAttribute('role', 'dialog');
+    this.dialog.setAttribute('role', this.role);
 
     if (!this.useDialog) {
       if (this.shown) {
@@ -291,8 +292,9 @@
    */
   A11yDialog.prototype._bindKeypress = function(event) {
     // If the dialog is shown and the ESCAPE key is being pressed, prevent any
-    // further effects from the ESCAPE key and hide the dialog
-    if (this.shown && event.which === ESCAPE_KEY) {
+    // further effects from the ESCAPE key and hide the dialog, unless its role
+    // is 'alertdialog', which should be modal
+    if (this.shown && event.which === ESCAPE_KEY && this.role !== 'alertdialog') {
       event.preventDefault();
       this.hide();
     }

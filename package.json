@@ -1,6 +1,6 @@
 {
   "name": "a11y-dialog",
-  "version": "5.1.2",
+  "version": "5.2.0",
   "description":
     "A tiny script to make dialog windows accessible to assistive technology users.",
   "homepage": "https://github.com/edenspiekermann/a11y-dialog",

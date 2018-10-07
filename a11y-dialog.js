@@ -176,14 +176,14 @@
       this.dialog.removeAttribute('open');
       this.container.setAttribute('aria-hidden', 'true');
 
-      // Iterate over the targets to enable them by remove their `aria-hidden`
+      // Iterate over the targets to enable them by removing their `aria-hidden`
       // attribute
       this._targets.forEach(function(target) {
         target.removeAttribute('aria-hidden');
       });
     }
 
-    // If their was a focused element before the dialog was opened, restore the
+    // If there was a focused element before the dialog was opened, restore the
     // focus back to it
     if (focusedBeforeDialog) {
       focusedBeforeDialog.focus();

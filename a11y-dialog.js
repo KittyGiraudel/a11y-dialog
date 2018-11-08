@@ -443,7 +443,7 @@
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = A11yDialog;
   } else if (typeof define === 'function' && define.amd) {
-    define('A11yDialog', [], function() {
+    define([], function() {
       return A11yDialog;
     });
   } else if (typeof global === 'object') {

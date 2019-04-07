@@ -1,6 +1,6 @@
 # [A11y Dialog](http://edenspiekermann.github.io/a11y-dialog/)
 
-[a11y-dialog](http://edenspiekermann.github.io/a11y-dialog/) is a lightweight (1.3Kb) yet flexible script to create accessible dialog windows.
+[a11y-dialog](http://edenspiekermann.github.io/a11y-dialog/) is a lightweight (1.4Kb) yet flexible script to create accessible dialog windows.
 
 ✔︎ No dependencies  
 ✔︎ Leveraging the native `<dialog>` element  

@@ -296,7 +296,7 @@
     // is 'alertdialog', which should be modal
     if (this.shown && event.which === ESCAPE_KEY && this.role !== 'alertdialog') {
       event.preventDefault();
-      this.hide();
+      this.hide(event);
     }
 
     // If the dialog is shown and the TAB key is being pressed, make sure the

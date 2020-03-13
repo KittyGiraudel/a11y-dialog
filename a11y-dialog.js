@@ -183,9 +183,10 @@
       });
     }
 
-    // If there was a focused element before the dialog was opened, restore the
-    // focus back to it
-    if (focusedBeforeDialog) {
+    // If there was a focused element before the dialog was opened (and it has a
+    // `focus` method), restore the focus back to it
+    // See: https://github.com/edenspiekermann/a11y-dialog/issues/108
+    if (focusedBeforeDialog && focusedBeforeDialog.focus) {
       focusedBeforeDialog.focus();
     }
 

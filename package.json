@@ -5,6 +5,7 @@
   "homepage": "https://github.com/edenspiekermann/a11y-dialog",
   "license": "MIT",
   "main": "a11y-dialog.js",
+  "types": "a11y-dialog.d.ts",
   "keywords": [
     "modal",
     "dialog",
@@ -19,7 +20,8 @@
   },
   "files": [
     "a11y-dialog.js",
-    "a11y-dialog.min.js"
+    "a11y-dialog.min.js",
+    "a11y-dialog.d.ts"
   ],
   "scripts": {
     "copy": "cp a11y-dialog.js example/main.js",

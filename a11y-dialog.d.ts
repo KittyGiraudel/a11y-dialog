@@ -8,9 +8,9 @@ declare namespace A11yDialog {
 
     create(targets: Targets): A11yDialog;
 
-    show(event: Event): A11yDialog;
+    show(event?: Event): A11yDialog;
 
-    hide(event: Event): A11yDialog;
+    hide(event?: Event): A11yDialog;
 
     destroy(): A11yDialog;
 

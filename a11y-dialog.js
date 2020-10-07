@@ -78,6 +78,7 @@
       }
     } else {
       this.container.setAttribute('data-a11y-dialog-native', '');
+      this.container.removeAttribute('aria-hidden');
     }
 
     // Keep a collection of dialog openers, each of which will be bound a click
@@ -125,10 +126,6 @@
     // Keep a reference to the currently focused element to be able to restore
     // it later
     focusedBeforeDialog = document.activeElement;
-
-    if (this.container.getAttribute('aria-hidden')) {
-      this.container.removeAttribute('aria-hidden');
-    }
 
     if (this.useDialog) {
       this.dialog.showModal(event instanceof Event ? void 0 : event);

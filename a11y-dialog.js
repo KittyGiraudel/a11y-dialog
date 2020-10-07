@@ -135,6 +135,9 @@
       // Iterate over the targets to disable them by setting their `aria-hidden`
       // attribute to `true`
       this._targets.forEach(function(target) {
+        if (target.getAttribute('aria-hidden')) {
+          target.setAttribute('data-a11y-dialog-original-aria-hidden', target.getAttribute('aria-hidden'));
+        }
         target.setAttribute('aria-hidden', 'true');
       });
     }
@@ -179,7 +182,12 @@
       // Iterate over the targets to enable them by removing their `aria-hidden`
       // attribute
       this._targets.forEach(function(target) {
-        target.removeAttribute('aria-hidden');
+        if (target.getAttribute('data-a11y-dialog-original-aria-hidden')) {
+          target.setAttribute('aria-hidden', target.getAttribute('data-a11y-dialog-original-aria-hidden'));
+          target.removeAttribute('data-a11y-dialog-original-aria-hidden');
+        } else {
+          target.removeAttribute('aria-hidden');
+        }
       });
     }
 

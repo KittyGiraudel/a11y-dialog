@@ -126,11 +126,14 @@
     // it later
     focusedBeforeDialog = document.activeElement;
 
+    if (this.container.getAttribute('aria-hidden')) {
+      this.container.removeAttribute('aria-hidden');
+    }
+
     if (this.useDialog) {
       this.dialog.showModal(event instanceof Event ? void 0 : event);
     } else {
       this.dialog.setAttribute('open', '');
-      this.container.removeAttribute('aria-hidden');
 
       // Iterate over the targets to disable them by setting their `aria-hidden`
       // attribute to `true`

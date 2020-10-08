@@ -135,7 +135,7 @@
       // Iterate over the targets to disable them by setting their `aria-hidden`
       // attribute to `true` and, if present, storing the current value of `aria-hidden`
       this._targets.forEach(function(target) {
-        if (target.getAttribute('aria-hidden')) {
+        if (target.hasAttribute('aria-hidden')) {
           target.setAttribute('data-a11y-dialog-original-aria-hidden', target.getAttribute('aria-hidden'));
         }
         target.setAttribute('aria-hidden', 'true');
@@ -182,7 +182,7 @@
       // Iterate over the targets to enable them by removing their `aria-hidden`
       // attribute or resetting it to its original value
       this._targets.forEach(function(target) {
-        if (target.getAttribute('data-a11y-dialog-original-aria-hidden')) {
+        if (target.hasAttribute('data-a11y-dialog-original-aria-hidden')) {
           target.setAttribute('aria-hidden', target.getAttribute('data-a11y-dialog-original-aria-hidden'));
           target.removeAttribute('data-a11y-dialog-original-aria-hidden');
         } else {

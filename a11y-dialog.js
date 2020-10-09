@@ -78,6 +78,9 @@
       }
     } else {
       this.container.setAttribute('data-a11y-dialog-native', '');
+      // Remove initial `aria-hidden` from container
+      // See: https://github.com/edenspiekermann/a11y-dialog/pull/117#issuecomment-706056246
+      this.container.removeAttribute('aria-hidden');
     }
 
     // Keep a collection of dialog openers, each of which will be bound a click
@@ -130,11 +133,13 @@
       this.dialog.showModal(event instanceof Event ? void 0 : event);
     } else {
       this.dialog.setAttribute('open', '');
-      this.container.removeAttribute('aria-hidden');
 
       // Iterate over the targets to disable them by setting their `aria-hidden`
-      // attribute to `true`
+      // attribute to `true` and, if present, storing the current value of `aria-hidden`
       this._targets.forEach(function(target) {
+        if (target.hasAttribute('aria-hidden')) {
+          target.setAttribute('data-a11y-dialog-original-aria-hidden', target.getAttribute('aria-hidden'));
+        }
         target.setAttribute('aria-hidden', 'true');
       });
     }
@@ -177,9 +182,14 @@
       this.container.setAttribute('aria-hidden', 'true');
 
       // Iterate over the targets to enable them by removing their `aria-hidden`
-      // attribute
+      // attribute or resetting it to its original value
       this._targets.forEach(function(target) {
-        target.removeAttribute('aria-hidden');
+        if (target.hasAttribute('data-a11y-dialog-original-aria-hidden')) {
+          target.setAttribute('aria-hidden', target.getAttribute('data-a11y-dialog-original-aria-hidden'));
+          target.removeAttribute('data-a11y-dialog-original-aria-hidden');
+        } else {
+          target.removeAttribute('aria-hidden');
+        }
       });
     }
 

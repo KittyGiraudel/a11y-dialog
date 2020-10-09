@@ -42,8 +42,8 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
   Dialog container related notes:
   - It is not the actual dialog window, just the container with which the script interacts.
   - It can have a different id than `my-accessible-dialog`, but it needs an `id` anyway.
-  - It can have a different class, or no class at all - as long as your CSS accounts for that
-  - We recommend adding an initial `aria-hidden="true"` to avoid a "flash of unhidden dialog" on page load
+  - It can have a different class, or no class at all—as long as your CSS accounts for that.
+  - It should have an initial `aria-hidden="true"` to avoid a “flash of unhidden dialog” on page load.
 -->
 <div class="dialog-container" id="my-accessible-dialog" aria-hidden="true">
 

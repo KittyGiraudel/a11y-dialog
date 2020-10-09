@@ -78,6 +78,8 @@
       }
     } else {
       this.container.setAttribute('data-a11y-dialog-native', '');
+      // Remove initial `aria-hidden` from container
+      // See: https://github.com/edenspiekermann/a11y-dialog/pull/117#issuecomment-706056246
       this.container.removeAttribute('aria-hidden');
     }
 

@@ -133,7 +133,8 @@
       this.dialog.showModal(event instanceof Event ? void 0 : event);
     } else {
       this.dialog.setAttribute('open', '');
-
+      this.container.removeAttribute('aria-hidden');
+      
       // Iterate over the targets to disable them by setting their `aria-hidden`
       // attribute to `true` and, if present, storing the current value of `aria-hidden`
       this._targets.forEach(function(target) {

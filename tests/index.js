@@ -62,14 +62,14 @@ describe('A11yDialog', () => {
         expect(window.scope.dialog.getAttribute('role')).to.eql('dialog');
       });
 
-      it('should set `aria-hidden` to `true` to container element if <dialog> not supported', () => {
+      it('should set/leave `aria-hidden` to `true` on container element if dialog element not natively supported', () => {
         expect(window.scope.container.getAttribute('aria-hidden')).to.eql(
           'true'
         );
       });
     } else {
-      it('should not set `aria-hidden` to container element if <dialog> is supported', () => {
-        expect(window.scope.container.getAttribute('aria-hidden')).to.eql(null);
+      it('should remove `aria-hidden` from dialog element if natively supported', () => {
+        expect(window.scope.container.hasAttribute('aria-hidden')).to.eql(false);
       });
     }
 
@@ -122,7 +122,7 @@ describe('A11yDialog', () => {
       expect(window.scope.container.getAttribute('aria-hidden')).to.eql(null);
     });
 
-    it('should set `aria-hidden` to `true` to targets element', () => {
+    it('should set `aria-hidden` to `true` on target elements', () => {
       const actual = toArray(window.scope.targets).map(function(target) {
         return target.getAttribute('aria-hidden');
       });
@@ -150,6 +150,23 @@ describe('A11yDialog', () => {
     });
   });
 
+  describe('When shown and targets/siblings already have `aria-hidden` attributes, it…', () => {
+    before(() => {
+      setup(document.querySelector('#test-SHOW-SIBLINGS'));
+      window.scope.spy = sinon.spy();
+      window.scope.instance.on('show', window.scope.spy);
+      window.scope.returnedValue = window.scope.instance.show();
+    });
+
+    after(teardown);
+
+    it('should save the current value of `aria-hidden` on any sibling elements to `data-a11y-dialog-original-aria-hidden` if dialog element is not natively supported', () => {
+      console.log(window.scope.alreadyhidden);
+      expect(window.scope.alreadyhidden.hasAttribute('data-a11y-dialog-original-aria-hidden')).to.eql(
+        IS_DIALOG_SUPPORTED ? false : true);
+    });
+  });
+
   describe('When hidden, it…', () => {
     before(() => {
       setup(document.querySelector('#test-HIDE'));
@@ -170,7 +187,7 @@ describe('A11yDialog', () => {
       );
     });
 
-    it('should remove `aria-hidden` attribute from targets element', () => {
+    it('should remove `aria-hidden` attribute from target element', () => {
       expect(window.scope.main.getAttribute('aria-hidden')).to.eql(null);
     });
 
@@ -191,6 +208,22 @@ describe('A11yDialog', () => {
       expect(
         A11yDialog.prototype.isPrototypeOf(window.scope.returnedValue)
       ).to.eql(true);
+    });
+  });
+
+  describe('When hidden and targets/siblings already had `aria-hidden` attributes, it…', () => {
+    before(() => {
+      setup(document.querySelector('#test-HIDE-SIBLINGS'));
+      window.scope.spy = sinon.spy();
+      window.scope.instance.on('hide', window.scope.spy);
+      window.scope.returnedValue = window.scope.instance.show().hide();
+    });
+
+    after(teardown);
+
+    it('should reset `aria-hidden` of sibling element to the value of `data-a11y-dialog-original-aria-hidden` and remove the latter attribute if dialog element is not natively supported', () => {
+      expect(window.scope.alreadyhidden.getAttribute('aria-hidden')).to.eql("true");
+      expect(window.scope.alreadyhidden.hasAttribute('data-a11y-dialog-original-aria-hidden')).to.eql(false);
     });
   });
 
@@ -381,6 +414,7 @@ function setup(scope) {
     dialog: scope.querySelector('dialog, [role="dialog"]'),
     targets: scope.querySelectorAll('.target'),
     main: scope.querySelector('.main'),
+    alreadyhidden: scope.querySelector('.alreadyhidden'),
     opener: scope.querySelector('[data-a11y-dialog-show]'),
     closer: scope.querySelector('[data-a11y-dialog-hide]'),
     closeButton: scope.querySelector('.close-button')

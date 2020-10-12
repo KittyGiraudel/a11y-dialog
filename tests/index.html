@@ -68,9 +68,9 @@
 
     <div class="test" id="test-CREATE">
       <div class="main target">
-        <button data-a11y-dialog-show="dialog-DESTROY">Open</button>
+        <button data-a11y-dialog-show="dialog-CREATE">Open</button>
       </div>
-      <div class="dialog" id="dialog-DESTROY">
+      <div class="dialog" id="dialog-CREATE" aria-hidden="true">
         <dialog>
           <button data-a11y-dialog-hide>Close</button>
         </dialog>
@@ -79,9 +79,9 @@
 
     <div class="test" id="test-SHOW">
       <div class="main target">
-        <button data-a11y-dialog-show="dialog-DESTROY">Open</button>
+        <button data-a11y-dialog-show="dialog-SHOW">Open</button>
       </div>
-      <div class="dialog" id="dialog-DESTROY">
+      <div class="dialog" id="dialog-SHOW">
         <dialog>
           <button data-a11y-dialog-hide>Close</button>
         </dialog>
@@ -89,15 +89,39 @@
       <div class="secondary target"></div>
     </div>
 
-    <div class="test" id="test-HIDE">
+    <div class="test" id="test-SHOW-SIBLINGS">
       <div class="main target">
-        <button data-a11y-dialog-show="dialog-DESTROY">Open</button>
+        <button data-a11y-dialog-show="dialog-SHOW-SIBLINGS">Open</button>
       </div>
-      <div class="dialog" id="dialog-DESTROY">
+      <div class="dialog" id="dialog-SHOW-SIBLINGS">
         <dialog>
           <button data-a11y-dialog-hide>Close</button>
         </dialog>
       </div>
+      <div class="secondary alreadyhidden target" aria-hidden="true"></div>
+    </div>
+
+    <div class="test" id="test-HIDE">
+      <div class="main target">
+        <button data-a11y-dialog-show="dialog-HIDE">Open</button>
+      </div>
+      <div class="dialog" id="dialog-HIDE">
+        <dialog>
+          <button data-a11y-dialog-hide>Close</button>
+        </dialog>
+      </div>
+    </div>
+
+    <div class="test" id="test-HIDE-SIBLINGS">
+      <div class="main target">
+        <button data-a11y-dialog-show="dialog-HIDE-SIBLINGS">Open</button>
+      </div>
+      <div class="dialog" id="dialog-HIDE-SIBLINGS">
+        <dialog>
+          <button data-a11y-dialog-hide>Close</button>
+        </dialog>
+      </div>
+      <div class="alreadyhidden target" aria-hidden="true"></div>
     </div>
 
     <div class="test" id="test-DESTROY">

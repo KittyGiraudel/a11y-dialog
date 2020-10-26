@@ -26,4 +26,4 @@ declare namespace A11yDialog {
   }
 }
 
-export = A11yDialog;
+export = A11yDialog.A11yDialog;

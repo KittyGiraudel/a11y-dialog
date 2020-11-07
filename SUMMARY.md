@@ -10,6 +10,7 @@
   * [Expected DOM structure](README.md#expected-dom-structure)
   * [Styling layer](README.md#styling-layer)
   * [JavaScript instantiation](README.md#javascript-instantiation)
+  * [Usage as a modal](README.md#usage-as-a-modal)
 
 
 * [DOM API](README.md#dom-api)

@@ -58,10 +58,10 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
     Dialog window content related notes:
     - It is the actual visual dialog element.
     - It may have the `alertdialog` role to make it behave like a “modal”. See the “Usage as a modal” section of the docs.
-    - It doesn’t have to be a `<dialog>` element, it can be a `<div>` element with the `dialog` or `alertdialog` role (e.g. `<div role="dialog">`).
+    - It can be a `<dialog>` element without `role="dialog"`, but there might be browsers inconsistencies.
     - It doesn’t have to have the `aria-labelledby` attribute however this is recommended. It should match the `id` of the dialog title.
   -->
-  <dialog aria-labelledby="dialog-title">
+  <div role="dialog" aria-labelledby="dialog-title">
     <!--
       Closing button related notes:
       - It does have to have the `type="button"` attribute.
@@ -82,7 +82,7 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
     <!--
       Here lives the main content of the dialog.
     -->
-  </dialog>
+  </div>
 </div>
 ```
 

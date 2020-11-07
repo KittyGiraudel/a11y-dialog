@@ -152,7 +152,7 @@ By default, a11y-dialog behaves as a dialog: it is closable with the <kbd>ESC</k
 
 To do so:
 
-1. Add `role="alertdialog"` to the `<dialog>` element or replace`role="dialog"` with `role="alertdialog"` in case you don’t use the `<dialog>` element. This will make sure <kbd>ESC</kbd> doesn’t close the modal.
+1. Replace `role="dialog"` with `role="alertdialog"`. This will make sure <kbd>ESC</kbd> doesn’t close the modal. Note that this role does not work properly with the native `<dialog>` element so make sure to use `<div role="alertdialog">`.
 2. Remove `data-a11y-dialog-hide` from the overlay element. This makes sure it is not possible to close the modal by clicking outside of it.
 3. In case the user actively needs to operate with the modal, you might consider removing the close button from it. Be sure to still offer a way to eventually close the modal.
 

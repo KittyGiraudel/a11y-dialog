@@ -63,25 +63,32 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
   -->
   <div role="dialog" aria-labelledby="dialog-title">
     <!--
-      Closing button related notes:
-      - It does have to have the `type="button"` attribute.
-      - It does have to have the `data-a11y-dialog-hide` attribute.
-      - It does have to have an aria-label attribute if you use an icon as content.
+      Inner document related notes:
+      - It doesn’t have to exist but improves support in NVDA.
+      - It doesn’t have to exist when using <dialog> because is implied.
     -->
-    <button type="button" data-a11y-dialog-hide aria-label="Close this dialog window">
-      &times;
-    </button>
+    <div role="document">
+      <!--
+        Closing button related notes:
+        - It does have to have the `type="button"` attribute.
+        - It does have to have the `data-a11y-dialog-hide` attribute.
+        - It does have to have an aria-label attribute if you use an icon as content.
+      -->
+      <button type="button" data-a11y-dialog-hide aria-label="Close this dialog window">
+        &times;
+      </button>
 
-    <!--
-      Dialog title related notes:
-      - It should have a different content than `Dialog Title`.
-      - It can have a different id than `dialog-title`.
-    -->
-    <h1 id="dialog-title">Dialog Title</h1>
+      <!--
+        Dialog title related notes:
+        - It should have a different content than `Dialog Title`.
+        - It can have a different id than `dialog-title`.
+      -->
+      <h1 id="dialog-title">Dialog Title</h1>
 
-    <!--
-      Here lives the main content of the dialog.
-    -->
+      <!--
+        Here lives the main content of the dialog.
+      -->
+    </div>
   </div>
 </div>
 ```

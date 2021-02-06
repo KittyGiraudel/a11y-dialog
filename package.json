@@ -41,17 +41,19 @@
     "docs:watch": "npm run docs:prepare && gitbook serve",
     "docs:publish": "npm run docs:clean && npm run docs:build && cd _book && git init && git commit --allow-empty -m 'Update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'Update book' && git push git@github.com:edenspiekermann/a11y-dialog gh-pages --force"
   },
+  "husky": {
+    "pre-commit": "lint-staged",
+    "post-rewrite": "lint-staged"
+  },
   "lint-staged": {
     "*.js": [
       "prettier --no-semi --single-quote --print-width 80 --write",
-      "git add",
-      "eslint --fix",
-      "git add"
+      "eslint --fix"
     ]
   },
   "devDependencies": {
-    "husky": "^0.14.3",
-    "lint-staged": "^6.0.0",
+    "husky": "^4.3.8",
+    "lint-staged": "^10.5.4",
     "prettier": "^1.10.2",
     "semistandard": "^7.0.5",
     "uglify-js": "^2.6.1"

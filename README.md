@@ -9,7 +9,7 @@
 ✔︎ Trapping and restoring focus  
 ✔︎ Firing events  
 ✔︎ DOM and JS APIs  
-✔︎ Fast and tiny  
+✔︎ Fast and tiny
 
 You can try the [live demo ↗](http://edenspiekermann.github.io/a11y-dialog/example/).
 
@@ -21,7 +21,7 @@ npm install a11y-dialog --save
 
 ## Usage
 
-You will find a concrete demo in the [example](https://github.com/edenspiekermann/a11y-dialog/tree/master/example) folder of this repository, but basically here is the gist:
+You will find a concrete demo in the [example](https://github.com/edenspiekermann/a11y-dialog/tree/main/example) folder of this repository, but basically here is the gist:
 
 ### Expected DOM structure
 
@@ -46,7 +46,6 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
   - It should have an initial `aria-hidden="true"` to avoid a “flash of unhidden dialog” on page load.
 -->
 <div class="dialog-container" id="my-accessible-dialog" aria-hidden="true">
-
   <!--
     Overlay related notes:
     - It has to have the `tabindex="-1"` attribute.
@@ -74,7 +73,11 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
         - It does have to have the `data-a11y-dialog-hide` attribute.
         - It does have to have an aria-label attribute if you use an icon as content.
       -->
-      <button type="button" data-a11y-dialog-hide aria-label="Close this dialog window">
+      <button
+        type="button"
+        data-a11y-dialog-hide
+        aria-label="Close this dialog window"
+      >
         &times;
       </button>
 
@@ -141,16 +144,16 @@ dialog[open] {
 
 ```javascript
 // Get the dialog element (with the accessor method you want)
-const el = document.getElementById('my-accessible-dialog');
+const el = document.getElementById('my-accessible-dialog')
 
 // Instantiate a new A11yDialog module
-const dialog = new A11yDialog(el);
+const dialog = new A11yDialog(el)
 ```
 
 As recommended in the [HTML section](#expected-dom-structure) of this documentation, the dialog element is supposed to be on the same level as your content container(s). Therefore, the script will toggle the `aria-hidden` attribute of the siblings of the dialog element as a default. You can change this behaviour by passing a `NodeList`, an `Element` or a selector as second argument to the `A11yDialog` constructor:
 
 ```javascript
-const dialog = new A11yDialog(el, containers);
+const dialog = new A11yDialog(el, containers)
 ```
 
 ### Usage as a “modal”
@@ -169,25 +172,35 @@ For more information about modals, refer to the [WAI ARIA recommendations](https
 
 The DOM API relies on `data-*` attributes. They all live under the `data-a11y-dialog-*` namespace for consistency, clarity and robustness. Two attributes are recognised:
 
-* `data-a11y-dialog-show`: the `id` of the dialog element is expected as a value
-* `data-a11y-dialog-hide`: the `id` of the dialog element is expected as a value; if omitted, the closest parent dialog element (if any) will be the target
+- `data-a11y-dialog-show`: the `id` of the dialog element is expected as a value
+- `data-a11y-dialog-hide`: the `id` of the dialog element is expected as a value; if omitted, the closest parent dialog element (if any) will be the target
 
 The following button will open the dialog with the `my-accessible-dialog` id when interacted with.
 
 ```html
-<button type="button" data-a11y-dialog-show="my-accessible-dialog">Open the dialog</button>
+<button type="button" data-a11y-dialog-show="my-accessible-dialog">
+  Open the dialog
+</button>
 ```
 
 The following button will close the dialog in which it lives when interacted with.
 
 ```html
-<button type="button" data-a11y-dialog-hide aria-label="Close the dialog">&times;</button>
+<button type="button" data-a11y-dialog-hide aria-label="Close the dialog">
+  &times;
+</button>
 ```
 
 The following button will close the dialog with the `my-accessible-dialog` id when interacted with. Given that the only focusable elements when the dialog is open are the focusable children of the dialog itself, it seems rather unlikely that you will ever need this but in case you do, well you can.
 
 ```html
-<button type="button" data-a11y-dialog-hide="my-accessible-dialog" aria-label="Close the dialog">&times;</button>
+<button
+  type="button"
+  data-a11y-dialog-hide="my-accessible-dialog"
+  aria-label="Close the dialog"
+>
+  &times;
+</button>
 ```
 
 In addition, the library adds a `data-a11y-dialog-native` attribute (with no value) when the `<dialog>` element is natively supported. This attribute is essentially used to customise the styling layer based on user-agent support (or lack thereof).
@@ -198,10 +211,10 @@ Regarding the JS API, it simply consists on `show()` and `hide()` methods on the
 
 ```javascript
 // Show the dialog
-dialog.show();
+dialog.show()
 
 // Hide the dialog
-dialog.hide();
+dialog.hide()
 ```
 
 When the `<dialog>` element is natively supported, the argument passed to `show()` and `hide()` is being passed to the native call to [`showModal()`](https://www.w3.org/TR/html52/interactive-elements.html#dom-htmldialogelement-showmodal) and [`close()`](https://www.w3.org/TR/html52/interactive-elements.html#dom-htmldialogelement-close). If necessary, the `returnValue` can be read using `dialog.dialog.returnValue`.
@@ -211,10 +224,10 @@ For advanced usages, there are `create()` and `destroy()` methods. These are res
 ```javascript
 // Unbind click listeners from dialog openers and closers and remove all bound
 // custom event listeners registered with `.on()`
-dialog.destroy();
+dialog.destroy()
 
 // Bind click listeners to dialog openers and closers
-dialog.create();
+dialog.create()
 ```
 
 If necessary, the `create()` method also accepts the `targets` containers (the one toggled along with the dialog element) in the same form as the second argument from the constructor. If omitted, the one given to the constructor (or default) will be used.
@@ -229,33 +242,32 @@ The event object can be used to know which trigger (opener / closer) has been us
 dialog.on('show', function (dialogEl, event) {
   // Do something when dialog gets shown
   // Note: opener is `event.currentTarget`
-});
+})
 
 dialog.on('hide', function (dialogEl, event) {
   // Do something when dialog gets hidden
   // Note: closer is `event.currentTarget`
-});
+})
 
 dialog.on('destroy', function (dialogEl) {
   // Do something when dialog gets destroyed
-});
+})
 
 dialog.on('create', function (dialogEl) {
   // Do something when dialog gets created
   // Note: because the initial `create()` call is made from the constructor, it
   // is not possible to react to this particular one (as registering will be
   // done after instantiation)
-});
+})
 ```
 
 You can unregister these handlers with the `off()` method.
 
 ```javascript
-dialog.on('show', doSomething);
+dialog.on('show', doSomething)
 // …
-dialog.off('show', doSomething);
+dialog.off('show', doSomething)
 ```
-
 
 ## Nested dialogs
 

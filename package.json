@@ -28,7 +28,6 @@
     "minify": "uglifyjs a11y-dialog.js -o a11y-dialog.min.js -c -m",
     "build": "npm run minify && npm run copy",
     "postbuild": "npm run add-version",
-    "lint": "semistandard a11y-dialog.js",
     "test": "open tests/index.html",
     "extract-version": "cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]'",
     "add-version": "echo \"/*! a11y-dialog $(npm run extract-version --silent) — © Edenspiekermann */\n$(cat a11y-dialog.min.js)\" > a11y-dialog.min.js",
@@ -47,15 +46,13 @@
   },
   "lint-staged": {
     "*.js": [
-      "prettier --no-semi --single-quote --print-width 80 --write",
-      "eslint --fix"
+      "prettier --write"
     ]
   },
   "devDependencies": {
     "husky": "^4.3.8",
     "lint-staged": "^10.5.4",
-    "prettier": "^1.10.2",
-    "semistandard": "^7.0.5",
+    "prettier": "^2.2.1",
     "uglify-js": "^2.6.1"
   }
 }

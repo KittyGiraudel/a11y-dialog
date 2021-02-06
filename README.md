@@ -156,19 +156,7 @@ As recommended in the [HTML section](#expected-dom-structure) of this documentat
 const dialog = new A11yDialog(el, containers)
 ```
 
-### Usage as a “modal”
-
-By default, a11y-dialog behaves as a dialog: it is closable with the <kbd>ESC</kbd> key, and by clicking the backdrop. However, it is possible to make it work like a “modal”, which would remove these features.
-
-To do so:
-
-1. Replace `role="dialog"` with `role="alertdialog"`. This will make sure <kbd>ESC</kbd> doesn’t close the modal. Note that this role does not work properly with the native `<dialog>` element so make sure to use `<div role="alertdialog">`.
-2. Remove `data-a11y-dialog-hide` from the overlay element. This makes sure it is not possible to close the modal by clicking outside of it.
-3. In case the user actively needs to operate with the modal, you might consider removing the close button from it. Be sure to still offer a way to eventually close the modal.
-
-For more information about modals, refer to the [WAI ARIA recommendations](https://www.w3.org/TR/wai-aria-1.1/#alertdialog).
-
-## DOM API
+### DOM API
 
 The DOM API relies on `data-*` attributes. They all live under the `data-a11y-dialog-*` namespace for consistency, clarity and robustness. Two attributes are recognised:
 
@@ -205,7 +193,7 @@ The following button will close the dialog with the `my-accessible-dialog` id wh
 
 In addition, the library adds a `data-a11y-dialog-native` attribute (with no value) when the `<dialog>` element is natively supported. This attribute is essentially used to customise the styling layer based on user-agent support (or lack thereof).
 
-## JS API
+### JS API
 
 Regarding the JS API, it simply consists on `show()` and `hide()` methods on the dialog instance.
 
@@ -232,7 +220,9 @@ dialog.create()
 
 If necessary, the `create()` method also accepts the `targets` containers (the one toggled along with the dialog element) in the same form as the second argument from the constructor. If omitted, the one given to the constructor (or default) will be used.
 
-## Events
+## Advanced
+
+### Events
 
 When shown, hidden and destroyed, the instance will emit certain events. It is possible to subscribe to these with the `on()` method which will receive the dialog DOM element and the [event object](https://developer.mozilla.org/en-US/docs/Web/API/Event) (if any).
 
@@ -269,17 +259,37 @@ dialog.on('show', doSomething)
 dialog.off('show', doSomething)
 ```
 
-## Nested dialogs
+### Usage as a “modal”
 
-Nested dialogs is a [questionable design pattern](https://ux.stackexchange.com/questions/52042/is-it-acceptable-to-open-a-modal-popup-on-top-of-another-modal-popup) that is not referenced anywhere in the [HTML 5.2 Dialog specification](https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element). Therefore it is discouraged and not supported by default by the library. That being said, if you still want to run with it, [Renato de Leão explains how in edenspiekermann/a11y-dialog#80](https://github.com/edenspiekermann/a11y-dialog/issues/80#issuecomment-377691629).
+By default, a11y-dialog behaves as a dialog: it is closable with the <kbd>ESC</kbd> key, and by clicking the backdrop. However, it is possible to make it work like a “modal”, which would remove these features.
 
-## Implementations
+To do so:
+
+1. Replace `role="dialog"` with `role="alertdialog"`. This will make sure <kbd>ESC</kbd> doesn’t close the modal. Note that this role does not work properly with the native `<dialog>` element so make sure to use `<div role="alertdialog">`.
+2. Remove `data-a11y-dialog-hide` from the overlay element. This makes sure it is not possible to close the modal by clicking outside of it.
+3. In case the user actively needs to operate with the modal, you might consider removing the close button from it. Be sure to still offer a way to eventually close the modal.
+
+For more information about modals, refer to the [WAI ARIA recommendations](https://www.w3.org/TR/wai-aria-1.1/#alertdialog).
+
+### Nested dialogs
+
+Nested dialogs is a [questionable design pattern](https://ux.stackexchange.com/questions/52042/is-it-acceptable-to-open-a-modal-popup-on-top-of-another-modal-popup) that is not referenced anywhere in the [HTML 5.2 Dialog specification](https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element). Therefore it is discouraged and not supported by default by the library. That being said, if you still want to run with it, [Renato de Leão explains how in issue #80](https://github.com/edenspiekermann/a11y-dialog/issues/80#issuecomment-377691629).
+
+## Further reading
+
+### Known issues
+
+1. It has been reported that the focus restoration to the formerly active element when closing the dialog does not always work properly on iOS. It is unclear what causes this or even if it happens consistently. Refer to [issue #102](https://github.com/edenspiekermann/a11y-dialog/issues/102) as a reference.
+
+2. Content with `aria-hidden` appears to be sometimes read by VoiceOver on iOS and macOS. It is unclear in which case this happens, and does not appear to be an issue directly related to the library. Refer to this [WebKit bug](https://bugs.webkit.org/show_bug.cgi?id=201887#c2) for reference.
+
+### Implementations
 
 If you happen to work with [React](https://github.com/facebook/react/) or [Vue](https://github.com/vuejs/vue) in your project, you’re lucky! There are already great light-weight wrapper implemented for a11y-dialog:
 
 - [React A11yDialog](https://github.com/HugoGiraudel/react-a11y-dialog)
 - [Vue A11yDialog](https://github.com/morkro/vue-a11y-dialog)
 
-## Disclaimer & credits
+### Disclaimer & credits
 
 Originally, this repository was a fork from [accessible-modal-dialog ↗](https://github.com/gdkraus/accessible-modal-dialog) by Greg Kraus. It has gone through various stages since the initial implementation and both packages are no longer similar in the way they work.

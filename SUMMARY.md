@@ -1,34 +1,27 @@
 # Summary
 
-* [Introduction](README.md#introduction)
+- [Introduction](README.md#a11y-dialog)
 
+- [Installation](README.md#installation)
 
-* [Installation](README.md#installation)
+- [Usage](README.md#usage)
 
+  - [Expected DOM structure](README.md#expected-dom-structure)
+  - [Styling layer](README.md#styling-layer)
+  - [JavaScript instantiation](README.md#javascript-instantiation)
+  - [DOM API](README.md#dom-api)
+  - [JS API](README.md#js-api)
 
-* [Usage](README.md#usage)
-  * [Expected DOM structure](README.md#expected-dom-structure)
-  * [Styling layer](README.md#styling-layer)
-  * [JavaScript instantiation](README.md#javascript-instantiation)
-  * [Usage as a modal](README.md#usage-as-a-modal)
+- [Advanced](README.md#advanced)
 
+  - [Events](README.md#events)
+  - [Usage as a modal](README.md#usage-as-a-modal)
+  - [Nested dialogs](README.md#nested-dialogs)
 
-* [DOM API](README.md#dom-api)
+- [Further reading](README.md#further-reading)
 
-
-* [JS API](README.md#js-api)
-
-
-* [Events](README.md#events)
-
-
-* [Nested dialogs](README.md#nested-dialogs)
-
-
-* [Implementations](README.md#implementations)
-
-
-* [Example ↗](http://edenspiekermann.github.io/a11y-dialog/example/)
-
-
-* [GitHub repository ↗](https://github.com/edenspiekermann/a11y-dialog)
+  - [Known issues](README.md#known-issues)
+  - [Implementations](README.md#implementations)
+  - [Disclaimer & credits](README.md#disclaimer--credits)
+  - [Example ↗](http://edenspiekermann.github.io/a11y-dialog/example/)
+  - [GitHub repository ↗](https://github.com/edenspiekermann/a11y-dialog)

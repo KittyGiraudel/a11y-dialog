@@ -34,7 +34,7 @@
     "compress": "gzip -9 -fkc a11y-dialog.min.js > a11y-dialog.min.js.gz",
     "show": "ls -lh a11y-dialog.min.js.gz | awk '{print \"Gzipped script size:\", $5\"B\"}'",
     "size": "npm run build --silent && npm run compress --silent && npm run show --silent && rm a11y-dialog.min.js.gz",
-    "docs:clean": "rimraf _book",
+    "docs:clean": "rm -rf _book",
     "docs:prepare": "gitbook install",
     "docs:build": "npm run docs:prepare && gitbook build",
     "docs:watch": "npm run docs:prepare && gitbook serve",

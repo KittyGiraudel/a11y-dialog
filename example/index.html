@@ -1,51 +1,71 @@
 <!doctype html>
 <html lang="en">
-  <head>
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>A11y Dialog</title>
-      <link rel="stylesheet" href="./styles.css" />
-  </head>
 
-  <body>
-    <div class="main" id="main" aria-label="Content">
-      <h1>A11y Dialog</h1>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A11y Dialog</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
 
-      <p><a href="https://github.com/edenspiekermann/a11y-dialog">Get the code on GitHub</a> — <button class="link-like" data-a11y-dialog-show="my-accessible-dialog">Open the dialog window</button></p>
+<body>
+  <main class="main" id="main" aria-label="Content">
+    <h1>A11y Dialog</h1>
 
-      <p>This page demonstrates how to make a dialog window as accessible as possible to assistive technology users. Dialog windows are especially problematic for screen reader users. Often times the user is able to “escape” the window and interact with other parts of the page when they should not be able to. This is partially due to the way screen reader software interacts with the browser.</p>
+    <p><a href="https://github.com/edenspiekermann/a11y-dialog">Get the code on GitHub</a> — <button class="link-like"
+        data-a11y-dialog-show="my-accessible-dialog">Open the dialog window</button></p>
 
-      <p>To see this in action, you just need to <button class="link-like" data-a11y-dialog-show="my-accessible-dialog">open the dialog window</button>. Once it’s open, you should not be able to interact with other links on the main page like <a href="https://github.com/edenspiekermann/a11y-dialog">going to the main GitHub page</a>. The focus is said to be “trapped” inside the dialog until the user explicitely decides to leave it.</p>
+    <p>This page demonstrates how to make a dialog window as accessible as possible to assistive technology users.
+      Dialog windows are especially problematic for screen reader users. Often times the user is able to “escape” the
+      window and interact with other parts of the page when they should not be able to. This is partially due to the way
+      screen reader software interacts with the browser.</p>
 
-      <p>On top of that, this implementation provides all the usual mandatory bits from a dialog window: correct usage or ARIA landmarks, absolute freedom in regard to the styling, closing when pressing <code>ESC</code>, closing when clicking the background overlay, closing when clicking the close button, a simple yet powerful DOM API, for 1.4Kb of JavaScript. Oh, and also it is fully tested using a headless browser to make sure it works as intended.</p>
+    <p>To see this in action, you just need to <button class="link-like"
+        data-a11y-dialog-show="my-accessible-dialog">open the dialog window</button>. Once it’s open, you should not be
+      able to interact with other links on the main page like <a
+        href="https://github.com/edenspiekermann/a11y-dialog">going to the main GitHub page</a>. The focus is said to be
+      “trapped” inside the dialog until the user explicitely decides to leave it.</p>
 
-      <p><strong>No more excuse now. Make your dialog windows accessible.</strong></p>
+    <p>On top of that, this implementation provides all the usual mandatory bits from a dialog window: correct usage or
+      ARIA landmarks, absolute freedom in regard to the styling, closing when pressing <code>ESC</code>, closing when
+      clicking the background overlay, closing when clicking the close button, a simple yet powerful DOM API, for 1.4Kb
+      of JavaScript. Oh, and also it is fully tested using a headless browser to make sure it works as intended.</p>
 
-      <footer role="contentinfo">
-        &copy;&nbsp;2016 <a href="http://edenspiekermann.com">Edenspiekermann</a>
-      </footer>
-    </div>
+    <p><strong>No more excuse now. Make your dialog windows accessible.</strong></p>
 
-    <div class="dialog" id="my-accessible-dialog" aria-hidden="true">
-      <div class="dialog-overlay" tabindex="-1" data-a11y-dialog-hide></div>
-      <dialog class="dialog-content" aria-labelledby="dialogTitle" aria-describedby="dialogDescription">
-        <button data-a11y-dialog-hide class="dialog-close" aria-label="Close this dialog window">&times;</button>
+    <footer role="contentinfo">
+      &copy;&nbsp;2016 <a href="http://edenspiekermann.com">Edenspiekermann</a>
+    </footer>
+  </main>
 
-        <h1 id="dialogTitle">Subscribe to ESPI Newsletter</h1>
+  <div class="dialog" id="my-accessible-dialog" aria-hidden="true" data-a11y-dialog="main">
+    <div class="dialog-overlay" tabindex="-1" data-a11y-dialog-hide></div>
+    <dialog class="dialog-content" aria-labelledby="dialogTitle" aria-describedby="dialogDescription">
+      <button data-a11y-dialog-hide class="dialog-close" aria-label="Close this dialog window">&times;</button>
 
-        <p id="dialogDescription">Fill in the ridiculously small form below to receive our ridiculously cool newsletter!</p>
+      <h1 id="dialogTitle">Subscribe to ESPI Newsletter</h1>
 
-        <form action="http://edenspiekermann.us10.list-manage.com/subscribe/post?u=927d6a7cf437da88aac7a87ec&amp;id=6823ab7bb8" method="post" target="_blank">
-          <label for="email">Email (required)</label>
-          <input type="email" name="EMAIL" id="email" placeholder="john.doe@gmail.com" required>
-          <button type="submit" name="button">Sign up</button>
-        </form>
-      </dialog>
-    </div>
+      <p id="dialogDescription">Fill in the ridiculously small form below to receive our ridiculously cool newsletter!
+      </p>
 
-    <script src="main.js"></script>
-    <script>
+      <form
+        action="http://edenspiekermann.us10.list-manage.com/subscribe/post?u=927d6a7cf437da88aac7a87ec&amp;id=6823ab7bb8"
+        method="post" target="_blank">
+        <label for="email">Email (required)</label>
+        <input type="email" name="EMAIL" id="email" placeholder="john.doe@gmail.com" required>
+        <button type="submit" name="button">Sign up</button>
+      </form>
+    </dialog>
+  </div>
+
+  <script src="main.js"></script>
+  <script>
+    /*
+    The dialog is automatically instantiated with the `data-a11y-dialog`
+    attribute. If that is not desirable, the attribute can be omitted and
+    the following code can be used.
+
     (function () {
       document.addEventListener('DOMContentLoaded', function () {
         var dialogEl = document.getElementById('my-accessible-dialog');
@@ -63,6 +83,8 @@
         // dialog.destroy()
       });
     }());
-    </script>
-  </body>
+    */
+  </script>
+</body>
+
 </html>

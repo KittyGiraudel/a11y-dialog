@@ -463,6 +463,26 @@
     return siblings
   }
 
+  if (typeof global.document !== 'undefined') {
+    var document = global.document
+
+    function instantiateDialogs() {
+      $$('[data-a11y-dialog]').forEach(node => {
+        new A11yDialog(node, node.getAttribute('data-a11y-dialog'))
+      })
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', instantiateDialogs)
+    } else {
+      if (global.requestAnimationFrame) {
+        global.requestAnimationFrame(instantiateDialogs)
+      } else {
+        global.setTimeout(instantiateDialogs, 16)
+      }
+    }
+  }
+
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = A11yDialog
   } else if (typeof define === 'function' && define.amd) {

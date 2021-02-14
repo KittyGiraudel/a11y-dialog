@@ -24,7 +24,7 @@
     "a11y-dialog.d.ts"
   ],
   "scripts": {
-    "copy": "cp a11y-dialog.js example/main.js",
+    "copy": "cp a11y-dialog.js example",
     "minify": "uglifyjs a11y-dialog.js -o a11y-dialog.min.js -c -m",
     "build": "npm run minify && npm run copy",
     "postbuild": "npm run add-version",

@@ -1,5 +1,5 @@
 describe('<dialog> element', () => {
-  before(() => cy.visit('/dialog-element'))
+  before(() => cy.visit('/tests/dialog-element'))
 
   it('should handle the `open` attribute', () => {
     cy.get('.dialog').should('not.have.attr', 'aria-hidden')

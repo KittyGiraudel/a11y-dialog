@@ -3,19 +3,19 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Tests — Index</title>
-  <link rel="stylesheet" href="./styles.css" />
+  <title>Tests — Dialog Element</title>
+  <link rel="stylesheet" href="../styles.css" />
 </head>
 
 <body>
   <main class="main" id="main" aria-label="Content">
-    <h1>Tests — Index</h1>
+    <h1>Tests — Dialog Element</h1>
     <button class="link-like" data-a11y-dialog-show="my-accessible-dialog">Open the dialog window</button>
   </main>
 
-  <div class="dialog" id="my-accessible-dialog" data-a11y-dialog>
+  <div class="dialog" id="my-accessible-dialog" data-a11y-dialog="main">
     <div class="dialog-overlay" tabindex="-1" data-a11y-dialog-hide></div>
-    <div role="dialog" class="dialog-content" aria-labelledby="dialogTitle" aria-describedby="dialogDescription">
+    <dialog class="dialog-content" aria-labelledby="dialogTitle" aria-describedby="dialogDescription" open>
       <button data-a11y-dialog-hide class="dialog-close" aria-label="Close this dialog window">&times;</button>
 
       <h1 id="dialogTitle">Dialog title</h1>
@@ -26,11 +26,10 @@
         <input type="email" name="EMAIL" id="email" placeholder="john.doe@gmail.com" required>
         <button type="submit" name="button">Sign up</button>
       </form>
-    </div>
+    </dialog>
   </div>
-  <div aria-hidden="true" id="pre-hidden-sibling"></div>
 
-  <script src="main.js"></script>
+  <script src="../main.js"></script>
 </body>
 
 </html>

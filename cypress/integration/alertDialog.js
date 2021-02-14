@@ -1,5 +1,5 @@
 describe('Alert Dialog', () => {
-  before(() => cy.visit('/alert-dialog'))
+  before(() => cy.visit('/tests/alert-dialog'))
 
   it('should prevent closing the dialog with escape', () => {
     cy.get('[data-a11y-dialog-show="my-accessible-dialog"]').first().click()

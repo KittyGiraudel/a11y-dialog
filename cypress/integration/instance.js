@@ -1,7 +1,5 @@
 describe('Instance', () => {
-  before(() => {
-    cy.visit('/instance')
-  })
+  before(() => cy.visit('/tests/instance'))
 
   it('should be possible to instantiate a dialog with JavaScript', () => {
     cy.window().then(win => {

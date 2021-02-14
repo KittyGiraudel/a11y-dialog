@@ -60,6 +60,31 @@
   </div>
 
   <script src="main.js"></script>
+  <script>
+    // The dialog is instantiated through the DOM by passing the
+    // `data-a11y-dialog` attribute to the dialog container. If we were to need
+    // the dialog instance, we could remove that attribute and use the following
+    // code.
+    /*
+    (function () {
+      document.addEventListener('DOMContentLoaded', function () {
+        var dialogEl = document.getElementById('my-accessible-dialog');
+        var mainEl = document.getElementById('main');
+        var dialog = new window.A11yDialog(dialogEl, mainEl);
+
+        dialog.on('show', function (dialogEl, triggerEl) {
+          console.log(dialogEl);
+          console.log(triggerEl);
+        });
+
+        // To manually control the dialog:
+        // dialog.show()
+        // dialog.hide()
+        // dialog.destroy()
+      });
+    }());
+    */
+  </script>
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 describe('State', () => {
-  before(() => cy.visit('/'))
+  before(() => cy.visit('/tests/base'))
 
   it('should hide the dialog by default', () => {
     cy.get('.dialog').should('have.attr', 'aria-hidden', 'true')

@@ -1,5 +1,3 @@
-/* global NodeList, Element, Event, define */
-
 var FOCUSABLE_ELEMENTS = [
   'a[href]:not([tabindex^="-"]):not([inert])',
   'area[href]:not([tabindex^="-"]):not([inert])',

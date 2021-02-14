@@ -4,8 +4,6 @@
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.A11yDialog = factory());
 }(this, (function () { 'use strict';
 
-  /* global NodeList, Element, Event, define */
-
   var FOCUSABLE_ELEMENTS = [
     'a[href]:not([tabindex^="-"]):not([inert])',
     'area[href]:not([tabindex^="-"]):not([inert])',

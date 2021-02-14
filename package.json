@@ -4,8 +4,8 @@
   "description": "A tiny script to make dialog windows accessible to assistive technology users.",
   "homepage": "https://github.com/edenspiekermann/a11y-dialog",
   "license": "MIT",
-  "main": "a11y-dialog.js",
-  "types": "a11y-dialog.d.ts",
+  "main": "dist/a11y-dialog.js",
+  "types": "dist/a11y-dialog.d.ts",
   "keywords": [
     "modal",
     "dialog",
@@ -19,17 +19,17 @@
     "url": "https://github.com/edenspiekermann/a11y-dialog"
   },
   "files": [
-    "a11y-dialog.js",
-    "a11y-dialog.min.js",
-    "a11y-dialog.d.ts"
+    "dist/a11y-dialog.js",
+    "dist/a11y-dialog.min.js",
+    "dist/a11y-dialog.d.ts"
   ],
   "scripts": {
     "build": "rollup -c",
     "serve": "npx serve example",
     "test": "cypress run",
-    "compress": "gzip -9 -fkc a11y-dialog.min.js > a11y-dialog.min.js.gz",
-    "show": "ls -lh a11y-dialog.min.js.gz | awk '{print \"Gzipped script size:\", $5\"B\"}'",
-    "size": "npm run build --silent && npm run compress --silent && npm run show --silent && rm a11y-dialog.min.js.gz",
+    "compress": "gzip -9 -fkc dist/a11y-dialog.min.js > dist/a11y-dialog.min.js.gz",
+    "show": "ls -lh dist/a11y-dialog.min.js.gz | awk '{print \"Gzipped script size:\", $5\"B\"}'",
+    "size": "npm run build -- --silent && npm run compress --silent && npm run show && rm dist/a11y-dialog.min.js.gz",
     "docs:clean": "rm -rf _book",
     "docs:prepare": "gitbook install",
     "docs:build": "npm run docs:prepare && gitbook build",

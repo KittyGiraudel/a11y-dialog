@@ -1,3 +1,5 @@
+'use strict'
+
 var FOCUSABLE_ELEMENTS = [
   'a[href]:not([tabindex^="-"]):not([inert])',
   'area[href]:not([tabindex^="-"]):not([inert])',

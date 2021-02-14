@@ -468,7 +468,7 @@
 
     function instantiateDialogs() {
       $$('[data-a11y-dialog]').forEach(function (node) {
-        new A11yDialog(node, node.getAttribute('data-a11y-dialog'))
+        new A11yDialog(node, node.getAttribute('data-a11y-dialog') || undefined)
       })
     }
 

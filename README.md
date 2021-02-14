@@ -51,6 +51,7 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
     Overlay related notes:
     - It has to have the `tabindex="-1"` attribute.
     - It doesn’t have to have the `data-a11y-dialog-hide` attribute, however this is recommended. It hides the dialog when clicking outside of it.
+    - It should not have the `data-a11y-dialog-hide` if the dialog window has the `alertdialog`role (see below).
   -->
   <div tabindex="-1" data-a11y-dialog-hide></div>
 

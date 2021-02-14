@@ -1,6 +1,6 @@
 # [A11y Dialog](http://edenspiekermann.github.io/a11y-dialog/)
 
-[a11y-dialog](http://edenspiekermann.github.io/a11y-dialog/) is a lightweight (1.5Kb) yet flexible script to create accessible dialog windows.
+[a11y-dialog](http://edenspiekermann.github.io/a11y-dialog/) is a lightweight (1.6Kb) yet flexible script to create accessible dialog windows.
 
 ✔︎ No dependencies  
 ✔︎ Leveraging the native `<dialog>` element  
@@ -44,6 +44,7 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
   - It can have a different id than `my-accessible-dialog`, but it needs an `id` anyway.
   - It can have a different class, or no class at all—as long as your CSS accounts for that.
   - It should have an initial `aria-hidden="true"` to avoid a “flash of unhidden dialog” on page load.
+  - It can have the `data-a11y-dialog` attribute (with the “targets” as value, see “Instantiation”) to automatically instantiate the dialog without JavaScript.
 -->
 <div class="dialog-container" id="my-accessible-dialog" aria-hidden="true">
   <!--
@@ -140,10 +141,28 @@ dialog[open] {
 }
 ```
 
-### JavaScript instantiation
+### Instantiation
+
+By default, any dialog container having the `data-a11y-dialog` attribute will be automatically instantiated. This is so that there is no need for any JavaScript (besides loading the script). The value of the attribute, if given, should be a selector, serving the same purpose as the 2nd attribute of the `A11yDialog` constructor (see below).
+
+```html
+<!-- The content of the `data-a11y-dialog` attribute should be
+     the selector containing the main website’s or app’s code.
+     See “Expected DOM structure” for more information. -->
+<div
+  class="dialog-container"
+  id="my-accessible-dialog"
+  aria-hidden="true"
+  data-a11y-dialog="#root"
+>
+  …
+</div>
+```
+
+If automatic loading is not an option because the expected dialog markup is not present in the DOM on script execution (or the dialog instance is needed to do more complicated things), it can be instantiated through JavaScript.
 
 ```javascript
-// Get the dialog element (with the accessor method you want)
+// Get the dialog container HTML element (with the accessor method you want)
 const el = document.getElementById('my-accessible-dialog')
 
 // Instantiate a new A11yDialog module
@@ -153,7 +172,8 @@ const dialog = new A11yDialog(el)
 As recommended in the [HTML section](#expected-dom-structure) of this documentation, the dialog element is supposed to be on the same level as your content container(s). Therefore, the script will toggle the `aria-hidden` attribute of the siblings of the dialog element as a default. You can change this behaviour by passing a `NodeList`, an `Element` or a selector as second argument to the `A11yDialog` constructor:
 
 ```javascript
-const dialog = new A11yDialog(el, containers)
+const container = document.querySelector('#root')
+const dialog = new A11yDialog(el, container)
 ```
 
 ### DOM API

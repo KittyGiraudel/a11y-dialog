@@ -1,5 +1,8 @@
 name: Tests
-on: [push]
+on:
+  push:
+    branches:
+      - main
 jobs:
   cypress-run:
     runs-on: ubuntu-latest

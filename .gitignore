@@ -1,7 +1,5 @@
-/nbproject/
 .DS_Store
 node_modules
 *.log
 _book
-package-lock.json
 cypress/screenshots

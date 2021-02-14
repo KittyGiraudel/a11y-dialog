@@ -28,7 +28,7 @@
     "minify": "uglifyjs a11y-dialog.js -o a11y-dialog.min.js -c -m",
     "build": "npm run minify && npm run copy",
     "postbuild": "npm run add-version",
-    "test": "open tests/index.html",
+    "test": "npx serve tests & npx cypress run",
     "extract-version": "cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]'",
     "add-version": "echo \"/*! a11y-dialog $(npm run extract-version --silent) — © Edenspiekermann */\n$(cat a11y-dialog.min.js)\" > a11y-dialog.min.js",
     "compress": "gzip -9 -fkc a11y-dialog.min.js > a11y-dialog.min.js.gz",

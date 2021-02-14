@@ -1,3 +1,5 @@
+import { shouldBeHidden, shouldBeVisible } from './utils'
+
 describe('Instance', () => {
   before(() => cy.visit('/tests/instance'))
 
@@ -10,20 +12,18 @@ describe('Instance', () => {
     })
   })
 
-  it('should expose a show method on the instance', () => {
+  it('should expose a `show` method on the instance', () => {
     cy.window().its('instance').invoke('show')
-    cy.get('.dialog').should('not.have.attr', 'aria-hidden')
-    cy.get('.dialog-content').should('be.visible')
+    cy.get('.dialog').then(shouldBeVisible)
   })
 
-  it('should expose status on the instance', () => {
+  it('should expose the dialog status on the instance', () => {
     cy.window().its('instance').its('shown').should('eq', true)
   })
 
-  it('should expose a hide method on the instance', () => {
+  it('should expose a `hide` method on the instance', () => {
     cy.window().its('instance').invoke('hide')
-    cy.get('.dialog').should('have.attr', 'aria-hidden', 'true')
-    cy.get('.dialog-overlay').should('not.be.visible')
+    cy.get('.dialog').then(shouldBeHidden)
     cy.window().its('instance').its('shown').should('eq', false)
   })
 
@@ -41,8 +41,12 @@ describe('Instance', () => {
       .should('have.attr', 'class', 'dialog-content')
   })
 
-  it('should be possible to register events', () => {
+  it('should be possible to register/unregister events', () => {
     let logs = []
+
+    function event(container) {
+      logs.push('Should Not Fire')
+    }
 
     cy.window()
       .its('instance')
@@ -57,10 +61,14 @@ describe('Instance', () => {
         logs.push('Hidden')
       })
 
+      .invoke('on', 'hide', event)
+      .invoke('off', 'hide', event)
+
       .invoke('on', 'destroy', container => {
         expect(container.id).to.eq('my-accessible-dialog')
         logs.push('Destroyed')
       })
+
       .invoke('show')
       .invoke('hide')
       .invoke('destroy')
@@ -70,7 +78,6 @@ describe('Instance', () => {
 
   it('should be possible to handle dialog destroy', () => {
     cy.get('[data-a11y-dialog-show="my-accessible-dialog"]').click()
-    cy.get('.dialog').should('have.attr', 'aria-hidden', 'true')
-    cy.get('.dialog-overlay').should('not.be.visible')
+    cy.get('.dialog').then(shouldBeHidden)
   })
 })

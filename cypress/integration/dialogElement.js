@@ -1,0 +1,34 @@
+describe('<dialog> element', () => {
+  before(() => cy.visit('/dialog-element'))
+
+  it('should handle the `open` attribute', () => {
+    cy.get('.dialog').should('not.have.attr', 'aria-hidden')
+    cy.get('dialog').should('be.visible')
+    cy.get('.dialog-close').click()
+    cy.get('dialog').should('not.have.attr', 'open')
+  })
+
+  it('should add the `role` attribute for consistency and compatibility', () => {
+    cy.get('dialog').should('have.attr', 'role', 'dialog')
+  })
+
+  it('should add the `data-a11y-dialog-native` attribute to the container', () => {
+    cy.get('.dialog').should('have.attr', 'data-a11y-dialog-native')
+  })
+
+  it('should remove the `aria-hidden` attribute from the container', () => {
+    cy.log(
+      'See: https://github.com/edenspiekermann/a11y-dialog/commit/6ba711a777aed0dbda0719a18a02f742098c64d9#commitcomment-28694166'
+    )
+    cy.get('.dialog').should('not.have.attr', 'aria-hidden')
+  })
+
+  it('should call the native `showModal` method', () => {
+    cy.window().then(win => {
+      const dialog = win.document.querySelector('dialog')
+      cy.spy(dialog, 'showModal').as('showModal')
+    })
+    cy.get('[data-a11y-dialog-show="my-accessible-dialog"]').click()
+    cy.get('@showModal').should('be.calledOnce')
+  })
+})

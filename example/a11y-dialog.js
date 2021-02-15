@@ -4,7 +4,7 @@
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.A11yDialog = factory());
 }(this, (function () { 'use strict';
 
-  var FOCUSABLE_ELEMENTS = [
+  var focusableSelectors = [
     'a[href]:not([tabindex^="-"]):not([inert])',
     'area[href]:not([tabindex^="-"]):not([inert])',
     'input:not([disabled]):not([inert])',
@@ -17,6 +17,7 @@
     '[contenteditable]:not([tabindex^="-"]):not([inert])',
     '[tabindex]:not([tabindex^="-"]):not([inert])',
   ];
+
   var TAB_KEY = 9;
   var ESCAPE_KEY = 27;
   var focusedBeforeDialog;
@@ -406,7 +407,7 @@
    * @return {Array<Element>}
    */
   function getFocusableChildren(node) {
-    return $$(FOCUSABLE_ELEMENTS.join(','), node).filter(function (child) {
+    return $$(focusableSelectors.join(','), node).filter(function (child) {
       return !!(
         child.offsetWidth ||
         child.offsetHeight ||

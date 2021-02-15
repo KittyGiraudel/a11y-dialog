@@ -32,5 +32,12 @@ export default {
       file: 'dist/a11y-dialog.esm.js',
       format: 'es',
     },
+    // Minified ESM version
+    {
+      file: 'dist/a11y-dialog.esm.min.js',
+      format: 'es',
+      plugins: [terser()],
+      banner: () => `/*! a11y-dialog ${pkg.version} — © Edenspiekermann */`,
+    },
   ],
 }

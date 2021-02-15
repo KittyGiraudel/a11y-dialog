@@ -463,14 +463,14 @@
     return siblings
   }
 
+  function instantiateDialogs() {
+    $$('[data-a11y-dialog]').forEach(function (node) {
+      new A11yDialog(node, node.getAttribute('data-a11y-dialog') || undefined)
+    })
+  }
+
   if (typeof global.document !== 'undefined') {
     var document = global.document
-
-    function instantiateDialogs() {
-      $$('[data-a11y-dialog]').forEach(function (node) {
-        new A11yDialog(node, node.getAttribute('data-a11y-dialog') || undefined)
-      })
-    }
 
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', instantiateDialogs)

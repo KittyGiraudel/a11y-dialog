@@ -19,9 +19,7 @@
     "url": "https://github.com/edenspiekermann/a11y-dialog"
   },
   "files": [
-    "dist/a11y-dialog.js",
-    "dist/a11y-dialog.min.js",
-    "dist/a11y-dialog.d.ts"
+    "dist/*"
   ],
   "scripts": {
     "build": "rollup -c",

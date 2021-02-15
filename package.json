@@ -5,6 +5,7 @@
   "homepage": "https://github.com/edenspiekermann/a11y-dialog",
   "license": "MIT",
   "main": "dist/a11y-dialog.js",
+  "module": "dist/a11y-dialog.esm.js",
   "types": "dist/a11y-dialog.d.ts",
   "keywords": [
     "modal",

@@ -27,5 +27,10 @@ export default {
       name: 'A11yDialog',
       exports: 'default',
     },
+    // ESM version for <script type="module"> support
+    {
+      file: 'dist/a11y-dialog.esm.js',
+      format: 'es',
+    },
   ],
 }

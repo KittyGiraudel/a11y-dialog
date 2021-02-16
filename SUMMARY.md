@@ -23,5 +23,5 @@
   - [Known issues](README.md#known-issues)
   - [Implementations](README.md#implementations)
   - [Disclaimer & credits](README.md#disclaimer--credits)
-  - [Example ↗](http://edenspiekermann.github.io/a11y-dialog/example/)
-  - [GitHub repository ↗](https://github.com/edenspiekermann/a11y-dialog)
+  - [Example ↗](http://hugogiraudel.github.io/a11y-dialog/example/)
+  - [GitHub repository ↗](https://github.com/HugoGiraudel/a11y-dialog)

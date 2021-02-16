@@ -1,6 +1,6 @@
-# [A11y Dialog](http://edenspiekermann.github.io/a11y-dialog/)
+# [A11y Dialog](http://hugogiraudel.github.io/a11y-dialog/)
 
-[a11y-dialog](http://edenspiekermann.github.io/a11y-dialog/) is a lightweight (1.6Kb) yet flexible script to create accessible dialog windows.
+[a11y-dialog](http://hugogiraudel.github.io/a11y-dialog/) is a lightweight (1.6Kb) yet flexible script to create accessible dialog windows.
 
 ✔︎ Leveraging the native `<dialog>` element  
 ✔︎ Closing dialog on overlay click and <kbd>ESC</kbd>  
@@ -10,7 +10,7 @@
 ✔︎ DOM and JS APIs  
 ✔︎ Fast and tiny
 
-You can try the [live demo ↗](http://edenspiekermann.github.io/a11y-dialog/example/).
+You can try the [live demo ↗](http://hugogiraudel.github.io/a11y-dialog/example/).
 
 ## Installation
 
@@ -20,7 +20,7 @@ npm install a11y-dialog --save
 
 ## Usage
 
-You will find a concrete demo in the [example](https://github.com/edenspiekermann/a11y-dialog/tree/main/example) folder of this repository, but basically here is the gist:
+You will find a concrete demo in the [example](https://github.com/HugoGiraudel/a11y-dialog/tree/main/example) folder of this repository, but basically here is the gist:
 
 ### Expected DOM structure
 
@@ -293,13 +293,13 @@ For more information about modals, refer to the [WAI ARIA recommendations](https
 
 ### Nested dialogs
 
-Nested dialogs is a [questionable design pattern](https://ux.stackexchange.com/questions/52042/is-it-acceptable-to-open-a-modal-popup-on-top-of-another-modal-popup) that is not referenced anywhere in the [HTML 5.2 Dialog specification](https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element). Therefore it is discouraged and not supported by default by the library. That being said, if you still want to run with it, [Renato de Leão explains how in issue #80](https://github.com/edenspiekermann/a11y-dialog/issues/80#issuecomment-377691629).
+Nested dialogs is a [questionable design pattern](https://ux.stackexchange.com/questions/52042/is-it-acceptable-to-open-a-modal-popup-on-top-of-another-modal-popup) that is not referenced anywhere in the [HTML 5.2 Dialog specification](https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element). Therefore it is discouraged and not supported by default by the library. That being said, if you still want to run with it, [Renato de Leão explains how in issue #80](https://github.com/HugoGiraudel/a11y-dialog/issues/80#issuecomment-377691629).
 
 ## Further reading
 
 ### Known issues
 
-1. It has been reported that the focus restoration to the formerly active element when closing the dialog does not always work properly on iOS. It is unclear what causes this or even if it happens consistently. Refer to [issue #102](https://github.com/edenspiekermann/a11y-dialog/issues/102) as a reference.
+1. It has been reported that the focus restoration to the formerly active element when closing the dialog does not always work properly on iOS. It is unclear what causes this or even if it happens consistently. Refer to [issue #102](https://github.com/HugoGiraudel/a11y-dialog/issues/102) as a reference.
 
 2. Content with `aria-hidden` appears to be sometimes read by VoiceOver on iOS and macOS. It is unclear in which case this happens, and does not appear to be an issue directly related to the library. Refer to this [WebKit bug](https://bugs.webkit.org/show_bug.cgi?id=201887#c2) for reference.
 

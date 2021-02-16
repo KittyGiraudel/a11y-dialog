@@ -29,7 +29,7 @@ function A11yDialog(node, targets) {
   this._hide = this.hide.bind(this);
   this._maintainFocus = this._maintainFocus.bind(this);
   this._bindKeypress = this._bindKeypress.bind(this);
-  this._focusedBeforeDialog = null;
+  this._previouslyFocused = null;
 
   // Keep a reference of the node and the actual dialog on the instance
   this.container = node;
@@ -124,7 +124,7 @@ A11yDialog.prototype.show = function (event) {
 
   // Keep a reference to the currently focused element to be able to restore
   // it later
-  this._focusedBeforeDialog = document.activeElement;
+  this._previouslyFocused = document.activeElement;
 
   if (this.useDialog) {
     this.dialog.showModal(event instanceof Event ? void 0 : event);
@@ -200,8 +200,8 @@ A11yDialog.prototype.hide = function (event) {
   // If there was a focused element before the dialog was opened (and it has a
   // `focus` method), restore the focus back to it
   // See: https://github.com/HugoGiraudel/a11y-dialog/issues/108
-  if (this._focusedBeforeDialog && this._focusedBeforeDialog.focus) {
-    this._focusedBeforeDialog.focus();
+  if (this._previouslyFocused && this._previouslyFocused.focus) {
+    this._previouslyFocused.focus();
   }
 
   // Remove the focus event listener to the body element and stop listening

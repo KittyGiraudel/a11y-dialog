@@ -2,7 +2,7 @@
   "name": "a11y-dialog",
   "version": "5.5.2",
   "description": "A tiny script to make dialog windows accessible to assistive technology users.",
-  "homepage": "https://github.com/edenspiekermann/a11y-dialog",
+  "homepage": "https://github.com/HugoGiraudel/a11y-dialog",
   "license": "MIT",
   "main": "dist/a11y-dialog.js",
   "module": "dist/a11y-dialog.esm.js",
@@ -17,7 +17,7 @@
   "author": "Hugo “Kitty” Giraudel (https://hugogiraudel.com)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/edenspiekermann/a11y-dialog"
+    "url": "https://github.com/HugoGiraudel/a11y-dialog"
   },
   "files": [
     "dist/*"
@@ -33,7 +33,7 @@
     "docs:prepare": "gitbook install",
     "docs:build": "npm run docs:prepare && gitbook build",
     "docs:watch": "npm run docs:prepare && gitbook serve",
-    "docs:publish": "npm run docs:clean && npm run docs:build && cd _book && git init && git commit --allow-empty -m 'Update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'Update book' && git push git@github.com:edenspiekermann/a11y-dialog gh-pages --force"
+    "docs:publish": "npm run docs:clean && npm run docs:build && cd _book && git init && git commit --allow-empty -m 'Update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'Update book' && git push git@github.com:HugoGiraudel/a11y-dialog gh-pages --force"
   },
   "husky": {
     "pre-commit": "lint-staged",

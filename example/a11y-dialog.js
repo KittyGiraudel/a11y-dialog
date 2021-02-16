@@ -70,7 +70,7 @@
 
     // Despite using a `<dialog>` element, `role="dialog"` is not necessarily
     // implied by all screen-readers (yet)
-    // See: https://github.com/edenspiekermann/a11y-dialog/commit/6ba711a777aed0dbda0719a18a02f742098c64d9#commitcomment-28694166
+    // See: https://github.com/HugoGiraudel/a11y-dialog/commit/6ba711a777aed0dbda0719a18a02f742098c64d9#commitcomment-28694166
     this.dialog.setAttribute('role', this.role);
 
     if (!this.useDialog) {
@@ -82,7 +82,7 @@
     } else {
       this.container.setAttribute('data-a11y-dialog-native', '');
       // Remove initial `aria-hidden` from container
-      // See: https://github.com/edenspiekermann/a11y-dialog/pull/117#issuecomment-706056246
+      // See: https://github.com/HugoGiraudel/a11y-dialog/pull/117#issuecomment-706056246
       this.container.removeAttribute('aria-hidden');
     }
 
@@ -205,7 +205,7 @@
 
     // If there was a focused element before the dialog was opened (and it has a
     // `focus` method), restore the focus back to it
-    // See: https://github.com/edenspiekermann/a11y-dialog/issues/108
+    // See: https://github.com/HugoGiraudel/a11y-dialog/issues/108
     if (focusedBeforeDialog && focusedBeforeDialog.focus) {
       focusedBeforeDialog.focus();
     }

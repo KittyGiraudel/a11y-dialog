@@ -7,7 +7,7 @@ const umd = { format: 'umd', name: 'A11yDialog', exports: 'default' }
 const es = { format: 'es' }
 const minify = {
   plugins: [terser()],
-  banner: () => `/*! a11y-dialog ${pkg.version} — © Edenspiekermann */`,
+  banner: () => `/*! a11y-dialog ${pkg.version} — © Kitty Giraudel */`,
 }
 
 export default {

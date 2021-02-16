@@ -6,7 +6,8 @@
 
 - [Usage](README.md#usage)
 
-  - [Expected DOM structure](README.md#expected-dom-structure)
+  - [HTML boilerplate](README.md#html-boilerplate)
+    - [About the HTML dialog element](README.md#about-the-html-dialog-element)
   - [Styling layer](README.md#styling-layer)
   - [Instantiation](README.md#instantiation)
   - [DOM API](README.md#dom-api)

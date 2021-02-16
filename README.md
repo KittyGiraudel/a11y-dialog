@@ -2,7 +2,7 @@
 
 [a11y-dialog](http://hugogiraudel.github.io/a11y-dialog/) is a lightweight (1.6Kb) yet flexible script to create accessible dialog windows.
 
-✔︎ Leveraging the native `<dialog>` element  
+✔︎ Leveraging the native `<dialog>` element if desired  
 ✔︎ Closing dialog on overlay click and <kbd>ESC</kbd>  
 ✔︎ Toggling `aria-*` attributes  
 ✔︎ Trapping and restoring focus  
@@ -22,107 +22,118 @@ npm install a11y-dialog --save
 
 You will find a concrete demo in the [example](https://github.com/HugoGiraudel/a11y-dialog/tree/main/example) folder of this repository, but basically here is the gist:
 
-### Expected DOM structure
+### HTML boilerplate
 
 Here is the basic markup, which can be enhanced. Pay extra attention to the comments.
 
 ```html
-<!--
-  Main container related notes:
-  - It can have a different id than `main`, however you will have to pass it as a second argument to the A11yDialog instance. See further down.
--->
-<div id="main">
-  <!--
-    Here lives the main content of the page.
-  -->
-</div>
-
-<!--
-  Dialog container related notes:
-  - It is not the actual dialog window, just the container with which the script interacts.
-  - It can have a different id than `my-accessible-dialog`, but it needs an `id` anyway.
-  - It can have a different class, or no class at all—as long as your CSS accounts for that.
-  - It should have an initial `aria-hidden="true"` to avoid a “flash of unhidden dialog” on page load.
-  - It can have the `data-a11y-dialog` attribute (with the “targets” as value, see “Instantiation”) to automatically instantiate the dialog without JavaScript.
--->
-<div class="dialog-container" id="my-accessible-dialog" aria-hidden="true">
-  <!--
-    Overlay related notes:
-    - It has to have the `tabindex="-1"` attribute.
-    - It doesn’t have to have the `data-a11y-dialog-hide` attribute, however this is recommended. It hides the dialog when clicking outside of it.
-    - It should not have the `data-a11y-dialog-hide` if the dialog window has the `alertdialog` role (see below).
-  -->
+<!-- 1. The main content container -->
+<div id="main"></div>
+<!-- 2. The dialog container -->
+<div id="your-dialog-id" aria-hidden="true">
+  <!-- 3. The dialog overlay -->
   <div tabindex="-1" data-a11y-dialog-hide></div>
-
-  <!--
-    Dialog window content related notes:
-    - It is the actual visual dialog element.
-    - It may have the `alertdialog` role to make it behave like a “modal”. See the “Usage as a modal” section of the docs.
-    - It can be a `<dialog>` element without `role="dialog"`, but there might be browsers inconsistencies.
-    - It doesn’t have to have the `aria-labelledby` attribute however this is recommended. It should match the `id` of the dialog title.
-  -->
-  <div role="dialog" aria-labelledby="dialog-title">
-    <!--
-      Inner document related notes:
-      - It doesn’t have to exist but improves support in NVDA.
-      - It doesn’t have to exist when using <dialog> because is implied.
-    -->
+  <!-- 4. The actual dialog -->
+  <div role="dialog" aria-labelledby="your-dialog-title-id">
+    <!-- 5. The inner document -->
     <div role="document">
-      <!--
-        Closing button related notes:
-        - It does have to have the `type="button"` attribute.
-        - It does have to have the `data-a11y-dialog-hide` attribute.
-        - It does have to have an aria-label attribute if you use an icon as content.
-      -->
-      <button
-        type="button"
-        data-a11y-dialog-hide
-        aria-label="Close this dialog window"
-      >
+      <!-- 6. The close button -->
+      <button type="button" data-a11y-dialog-hide aria-label="Close dialog">
         &times;
       </button>
-
-      <!--
-        Dialog title related notes:
-        - It should have a different content than `Dialog Title`.
-        - It can have a different id than `dialog-title`.
-      -->
-      <h1 id="dialog-title">Dialog Title</h1>
-
-      <!--
-        Here lives the main content of the dialog.
-      -->
+      <!-- 7. The dialog title -->
+      <h1 id="your-dialog-title-id">Your dialog title</h1>
+      <!-- 8. Dialog content -->
     </div>
   </div>
 </div>
 ```
 
+1. The main container is where your site/app content lives.
+
+   - It can have a different id than `main`, however you will have to pass it as a second argument to the A11yDialog instance. See [instantiation instructions](#instantiation) further down.
+
+2. The dialog container.
+
+   - It is not the actual dialog window, just the container with which the script interacts.
+   - It can have a different id than `your-dialog-id`, but it needs an `id` anyway.
+   - It might need a class for you to be able to style it.
+   - It should have an initial `aria-hidden="true"` to avoid a “flash of unhidden dialog” on page load.
+   - It can have the `data-a11y-dialog` attribute (with the “targets” as value, see [Instantiation](#instantiation)) to automatically instantiate the dialog without JavaScript.
+
+3. The dialog overlay.
+
+   - It has to have the `tabindex="-1"` attribute.
+   - It doesn’t have to have the `data-a11y-dialog-hide` attribute, however this is recommended. It hides the dialog when clicking outside of it.
+   - It should not have the `data-a11y-dialog-hide` if the dialog window has the `alertdialog` role (see below).
+
+4. The actual dialog.
+
+   - It may have the `alertdialog` role to make it behave like a “modal”. See the [Usage as a modal](#usage-as-a-modal) section of the docs.
+   - It can be a `<dialog>` element, but there might be [browsers inconsistencies](#about-the-html-dialog-element).
+   - It doesn’t have to have the `aria-labelledby` attribute however this is recommended. It should match the `id` of the dialog title.
+
+5. The inner document.
+
+   - It doesn’t have to exist but improves support in NVDA.
+   - It doesn’t have to exist when using `<dialog>` because is implied.
+
+6. The dialog close button.
+
+   - It does have to have the `type="button"` attribute.
+   - It does have to have the `data-a11y-dialog-hide` attribute.
+   - It does have to have an `aria-label` attribute if you use an icon as content.
+
+7. The dialog title.
+
+   - It should have a different content than “Dialog Title”.
+   - It can have a different id than `your-dialog-title-id`.
+
+8. The dialog content.
+
+   - This is where your dialog content lives.
+
+#### About the HTML dialog element
+
+As mentioned in the comments above, the script works fine with the native HTML `<dialog>` element and will polyfill its behaviour so the dialog works in any browser, regardless of their support for that HTML element. However, it is recommended _not_ to use it and to rely on a `<div>` with `role="dialog"` instead. Amongst other, here are the issues with the HTML `<dialog>` element:
+
+- Clicking the backdrop does not close the dialog on Chrome.
+- The native `::backdrop` only shows when programatically opening the dialog, not when using the `open` attribute.
+- Default styles are left to the browsers’ discretion and can be inconsistent.
+- The [modal pattern](#usage-as-a-modal) (`role="alertdialog"`) simply does not work with the dialog element.
+- It still requires JavaScript anyway, so it’s not even 100% HTML.
+- [Read more about the shortcoming of the dialog element by Scott Ohara](https://www.scottohara.me/blog/2019/03/05/open-dialog.html).
+
 ### Styling layer
 
-The script itself does not take care of any styling whatsoever, not even the `display` property. It basically mostly toggles the `aria-hidden` attribute on the dialog itself and its counterpart containers.
+The script itself does not take care of any styling whatsoever, not even the `display` property. It basically mostly toggles the `aria-hidden` attribute on the dialog itself and its counterpart content containers (where the rest of the site/app lives).
 
-In browsers supporting the `<dialog>` element, its visibility will be handled by the user-agent itself. Until support gets better across the board, the styling layer is up to the implementor (you).
+If using the `<dialog>` element (which is [not recommended due to browser inconsistencies](#about-the-html-dialog-element)), its visibility will be handled by the user-agent itself. If using a `<div>` with the `dialog` role (which is recommended for consistency), the styling layer is up to the implementor (you).
 
 We recommend using at least the following styles to make everything work on both supporting and non-supporting user-agents:
 
 ```css
 /**
- * When the native `<dialog>` element is supported, the overlay is implied and
- * can be styled with `::backdrop`, which means the DOM one should be removed.
+ * When the native `<dialog>` element is supported and used, the overlay is
+ * handled natively and can be styled with `::backdrop`, which means the DOM one
+ * should be removed.
  *
  * The `data-a11y-dialog-native` attribute is set by the script when the
- * `<dialog>` element is properly supported.
+ * `<dialog>` element is properly supported. Feel free to replace `:first-child`
+ * with the overlay selector you prefer.
  *
- * Feel free to replace `:first-child` with the overlay selector you prefer.
+ * This rule can be safely omitted when *not* using the <dialog> element.
  */
 [data-a11y-dialog-native] > :first-child {
   display: none;
 }
 
 /**
- * When the `<dialog>` element is not supported, its default display is `inline`
- * which can cause layout issues. This makes sure the dialog is correctly
- * displayed when open.
+ * When the `<dialog>` element is used but not supported by the user agent, its
+ * default display is `inline` which can cause layout issues. This makes sure
+ * the dialog is correctly displayed when open.
+ *
+ * This rule can be safely omitted when *not* using the <dialog> element.
  */
 dialog[open] {
   display: block;
@@ -148,10 +159,10 @@ By default, any dialog container having the `data-a11y-dialog` attribute will be
 ```html
 <!-- The content of the `data-a11y-dialog` attribute should be
      the selector containing the main website’s or app’s code.
-     See “Expected DOM structure” for more information. -->
+     See HTML boilerplate” for more information. -->
 <div
   class="dialog-container"
-  id="my-accessible-dialog"
+  id="your-dialog-id"
   aria-hidden="true"
   data-a11y-dialog="#root"
 >
@@ -163,13 +174,13 @@ If automatic loading is not an option because the expected dialog markup is not 
 
 ```javascript
 // Get the dialog container HTML element (with the accessor method you want)
-const el = document.getElementById('my-accessible-dialog')
+const el = document.getElementById('your-dialog-id')
 
 // Instantiate a new A11yDialog module
 const dialog = new A11yDialog(el)
 ```
 
-As recommended in the [HTML section](#expected-dom-structure) of this documentation, the dialog element is supposed to be on the same level as your content container(s). Therefore, the script will toggle the `aria-hidden` attribute of the siblings of the dialog element as a default. You can change this behaviour by passing a `NodeList`, an `Element` or a selector as second argument to the `A11yDialog` constructor:
+As recommended in the [HTML section](#html-boilerplate) of this documentation, the dialog element is supposed to be on the same level as your content container(s). Therefore, the script will toggle the `aria-hidden` attribute of the siblings of the dialog element as a default. You can change this behaviour by passing a `NodeList`, an `Element` or a selector as second argument to the `A11yDialog` constructor:
 
 ```javascript
 const container = document.querySelector('#root')
@@ -183,10 +194,10 @@ The DOM API relies on `data-*` attributes. They all live under the `data-a11y-di
 - `data-a11y-dialog-show`: the `id` of the dialog element is expected as a value
 - `data-a11y-dialog-hide`: the `id` of the dialog element is expected as a value; if omitted, the closest parent dialog element (if any) will be the target
 
-The following button will open the dialog with the `my-accessible-dialog` id when interacted with.
+The following button will open the dialog with the `your-dialog-id` id when interacted with.
 
 ```html
-<button type="button" data-a11y-dialog-show="my-accessible-dialog">
+<button type="button" data-a11y-dialog-show="your-dialog-id">
   Open the dialog
 </button>
 ```
@@ -199,19 +210,19 @@ The following button will close the dialog in which it lives when interacted wit
 </button>
 ```
 
-The following button will close the dialog with the `my-accessible-dialog` id when interacted with. Given that the only focusable elements when the dialog is open are the focusable children of the dialog itself, it seems rather unlikely that you will ever need this but in case you do, well you can.
+The following button will close the dialog with the `your-dialog-id` id when interacted with. Given that the only focusable elements when the dialog is open are the focusable children of the dialog itself, it seems rather unlikely that you will ever need this but in case you do, well you can.
 
 ```html
 <button
   type="button"
-  data-a11y-dialog-hide="my-accessible-dialog"
+  data-a11y-dialog-hide="your-dialog-id"
   aria-label="Close the dialog"
 >
   &times;
 </button>
 ```
 
-In addition, the library adds a `data-a11y-dialog-native` attribute (with no value) when the `<dialog>` element is natively supported. This attribute is essentially used to customise the styling layer based on user-agent support (or lack thereof).
+In addition, the library adds a `data-a11y-dialog-native` attribute (with no value) when the `<dialog>` element is used and natively supported. This attribute is essentially used to customise the styling layer based on user-agent support (or lack thereof).
 
 ### JS API
 
@@ -225,7 +236,7 @@ dialog.show()
 dialog.hide()
 ```
 
-When the `<dialog>` element is natively supported, the argument passed to `show()` and `hide()` is being passed to the native call to [`showModal()`](https://www.w3.org/TR/html52/interactive-elements.html#dom-htmldialogelement-showmodal) and [`close()`](https://www.w3.org/TR/html52/interactive-elements.html#dom-htmldialogelement-close). If necessary, the `returnValue` can be read using `dialog.dialog.returnValue`.
+When the `<dialog>` element is used and natively supported, the argument passed to `show()` and `hide()` is being passed to the native call to [`showModal()`](https://www.w3.org/TR/html52/interactive-elements.html#dom-htmldialogelement-showmodal) and [`close()`](https://www.w3.org/TR/html52/interactive-elements.html#dom-htmldialogelement-close). If necessary, the `returnValue` can be read using `<instance>.dialog.returnValue`.
 
 For advanced usages, there are `create()` and `destroy()` methods. These are responsible for attaching click event listeners to dialog openers and closers. Note that the `create()` method is **automatically called on instantiation** so there is no need to call it again directly.
 
@@ -244,7 +255,7 @@ If necessary, the `create()` method also accepts the `targets` containers (the o
 
 ### Events
 
-When shown, hidden and destroyed, the instance will emit certain events. It is possible to subscribe to these with the `on()` method which will receive the dialog DOM element and the [event object](https://developer.mozilla.org/en-US/docs/Web/API/Event) (if any).
+When shown, hidden and destroyed, the instance will emit certain events. It is possible to subscribe to these with the `on()` method which will receive the dialog container element and the [event object](https://developer.mozilla.org/en-US/docs/Web/API/Event) (if any).
 
 The event object can be used to know which trigger (opener / closer) has been used in case of a `show` or `hide` event.
 
@@ -281,7 +292,7 @@ dialog.off('show', doSomething)
 
 ### Usage as a “modal”
 
-By default, a11y-dialog behaves as a dialog: it is closable with the <kbd>ESC</kbd> key, and by clicking the backdrop. However, it is possible to make it work like a “modal”, which would remove these features.
+By default, a11y-dialog behaves as a dialog: it is closable with the <kbd>ESC</kbd> key, and by clicking the backdrop (provided the `data-a11y-dialog-hide` attribute is given to is). However, it is possible to make it work like a “modal”, which would remove these features.
 
 To do so:
 

@@ -1,4 +1,4 @@
-var FOCUSABLE_ELEMENTS = [
+var focusableSelectors = [
   'a[href]:not([tabindex^="-"]):not([inert])',
   'area[href]:not([tabindex^="-"]):not([inert])',
   'input:not([disabled]):not([inert])',
@@ -11,6 +11,7 @@ var FOCUSABLE_ELEMENTS = [
   '[contenteditable]:not([tabindex^="-"]):not([inert])',
   '[tabindex]:not([tabindex^="-"]):not([inert])',
 ];
+
 var TAB_KEY = 9;
 var ESCAPE_KEY = 27;
 var focusedBeforeDialog;
@@ -400,7 +401,7 @@ function setFocusToFirstItem(node) {
  * @return {Array<Element>}
  */
 function getFocusableChildren(node) {
-  return $$(FOCUSABLE_ELEMENTS.join(','), node).filter(function (child) {
+  return $$(focusableSelectors.join(','), node).filter(function (child) {
     return !!(
       child.offsetWidth ||
       child.offsetHeight ||

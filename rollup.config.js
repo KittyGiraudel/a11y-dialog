@@ -1,5 +1,7 @@
 import { terser } from 'rollup-plugin-terser'
 import pkg from './package.json'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
 
 const umd = { format: 'umd', name: 'A11yDialog', exports: 'default' }
 const es = { format: 'es' }
@@ -20,4 +22,5 @@ export default {
     // Copy of the main file for example and tests
     { file: 'example/a11y-dialog.js', ...umd },
   ],
+  plugins: [nodeResolve(), commonjs({ include: 'node_modules/**' })],
 }

@@ -20,7 +20,6 @@
 
   var TAB_KEY = 9;
   var ESCAPE_KEY = 27;
-  var focusedBeforeDialog;
 
   /**
    * Define the constructor to instantiate a dialog
@@ -36,6 +35,7 @@
     this._hide = this.hide.bind(this);
     this._maintainFocus = this._maintainFocus.bind(this);
     this._bindKeypress = this._bindKeypress.bind(this);
+    this._focusedBeforeDialog = null;
 
     // Keep a reference of the node and the actual dialog on the instance
     this.container = node;
@@ -130,7 +130,7 @@
 
     // Keep a reference to the currently focused element to be able to restore
     // it later
-    focusedBeforeDialog = document.activeElement;
+    this._focusedBeforeDialog = document.activeElement;
 
     if (this.useDialog) {
       this.dialog.showModal(event instanceof Event ? void 0 : event);
@@ -206,8 +206,8 @@
     // If there was a focused element before the dialog was opened (and it has a
     // `focus` method), restore the focus back to it
     // See: https://github.com/HugoGiraudel/a11y-dialog/issues/108
-    if (focusedBeforeDialog && focusedBeforeDialog.focus) {
-      focusedBeforeDialog.focus();
+    if (this._focusedBeforeDialog && this._focusedBeforeDialog.focus) {
+      this._focusedBeforeDialog.focus();
     }
 
     // Remove the focus event listener to the body element and stop listening
@@ -312,6 +312,10 @@
    * @param {Event} event
    */
   A11yDialog.prototype._bindKeypress = function (event) {
+    // This is an escape hatch in case there are nested dialogs, so the keypresses
+    // are only reacted to for the most recent one
+    if (!this.dialog.contains(document.activeElement)) return
+
     // If the dialog is shown and the ESCAPE key is being pressed, prevent any
     // further effects from the ESCAPE key and hide the dialog, unless its role
     // is 'alertdialog', which should be modal
@@ -336,9 +340,16 @@
    */
   A11yDialog.prototype._maintainFocus = function (event) {
     // If the dialog is shown and the focus is not within the dialog element,
-    // move it back to its first focusable child
-    if (this.shown && !this.container.contains(event.target)) {
-      setFocusToFirstItem(this.dialog);
+    // move it back to its first focusable child, unless another dialog is going
+    // to be opened
+    var dialogTarget = event.target.getAttribute('data-a11y-dialog-show');
+
+    if (
+      this.shown &&
+      !this.container.contains(event.target) &&
+      dialogTarget === this.container.id
+    ) {
+      setFocusToFirstItem(this.container);
     }
   };
 

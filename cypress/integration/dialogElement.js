@@ -28,7 +28,7 @@ describe('<dialog> element', () => {
       const dialog = win.document.querySelector('dialog')
       cy.spy(dialog, 'showModal').as('showModal')
     })
-    cy.get('[data-a11y-dialog-show="my-accessible-dialog"]').click()
+    cy.get('[data-a11y-dialog-show="my-dialog"]').click()
     cy.get('@showModal').should('be.calledOnce')
   })
 })

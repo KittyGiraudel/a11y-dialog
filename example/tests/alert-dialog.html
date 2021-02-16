@@ -8,18 +8,17 @@
 </head>
 
 <body>
-  <main class="main" id="main" aria-label="Content">
+  <main>
     <h1>Tests — AlertDialog</h1>
-    <button class="link-like" data-a11y-dialog-show="my-accessible-dialog">Open the dialog window</button>
+    <button class="link-like" data-a11y-dialog-show="my-dialog">Open the dialog window</button>
   </main>
 
-  <div class="dialog" id="my-accessible-dialog" data-a11y-dialog="main">
+  <div class="dialog" id="my-dialog" data-a11y-dialog>
     <div class="dialog-overlay" tabindex="-1"></div>
-    <div role="alertdialog" class="dialog-content" aria-labelledby="dialogTitle" aria-describedby="dialogDescription">
+    <div role="alertdialog" class="dialog-content" aria-labelledby="my-dialog-title">
       <button data-a11y-dialog-hide class="dialog-close" aria-label="Close this dialog window">&times;</button>
 
-      <h1 id="dialogTitle">Dialog title</h1>
-      <p id="dialogDescription">Dialog description</p>
+      <h1 id="my-dialog-title">Dialog title</h1>
 
       <form>
         <label for="email">Email (required)</label>

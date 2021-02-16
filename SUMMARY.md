@@ -4,6 +4,9 @@
 
 - [Installation](README.md#installation)
 
+  - [Using a bundler (recommended)](README.md#using-a-bundler-recommended)
+  - [Using a CDN](README.md#using-a-cdn)
+
 - [Usage](README.md#usage)
 
   - [HTML boilerplate](README.md#html-boilerplate)

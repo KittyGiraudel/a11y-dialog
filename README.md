@@ -14,8 +14,52 @@ You can try the [live demo ↗](http://hugogiraudel.github.io/a11y-dialog/exampl
 
 ## Installation
 
+### Using a bundler (recommended)
+
+If you’re using a bundler (such as Webpack or Rollup), you can install `a11y-dialog` through npm or yarn like any other dependency:
+
+```sh
+npm install a11y-dialog
 ```
-npm install a11y-dialog --save
+
+```sh
+yarn add a11y-dialog
+```
+
+Then you can import the library in your JavaScript codebase to access the `A11yDialog` class and instantiate your dialogs as you intend to.
+
+```js
+import A11yDialog from 'a11y-dialog'
+
+const container = document.querySelector('#my-dialog-container')
+const dialog = new A11yDialog(container)
+```
+
+If you rely on the `data-a11y-dialog` attribute to automate the dialog [instantiation](#instantiation) in order not to write JavaScript at all, you could simplify the import as such:
+
+```js
+import 'a11y-dialog'
+```
+
+### Using a CDN
+
+If you prefer loading `a11y-dialog` from a third-party CDN such as jsdelivr, you can do so by adding this script tag in your HTML (use the version of your choice—ideally the latest one):
+
+```html
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/a11y-dialog@6.0.0/dist/a11y-dialog.min.js"
+></script>
+```
+
+If you intend to use ES modules, you can use the ESM version of script (from v6.0.0 onwards only):
+
+```html
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/a11y-dialog@6.0.0/dist/a11y-dialog.esm.min.js"
+  type="module"
+></script>
 ```
 
 ## Usage

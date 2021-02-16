@@ -2,7 +2,6 @@
 
 [a11y-dialog](http://edenspiekermann.github.io/a11y-dialog/) is a lightweight (1.6Kb) yet flexible script to create accessible dialog windows.
 
-✔︎ No dependencies  
 ✔︎ Leveraging the native `<dialog>` element  
 ✔︎ Closing dialog on overlay click and <kbd>ESC</kbd>  
 ✔︎ Toggling `aria-*` attributes  

@@ -10,19 +10,19 @@
 </head>
 
 <body>
-  <main class="main" id="main" aria-label="Content">
+  <main>
     <h1>A11y Dialog</h1>
 
     <p><a href="https://github.com/HugoGiraudel/a11y-dialog">Get the code on GitHub</a> — <button class="link-like"
-        data-a11y-dialog-show="my-accessible-dialog">Open the dialog window</button></p>
+        data-a11y-dialog-show="my-dialog">Open the dialog window</button></p>
 
     <p>This page demonstrates how to make a dialog window as accessible as possible to assistive technology users.
       Dialog windows are especially problematic for screen reader users. Often times the user is able to “escape” the
       window and interact with other parts of the page when they should not be able to. This is partially due to the way
       screen reader software interacts with the browser.</p>
 
-    <p>To see this in action, you just need to <button class="link-like"
-        data-a11y-dialog-show="my-accessible-dialog">open the dialog window</button>. Once it’s open, you should not be
+    <p>To see this in action, you just need to <button class="link-like" data-a11y-dialog-show="my-dialog">open the
+        dialog window</button>. Once it’s open, you should not be
       able to interact with other links on the main page like <a
         href="https://github.com/HugoGiraudel/a11y-dialog">going to the main GitHub page</a>. The focus is said to be
       “trapped” inside the dialog until the user explicitely decides to leave it.</p>
@@ -39,17 +39,19 @@
     </footer>
   </main>
 
-  <div class="dialog" id="my-accessible-dialog" aria-hidden="true" data-a11y-dialog="main">
+  <div class="dialog" id="my-dialog" aria-hidden="true" data-a11y-dialog="#main">
     <div class="dialog-overlay" tabindex="-1" data-a11y-dialog-hide></div>
-    <div role="dialog" class="dialog-content" aria-labelledby="dialogTitle" aria-describedby="dialogDescription">
+    <div role="dialog" class="dialog-content" aria-labelledby="my-dialog-title"
+      aria-describedby="my-dialog-description">
       <button data-a11y-dialog-hide class="dialog-close" aria-label="Close this dialog window">&times;</button>
 
-      <h1 id="dialogTitle">Subscribe to our newsletter</h1>
+      <h1 id="my-dialog-title">Subscribe to our newsletter</h1>
 
-      <p id="dialogDescription">Fill in the ridiculously small form below to receive our ridiculously cool newsletter!
+      <p id="my-dialog-description">Fill in the ridiculously small form below to receive our ridiculously cool
+        newsletter!
       </p>
 
-      <form action="#" method="post" target="_blank">
+      <form>
         <label for="email">Email (required)</label>
         <input type="email" name="EMAIL" id="email" placeholder="john.doe@gmail.com" required>
         <button type="submit" name="button">Sign up</button>
@@ -66,7 +68,7 @@
     /*
     (function () {
       document.addEventListener('DOMContentLoaded', function () {
-        var dialogEl = document.getElementById('my-accessible-dialog');
+        var dialogEl = document.getElementById('my-dialog');
         var mainEl = document.getElementById('main');
         var dialog = new window.A11yDialog(dialogEl, mainEl);
 

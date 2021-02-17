@@ -6,7 +6,7 @@ describe('Instance', () => {
   it('should be possible to instantiate a dialog with JavaScript', () => {
     cy.window().then(win => {
       win.instance = new win.A11yDialog(
-        win.document.getElementById('my-accessible-dialog'),
+        win.document.getElementById('my-dialog'),
         'main'
       )
     })
@@ -31,7 +31,7 @@ describe('Instance', () => {
     cy.window()
       .its('instance')
       .its('container')
-      .should('have.attr', 'id', 'my-accessible-dialog')
+      .should('have.attr', 'id', 'my-dialog')
   })
 
   it('should expose the dialog element on the instance', () => {
@@ -52,12 +52,12 @@ describe('Instance', () => {
       .its('instance')
 
       .invoke('on', 'show', container => {
-        expect(container.id).to.eq('my-accessible-dialog')
+        expect(container.id).to.eq('my-dialog')
         logs.push('Shown')
       })
 
       .invoke('on', 'hide', container => {
-        expect(container.id).to.eq('my-accessible-dialog')
+        expect(container.id).to.eq('my-dialog')
         logs.push('Hidden')
       })
 
@@ -65,7 +65,7 @@ describe('Instance', () => {
       .invoke('off', 'hide', event)
 
       .invoke('on', 'destroy', container => {
-        expect(container.id).to.eq('my-accessible-dialog')
+        expect(container.id).to.eq('my-dialog')
         logs.push('Destroyed')
       })
 
@@ -77,7 +77,7 @@ describe('Instance', () => {
   })
 
   it('should be possible to handle dialog destroy', () => {
-    cy.get('[data-a11y-dialog-show="my-accessible-dialog"]').click()
+    cy.get('[data-a11y-dialog-show="my-dialog"]').click()
     cy.get('.dialog').then(shouldBeHidden)
   })
 })

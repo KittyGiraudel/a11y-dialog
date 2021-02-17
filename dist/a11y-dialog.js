@@ -12,8 +12,8 @@
     'textarea:not([disabled]):not([inert])',
     'button:not([disabled]):not([inert])',
     'iframe:not([tabindex^="-"]):not([inert])',
-    'audio:not([tabindex^="-"]):not([inert])',
-    'video:not([tabindex^="-"]):not([inert])',
+    'audio[controls]:not([tabindex^="-"]):not([inert])',
+    'video[controls]:not([tabindex^="-"]):not([inert])',
     '[contenteditable]:not([tabindex^="-"]):not([inert])',
     '[tabindex]:not([tabindex^="-"]):not([inert])',
   ];

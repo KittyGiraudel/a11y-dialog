@@ -115,7 +115,7 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
 4. The actual dialog.
 
    - It may have the `alertdialog` role to make it behave like a “modal”. See the [Usage as a modal](#usage-as-a-modal) section of the docs.
-   - It can be a `<dialog>` element, but there might be [browsers inconsistencies](#about-the-html-dialog-element).
+   - It can be a `<dialog>` element, but [is not recommended](#using-the-dialog-html-element).
    - It doesn’t have to have the `aria-labelledby` attribute however this is recommended. It should match the `id` of the dialog title.
 
 5. The inner document.
@@ -137,17 +137,6 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
 8. The dialog content.
 
    - This is where your dialog content lives.
-
-#### About the HTML dialog element
-
-As mentioned in the comments above, the script works fine with the native HTML `<dialog>` element and will polyfill its behaviour so the dialog works in any browser, regardless of their support for that HTML element. However, it is recommended _not_ to use it and to rely on a `<div>` with `role="dialog"` instead. Amongst other, here are the issues with the HTML `<dialog>` element:
-
-- Clicking the backdrop does not close the dialog on Chrome.
-- The native `::backdrop` only shows when programatically opening the dialog, not when using the `open` attribute.
-- Default styles are left to the browsers’ discretion and can be inconsistent.
-- The [modal pattern](#usage-as-a-modal) (`role="alertdialog"`) simply does not work with the dialog element.
-- It still requires JavaScript anyway, so it’s not even 100% HTML.
-- [Read more about the shortcoming of the dialog element by Scott Ohara](https://www.scottohara.me/blog/2019/03/05/open-dialog.html).
 
 ### Styling
 
@@ -208,36 +197,6 @@ Here is a solid set of styles to get started (note that you might have to rename
 ```
 
 The rest, such as what the dialog really looks like, and how its content is styled, is left at your own discretion. These styles should be enough to get you on the right track.
-
-Note that these base styles might need to be tweaked if you are using the `<dialog>` element (which is [not recommended due to browser inconsistencies](#about-the-html-dialog-element)). Additionally, its visibility will be handled by the user-agent itself. We recommend using the following styles to handle both supporting and non-supporting user-agents:
-
-```css
-/**
- * When the native `<dialog>` element is supported and used, the overlay is
- * handled natively and can be styled with `::backdrop`, which means the DOM one
- * should be removed.
- *
- * The `data-a11y-dialog-native` attribute is set by the script when the
- * `<dialog>` element is properly supported. Feel free to replace `:first-child`
- * with the overlay selector you prefer.
- *
- * This rule can be safely omitted when *not* using the <dialog> element.
- */
-[data-a11y-dialog-native] > :first-child {
-  display: none;
-}
-
-/**
- * When the `<dialog>` element is used but not supported by the user agent, its
- * default display is `inline` which can cause layout issues. This makes sure
- * the dialog is correctly displayed when open.
- *
- * This rule can be safely omitted when *not* using the <dialog> element.
- */
-dialog[open] {
-  display: block;
-}
-```
 
 ### Instantiation
 
@@ -311,8 +270,6 @@ The following button will close the dialog with the `your-dialog-id` id when int
 </button>
 ```
 
-In addition, the library adds a `data-a11y-dialog-native` attribute (with no value) when the `<dialog>` element is used and natively supported. This attribute is essentially used to customise the styling layer based on user-agent support (or lack thereof).
-
 #### With JavaScript
 
 The JS API consists on `show()` and `hide()` methods on the dialog instance.
@@ -324,8 +281,6 @@ dialog.show()
 // Hide the dialog
 dialog.hide()
 ```
-
-When the `<dialog>` element is used and natively supported, the argument passed to `show()` and `hide()` is being passed to the native call to [`showModal()`](https://www.w3.org/TR/html52/interactive-elements.html#dom-htmldialogelement-showmodal) and [`close()`](https://www.w3.org/TR/html52/interactive-elements.html#dom-htmldialogelement-close). If necessary, the `returnValue` can be read using `<instance>.dialog.returnValue`.
 
 For advanced usages, there are `create()` and `destroy()` methods. These are responsible for attaching click event listeners to dialog openers and closers. Note that the `create()` method is **automatically called on instantiation** so there is no need to call it again directly.
 
@@ -415,11 +370,71 @@ By default, a11y-dialog behaves as a dialog: it is closable with the <kbd>ESC</k
 
 To do so:
 
-1. Replace `role="dialog"` with `role="alertdialog"`. This will make sure <kbd>ESC</kbd> doesn’t close the modal. Note that this role does not work properly with the native `<dialog>` element so make sure to use `<div role="alertdialog">`.
+1. Replace `role="dialog"` with `role="alertdialog"`. This will make sure <kbd>ESC</kbd> doesn’t close the modal. Note that this role does not work properly with the [native `<dialog>` element](#using-the-dialog-html-element) so make sure to use `<div role="alertdialog">`.
 2. Remove `data-a11y-dialog-hide` from the overlay element. This makes sure it is not possible to close the modal by clicking outside of it.
 3. In case the user actively needs to operate with the modal, you might consider removing the close button from it. Be sure to still offer a way to eventually close the modal.
 
 For more information about modals, refer to the [WAI ARIA recommendations](https://www.w3.org/TR/wai-aria-1.1/#alertdialog).
+
+### Using the dialog HTML element
+
+As mentioned in the [HTML section](#html-boilerplate), the script works fine with the native HTML `<dialog>` element and will polyfill its behaviour so the dialog works in any browser, regardless of their support for that HTML element. However, it is recommended _not_ to use it and to rely on a `<div>` with `role="dialog"` instead. Amongst other, here are the issues with the HTML `<dialog>` element:
+
+- Clicking the backdrop does not close the dialog on Chrome.
+- The native `::backdrop` only shows when programatically opening the dialog, not when using the `open` attribute.
+- Default styles are left to the browsers’ discretion and can be inconsistent.
+- The [modal pattern](#usage-as-a-modal) (`role="alertdialog"`) simply does not work with the dialog element.
+- It still requires JavaScript anyway, so it’s not even 100% HTML.
+- [Read more about the shortcoming of the dialog element by Scott Ohara](https://www.scottohara.me/blog/2019/03/05/open-dialog.html).
+
+If you really want to use the `<dialog>` HTML element nevertheless, here are a few things you should know.
+
+The [provided base styles](#styling) will not quite work because the dialog container does not receive the `aria-hidden` attribute when hidden. That is because the dialog’s visibility is handled by the user-agent itself. This means the container is essentially always displayed. For that reason, it should not made fixed on top of everything, otherwise it prevents interacting with the page at all.
+
+Fortunately, the library adds a `data-a11y-dialog-native` attribute (with no value) when the `<dialog>` element is used and natively supported. This attribute can be used to customise the styling layer based on user-agent support (or lack thereof).
+
+The following styles are more suited to using `<dialog>`.
+
+```css
+/**
+ * 1. When the native `<dialog>` element is supported and used, the overlay is
+ *    handled natively and can be styled with `::backdrop`, which means the DOM
+ *    one should be removed. Feel free to replace `:first-child` with the
+ *    overlay selector of your choice.
+ */
+[data-a11y-dialog-native] > :first-child {
+  display: none; /* 1 */
+}
+
+/**
+ * 1. Absolutely center the dialog on top of the page.
+ */
+dialog {
+  position: fixed; /* 1 */
+  top: 50%; /* 1 */
+  left: 50%; /* 1 */
+  transform: translate(-50%, -50%); /* 1 */
+  z-index: 2; /* 1 */
+}
+
+/**
+ * 1. When the `<dialog>` element is used but not supported by the user agent,
+ *    its default display is `inline` which can cause layout issues. This makes
+ *    sure the dialog is correctly displayed when open.
+ */
+dialog[open] {
+  display: block; /* 1 */
+}
+
+/**
+ * 1. Make the overlay look like an overlay.
+ */
+dialog::backdrop {
+  background-color: rgba(43, 46, 56, 0.9); /* 1 */
+}
+```
+
+When the `<dialog>` element is used and natively supported, the argument passed to `show()` and `hide()` is being passed to the native call to [`showModal()`](https://www.w3.org/TR/html52/interactive-elements.html#dom-htmldialogelement-showmodal) and [`close()`](https://www.w3.org/TR/html52/interactive-elements.html#dom-htmldialogelement-close). If necessary, the `returnValue` can be read using `<instance>.dialog.returnValue`.
 
 ### Nested dialogs
 

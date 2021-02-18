@@ -13,8 +13,9 @@
     - [About the HTML dialog element](README.md#about-the-html-dialog-element)
   - [Styling layer](README.md#styling-layer)
   - [Instantiation](README.md#instantiation)
-  - [DOM API](README.md#dom-api)
-  - [JS API](README.md#js-api)
+  - [Opening/closing](README.md#openingclosing)
+    - [With HTML](README.md#with-html)
+    - [With JavaScript](README.md#with-javascript)
 
 - [Advanced](README.md#advanced)
 

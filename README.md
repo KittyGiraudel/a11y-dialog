@@ -149,13 +149,67 @@ As mentioned in the comments above, the script works fine with the native HTML `
 - It still requires JavaScript anyway, so it’s not even 100% HTML.
 - [Read more about the shortcoming of the dialog element by Scott Ohara](https://www.scottohara.me/blog/2019/03/05/open-dialog.html).
 
-### Styling layer
+### Styling
 
 The script itself does not take care of any styling whatsoever, not even the `display` property. It basically mostly toggles the `aria-hidden` attribute on the dialog itself and its counterpart content containers (where the rest of the site/app lives).
 
-If using the `<dialog>` element (which is [not recommended due to browser inconsistencies](#about-the-html-dialog-element)), its visibility will be handled by the user-agent itself. If using a `<div>` with the `dialog` role (which is recommended for consistency), the styling layer is up to the implementor (you).
+Here is a solid set of styles to get started (note that you might have to rename the class names to fit your code):
 
-We recommend using at least the following styles to make everything work on both supporting and non-supporting user-agents:
+```css
+/**
+ * 1. Make the dialog container, and its child overlay spread across the entire 
+ *    window.
+ */
+.dialog-container,
+.dialog-overlay {
+  position: fixed; /* 1 */
+  top: 0; /* 1 */
+  right: 0; /* 1 */
+  bottom: 0; /* 1 */
+  left: 0; /* 1 */
+}
+
+/**
+ * 1. Make sure the dialog container and all its descendants sits on top of the
+ *    rest of the page.
+ * 2. Make the dialog container a flex container to easily center the dialog.
+ */
+.dialog-container {
+  z-index: 2; /* 1 */
+  display: flex; /* 2 */
+}
+
+/**
+ * 1. Make sure the dialog container and all its descendants are not visible and
+ *    not focusable when the dialog is hidden.
+ */
+.dialog-container[aria-hidden='true'] {
+  display: none; /* 1 */
+}
+
+/**
+ * 1. Make the overlay look like an overlay.
+ */
+.dialog-overlay {
+  background-color: rgba(43, 46, 56, 0.9); /* 1 */
+}
+
+/**
+ * 1. Vertically and horizontally center the dialog in the page.
+ * 2. Make sure the dialog sits on top of the overlay.
+ * 3. Make sure the dialog has an opaque background.
+ */
+.dialog-content {
+  margin: auto; /* 1 */
+  z-index: 2; /* 2 */
+  position: relative; /* 2 */
+  background-color: white; /* 3 */
+}
+```
+
+The rest, such as what the dialog really looks like, and how its content is styled, is left at your own discretion. These styles should be enough to get you on the right track.
+
+Note that these base styles might need to be tweaked if you are using the `<dialog>` element (which is [not recommended due to browser inconsistencies](#about-the-html-dialog-element)). Additionally, its visibility will be handled by the user-agent itself. We recommend using the following styles to handle both supporting and non-supporting user-agents:
 
 ```css
 /**
@@ -182,18 +236,6 @@ We recommend using at least the following styles to make everything work on both
  */
 dialog[open] {
   display: block;
-}
-
-/**
- * When the native `<dialog>` element is not supported, the script toggles the
- * `aria-hidden` attribute on the container. If `aria-hidden` is set to `true`,
- * the container should be hidden entirely.
- *
- * Feel free to replace `.dialog-container` with the container selector you
- * prefer.
- */
-.dialog-container[aria-hidden='true'] {
-  display: none;
 }
 ```
 
@@ -335,6 +377,36 @@ You can unregister these handlers with the `off()` method.
 dialog.on('show', doSomething)
 // …
 dialog.off('show', doSomething)
+```
+
+### Animations
+
+As mentioned in the [styling](#styling) section, how the dialog looks is entirely up to the implementor (you). The following boilerplate code can be used to add a simple entering animation to the dialog.
+
+```css
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(10%);
+  }
+}
+
+.dialog-overlay {
+  animation: fade-in 200ms both;
+}
+
+/**
+ * 1. Add an animation delay equal to the overlay animation duration to wait for
+ *    the overlay to appear before animation in the dialog.
+ */
+.dialog-content {
+  animation: fade-in 400ms 200ms both, slide-up 400ms 200ms both; /* 1 */
+}
 ```
 
 ### Usage as a “modal”

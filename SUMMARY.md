@@ -11,7 +11,7 @@
 
   - [HTML boilerplate](README.md#html-boilerplate)
     - [About the HTML dialog element](README.md#about-the-html-dialog-element)
-  - [Styling layer](README.md#styling-layer)
+  - [Styling](README.md#styling)
   - [Instantiation](README.md#instantiation)
   - [Opening/closing](README.md#openingclosing)
     - [With HTML](README.md#with-html)
@@ -20,6 +20,7 @@
 - [Advanced](README.md#advanced)
 
   - [Events](README.md#events)
+  - [Animations](README.md#animations)
   - [Usage as a modal](README.md#usage-as-a-modal)
   - [Nested dialogs](README.md#nested-dialogs)
 

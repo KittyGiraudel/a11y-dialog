@@ -26,9 +26,8 @@ dialog[open] {
  * Styling to make the dialog look like a dialog
  * -------------------------------------------------------------------------- */
 
+.dialog,
 .dialog-overlay {
-  z-index: 2;
-  background-color: rgba(0, 0, 0, 0.66);
   position: fixed;
   top: 0;
   left: 0;
@@ -36,20 +35,23 @@ dialog[open] {
   right: 0;
 }
 
+.dialog {
+  display: flex;
+}
+
+.dialog-overlay {
+  background-color: rgba(43, 46, 56, 0.9);
+}
+
 dialog::backdrop {
-  background-color: rgba(0, 0, 0, 0.66);
+  background-color: rgba(43, 46, 56, 0.9);
 }
 
 .dialog-content {
   background-color: rgb(255, 255, 255);
-  z-index: 3;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  margin: 0;
+  margin: auto;
+  z-index: 2;
+  position: relative;
 }
 
 /* -------------------------------------------------------------------------- *\
@@ -67,12 +69,8 @@ dialog::backdrop {
 
 @keyframes appear {
   from {
-    transform: translate(-50%, -40%);
+    transform: translateY(10%);
     opacity: 0;
-  }
-  to {
-    transform: translate(-50%, -50%);
-    opacity: 1;
   }
 }
 
@@ -95,10 +93,6 @@ dialog::backdrop {
   .dialog-content {
     padding: 2em;
   }
-}
-
-.dialog-overlay {
-  background-color: rgba(43, 46, 56, 0.9);
 }
 
 .dialog h1 {

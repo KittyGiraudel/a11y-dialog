@@ -153,9 +153,63 @@ As mentioned in the comments above, the script works fine with the native HTML `
 
 The script itself does not take care of any styling whatsoever, not even the `display` property. It basically mostly toggles the `aria-hidden` attribute on the dialog itself and its counterpart content containers (where the rest of the site/app lives).
 
-If using the `<dialog>` element (which is [not recommended due to browser inconsistencies](#about-the-html-dialog-element)), its visibility will be handled by the user-agent itself. If using a `<div>` with the `dialog` role (which is recommended for consistency), the styling layer is up to the implementor (you).
+Here is a solid set of styles to get started:
 
-We recommend using at least the following styles to make everything work on both supporting and non-supporting user-agents:
+```css
+/**
+ * Make the dialog container, and its child overlay spread across the entire 
+ * window.
+ */
+.dialog-container,
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+/**
+ * 1. Make sure the dialog container and all its descendants sits on top of the
+ *    rest of the page.
+ * 2. Make the dialog container a flex container to easily center the dialog.
+ */
+.dialog-container {
+  z-index: 2; /* 1 */
+  display: flex; /* 2 */
+}
+
+/**
+ * 1. Make sure the dialog container and all its descendants are not visible and
+ *    not focusable when the dialog is hidden.
+ */
+.dialog-container[aria-hidden='true'] {
+  display: none; /* 1 */
+}
+
+/**
+ * 1. Make the overlay look like an overlay.
+ */
+.dialog-overlay {
+  background-color: rgba(43, 46, 56, 0.9); /* 1 */
+}
+
+/**
+ * 1. Vertically and horizontally center the dialog in the page.
+ * 2. Make sure the dialog sits on top of the overlay.
+ * 3. Make sure the dialog has an opaque background.
+ */
+.dialog-content {
+  margin: auto; /* 1 */
+  z-index: 2; /* 2 */
+  position: relative; /* 2 */
+  background-color: white; /* 3 */
+}
+```
+
+The rest, such as what the dialog really looks like, and how its content is styled, is left at your own discretion. These styles should be enough to get you on the right track.
+
+If using the `<dialog>` element (which is [not recommended due to browser inconsistencies](#about-the-html-dialog-element)), its visibility will be handled by the user-agent itself. We recommend using at least the following styles to make everything work on both supporting and non-supporting user-agents:
 
 ```css
 /**
@@ -182,18 +236,6 @@ We recommend using at least the following styles to make everything work on both
  */
 dialog[open] {
   display: block;
-}
-
-/**
- * When the native `<dialog>` element is not supported, the script toggles the
- * `aria-hidden` attribute on the container. If `aria-hidden` is set to `true`,
- * the container should be hidden entirely.
- *
- * Feel free to replace `.dialog-container` with the container selector you
- * prefer.
- */
-.dialog-container[aria-hidden='true'] {
-  display: none;
 }
 ```
 

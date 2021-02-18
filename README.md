@@ -385,7 +385,7 @@ As mentioned in the [HTML section](#html-boilerplate), the script works fine wit
 - Default styles are left to the browsers’ discretion and can be inconsistent.
 - The [modal pattern](#usage-as-a-modal) (`role="alertdialog"`) simply does not work with the dialog element.
 - It still requires JavaScript anyway, so it’s not even 100% HTML.
-- [Read more about the shortcoming of the dialog element by Scott Ohara](https://www.scottohara.me/blog/2019/03/05/open-dialog.html).
+- [Read more about the shortcoming of the dialog element by Scott O'hara](https://www.scottohara.me/blog/2019/03/05/open-dialog.html).
 
 If you really want to use the `<dialog>` HTML element nevertheless, here are a few things you should know.
 

@@ -10,7 +10,6 @@
 - [Usage](README.md#usage)
 
   - [HTML boilerplate](README.md#html-boilerplate)
-    - [About the HTML dialog element](README.md#about-the-html-dialog-element)
   - [Styling](README.md#styling)
   - [Instantiation](README.md#instantiation)
   - [Opening/closing](README.md#openingclosing)
@@ -22,6 +21,7 @@
   - [Events](README.md#events)
   - [Animations](README.md#animations)
   - [Usage as a modal](README.md#usage-as-a-modal)
+  - [Using the dialog HTML element](README.md#using-the-dialog-html-element)
   - [Nested dialogs](README.md#nested-dialogs)
 
 - [Further reading](README.md#further-reading)

@@ -26,7 +26,7 @@ dialog[open] {
  * Styling to make the dialog look like a dialog
  * -------------------------------------------------------------------------- */
 
-.dialog,
+.dialog:not([data-a11y-dialog-native]),
 .dialog-overlay {
   position: fixed;
   top: 0;
@@ -54,6 +54,14 @@ dialog::backdrop {
   position: relative;
 }
 
+dialog.dialog-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+}
+
 /* -------------------------------------------------------------------------- *\
  * Extra dialog styling to make it shiny
  * -------------------------------------------------------------------------- */
@@ -76,6 +84,10 @@ dialog::backdrop {
 
 .dialog-content {
   animation: fade-in 400ms 200ms both, slide-up 400ms 200ms both;
+}
+
+dialog.dialog-content {
+  animation: fade-in 400ms 200ms both;
 }
 
 .dialog-content {

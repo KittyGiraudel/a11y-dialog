@@ -209,7 +209,7 @@ Here is a solid set of styles to get started (note that you might have to rename
 
 The rest, such as what the dialog really looks like, and how its content is styled, is left at your own discretion. These styles should be enough to get you on the right track.
 
-If you are using the `<dialog>` element (which is [not recommended due to browser inconsistencies](#about-the-html-dialog-element)), its visibility will be handled by the user-agent itself. We recommend using the following styles to make everything work on both supporting and non-supporting user-agents:
+Note that these base styles might need to be tweaked if you are using the `<dialog>` element (which is [not recommended due to browser inconsistencies](#about-the-html-dialog-element)). Additionally, its visibility will be handled by the user-agent itself. We recommend using the following styles to handle both supporting and non-supporting user-agents:
 
 ```css
 /**

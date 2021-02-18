@@ -62,24 +62,20 @@ dialog::backdrop {
   from {
     opacity: 0;
   }
-  to {
-    opacity: 1;
-  }
 }
 
-@keyframes appear {
+@keyframes slide-up {
   from {
     transform: translateY(10%);
-    opacity: 0;
   }
 }
 
-.dialog:not([aria-hidden='true']) > .dialog-overlay {
-  animation: fade-in 200ms 1 both;
+.dialog-overlay {
+  animation: fade-in 200ms both;
 }
 
-.dialog:not([aria-hidden='true']) > .dialog-content {
-  animation: appear 400ms 150ms 1 both;
+.dialog-content {
+  animation: fade-in 400ms 200ms both, slide-up 400ms 200ms both;
 }
 
 .dialog-content {

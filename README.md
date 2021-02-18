@@ -232,7 +232,9 @@ const container = document.querySelector('#root')
 const dialog = new A11yDialog(el, container)
 ```
 
-### DOM API
+### Opening/Closing
+
+#### With HTML
 
 The DOM API relies on `data-*` attributes. They all live under the `data-a11y-dialog-*` namespace for consistency, clarity and robustness. Two attributes are recognised:
 
@@ -269,9 +271,9 @@ The following button will close the dialog with the `your-dialog-id` id when int
 
 In addition, the library adds a `data-a11y-dialog-native` attribute (with no value) when the `<dialog>` element is used and natively supported. This attribute is essentially used to customise the styling layer based on user-agent support (or lack thereof).
 
-### JS API
+#### With JavaScript
 
-Regarding the JS API, it simply consists on `show()` and `hide()` methods on the dialog instance.
+The JS API consists on `show()` and `hide()` methods on the dialog instance.
 
 ```javascript
 // Show the dialog

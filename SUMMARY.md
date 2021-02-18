@@ -12,9 +12,8 @@
   - [HTML boilerplate](README.md#html-boilerplate)
   - [Styling](README.md#styling)
   - [Instantiation](README.md#instantiation)
-  - [Opening/closing](README.md#openingclosing)
-    - [With HTML](README.md#with-html)
-    - [With JavaScript](README.md#with-javascript)
+  - [DOM API](README.md#dom-api)
+  - [JS API](README.md#js-api)
 
 - [Advanced](README.md#advanced)
 

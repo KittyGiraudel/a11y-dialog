@@ -271,7 +271,7 @@ A11yDialog.prototype.on = function (type, handler) {
  * @param {Function} handler
  */
 A11yDialog.prototype.off = function (type, handler) {
-  var index = this._listeners[type].indexOf(handler);
+  var index = (this._listeners[type] || []).indexOf(handler);
 
   if (index > -1) {
     this._listeners[type].splice(index, 1);

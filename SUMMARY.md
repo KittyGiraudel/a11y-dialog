@@ -17,6 +17,7 @@
 
 - [Advanced](README.md#advanced)
 
+  - [Focus considerations](README.md#focus-considerations)
   - [Events](README.md#events)
   - [Animations](README.md#animations)
   - [Usage as a modal](README.md#usage-as-a-modal)

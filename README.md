@@ -43,7 +43,7 @@ import 'a11y-dialog'
 
 ### Using a CDN
 
-If you prefer loading `a11y-dialog` from a third-party CDN such as jsdelivr or unpkg, you can do so by adding this script tag in your HTML:
+If you prefer loading `a11y-dialog` from a CDN such as jsdelivr or unpkg, you can do so by adding this script tag in your HTML. It will expose the `A11yDialog` global variable.
 
 ```html
 <script

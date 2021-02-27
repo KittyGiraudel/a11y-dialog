@@ -5,17 +5,18 @@
 }(this, (function () { 'use strict';
 
   var focusableSelectors = [
-    'a[href]:not([tabindex^="-"]):not([inert])',
-    'area[href]:not([tabindex^="-"]):not([inert])',
-    'input:not([disabled]):not([inert])',
-    'select:not([disabled]):not([inert])',
-    'textarea:not([disabled]):not([inert])',
-    'button:not([disabled]):not([inert])',
-    'iframe:not([tabindex^="-"]):not([inert])',
-    'audio[controls]:not([tabindex^="-"]):not([inert])',
-    'video[controls]:not([tabindex^="-"]):not([inert])',
-    '[contenteditable]:not([tabindex^="-"]):not([inert])',
-    '[tabindex]:not([tabindex^="-"]):not([inert])',
+    'a[href]:not([tabindex^="-"])',
+    'area[href]:not([tabindex^="-"])',
+    'input:not([type="hidden"]):not([type="radio"]):not([disabled]):not([tabindex^="-"])',
+    'input[type="radio"]:not([disabled]):not([tabindex^="-"]):checked',
+    'select:not([disabled]):not([tabindex^="-"])',
+    'textarea:not([disabled]):not([tabindex^="-"])',
+    'button:not([disabled]):not([tabindex^="-"])',
+    'iframe:not([tabindex^="-"])',
+    'audio[controls]:not([tabindex^="-"])',
+    'video[controls]:not([tabindex^="-"])',
+    '[contenteditable]:not([tabindex^="-"])',
+    '[tabindex]:not([tabindex^="-"])',
   ];
 
   var TAB_KEY = 9;

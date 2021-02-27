@@ -1,0 +1,20 @@
+name: Tests
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cypress
+        uses: cypress-io/github-action@v2
+        with:
+          start: npm run serve
+          wait-on: 'http://localhost:5000'

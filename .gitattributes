@@ -1,0 +1,13 @@
+# The `-diff` option tells Git to treat this file like a binary file (indicate
+# a change without displaying the specifics).
+# The `-merge` option tells Git to treat merging like a binary (accept the
+# latest version and avoid any conflict resolution).
+# See: https://git-scm.com/docs/gitattributes#_marking_files_as_binary
+example/a11y-dialog.js -diff -merge
+dist/* -diff -merge
+
+# The `linguist-generated=true` option tells GitHub to suppress the display of
+# diffs in pull requests.
+# See: https://help.github.com/articles/customizing-how-changed-files-appear-on-github/
+example/a11y-dialog.js linguist-generated=true
+dist/* linguist-generated=true

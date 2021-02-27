@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A11y Dialog</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+  <main>
+    <h1>A11y Dialog</h1>
+
+    <p><a href="https://github.com/HugoGiraudel/a11y-dialog">Get the code on GitHub</a> — <button class="link-like"
+        data-a11y-dialog-show="my-dialog">Open the dialog window</button></p>
+
+    <p>This page demonstrates how to make a dialog window as accessible as possible to assistive technology users.
+      Dialog windows are especially problematic for screen reader users. Often times the user is able to “escape” the
+      window and interact with other parts of the page when they should not be able to. This is partially due to the way
+      screen reader software interacts with the browser.</p>
+
+    <p>To see this in action, you just need to <button class="link-like" data-a11y-dialog-show="my-dialog">open the
+        dialog window</button>. Once it’s open, you should not be
+      able to interact with other links on the main page like <a
+        href="https://github.com/HugoGiraudel/a11y-dialog">going to the main GitHub page</a>. The focus is said to be
+      “trapped” inside the dialog until the user explicitely decides to leave it.</p>
+
+    <p>On top of that, this implementation provides all the usual mandatory bits from a dialog window: correct usage or
+      ARIA landmarks, absolute freedom in regard to the styling, closing when pressing <code>ESC</code>, closing when
+      clicking the background overlay, closing when clicking the close button, a simple yet powerful DOM API, for 1.6Kb
+      of JavaScript. Oh, and also it is fully tested using Cypress to make sure it works as intended.</p>
+
+    <p><strong>No more excuse now. Make your dialog windows accessible.</strong></p>
+
+    <footer role="contentinfo">
+      &copy;&nbsp;2021 <a href="https://hugogiraudel.com">Kitty Giraudel</a>
+    </footer>
+  </main>
+
+  <div class="dialog" id="my-dialog" aria-hidden="true" data-a11y-dialog="#main">
+    <div class="dialog-overlay" tabindex="-1" data-a11y-dialog-hide></div>
+    <div role="dialog" class="dialog-content" aria-labelledby="my-dialog-title"
+      aria-describedby="my-dialog-description">
+      <button data-a11y-dialog-hide class="dialog-close" aria-label="Close this dialog window">&times;</button>
+
+      <h1 id="my-dialog-title">Subscribe to our newsletter</h1>
+
+      <p id="my-dialog-description">Fill in the ridiculously small form below to receive our ridiculously cool
+        newsletter!
+      </p>
+
+      <form>
+        <label for="email">Email (required)</label>
+        <input type="email" name="EMAIL" id="email" placeholder="john.doe@gmail.com" required>
+        <button type="submit" name="button">Sign up</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="a11y-dialog.js"></script>
+  <script>
+    // The dialog is instantiated through the DOM by passing the
+    // `data-a11y-dialog` attribute to the dialog container. If we were to need
+    // the dialog instance, we could remove that attribute and use the following
+    // code.
+    /*
+    (function () {
+      document.addEventListener('DOMContentLoaded', function () {
+        var dialogEl = document.getElementById('my-dialog');
+        var mainEl = document.getElementById('main');
+        var dialog = new window.A11yDialog(dialogEl, mainEl);
+
+        dialog.on('show', function (dialogEl, triggerEl) {
+          console.log(dialogEl);
+          console.log(triggerEl);
+        });
+
+        // To manually control the dialog:
+        // dialog.show()
+        // dialog.hide()
+        // dialog.destroy()
+      });
+    }());
+    */
+  </script>
+</body>
+
+</html>

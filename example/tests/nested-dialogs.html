@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Tests — Nested dialogs</title>
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+
+<body>
+  <main class="main" id="main" aria-label="Content">
+    <h1>Tests — Nested dialogs</h1>
+    <button class="link-like" data-a11y-dialog-show="dialog-1">Open dialog 1</button>
+  </main>
+
+  <div class="dialog" id="dialog-1" data-a11y-dialog="main">
+    <div class="dialog-overlay" tabindex="-1" data-a11y-dialog-hide></div>
+    <div role="dialog" class="dialog-content" aria-labelledby="dialog-title-1">
+      <button data-a11y-dialog-hide class="dialog-close" aria-label="Close this dialog window">&times;</button>
+
+      <h1 id="dialog-title-1">Dialog 1</h1>
+      <button class="link-like" data-a11y-dialog-show="dialog-2">Open dialog 2</button>
+    </div>
+  </div>
+
+  <div class="dialog" id="dialog-2" data-a11y-dialog="main">
+    <div class="dialog-overlay" tabindex="-1" data-a11y-dialog-hide></div>
+    <div role="dialog" class="dialog-content" aria-labelledby="dialog-title-2">
+      <button data-a11y-dialog-hide class="dialog-close" aria-label="Close this dialog window">&times;</button>
+
+      <h1 id="dialog-title-2">Dialog 2</h1>
+      <button class="link-like" data-a11y-dialog-show="dialog-3">Open dialog 3</button>
+    </div>
+  </div>
+
+  <div class="dialog" id="dialog-3" data-a11y-dialog="main">
+    <div class="dialog-overlay" tabindex="-1" data-a11y-dialog-hide></div>
+    <div role="dialog" class="dialog-content" aria-labelledby="dialog-title-3">
+      <button data-a11y-dialog-hide class="dialog-close" aria-label="Close this dialog window">&times;</button>
+
+      <h1 id="dialog-title-3">Dialog 3</h1>
+    </div>
+  </div>
+
+
+  <script src="../a11y-dialog.js"></script>
+</body>
+
+</html>

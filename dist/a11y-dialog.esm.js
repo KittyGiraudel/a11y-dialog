@@ -38,9 +38,7 @@ function A11yDialog(node, targets) {
     'dialog, [role="dialog"], [role="alertdialog"]'
   );
   this.role = this.dialog.getAttribute('role') || 'dialog';
-  this.useDialog =
-    'show' in document.createElement('dialog') &&
-    this.dialog.nodeName === 'DIALOG';
+  this.useDialog = 'show' in this.dialog;
 
   // Keep an object of listener types mapped to callback functions
   this._listeners = {};

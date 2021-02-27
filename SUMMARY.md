@@ -20,6 +20,7 @@
   - [Focus considerations](README.md#focus-considerations)
   - [Events](README.md#events)
   - [Animations](README.md#animations)
+  - [Prevent window scroll](README.md#prevent-window-scroll)
   - [Usage as a modal](README.md#usage-as-a-modal)
   - [Using the dialog HTML element](README.md#using-the-dialog-html-element)
   - [Nested dialogs](README.md#nested-dialogs)

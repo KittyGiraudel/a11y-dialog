@@ -1,1 +1,0 @@
-require('cypress-plugin-tab')

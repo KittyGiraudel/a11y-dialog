@@ -17,13 +17,18 @@ module.exports = {
       title: 'a11y-dialog',
       items: [
         {
-          href: 'https://twitter.com/HugoGiraudel',
-          label: 'Twitter',
+          href: 'https://codesandbox.io/s/a11y-dialog-cp3rz',
+          label: 'Demo',
           position: 'right',
         },
         {
           href: 'https://github.com/HugoGiraudel/a11y-dialog',
           label: 'GitHub',
+          position: 'right',
+        },
+        {
+          href: 'https://twitter.com/HugoGiraudel',
+          label: 'Twitter',
           position: 'right',
         },
       ],

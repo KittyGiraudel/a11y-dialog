@@ -19,8 +19,6 @@ export default {
     // Minified versions
     { file: 'dist/a11y-dialog.min.js', ...umd, ...minify },
     { file: 'dist/a11y-dialog.esm.min.js', ...es, ...minify },
-    // Copy of the main file for example and tests
-    { file: 'example/a11y-dialog.js', ...umd },
   ],
   plugins: [nodeResolve(), commonjs({ include: 'node_modules/**' })],
 }

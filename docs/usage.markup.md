@@ -11,7 +11,7 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
 <!-- 2. The dialog container -->
 <div id="your-dialog-id" aria-hidden="true">
   <!-- 3. The dialog overlay -->
-  <div tabindex="-1" data-a11y-dialog-hide></div>
+  <div data-a11y-dialog-hide></div>
   <!-- 4. The actual dialog -->
   <div role="dialog" aria-labelledby="your-dialog-title-id">
     <!-- 5. The inner document -->
@@ -42,15 +42,14 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
 
 3. The dialog overlay.
 
-   - It has to have the `tabindex="-1"` attribute.
    - It doesn’t have to have the `data-a11y-dialog-hide` attribute, however this is recommended. It hides the dialog when clicking outside of it.
-   - It should not have the `data-a11y-dialog-hide` if the dialog window has the `alertdialog` role (see below).
+   - It should not have the `data-a11y-dialog-hide` if the dialog is an [alert dialog](advanced.alert_dialog.md).
 
 4. The actual dialog.
 
-   - It may have the `alertdialog` role to make it behave like a “modal”. See the [alert dialog section](advanced.alert_dialog.md) of the docs.
+   - It may have the `alertdialog` role to make it an [alert dialog](advanced.alert_dialog.md).
+   - It is recommend to have the `aria-labelledby` attribute matching the `id` of the dialog title (which can itself be hidden if desired).
    - It can be a `<dialog>` element, but [it is not recommended](advanced.dialog_element.md).
-   - It doesn’t have to have the `aria-labelledby` attribute however this is recommended. It should match the `id` of the dialog title.
 
 5. The inner document.
 
@@ -61,7 +60,7 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
 
    - It does have to have the `type="button"` attribute.
    - It does have to have the `data-a11y-dialog-hide` attribute.
-   - It does have to have an `aria-label` attribute if you use an icon as content.
+   - It does have to have an `aria-label` attribute (or otherwise accessible name) if you use an icon as content.
 
 7. The dialog title.
 

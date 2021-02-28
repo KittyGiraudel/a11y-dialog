@@ -21,7 +21,7 @@ By default, any dialog container having the `data-a11y-dialog` attribute will be
 
 If automatic loading is not an option because the expected dialog markup is not present in the DOM on script execution (or the dialog instance is needed to do more complicated things), it can be instantiated through JavaScript.
 
-```javascript
+```js
 // Get the dialog container HTML element (with the accessor method you want)
 const el = document.getElementById('your-dialog-id')
 
@@ -29,9 +29,9 @@ const el = document.getElementById('your-dialog-id')
 const dialog = new A11yDialog(el)
 ```
 
-As recommended in the [HTML section](usage.markup.md) of this documentation, the dialog element is supposed to be on the same level as your content container(s). Therefore, the script will toggle the `aria-hidden` attribute of the siblings of the dialog element as a default. You can change this behaviour by passing a `NodeList`, an `Element` or a selector as second argument to the `A11yDialog` constructor:
+As recommended in the [markup usage section](usage.markup.md) of this documentation, the dialog element is supposed to be on the same level as your content container(s). Therefore, the script will toggle the `aria-hidden` attribute of the siblings of the dialog element as a default. You can change this behaviour by passing a `NodeList`, an `Element` or a selector as second argument to the `A11yDialog` constructor:
 
-```javascript
+```js
 const container = document.querySelector('#root')
 const dialog = new A11yDialog(el, container)
 ```
@@ -75,7 +75,7 @@ The following button will close the dialog with the `your-dialog-id` id when int
 
 Regarding the JS API, it simply consists on `show()` and `hide()` methods on the dialog instance.
 
-```javascript
+```js
 // Show the dialog
 dialog.show()
 
@@ -85,7 +85,7 @@ dialog.hide()
 
 For advanced usages, there are `create()` and `destroy()` methods. These are responsible for attaching click event listeners to dialog openers and closers. Note that the `create()` method is **automatically called on instantiation** so there is no need to call it again directly.
 
-```javascript
+```js
 // Unbind click listeners from dialog openers and closers and remove all bound
 // custom event listeners registered with `.on()`
 dialog.destroy()

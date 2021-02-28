@@ -7,7 +7,7 @@ When shown, hidden and destroyed, the instance will emit certain events. It is p
 
 The event object can be used to know which trigger (opener / closer) has been used in case of a `show` or `hide` event.
 
-```javascript
+```js
 dialog.on('show', function (dialogEl, event) {
   // Do something when dialog gets shown
   // Note: opener is `event.currentTarget`
@@ -32,7 +32,7 @@ dialog.on('create', function (dialogEl) {
 
 You can unregister these handlers with the `off()` method.
 
-```javascript
+```js
 dialog.on('show', doSomething)
 // …
 dialog.off('show', doSomething)

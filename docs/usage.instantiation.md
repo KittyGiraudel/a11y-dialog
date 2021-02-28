@@ -25,17 +25,17 @@ If automatic loading is not an option because the expected dialog markup is not 
 
 ```javascript
 // Get the dialog container HTML element (with the accessor method you want)
-const el = document.getElementById('your-dialog-id')
+const el = document.getElementById("your-dialog-id");
 
 // Instantiate a new A11yDialog module
-const dialog = new A11yDialog(el)
+const dialog = new A11yDialog(el);
 ```
 
-As recommended in the [HTML section](#html-boilerplate) of this documentation, the dialog element is supposed to be on the same level as your content container(s). Therefore, the script will toggle the `aria-hidden` attribute of the siblings of the dialog element as a default. You can change this behaviour by passing a `NodeList`, an `Element` or a selector as second argument to the `A11yDialog` constructor:
+As recommended in the [HTML section](usage.markup.md) of this documentation, the dialog element is supposed to be on the same level as your content container(s). Therefore, the script will toggle the `aria-hidden` attribute of the siblings of the dialog element as a default. You can change this behaviour by passing a `NodeList`, an `Element` or a selector as second argument to the `A11yDialog` constructor:
 
 ```javascript
-const container = document.querySelector('#root')
-const dialog = new A11yDialog(el, container)
+const container = document.querySelector("#root");
+const dialog = new A11yDialog(el, container);
 ```
 
 ### DOM API
@@ -79,10 +79,10 @@ Regarding the JS API, it simply consists on `show()` and `hide()` methods on the
 
 ```javascript
 // Show the dialog
-dialog.show()
+dialog.show();
 
 // Hide the dialog
-dialog.hide()
+dialog.hide();
 ```
 
 For advanced usages, there are `create()` and `destroy()` methods. These are responsible for attaching click event listeners to dialog openers and closers. Note that the `create()` method is **automatically called on instantiation** so there is no need to call it again directly.
@@ -90,10 +90,10 @@ For advanced usages, there are `create()` and `destroy()` methods. These are res
 ```javascript
 // Unbind click listeners from dialog openers and closers and remove all bound
 // custom event listeners registered with `.on()`
-dialog.destroy()
+dialog.destroy();
 
 // Bind click listeners to dialog openers and closers
-dialog.create()
+dialog.create();
 ```
 
 If necessary, the `create()` method also accepts the `targets` containers (the one toggled along with the dialog element) in the same form as the second argument from the constructor. If omitted, the one given to the constructor (or default) will be used.

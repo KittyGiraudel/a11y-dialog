@@ -1,7 +1,7 @@
 import { shouldBeHidden, shouldBeVisible } from './utils'
 
 describe('State', () => {
-  before(() => cy.visit('/tests/base'))
+  before(() => cy.visit('/base'))
 
   it('should hide the dialog by default', () => {
     cy.get('.dialog').then(shouldBeHidden)

@@ -1,7 +1,7 @@
 import { shouldBeHidden, shouldBeVisible } from './utils'
 
 describe('Alert Dialog', () => {
-  before(() => cy.visit('/tests/alert-dialog'))
+  before(() => cy.visit('/alert-dialog'))
 
   it('should prevent closing the dialog with ESC', () => {
     cy.get('[data-a11y-dialog-show="my-dialog"]').click()

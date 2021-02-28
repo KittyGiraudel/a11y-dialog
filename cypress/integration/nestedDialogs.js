@@ -2,7 +2,7 @@ import { shouldBeHidden, shouldBeVisible } from './utils'
 
 describe('Nested dialogs', () => {
   before(() => {
-    cy.visit('/tests/nested-dialogs')
+    cy.visit('/nested-dialogs')
 
     cy.get('[data-a11y-dialog-show="dialog-1"]').click()
     cy.get('#dialog-1').then(shouldBeVisible)

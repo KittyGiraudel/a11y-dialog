@@ -1,7 +1,7 @@
 import { shouldBeHidden, shouldBeVisible } from './utils'
 
 describe('Instance', () => {
-  before(() => cy.visit('/tests/instance'))
+  before(() => cy.visit('/instance'))
 
   it('should be possible to instantiate a dialog with JavaScript', () => {
     cy.window().then(win => {

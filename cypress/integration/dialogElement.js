@@ -1,7 +1,7 @@
 import { shouldBeVisible } from './utils'
 
 describe('<dialog> element', () => {
-  before(() => cy.visit('/tests/dialog-element'))
+  before(() => cy.visit('/dialog-element'))
 
   it('should handle the `open` attribute', () => {
     cy.get('.dialog').then(shouldBeVisible)

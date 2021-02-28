@@ -1,5 +1,5 @@
 describe('Focus', () => {
-  before(() => cy.visit('/tests/base'))
+  before(() => cy.visit('/base'))
 
   it('should focus the first element in the dialog on open', () => {
     cy.get('[data-a11y-dialog-show="my-dialog"]').click()

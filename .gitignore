@@ -3,3 +3,4 @@ node_modules
 *.log
 _book
 cypress/screenshots
+.docusaurus

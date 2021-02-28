@@ -7,29 +7,24 @@ var ESCAPE_KEY = 27
  * Define the constructor to instantiate a dialog
  *
  * @constructor
- * @param {Element} node
- * @param {(NodeList | Element | string)} targets
+ * @param {Element} element
  */
-function A11yDialog(node, targets) {
+function A11yDialog(element) {
   // Prebind the functions that will be bound in addEventListener and
   // removeEventListener to avoid losing references
   this._show = this.show.bind(this)
   this._hide = this.hide.bind(this)
   this._maintainFocus = this._maintainFocus.bind(this)
   this._bindKeypress = this._bindKeypress.bind(this)
-  this._previouslyFocused = null
 
-  // Keep a reference of the node and the actual dialog on the instance
-  this.container = node
-  this.dialog = node.querySelector('[role="dialog"], [role="alertdialog"]')
-  this.role = this.dialog.getAttribute('role') || 'dialog'
+  this.$el = element
   this.shown = false
-
-  // Keep an object of listener types mapped to callback functions
+  this._id = this.$el.getAttribute('data-a11y-dialog') || this.$el.id
+  this._previouslyFocused = null
   this._listeners = {}
 
   // Initialise everything needed for the dialog to work properly
-  this.create(targets)
+  this.create()
 }
 
 /**
@@ -38,14 +33,17 @@ function A11yDialog(node, targets) {
  * @param {(NodeList | Element | string)} targets
  * @return {this}
  */
-A11yDialog.prototype.create = function (targets) {
-  // Keep a collection of nodes to disable/enable when toggling the dialog
-  this._targets =
-    this._targets || collect(targets) || getSiblings(this.container)
+A11yDialog.prototype.create = function () {
+  this.$el.setAttribute('aria-hidden', true)
+  this.$el.setAttribute('aria-modal', true)
+
+  if (!this.$el.hasAttribute('role')) {
+    this.$el.setAttribute('role', 'dialog')
+  }
 
   // Keep a collection of dialog openers, each of which will be bound a click
   // event listener to open the dialog
-  this._openers = $$('[data-a11y-dialog-show="' + this.container.id + '"]')
+  this._openers = $$('[data-a11y-dialog-show="' + this._id + '"]')
   this._openers.forEach(
     function (opener) {
       opener.addEventListener('click', this._show)
@@ -54,8 +52,8 @@ A11yDialog.prototype.create = function (targets) {
 
   // Keep a collection of dialog closers, each of which will be bound a click
   // event listener to close the dialog
-  this._closers = $$('[data-a11y-dialog-hide]', this.container).concat(
-    $$('[data-a11y-dialog-hide="' + this.container.id + '"]')
+  this._closers = $$('[data-a11y-dialog-hide]', this.$el).concat(
+    $$('[data-a11y-dialog-hide="' + this._id + '"]')
   )
   this._closers.forEach(
     function (closer) {
@@ -83,27 +81,14 @@ A11yDialog.prototype.show = function (event) {
     return this
   }
 
-  this.shown = true
-
   // Keep a reference to the currently focused element to be able to restore
   // it later
   this._previouslyFocused = document.activeElement
-  this.container.removeAttribute('aria-hidden')
-
-  // Iterate over the targets to disable them by setting their `aria-hidden`
-  // attribute to `true` and, if present, storing the current value of `aria-hidden`
-  this._targets.forEach(function (target) {
-    if (target.hasAttribute('aria-hidden')) {
-      target.setAttribute(
-        'data-a11y-dialog-original-aria-hidden',
-        target.getAttribute('aria-hidden')
-      )
-    }
-    target.setAttribute('aria-hidden', 'true')
-  })
+  this.$el.removeAttribute('aria-hidden')
+  this.shown = true
 
   // Set the focus to the first focusable child of the dialog element
-  setFocusToFirstItem(this.dialog)
+  setFocusToFirstItem(this.$el)
 
   // Bind a focus event listener to the body element to make sure the focus
   // stays trapped inside the dialog while open, and start listening for some
@@ -132,21 +117,7 @@ A11yDialog.prototype.hide = function (event) {
   }
 
   this.shown = false
-  this.container.setAttribute('aria-hidden', 'true')
-
-  // Iterate over the targets to enable them by removing their `aria-hidden`
-  // attribute or resetting it to its original value
-  this._targets.forEach(function (target) {
-    if (target.hasAttribute('data-a11y-dialog-original-aria-hidden')) {
-      target.setAttribute(
-        'aria-hidden',
-        target.getAttribute('data-a11y-dialog-original-aria-hidden')
-      )
-      target.removeAttribute('data-a11y-dialog-original-aria-hidden')
-    } else {
-      target.removeAttribute('aria-hidden')
-    }
-  })
+  this.$el.setAttribute('aria-hidden', 'true')
 
   // If there was a focused element before the dialog was opened (and it has a
   // `focus` method), restore the focus back to it
@@ -244,7 +215,7 @@ A11yDialog.prototype._fire = function (type, event) {
 
   listeners.forEach(
     function (listener) {
-      listener(this.container, event)
+      listener(this.$el, event)
     }.bind(this)
   )
 }
@@ -259,12 +230,16 @@ A11yDialog.prototype._fire = function (type, event) {
 A11yDialog.prototype._bindKeypress = function (event) {
   // This is an escape hatch in case there are nested dialogs, so the keypresses
   // are only reacted to for the most recent one
-  if (!this.dialog.contains(document.activeElement)) return
+  if (!this.$el.contains(document.activeElement)) return
 
   // If the dialog is shown and the ESCAPE key is being pressed, prevent any
   // further effects from the ESCAPE key and hide the dialog, unless its role
   // is 'alertdialog', which should be modal
-  if (this.shown && event.which === ESCAPE_KEY && this.role !== 'alertdialog') {
+  if (
+    this.shown &&
+    event.which === ESCAPE_KEY &&
+    this.$el.getAttribute('role') !== 'alertdialog'
+  ) {
     event.preventDefault()
     this.hide(event)
   }
@@ -272,7 +247,7 @@ A11yDialog.prototype._bindKeypress = function (event) {
   // If the dialog is shown and the TAB key is being pressed, make sure the
   // focus stays trapped within the dialog element
   if (this.shown && event.which === TAB_KEY) {
-    trapTabKey(this.dialog, event)
+    trapTabKey(this.$el, event)
   }
 }
 
@@ -291,10 +266,10 @@ A11yDialog.prototype._maintainFocus = function (event) {
 
   if (
     this.shown &&
-    !this.container.contains(event.target) &&
-    dialogTarget === this.container.id
+    !this.$el.contains(event.target) &&
+    dialogTarget === this._id
   ) {
-    setFocusToFirstItem(this.container)
+    setFocusToFirstItem(this.$el)
   }
 }
 
@@ -318,27 +293,6 @@ function toArray(collection) {
  */
 function $$(selector, context) {
   return toArray((context || document).querySelectorAll(selector))
-}
-
-/**
- * Return an array of Element based on given argument (NodeList, Element or
- * string representing a selector)
- *
- * @param {(NodeList | Element | string)} target
- * @return {Array<Element>}
- */
-function collect(target) {
-  if (NodeList.prototype.isPrototypeOf(target)) {
-    return toArray(target)
-  }
-
-  if (Element.prototype.isPrototypeOf(target)) {
-    return [target]
-  }
-
-  if (typeof target === 'string') {
-    return $$(target)
-  }
 }
 
 /**
@@ -398,23 +352,6 @@ function trapTabKey(node, event) {
     focusableChildren[0].focus()
     event.preventDefault()
   }
-}
-
-/**
- * Retrieve siblings from given element
- *
- * @param {Element} node
- * @return {Array<Element>}
- */
-function getSiblings(node) {
-  var nodes = toArray(node.parentNode.childNodes)
-  var siblings = nodes.filter(function (node) {
-    return node.nodeType === 1
-  })
-
-  siblings.splice(siblings.indexOf(node), 1)
-
-  return siblings
 }
 
 function instantiateDialogs() {

@@ -1,7 +1,5 @@
 ---
-id: usage.styling
 title: Styling
-sidebar_label: Styling
 slug: /usage/styling
 ---
 

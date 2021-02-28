@@ -1,7 +1,5 @@
 ---
-id: advanced.scroll_lock
 title: Scroll lock
-sidebar_label: Scroll lock
 slug: /advanced/scroll-lock
 ---
 

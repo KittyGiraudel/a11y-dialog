@@ -1,7 +1,5 @@
 ---
-id: advanced.focus_considerations
 title: Focus considerations
-sidebar_label: Focus considerations
 slug: /advanced/focus-considerations
 ---
 

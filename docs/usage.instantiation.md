@@ -1,7 +1,5 @@
 ---
-id: usage.instantiation
 title: Instantiation
-sidebar_label: Instantiation
 slug: /usage/instantiation
 ---
 

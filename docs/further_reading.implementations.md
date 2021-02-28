@@ -1,7 +1,5 @@
 ---
-id: further_reading.implementations
 title: Implementations
-sidebar_label: Implementations
 slug: /further-reading/implementations
 ---
 

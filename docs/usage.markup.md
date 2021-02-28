@@ -1,7 +1,5 @@
 ---
-id: usage.markup
 title: Markup
-sidebar_label: Markup
 slug: /usage/markup
 ---
 

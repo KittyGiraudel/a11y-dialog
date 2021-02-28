@@ -1,7 +1,5 @@
 ---
-id: advanced.animations
 title: Animations
-sidebar_label: Animations
 slug: /advanced/animations
 ---
 

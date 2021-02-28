@@ -1,7 +1,5 @@
 ---
-id: advanced.events
 title: Events
-sidebar_label: Events
 slug: /advanced/events
 ---
 

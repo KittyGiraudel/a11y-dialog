@@ -1,7 +1,5 @@
 ---
-id: advanced.alert_dialog
 title: Alert Dialogs
-sidebar_label: Alert Dialogs
 slug: /advanced/alert-dialog
 ---
 

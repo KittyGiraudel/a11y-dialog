@@ -1,7 +1,5 @@
 ---
-id: advanced.dialog_element
 title: Dialog element
-sidebar_label: Dialog element
 slug: /advanced/dialog-element
 ---
 

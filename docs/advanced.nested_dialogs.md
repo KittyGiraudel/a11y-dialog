@@ -1,7 +1,5 @@
 ---
-id: advanced.nested_dialogs
 title: Nested dialogs
-sidebar_label: Nested dialogs
 slug: /advanced/nested-dialogs
 ---
 

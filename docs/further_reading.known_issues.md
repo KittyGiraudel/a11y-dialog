@@ -1,7 +1,5 @@
 ---
-id: further_reading.known_issues
 title: Known issues
-sidebar_label: Known issues
 slug: /further-reading/known-issues
 ---
 

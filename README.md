@@ -7,7 +7,6 @@ This is a lightweight (1.6Kb) yet flexible script to create accessible dialog wi
 
 **Features:**
 
-- Leveraging the native `<dialog>` element if desired
 - Closing dialog on overlay click and <kbd>ESC</kbd>
 - Toggling `aria-*` attributes
 - Trapping and restoring focus

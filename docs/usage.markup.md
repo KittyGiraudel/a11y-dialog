@@ -32,7 +32,7 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
 
 1. The main container is where your site/app content lives.
 
-   - It can have a different id than `main`, however you will have to pass it as a second argument to the A11yDialog instance. See [instantiation instructions](#instantiation) further down.
+   - It can have a different id than `main`, however you will have to pass it as a second argument to the A11yDialog instance. See [instantiation instructions](usage.instantiation.md) further down.
 
 2. The dialog container.
 
@@ -40,7 +40,7 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
    - It can have a different id than `your-dialog-id`, but it needs an `id` anyway.
    - It might need a class for you to be able to style it.
    - It should have an initial `aria-hidden="true"` to avoid a “flash of unhidden dialog” on page load.
-   - It can have the `data-a11y-dialog` attribute (with the “targets” as value, see [Instantiation](#instantiation)) to automatically instantiate the dialog without JavaScript.
+   - It can have the `data-a11y-dialog` attribute (with the “targets” as value, see [Instantiation](usage.instantiation.md)) to automatically instantiate the dialog without JavaScript.
 
 3. The dialog overlay.
 
@@ -50,8 +50,8 @@ Here is the basic markup, which can be enhanced. Pay extra attention to the comm
 
 4. The actual dialog.
 
-   - It may have the `alertdialog` role to make it behave like a “modal”. See the [Usage as a modal](#usage-as-a-modal) section of the docs.
-   - It can be a `<dialog>` element, but [is not recommended](#using-the-dialog-html-element).
+   - It may have the `alertdialog` role to make it behave like a “modal”. See the [alert dialog section](advanced.alert_dialog.md) of the docs.
+   - It can be a `<dialog>` element, but [it is not recommended](advanced.dialog_element.md).
    - It doesn’t have to have the `aria-labelledby` attribute however this is recommended. It should match the `id` of the dialog title.
 
 5. The inner document.

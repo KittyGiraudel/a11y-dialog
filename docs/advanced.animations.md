@@ -5,7 +5,7 @@ sidebar_label: Animations
 slug: /advanced/animations
 ---
 
-As mentioned in the [styling](#styling) section, how the dialog looks is entirely up to the implementor (you). The following boilerplate code can be used to add a simple entering animation to the dialog.
+As mentioned in the [styling](usage.styling.md) section, how the dialog looks is entirely up to the implementor (you). The following boilerplate code can be used to add a simple entering animation to the dialog.
 
 ```css
 @keyframes fade-in {

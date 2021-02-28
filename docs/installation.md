@@ -26,7 +26,7 @@ const container = document.querySelector('#my-dialog-container')
 const dialog = new A11yDialog(container)
 ```
 
-If you rely on the `data-a11y-dialog` attribute to automate the dialog [instantiation](#instantiation) in order not to write JavaScript at all, you could simplify the import as such:
+If you rely on the `data-a11y-dialog` attribute to automate the dialog [instantiation](usage.instantiation.md) in order not to write JavaScript at all, you could simplify the import as such:
 
 ```js
 import 'a11y-dialog'

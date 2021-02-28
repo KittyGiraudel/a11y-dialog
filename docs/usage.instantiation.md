@@ -31,7 +31,7 @@ const el = document.getElementById('your-dialog-id')
 const dialog = new A11yDialog(el)
 ```
 
-As recommended in the [HTML section](#html-boilerplate) of this documentation, the dialog element is supposed to be on the same level as your content container(s). Therefore, the script will toggle the `aria-hidden` attribute of the siblings of the dialog element as a default. You can change this behaviour by passing a `NodeList`, an `Element` or a selector as second argument to the `A11yDialog` constructor:
+As recommended in the [HTML section](usage.markup.md) of this documentation, the dialog element is supposed to be on the same level as your content container(s). Therefore, the script will toggle the `aria-hidden` attribute of the siblings of the dialog element as a default. You can change this behaviour by passing a `NodeList`, an `Element` or a selector as second argument to the `A11yDialog` constructor:
 
 ```javascript
 const container = document.querySelector('#root')

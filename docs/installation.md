@@ -20,16 +20,16 @@ yarn add a11y-dialog
 Then you can import the library in your JavaScript codebase to access the `A11yDialog` class and instantiate your dialogs as you intend to.
 
 ```js
-import A11yDialog from "a11y-dialog";
+import A11yDialog from 'a11y-dialog'
 
-const container = document.querySelector("#my-dialog-container");
-const dialog = new A11yDialog(container);
+const container = document.querySelector('#my-dialog-container')
+const dialog = new A11yDialog(container)
 ```
 
 If you rely on the `data-a11y-dialog` attribute to automate the dialog [instantiation](usage.instantiation.md) in order not to write JavaScript at all, you could simplify the import as such:
 
 ```js
-import "a11y-dialog";
+import 'a11y-dialog'
 ```
 
 ## Using a CDN
@@ -47,9 +47,9 @@ If you intend to use ES modules, you can use the ESM version of script (from v6.
 
 ```html
 <script type="module">
-  import A11yDialog from "https://cdn.jsdelivr.net/npm/a11y-dialog@6/dist/a11y-dialog.esm.min.js";
+  import A11yDialog from 'https://cdn.jsdelivr.net/npm/a11y-dialog@6/dist/a11y-dialog.esm.min.js'
 
-  const container = document.querySelector("#my-dialog-container");
-  const dialog = new A11yDialog(container);
+  const container = document.querySelector('#my-dialog-container')
+  const dialog = new A11yDialog(container)
 </script>
 ```

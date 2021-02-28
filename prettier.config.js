@@ -5,4 +5,4 @@ module.exports = {
   proseWrap: 'never',
   trailingComma: 'es5',
   arrowParens: 'avoid',
-};
+}

@@ -27,9 +27,9 @@ module.exports = {
           position: 'right',
         },
         {
-          href: 'https://twitter.com/HugoGiraudel',
-          label: 'Twitter',
+          type: 'docsVersionDropdown',
           position: 'right',
+          dropdownActiveClassDisabled: true,
         },
       ],
     },
@@ -49,6 +49,7 @@ module.exports = {
           path: 'docs',
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
+          showLastUpdateTime: true,
           // Please change this to your repo.
           editUrl:
             'https://github.com/KittyGiraudel/a11y-dialog/edit/documentation/',

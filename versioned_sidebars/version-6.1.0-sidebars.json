@@ -1,0 +1,85 @@
+{
+  "version-6.1.0/docs": [
+    {
+      "type": "doc",
+      "id": "version-6.1.0/introduction"
+    },
+    {
+      "type": "doc",
+      "id": "version-6.1.0/installation"
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Usage",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-6.1.0/usage.markup"
+        },
+        {
+          "type": "doc",
+          "id": "version-6.1.0/usage.styling"
+        },
+        {
+          "type": "doc",
+          "id": "version-6.1.0/usage.instantiation"
+        },
+        {
+          "type": "doc",
+          "id": "version-6.1.0/usage.interactions"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Advanced",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-6.1.0/advanced.focus_considerations"
+        },
+        {
+          "type": "doc",
+          "id": "version-6.1.0/advanced.animations"
+        },
+        {
+          "type": "doc",
+          "id": "version-6.1.0/advanced.alert_dialog"
+        },
+        {
+          "type": "doc",
+          "id": "version-6.1.0/advanced.events"
+        },
+        {
+          "type": "doc",
+          "id": "version-6.1.0/advanced.scroll_lock"
+        },
+        {
+          "type": "doc",
+          "id": "version-6.1.0/advanced.dialog_element"
+        },
+        {
+          "type": "doc",
+          "id": "version-6.1.0/advanced.nested_dialogs"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Further reading",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-6.1.0/further_reading.implementations"
+        },
+        {
+          "type": "doc",
+          "id": "version-6.1.0/further_reading.known_issues"
+        }
+      ]
+    }
+  ]
+}

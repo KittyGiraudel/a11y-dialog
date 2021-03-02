@@ -2,7 +2,7 @@ module.exports = {
   title: 'a11y-dialog',
   tagline:
     'A tiny script to make dialog windows accessible to assistive technology users.',
-  organizationName: 'HugoGiraudel',
+  organizationName: 'KittyGiraudel',
   projectName: 'a11y-dialog',
   url: 'https://a11y-dialog.netlify.app',
   baseUrl: '/',
@@ -22,7 +22,7 @@ module.exports = {
           position: 'right',
         },
         {
-          href: 'https://github.com/HugoGiraudel/a11y-dialog',
+          href: 'https://github.com/KittyGiraudel/a11y-dialog',
           label: 'GitHub',
           position: 'right',
         },
@@ -51,7 +51,7 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl:
-            'https://github.com/HugoGiraudel/a11y-dialog/edit/documentation/',
+            'https://github.com/KittyGiraudel/a11y-dialog/edit/documentation/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),

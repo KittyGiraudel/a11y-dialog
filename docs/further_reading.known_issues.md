@@ -5,7 +5,7 @@ slug: /further-reading/known-issues
 
 ## Focus restoration on iOS
 
-It has been reported that the focus restoration to the formerly active element when closing the dialog does not always work properly on iOS. It is unclear what causes this or even if it happens consistently. Refer to [issue #102](https://github.com/HugoGiraudel/a11y-dialog/issues/102) as a reference.
+It has been reported that the focus restoration to the formerly active element when closing the dialog does not always work properly on iOS. It is unclear what causes this or even if it happens consistently. Refer to [issue #102](https://github.com/KittyGiraudel/a11y-dialog/issues/102) as a reference.
 
 ## aria-hidden content on VoiceOver
 

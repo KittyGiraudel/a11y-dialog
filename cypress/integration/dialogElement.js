@@ -19,7 +19,7 @@ describe('<dialog> element', () => {
   })
 
   it('should remove the `aria-hidden` attribute from the container', () => {
-    // See: https://github.com/HugoGiraudel/a11y-dialog/commit/6ba711a777aed0dbda0719a18a02f742098c64d9#commitcomment-28694166
+    // See: https://github.com/KittyGiraudel/a11y-dialog/commit/6ba711a777aed0dbda0719a18a02f742098c64d9#commitcomment-28694166
     cy.get('.dialog').should('not.have.attr', 'aria-hidden')
   })
 

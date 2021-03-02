@@ -2,7 +2,7 @@
   "name": "a11y-dialog",
   "version": "6.0.1",
   "description": "A tiny script to make dialog windows accessible to assistive technology users.",
-  "homepage": "https://github.com/HugoGiraudel/a11y-dialog",
+  "homepage": "https://github.com/KittyGiraudel/a11y-dialog",
   "license": "MIT",
   "main": "dist/a11y-dialog.js",
   "module": "dist/a11y-dialog.esm.js",
@@ -17,7 +17,7 @@
   "author": "Kitty Giraudel (https://kittygiraudel.com)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/HugoGiraudel/a11y-dialog"
+    "url": "https://github.com/KittyGiraudel/a11y-dialog"
   },
   "files": [
     "dist/*"

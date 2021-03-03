@@ -15,3 +15,5 @@ dialog
   .on('show', () => (html.style.overflowY = 'hidden'))
   .on('hide', () => (html.style.overflowY = ''))
 ```
+
+For more a comprehensive solution, you could use [body-scroll-lock](https://github.com/willmcpo/body-scroll-lock). It clocks at 1Kb, and is a little bit more bulletproof than the solution suggested above.

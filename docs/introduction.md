@@ -3,7 +3,9 @@ title: Introduction
 slug: /
 ---
 
-a11y-dialog is a lightweight (1.6Kb) yet flexible script to create accessible dialog windows.
+a11y-dialog is a lightweight (1.5Kb) yet flexible script to create accessible dialog windows.
+
+![a11y-dialog: 1.5Kb](https://badgen.net/bundlephobia/minzip/a11y-dialog/)
 
 ✔︎ Leveraging the native `<dialog>` element if desired  
 ✔︎ Closing dialog on overlay click and <kbd>ESC</kbd>  

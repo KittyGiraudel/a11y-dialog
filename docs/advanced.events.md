@@ -8,25 +8,25 @@ When shown, hidden and destroyed, the instance will emit certain events. It is p
 The event object can be used to know which trigger (opener / closer) has been used in case of a `show` or `hide` event.
 
 ```js
-dialog.on('show', function (dialogEl, event) {
+dialog.on('show', function (element, event) {
   // Do something when dialog gets shown
   // Note: opener is `event.currentTarget`
 })
 
-dialog.on('hide', function (dialogEl, event) {
+dialog.on('hide', function (element, event) {
   // Do something when dialog gets hidden
   // Note: closer is `event.currentTarget`
 })
 
-dialog.on('destroy', function (dialogEl) {
+dialog.on('destroy', function (element) {
   // Do something when dialog gets destroyed
 })
 
-dialog.on('create', function (dialogEl) {
+dialog.on('create', function (element) {
   // Do something when dialog gets created
-  // Note: because the initial `create()` call is made from the constructor, it
-  // is not possible to react to this particular one (as registering will be
-  // done after instantiation)
+  // Note: because the initial `create()` call is made from the
+  // constructor, it is not possible to react to this particular
+  // one (as registering will be done after instantiation)
 })
 ```
 

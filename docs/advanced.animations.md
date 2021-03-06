@@ -23,8 +23,8 @@ As mentioned in the [styling](usage.styling.md) section, how the dialog looks is
 }
 
 /**
- * 1. Add an animation delay equal to the overlay animation duration to wait for
- *    the overlay to appear before animation in the dialog.
+ * 1. Add an animation delay equal to the overlay animation duration to
+ *    wait for the overlay to appear before animation in the dialog.
  */
 .dialog-content {
   animation: fade-in 400ms 200ms both, slide-up 400ms 200ms both; /* 1 */

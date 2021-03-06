@@ -9,8 +9,8 @@ Here is a solid set of styles to get started (note that you might have to rename
 
 ```css
 /**
- * 1. Make the dialog container, and its child overlay spread across the entire 
- *    window.
+ * 1. Make the dialog container, and its child overlay spread across
+ *    the entire window.
  */
 .dialog-container,
 .dialog-overlay {
@@ -22,9 +22,10 @@ Here is a solid set of styles to get started (note that you might have to rename
 }
 
 /**
- * 1. Make sure the dialog container and all its descendants sits on top of the
- *    rest of the page.
- * 2. Make the dialog container a flex container to easily center the dialog.
+ * 1. Make sure the dialog container and all its descendants sits on
+ *    top of the rest of the page.
+ * 2. Make the dialog container a flex container to easily center the
+ *    dialog.
  */
 .dialog-container {
   z-index: 2; /* 1 */
@@ -32,8 +33,8 @@ Here is a solid set of styles to get started (note that you might have to rename
 }
 
 /**
- * 1. Make sure the dialog container and all its descendants are not visible and
- *    not focusable when the dialog is hidden.
+ * 1. Make sure the dialog container and all its descendants are not
+ *    visible and not focusable when the dialog is hidden.
  */
 .dialog-container[aria-hidden='true'] {
   display: none; /* 1 */

@@ -37,6 +37,7 @@ module.exports = {
       items: [
         'further_reading.implementations',
         'further_reading.known_issues',
+        'further_reading.migrating_to_v7',
       ],
     },
   ],

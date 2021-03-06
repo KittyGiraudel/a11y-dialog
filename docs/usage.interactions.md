@@ -60,5 +60,3 @@ dialog.destroy()
 // Bind click listeners to dialog openers and closers
 dialog.create()
 ```
-
-If necessary, the `create()` method also accepts the `targets` containers (the one toggled along with the dialog element) in the same form as the second argument from the constructor. If omitted, the one given to the constructor (or default) will be used.

@@ -8,8 +8,9 @@ While the page might not be interactive below the dialog, the window will still 
 To prevent it from happening, one can hide overflow from the `<html>` element when the dialog opens, and restore it when hidden:
 
 ```js
+const element = document.getElementById('your-dialog-id')
 const html = document.documentElement
-const dialog = new A11yDialog(dialogNode)
+const dialog = new A11yDialog(element)
 
 dialog
   .on('show', () => (html.style.overflowY = 'hidden'))

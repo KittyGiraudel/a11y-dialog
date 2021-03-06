@@ -30,15 +30,8 @@ describe('Instance', () => {
   it('should expose the container on the instance', () => {
     cy.window()
       .its('instance')
-      .its('container')
+      .its('$el')
       .should('have.attr', 'id', 'my-dialog')
-  })
-
-  it('should expose the dialog element on the instance', () => {
-    cy.window()
-      .its('instance')
-      .its('dialog')
-      .should('have.attr', 'class', 'dialog-content')
   })
 
   it('should be possible to register/unregister events', () => {

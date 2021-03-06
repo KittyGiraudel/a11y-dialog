@@ -34,7 +34,7 @@ Here is a solid set of styles to get started (note that you might have to rename
 
 /**
  * 1. Make sure the dialog container and all its descendants are not
- *    visible and not focusable when the dialog is hidden.
+ *    visible and not focusable when it is hidden.
  */
 .dialog-container[aria-hidden='true'] {
   display: none; /* 1 */

@@ -19,6 +19,8 @@ export default {
     // Minified versions
     { file: 'dist/a11y-dialog.min.js', ...umd, ...minify },
     { file: 'dist/a11y-dialog.esm.min.js', ...es, ...minify },
+    // Test version
+    { file: 'cypress/fixtures/a11y-dialog.js', ...umd },
   ],
   plugins: [nodeResolve(), commonjs({ include: 'node_modules/**' })],
 }

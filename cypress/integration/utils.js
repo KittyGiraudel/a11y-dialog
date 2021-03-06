@@ -10,7 +10,6 @@ export function shouldBeVisible($subject) {
   cy.wrap($subject, { log: false })
     .find('.dialog-content', { log: false })
     .should('be.visible')
-    .and('have.attr', 'open')
 }
 
 export function shouldBeHidden($subject) {

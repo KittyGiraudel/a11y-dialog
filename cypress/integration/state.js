@@ -15,15 +15,6 @@ describe('State', () => {
     cy.get('.dialog').then(shouldBeVisible)
   })
 
-  it('should toggle the `aria-hidden` attribute on siblings/targets', () => {
-    cy.get('main').should('have.attr', 'aria-hidden', 'true')
-    cy.get('#pre-hidden-sibling').should(
-      'have.attr',
-      'data-a11y-dialog-original-aria-hidden',
-      'true'
-    )
-  })
-
   it('should close when clicking a closer', () => {
     cy.get('.dialog-close').click()
     cy.get('.dialog').then(shouldBeHidden)

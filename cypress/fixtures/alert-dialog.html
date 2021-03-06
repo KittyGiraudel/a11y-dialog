@@ -13,9 +13,10 @@
     <button class="link-like" data-a11y-dialog-show="my-dialog">Open the dialog window</button>
   </main>
 
-  <div class="dialog" id="my-dialog" aria-hidden="true" data-a11y-dialog>
-    <div class="dialog-overlay" tabindex="-1"></div>
-    <div role="alertdialog" class="dialog-content" aria-labelledby="my-dialog-title">
+  <div class="dialog" aria-hidden="true" data-a11y-dialog="my-dialog" aria-labelledby="my-dialog-title"
+    role="alertdialog">
+    <div class="dialog-overlay"></div>
+    <div class="dialog-content" role="document">
       <button data-a11y-dialog-hide class="dialog-close" aria-label="Close this dialog window">&times;</button>
 
       <h1 id="my-dialog-title">Dialog title</h1>

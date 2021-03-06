@@ -3,7 +3,7 @@ title: Styling
 slug: /usage/styling
 ---
 
-The script itself does not take care of any styling whatsoever, not even the `display` property. It basically mostly toggles the `aria-hidden` attribute on the dialog itself and its counterpart content containers (where the rest of the site/app lives).
+The script itself does not take care of any styling whatsoever, not even the `display` property. It basically mostly toggles the `aria-hidden` attribute on the dialog itself.
 
 Here is a solid set of styles to get started (note that you might have to rename the class names to fit your code):
 

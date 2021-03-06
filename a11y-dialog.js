@@ -21,11 +21,9 @@ function A11yDialog(node, targets) {
 
   // Keep a reference of the node and the actual dialog on the instance
   this.container = node
-  this.dialog = node.querySelector(
-    'dialog, [role="dialog"], [role="alertdialog"]'
-  )
+  this.dialog = node.querySelector('[role="dialog"], [role="alertdialog"]')
   this.role = this.dialog.getAttribute('role') || 'dialog'
-  this.useDialog = 'show' in this.dialog
+  this.shown = false
 
   // Keep an object of listener types mapped to callback functions
   this._listeners = {}
@@ -44,27 +42,6 @@ A11yDialog.prototype.create = function (targets) {
   // Keep a collection of nodes to disable/enable when toggling the dialog
   this._targets =
     this._targets || collect(targets) || getSiblings(this.container)
-
-  // Set the `shown` property to match the status from the DOM
-  this.shown = this.dialog.hasAttribute('open')
-
-  // Despite using a `<dialog>` element, `role="dialog"` is not necessarily
-  // implied by all screen-readers (yet)
-  // See: https://github.com/KittyGiraudel/a11y-dialog/commit/6ba711a777aed0dbda0719a18a02f742098c64d9#commitcomment-28694166
-  this.dialog.setAttribute('role', this.role)
-
-  if (!this.useDialog) {
-    if (this.shown) {
-      this.container.removeAttribute('aria-hidden')
-    } else {
-      this.container.setAttribute('aria-hidden', true)
-    }
-  } else {
-    this.container.setAttribute('data-a11y-dialog-native', '')
-    // Remove initial `aria-hidden` from container
-    // See: https://github.com/KittyGiraudel/a11y-dialog/pull/117#issuecomment-706056246
-    this.container.removeAttribute('aria-hidden')
-  }
 
   // Keep a collection of dialog openers, each of which will be bound a click
   // event listener to open the dialog
@@ -111,25 +88,19 @@ A11yDialog.prototype.show = function (event) {
   // Keep a reference to the currently focused element to be able to restore
   // it later
   this._previouslyFocused = document.activeElement
+  this.container.removeAttribute('aria-hidden')
 
-  if (this.useDialog) {
-    this.dialog.showModal(event instanceof Event ? void 0 : event)
-  } else {
-    this.dialog.setAttribute('open', '')
-    this.container.removeAttribute('aria-hidden')
-
-    // Iterate over the targets to disable them by setting their `aria-hidden`
-    // attribute to `true` and, if present, storing the current value of `aria-hidden`
-    this._targets.forEach(function (target) {
-      if (target.hasAttribute('aria-hidden')) {
-        target.setAttribute(
-          'data-a11y-dialog-original-aria-hidden',
-          target.getAttribute('aria-hidden')
-        )
-      }
-      target.setAttribute('aria-hidden', 'true')
-    })
-  }
+  // Iterate over the targets to disable them by setting their `aria-hidden`
+  // attribute to `true` and, if present, storing the current value of `aria-hidden`
+  this._targets.forEach(function (target) {
+    if (target.hasAttribute('aria-hidden')) {
+      target.setAttribute(
+        'data-a11y-dialog-original-aria-hidden',
+        target.getAttribute('aria-hidden')
+      )
+    }
+    target.setAttribute('aria-hidden', 'true')
+  })
 
   // Set the focus to the first focusable child of the dialog element
   setFocusToFirstItem(this.dialog)
@@ -161,27 +132,21 @@ A11yDialog.prototype.hide = function (event) {
   }
 
   this.shown = false
+  this.container.setAttribute('aria-hidden', 'true')
 
-  if (this.useDialog) {
-    this.dialog.close(event instanceof Event ? void 0 : event)
-  } else {
-    this.dialog.removeAttribute('open')
-    this.container.setAttribute('aria-hidden', 'true')
-
-    // Iterate over the targets to enable them by removing their `aria-hidden`
-    // attribute or resetting it to its original value
-    this._targets.forEach(function (target) {
-      if (target.hasAttribute('data-a11y-dialog-original-aria-hidden')) {
-        target.setAttribute(
-          'aria-hidden',
-          target.getAttribute('data-a11y-dialog-original-aria-hidden')
-        )
-        target.removeAttribute('data-a11y-dialog-original-aria-hidden')
-      } else {
-        target.removeAttribute('aria-hidden')
-      }
-    })
-  }
+  // Iterate over the targets to enable them by removing their `aria-hidden`
+  // attribute or resetting it to its original value
+  this._targets.forEach(function (target) {
+    if (target.hasAttribute('data-a11y-dialog-original-aria-hidden')) {
+      target.setAttribute(
+        'aria-hidden',
+        target.getAttribute('data-a11y-dialog-original-aria-hidden')
+      )
+      target.removeAttribute('data-a11y-dialog-original-aria-hidden')
+    } else {
+      target.removeAttribute('aria-hidden')
+    }
+  })
 
   // If there was a focused element before the dialog was opened (and it has a
   // `focus` method), restore the focus back to it

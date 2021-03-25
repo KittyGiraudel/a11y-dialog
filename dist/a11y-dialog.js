@@ -278,16 +278,10 @@
    * @param {Event} event
    */
   A11yDialog.prototype._maintainFocus = function (event) {
-    // If the dialog is shown and the focus is not within the dialog element,
-    // move it back to its first focusable child, unless another dialog is going
-    // to be opened
-    var dialogTarget = event.target.getAttribute('data-a11y-dialog-show');
-
-    if (
-      this.shown &&
-      !this.$el.contains(event.target) &&
-      dialogTarget === this._id
-    ) {
+    // If the dialog is shown and the focus is not within a dialog element (either
+    // this one or another one in case of nested dialogs), move it back to its
+    // first focusable child
+    if (this.shown && !event.target.closest('[aria-modal="true"]')) {
       setFocusToFirstItem(this.$el);
     }
   };

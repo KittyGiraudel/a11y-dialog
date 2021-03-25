@@ -332,15 +332,12 @@ A11yDialog.prototype._bindKeypress = function (event) {
  * @param {Event} event
  */
 A11yDialog.prototype._maintainFocus = function (event) {
-  // If the dialog is shown and the focus is not within the dialog element,
-  // move it back to its first focusable child, unless another dialog is going
-  // to be opened
-  var dialogTarget = event.target.getAttribute('data-a11y-dialog-show');
-
+  // If the dialog is shown and the focus is not within a dialog element (either
+  // this one or another one in case of nested dialogs), move it back to its
+  // first focusable child
   if (
     this.shown &&
-    !this.container.contains(event.target) &&
-    dialogTarget === this.container.id
+    !event.target.closest('dialog, [role="dialog"], [role="alertdialog"]')
   ) {
     setFocusToFirstItem(this.container);
   }

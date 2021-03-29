@@ -10,3 +10,7 @@ Note that [the way focusable elements are queried](https://github.com/KittyGirau
 Additionally, if a form control within the dialog has the `autofocus` HTML attribute, it will receive focus when the dialog gets open instead of the first focusable item. The focus trap is not impacted by this whatsoever.
 
 When the dialog closes, the element which was previously focused before opening should receive the focus back.
+
+## Advanced integrations
+
+As of 7.1.0, a11y-dialog no longer moves the focus back within the dialog if the focused element lives within an element with the `data-a11y-dialog-ignore-focus-trap` attribute. This is an escape hatch for advanced integrations with other libraries such as popper.js, where some content technically lives outside of the dialog itself (similar to a nested dialog for instance). **Use with caution as this can severely damage screen-reader users’ experience.**

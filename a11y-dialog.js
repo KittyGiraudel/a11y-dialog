@@ -260,9 +260,15 @@ A11yDialog.prototype._bindKeypress = function (event) {
  */
 A11yDialog.prototype._maintainFocus = function (event) {
   // If the dialog is shown and the focus is not within a dialog element (either
-  // this one or another one in case of nested dialogs), move it back to its
-  // first focusable child
-  if (this.shown && !event.target.closest('[aria-modal="true"]')) {
+  // this one or another one in case of nested dialogs) or within an element
+  // with the `data-a11y-dialog-focus-trap-ignore` attribute, move it back to
+  // its first focusable child.
+  // See: https://github.com/KittyGiraudel/a11y-dialog/issues/177
+  if (
+    this.shown &&
+    !event.target.closest('[aria-modal="true"]') &&
+    !event.target.closest('[data-a11y-dialog-ignore-focus-trap]')
+  ) {
     setFocusToFirstItem(this.$el)
   }
 }

@@ -12,7 +12,7 @@ describe('Focus', () => {
       .should('have.focus')
       .tab({ shift: true })
       .tab({ shift: true })
-    cy.get('button[type="submit"]').should('have.focus').tab()
+    cy.get('#move-focus-outside').should('have.focus').tab()
     cy.get('.dialog-close').should('have.focus')
   })
 
@@ -24,5 +24,11 @@ describe('Focus', () => {
   it('should restore focus to the previously focused element', () => {
     cy.get('.dialog-close').click()
     cy.get('[data-a11y-dialog-show="my-dialog"]').should('have.focus')
+  })
+
+  it('should ignore focus trap for elements with ‘data-a11y-dialog-ignore-focus-trap’', () => {
+    cy.get('[data-a11y-dialog-show="my-dialog"]').click()
+    cy.get('#move-focus-outside').click()
+    cy.get('#focus-me').should('have.focus')
   })
 })

@@ -26,12 +26,23 @@
         <input type="email" name="EMAIL" id="email" placeholder="john.doe@gmail.com" required>
         <button type="submit" name="button">Sign up</button>
       </form>
+
+      <button type="button" id="move-focus-outside">Move focus outside</button>
     </div>
   </div>
 
   <div aria-hidden="true" id="pre-hidden-sibling"></div>
 
+  <div data-a11y-dialog-ignore-focus-trap>
+    <button type="button" id="focus-me">Focus me</button>
+  </div>
+
   <script src="../a11y-dialog.js"></script>
+  <script>
+    document.querySelector('#move-focus-outside').addEventListener('click', () => {
+      document.querySelector('#focus-me').focus()
+    })
+  </script>
 </body>
 
 </html>

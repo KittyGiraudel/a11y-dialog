@@ -4,3 +4,4 @@ node_modules
 _book
 cypress/screenshots
 .docusaurus
+.husky/_

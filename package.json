@@ -28,11 +28,8 @@
     "test": "cypress run",
     "compress": "gzip -9 -fkc dist/a11y-dialog.min.js > dist/a11y-dialog.min.js.gz",
     "show": "ls -lh dist/a11y-dialog.min.js.gz | awk '{print \"Gzipped script size:\", $5\"B\"}'",
-    "size": "npm run build -- --silent && npm run compress --silent && npm run show && rm dist/a11y-dialog.min.js.gz"
-  },
-  "husky": {
-    "pre-commit": "lint-staged",
-    "post-rewrite": "lint-staged"
+    "size": "npm run build -- --silent && npm run compress --silent && npm run show && rm dist/a11y-dialog.min.js.gz",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "*.js": [

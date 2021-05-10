@@ -37,7 +37,7 @@
     ]
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^18.0.0",
+    "@rollup/plugin-commonjs": "^19.0.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
     "cypress": "^7.0.1",
     "cypress-plugin-tab": "^1.0.5",

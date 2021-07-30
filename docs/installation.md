@@ -37,7 +37,7 @@ If you prefer loading `a11y-dialog` from a CDN such as jsdelivr or unpkg, you ca
 ```html
 <script
   defer
-  src="https://cdn.jsdelivr.net/npm/a11y-dialog@6/dist/a11y-dialog.min.js"
+  src="https://cdn.jsdelivr.net/npm/a11y-dialog@7/dist/a11y-dialog.min.js"
 ></script>
 ```
 
@@ -45,7 +45,7 @@ If you intend to use ES modules, you can use the ESM version of script (from v6.
 
 ```html
 <script type="module">
-  import A11yDialog from 'https://cdn.jsdelivr.net/npm/a11y-dialog@6/dist/a11y-dialog.esm.min.js'
+  import A11yDialog from 'https://cdn.jsdelivr.net/npm/a11y-dialog@7/dist/a11y-dialog.esm.min.js'
 
   const container = document.querySelector('#my-dialog-container')
   const dialog = new A11yDialog(container)

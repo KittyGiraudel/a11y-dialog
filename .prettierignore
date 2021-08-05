@@ -1,0 +1,2 @@
+dist/*
+cypress/fixtures/*.js

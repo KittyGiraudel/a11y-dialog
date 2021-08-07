@@ -55,6 +55,7 @@
   A11yDialog.prototype.create = function () {
     this.$el.setAttribute('aria-hidden', true);
     this.$el.setAttribute('aria-modal', true);
+    this.$el.setAttribute('tabindex', -1);
 
     if (!this.$el.hasAttribute('role')) {
       this.$el.setAttribute('role', 'dialog');
@@ -106,8 +107,8 @@
     this.$el.removeAttribute('aria-hidden');
     this.shown = true;
 
-    // Set the focus to the first focusable child of the dialog element
-    setFocusToFirstItem(this.$el);
+    // Set the focus to the dialog element
+    moveFocusToDialog(this.$el);
 
     // Bind a focus event listener to the body element to make sure the focus
     // stays trapped inside the dialog while open, and start listening for some
@@ -288,7 +289,7 @@
       !event.target.closest('[aria-modal="true"]') &&
       !event.target.closest('[data-a11y-dialog-ignore-focus-trap]')
     ) {
-      setFocusToFirstItem(this.$el);
+      moveFocusToDialog(this.$el);
     }
   };
 
@@ -315,18 +316,15 @@
   }
 
   /**
-   * Set the focus to the first element with `autofocus` or the first focusable
-   * child of the given element
+   * Set the focus to the first element with `autofocus` with the element or the
+   * element itself
    *
    * @param {Element} node
    */
-  function setFocusToFirstItem(node) {
-    var focusableChildren = getFocusableChildren(node);
-    var focused = node.querySelector('[autofocus]') || focusableChildren[0];
+  function moveFocusToDialog(node) {
+    var focused = node.querySelector('[autofocus]') || node;
 
-    if (focused) {
-      focused.focus();
-    }
+    focused.focus();
   }
 
   /**

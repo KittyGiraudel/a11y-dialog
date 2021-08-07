@@ -49,6 +49,6 @@
     "rollup-plugin-terser": "^7.0.2"
   },
   "dependencies": {
-    "focusable-selectors": "^0.3.0"
+    "focusable-selectors": "^0.3.1"
   }
 }

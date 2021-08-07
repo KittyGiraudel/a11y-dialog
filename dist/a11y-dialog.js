@@ -8,7 +8,7 @@
     'a[href]:not([tabindex^="-"])',
     'area[href]:not([tabindex^="-"])',
     'input:not([type="hidden"]):not([type="radio"]):not([disabled]):not([tabindex^="-"])',
-    'input[type="radio"]:not([disabled]):not([tabindex^="-"]):checked',
+    'input[type="radio"]:not([disabled]):not([tabindex^="-"])',
     'select:not([disabled]):not([tabindex^="-"])',
     'textarea:not([disabled]):not([tabindex^="-"])',
     'button:not([disabled]):not([tabindex^="-"])',

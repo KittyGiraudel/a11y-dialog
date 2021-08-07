@@ -3,10 +3,14 @@ describe('Focus', () => {
 
   it('should focus the first element in the dialog on open', () => {
     cy.get('[data-a11y-dialog-show="my-dialog"]').click()
-    cy.get('.dialog-close').should('have.focus')
+    cy.get('[role="dialog"]').should('have.focus')
   })
 
   it('should trap the focus within the dialog', () => {
+    // The next line is a hack, because the `cypress-plugin-tab` library does
+    // not consider elements with `tabindex="-1"` to be valid subject for the
+    // `.tab()` command, which means we can’t tab from the dialog into it.
+    cy.get('.dialog-close').focus()
     cy.get('.dialog-close').tab()
     cy.get('input[type="email"]')
       .should('have.focus')
@@ -18,7 +22,7 @@ describe('Focus', () => {
 
   it('should maintain focus in the dialog', () => {
     cy.get('[data-a11y-dialog-show="my-dialog"]').focus()
-    cy.get('.dialog-close').should('have.focus')
+    cy.get('[role="dialog"]').should('have.focus')
   })
 
   it('should restore focus to the previously focused element', () => {

@@ -383,4 +383,4 @@ if (typeof document !== 'undefined') {
   }
 }
 
-export { A11yDialog as default };
+export default A11yDialog;

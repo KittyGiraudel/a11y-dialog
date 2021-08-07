@@ -37,7 +37,7 @@ If you prefer loading `a11y-dialog` from a CDN such as jsdelivr or unpkg, you ca
 ```html
 <script
   defer
-  src="https://cdn.jsdelivr.net/npm/a11y-dialog@6/dist/a11y-dialog.min.js"
+  src="https://cdn.jsdelivr.net/npm/a11y-dialog@7/dist/a11y-dialog.min.js"
 ></script>
 ```
 

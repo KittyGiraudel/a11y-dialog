@@ -35,4 +35,15 @@ describe('State', () => {
     cy.get('.dialog-overlay').click({ force: true })
     cy.get('.dialog').then(shouldBeHidden)
   })
+
+  it('should be possible to register DOM event listeners', () => {
+    cy.get('[data-a11y-dialog]').then($node => {
+      $node[0].addEventListener('show', cy.stub().as('shown'))
+      $node[0].addEventListener('hide', cy.stub().as('hidden'))
+    })
+    cy.get('[data-a11y-dialog-show="my-dialog"]').click()
+    cy.get('@shown').should('have.been.calledOnce')
+    cy.get('.dialog-overlay').click({ force: true })
+    cy.get('@hidden').should('have.been.calledOnce')
+  })
 })

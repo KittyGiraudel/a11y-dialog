@@ -234,8 +234,9 @@
    */
   A11yDialog.prototype._fire = function (type, event) {
     var listeners = this._listeners[type] || [];
+    var domEvent = new CustomEvent(type, { detail: event });
 
-    this.$el.dispatchEvent(new Event(type));
+    this.$el.dispatchEvent(domEvent);
 
     listeners.forEach(
       function (listener) {

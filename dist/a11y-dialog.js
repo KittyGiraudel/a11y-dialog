@@ -224,7 +224,9 @@
 
   /**
    * Iterate over all registered handlers for given type and call them all with
-   * the dialog element as first argument, event as second argument (if any).
+   * the dialog element as first argument, event as second argument (if any). Also
+   * dispatch a custom event on the DOM element itself to make it possible to
+   * react to the lifecycle of auto-instantiated dialogs.
    *
    * @access private
    * @param {string} type
@@ -232,6 +234,9 @@
    */
   A11yDialog.prototype._fire = function (type, event) {
     var listeners = this._listeners[type] || [];
+    var domEvent = new CustomEvent(type, { detail: event });
+
+    this.$el.dispatchEvent(domEvent);
 
     listeners.forEach(
       function (listener) {

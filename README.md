@@ -13,3 +13,7 @@ This is a lightweight (1.3Kb) yet flexible script to create accessible dialog wi
 - Firing events
 - DOM and JS APIs
 - Fast and tiny
+
+## Contributing
+
+Contributing guidelines can be found [here](https://github.com/KittyGiraudel/a11y-dialog/blob/main/CONTRIBUTING.md)

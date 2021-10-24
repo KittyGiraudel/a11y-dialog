@@ -124,6 +124,15 @@ dialog.dialog-content {
   transition: 0.15s;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .dialog-close {
+    transition: none;
+  }
+  .dialog-content {
+    animation: none;
+  }
+}
+
 @media screen and (min-width: 700px) {
   .dialog-close {
     top: 1em;

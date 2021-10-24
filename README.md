@@ -16,4 +16,4 @@ This is a lightweight (1.3Kb) yet flexible script to create accessible dialog wi
 
 ## Contributing
 
-Contributing guidelines can be found [here](https://github.com/KittyGiraudel/a11y-dialog/blob/main/CONTRIBUTING.md)
+Contributing guidelines can be found in [CONTRIBUTING.md](https://github.com/KittyGiraudel/a11y-dialog/blob/main/CONTRIBUTING.md)

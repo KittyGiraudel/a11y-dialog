@@ -69,7 +69,7 @@ Here are the main steps to get you started developing on `a11y-dialog`.
 
 Simply clone your fork of the repo and then do `npm install` from the project root to download all required dependencies.
 
-#### Serve
+### Serve
 
 To run the main server:
 
@@ -77,7 +77,7 @@ To run the main server:
 npm run serve
 ```
 
-#### Tests
+### Tests
 
 `a11y-dialog` uses [Cypress](https://www.cypress.io/) to do end-to-end testing. In order to run the tests you’ll need to first run the server from the above step in a separate tab. Then, open a second tab and do:
 
@@ -85,7 +85,7 @@ npm run serve
 npm run test
 ```
 
-#### Documentation
+### Documentation
 
 You can run the [documentation site](https://a11y-dialog.netlify.app/) locally by checking out the `documentation` branch, and then running `npm install` and then `npm start`. This should fire up a local server that runs [Docusaurus](https://docusaurus.io/).
 

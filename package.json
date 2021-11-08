@@ -24,7 +24,7 @@
   ],
   "scripts": {
     "build": "rollup -c",
-    "serve": "npx serve cypress/fixtures",
+    "serve": "npx serve cypress/fixtures -p 5000",
     "test": "cypress run",
     "compress": "gzip -9 -fkc dist/a11y-dialog.min.js > dist/a11y-dialog.min.js.gz",
     "show": "ls -lh dist/a11y-dialog.min.js.gz | awk '{print \"Gzipped script size:\", $5\"B\"}'",

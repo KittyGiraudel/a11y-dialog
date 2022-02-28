@@ -7,3 +7,4 @@ If you happen to work with [React](https://github.com/facebook/react/) or [Vue](
 
 - [react-a11y-dialog](https://github.com/KittyGiraudel/react-a11y-dialog)
 - [vue-a11y-dialog](https://github.com/morkro/vue-a11y-dialog)
+- [svelte-a11y-dialog](https://github.com/AgnosticUI/svelte-a11y-dialog)

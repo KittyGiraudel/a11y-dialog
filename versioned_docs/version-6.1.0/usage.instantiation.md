@@ -3,7 +3,7 @@ title: Instantiation
 slug: /usage/instantiation
 ---
 
-By default, any dialog container having the `data-a11y-dialog` attribute will be automatically instantiated. This is so that there is no need for any JavaScript (besides loading the script). The value of the attribute, if given, should be a selector, serving the same purpose as the 2nd attribute of the `A11yDialog` constructor (see below).
+By default, any dialog container having the `data-a11y-dialog` attribute (with 1’s, not L’s) will be automatically instantiated. This is so that there is no need for any JavaScript (besides loading the script). The value of the attribute, if given, should be a selector, serving the same purpose as the 2nd attribute of the `A11yDialog` constructor (see below).
 
 ```html
 <!-- The content of the `data-a11y-dialog` attribute should be

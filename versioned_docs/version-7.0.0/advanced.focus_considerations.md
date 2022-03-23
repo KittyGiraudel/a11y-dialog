@@ -13,4 +13,4 @@ When the dialog closes, the element which was previously focused before opening 
 
 ## Advanced integrations
 
-As of 7.1.0, a11y-dialog no longer moves the focus back within the dialog if the focused element lives within an element with the `data-a11y-dialog-ignore-focus-trap` attribute. This is an escape hatch for advanced integrations with other libraries such as popper.js, where some content technically lives outside of the dialog itself (similar to a nested dialog for instance). **Use with caution as this can severely damage screen-reader users’ experience.**
+As of 7.1.0, a11y-dialog no longer moves the focus back within the dialog if the focused element lives within an element with the `data-a11y-dialog-ignore-focus-trap` attribute (with 1’s, not L’s). This is an escape hatch for advanced integrations with other libraries such as popper.js, where some content technically lives outside of the dialog itself (similar to a nested dialog for instance). **Use with caution as this can severely damage screen-reader users’ experience.**

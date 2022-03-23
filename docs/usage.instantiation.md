@@ -3,7 +3,7 @@ title: Instantiation
 slug: /usage/instantiation
 ---
 
-By default, any element with the `data-a11y-dialog` attribute will be automatically instantiated as a dialog. This is so that there is no need for any JavaScript (besides loading the script). The value of the attribute should be a unique identifier for the dialog, similar to an `id`.
+By default, any element with the `data-a11y-dialog` attribute (with 1’s, not L’s) will be automatically instantiated as a dialog. This is so that there is no need for any JavaScript (besides loading the script). The value of the attribute should be a unique identifier for the dialog, similar to an `id`.
 
 ```html
 <div

@@ -5,7 +5,7 @@ slug: /usage/interactions
 
 ### DOM API
 
-The DOM API relies on `data-*` attributes. They all live under the `data-a11y-dialog-*` namespace for consistency, clarity and robustness. Two attributes are recognised:
+The DOM API relies on `data-*` attributes. They all live under the `data-a11y-dialog-*` namespace for consistency (with 1’s, not L’s), clarity and robustness. Two attributes are recognised:
 
 - `data-a11y-dialog-show`: the `id` of the dialog element is expected as a value
 - `data-a11y-dialog-hide`: the `id` of the dialog element is expected as a value; if omitted, the closest parent dialog element (if any) will be the target

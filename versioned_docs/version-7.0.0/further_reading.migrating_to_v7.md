@@ -3,7 +3,7 @@ title: Migrating to v7
 slug: /migrating-to-v7
 ---
 
-Versions 6 and 7 represent a significant gap in the way a11y-dialog should be use. Mainly, the [expected HTML](./usage.markup.md) is quite different (for the better), which also has an impact of the styles. The JavaScript API remains untouched.
+Versions 6 and 7 represent a significant gap in the way a11y-dialog should be used. Mainly, the [expected HTML](./usage.markup.md) is quite different (for the better), which also has an impact of the styles. The JavaScript API remains untouched.
 
 Summary:
 

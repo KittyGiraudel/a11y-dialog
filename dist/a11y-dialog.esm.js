@@ -86,7 +86,7 @@ A11yDialog.prototype.create = function () {
  * current focus within it, listen for some specific key presses and fire all
  * registered callbacks for `show` event
  *
- * @param {Event} event
+ * @param {CustomEvent} event
  * @return {this}
  */
 A11yDialog.prototype.show = function (event) {
@@ -121,7 +121,7 @@ A11yDialog.prototype.show = function (event) {
  * focus to the previously active element, stop listening for some specific
  * key presses and fire all registered callbacks for `hide` event
  *
- * @param {Event} event
+ * @param {CustomEvent} event
  * @return {this}
  */
 A11yDialog.prototype.hide = function (event) {
@@ -224,7 +224,7 @@ A11yDialog.prototype.off = function (type, handler) {
  *
  * @access private
  * @param {string} type
- * @param {Event} event
+ * @param {CustomEvent} event
  */
 A11yDialog.prototype._fire = function (type, event) {
   var listeners = this._listeners[type] || [];

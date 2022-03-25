@@ -2,7 +2,7 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.A11yDialog = factory());
-}(this, (function () { 'use strict';
+})(this, (function () { 'use strict';
 
   var focusableSelectors = [
     'a[href]:not([tabindex^="-"])',
@@ -92,7 +92,7 @@
    * current focus within it, listen for some specific key presses and fire all
    * registered callbacks for `show` event
    *
-   * @param {Event} event
+   * @param {CustomEvent} event
    * @return {this}
    */
   A11yDialog.prototype.show = function (event) {
@@ -127,7 +127,7 @@
    * focus to the previously active element, stop listening for some specific
    * key presses and fire all registered callbacks for `hide` event
    *
-   * @param {Event} event
+   * @param {CustomEvent} event
    * @return {this}
    */
   A11yDialog.prototype.hide = function (event) {
@@ -230,7 +230,7 @@
    *
    * @access private
    * @param {string} type
-   * @param {Event} event
+   * @param {CustomEvent} event
    */
   A11yDialog.prototype._fire = function (type, event) {
     var listeners = this._listeners[type] || [];
@@ -396,4 +396,4 @@
 
   return A11yDialog;
 
-})));
+}));

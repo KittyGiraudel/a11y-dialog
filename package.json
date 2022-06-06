@@ -39,7 +39,7 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
-    "cypress": "^9.0.0",
+    "cypress": "^10.0.2",
     "cypress-plugin-tab": "^1.0.5",
     "husky": "^7.0.1",
     "lint-staged": "^12.3.4",

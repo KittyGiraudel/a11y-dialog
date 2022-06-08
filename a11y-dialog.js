@@ -1,7 +1,7 @@
 import focusableSelectors from 'focusable-selectors'
 
-var TAB_KEY = 9
-var ESCAPE_KEY = 27
+var TAB_KEY = 'Tab'
+var ESCAPE_KEY = 'Escape'
 
 /**
  * Define the constructor to instantiate a dialog
@@ -243,7 +243,7 @@ A11yDialog.prototype._bindKeypress = function (event) {
   // is 'alertdialog', which should be modal
   if (
     this.shown &&
-    event.which === ESCAPE_KEY &&
+    event.key === ESCAPE_KEY &&
     this.$el.getAttribute('role') !== 'alertdialog'
   ) {
     event.preventDefault()
@@ -252,7 +252,7 @@ A11yDialog.prototype._bindKeypress = function (event) {
 
   // If the dialog is shown and the TAB key is being pressed, make sure the
   // focus stays trapped within the dialog element
-  if (this.shown && event.which === TAB_KEY) {
+  if (this.shown && event.key === TAB_KEY) {
     trapTabKey(this.$el, event)
   }
 }

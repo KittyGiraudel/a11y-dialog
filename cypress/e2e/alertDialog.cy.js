@@ -7,7 +7,7 @@ describe('Alert Dialog', () => {
     cy.get('[data-a11y-dialog-show="my-dialog"]').click()
     cy.get('.dialog').then(shouldBeVisible)
 
-    cy.get('body').trigger('keydown', { keyCode: 27, which: 27 })
+    cy.get('body').trigger('keydown', { key: 'Escape', keyCode: 27, which: 27 })
     cy.get('.dialog').then(shouldBeVisible)
   })
 

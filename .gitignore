@@ -5,3 +5,4 @@ _book
 cypress/screenshots
 .docusaurus
 .husky/_
+out

@@ -23,14 +23,15 @@
   var ESCAPE_KEY = 'Escape';
 
   /**
-   * Define the constructor to instantiate a dialog
+   * Constructor to instantiate a dialog
    *
+   * @class
    * @constructor
    * @param {Element} element
    */
   function A11yDialog(element) {
-    // Prebind the functions that will be bound in addEventListener and
-    // removeEventListener to avoid losing references
+    // Prebind the functions that will be bound in `addEventListener` and
+    // `removeEventListener` to avoid losing references
     this._show = this.show.bind(this);
     this._hide = this.hide.bind(this);
     this._maintainFocus = this._maintainFocus.bind(this);
@@ -49,8 +50,7 @@
   /**
    * Set up everything necessary for the dialog to be functioning
    *
-   * @param {(NodeList | Element | string)} targets
-   * @return {this}
+   * @return {A11yDialog}
    */
   A11yDialog.prototype.create = function () {
     this.$el.setAttribute('aria-hidden', true);
@@ -88,12 +88,12 @@
   };
 
   /**
-   * Show the dialog element, disable all the targets (siblings), trap the
-   * current focus within it, listen for some specific key presses and fire all
-   * registered callbacks for `show` event
+   * Show the dialog element, trap the current focus within it, listen for some
+   * specific key presses and fire all registered callbacks for `show` event
    *
-   * @param {CustomEvent} event
-   * @return {this}
+   * @param {CustomEvent} event - An optional `CustomEvent`, passed to `show`
+   *                              event listeners
+   * @return {A11yDialog}
    */
   A11yDialog.prototype.show = function (event) {
     // If the dialog is already open, abort
@@ -123,12 +123,13 @@
   };
 
   /**
-   * Hide the dialog element, enable all the targets (siblings), restore the
-   * focus to the previously active element, stop listening for some specific
-   * key presses and fire all registered callbacks for `hide` event
+   * Hide the dialog element, restore the focus to the previously active element,
+   * stop listening for some specific key presses and fire all registered
+   * callbacks for `hide` event
    *
-   * @param {CustomEvent} event
-   * @return {this}
+   * @param {CustomEvent} event - An optional `CustomEvent`, passed to `hide`
+   *                              event listeners
+   * @return {A11yDialog}
    */
   A11yDialog.prototype.hide = function (event) {
     // If the dialog is already closed, abort
@@ -161,7 +162,7 @@
    * Destroy the current instance (after making sure the dialog has been hidden)
    * and remove all associated listeners from dialog openers and closers
    *
-   * @return {this}
+   * @return {A11yDialog}
    */
   A11yDialog.prototype.destroy = function () {
     // Hide the dialog to avoid destroying an open instance
@@ -184,7 +185,7 @@
     // Execute all callbacks registered for the `destroy` event
     this._fire('destroy');
 
-    // Keep an object of listener types mapped to callback functions
+    // Empty the listeners map
     this._listeners = {};
 
     return this
@@ -195,6 +196,7 @@
    *
    * @param {string} type
    * @param {Function} handler
+   * @return {A11yDialog}
    */
   A11yDialog.prototype.on = function (type, handler) {
     if (typeof this._listeners[type] === 'undefined') {
@@ -211,6 +213,7 @@
    *
    * @param {string} type
    * @param {Function} handler
+   * @return {A11yDialog}
    */
   A11yDialog.prototype.off = function (type, handler) {
     var index = (this._listeners[type] || []).indexOf(handler);
@@ -226,7 +229,7 @@
    * Iterate over all registered handlers for given type and call them all with
    * the dialog element as first argument, event as second argument (if any). Also
    * dispatch a custom event on the DOM element itself to make it possible to
-   * react to the lifecycle of auto-instantiated dialogs.
+   * react to the lifecycle of auto-instantiated dialogs
    *
    * @access private
    * @param {string} type
@@ -247,7 +250,7 @@
 
   /**
    * Private event handler used when listening to some specific key presses
-   * (namely ESCAPE and TAB)
+   * (namely ESC and TAB)
    *
    * @access private
    * @param {Event} event
@@ -257,9 +260,9 @@
     // are only reacted to for the most recent one
     if (!this.$el.contains(document.activeElement)) return
 
-    // If the dialog is shown and the ESCAPE key is being pressed, prevent any
-    // further effects from the ESCAPE key and hide the dialog, unless its role
-    // is 'alertdialog', which should be modal
+    // If the dialog is shown and the ESC key is pressed, prevent any further
+    // effects from the ESC key and hide the dialog, unless its role is
+    // `alertdialog`, which should be modal
     if (
       this.shown &&
       event.key === ESCAPE_KEY &&
@@ -269,8 +272,8 @@
       this.hide(event);
     }
 
-    // If the dialog is shown and the TAB key is being pressed, make sure the
-    // focus stays trapped within the dialog element
+    // If the dialog is shown and the TAB key is pressed, make sure the focus
+    // stays trapped within the dialog element
     if (this.shown && event.key === TAB_KEY) {
       trapTabKey(this.$el, event);
     }
@@ -287,7 +290,7 @@
     // If the dialog is shown and the focus is not within a dialog element (either
     // this one or another one in case of nested dialogs) or within an element
     // with the `data-a11y-dialog-focus-trap-ignore` attribute, move it back to
-    // its first focusable child.
+    // the dialog container.
     // See: https://github.com/KittyGiraudel/a11y-dialog/issues/177
     if (
       this.shown &&
@@ -358,13 +361,13 @@
     var focusableChildren = getFocusableChildren(node);
     var focusedItemIndex = focusableChildren.indexOf(document.activeElement);
 
-    // If the SHIFT key is being pressed while tabbing (moving backwards) and
-    // the currently focused item is the first one, move the focus to the last
+    // If the SHIFT key is pressed while tabbing (moving backwards) and the
+    // currently focused item is the first one, move the focus to the last
     // focusable item from the dialog element
     if (event.shiftKey && focusedItemIndex === 0) {
       focusableChildren[focusableChildren.length - 1].focus();
       event.preventDefault();
-      // If the SHIFT key is not being pressed (moving forwards) and the currently
+      // If the SHIFT key is not pressed (moving forwards) and the currently
       // focused item is the last one, move the focus to the first focusable item
       // from the dialog element
     } else if (

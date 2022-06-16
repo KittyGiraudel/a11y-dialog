@@ -303,10 +303,8 @@ A11yDialog.prototype._maintainFocus = function (event) {
  * @param {Element} [context = document]
  * @return {Array<Element>}
  */
-function $$(selector, context) {
-  return Array.prototype.slice.call(
-    (context || document).querySelectorAll(selector)
-  )
+function $$(selector, context = document) {
+  return Array.prototype.slice.call(context.querySelectorAll(selector))
 }
 
 /**

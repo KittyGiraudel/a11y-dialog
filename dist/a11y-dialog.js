@@ -302,16 +302,6 @@
   };
 
   /**
-   * Convert a NodeList into an array
-   *
-   * @param {NodeList} collection
-   * @return {Array<Element>}
-   */
-  function toArray(collection) {
-    return Array.prototype.slice.call(collection)
-  }
-
-  /**
    * Query the DOM for nodes matching the given selector, scoped to context (or
    * the whole document)
    *
@@ -320,7 +310,9 @@
    * @return {Array<Element>}
    */
   function $$(selector, context) {
-    return toArray((context || document).querySelectorAll(selector))
+    return Array.prototype.slice.call(
+      (context || document).querySelectorAll(selector)
+    )
   }
 
   /**

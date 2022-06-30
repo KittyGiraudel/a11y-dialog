@@ -126,6 +126,7 @@ export default class A11yDialog {
    * Hide the dialog element, restore the focus to the previously
    * active element, stop listening for some specific key presses
    * and fire all registered callbacks for `hide` event.
+   * @param {Event} hide
    */
   hide = event => {
     // If the dialog is already closed, abort

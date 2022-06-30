@@ -20,8 +20,6 @@ declare namespace A11yDialog {
 
     constructor(element: Element);
 
-    create(): A11yDialog;
-
     show(event?: Event): A11yDialog;
 
     hide(event?: Event): A11yDialog;

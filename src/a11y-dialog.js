@@ -12,29 +12,11 @@ const ESCAPE_KEY = 'Escape'
 
 /** @type A11yDialogType */
 export default class A11yDialog {
-  id
-  /** @type HTMLElement */
-  $el
-  /** @type {ListenersRecord} */
-  listeners = {}
-  /** @type HTMLElement[] */
-  openers = []
-  /** @type HTMLElement[] */
-  closers = []
-  previouslyFocused = null
-  shown = false
-
   /** @param {element} HTMLElement */
   constructor(element) {
     this.$el = element
     this.id = this.$el.getAttribute('data-a11y-dialog') || this.$el.id
-    this.create()
-  }
 
-  /**
-   * Set up everything necessary for the dialog to be functioning
-   */
-  create = () => {
     this.$el.setAttribute('aria-hidden', 'true')
     this.$el.setAttribute('aria-modal', 'true')
     this.$el.setAttribute('tabindex', '-1')
@@ -59,10 +41,13 @@ export default class A11yDialog {
       closer.addEventListener('click', this.hide)
     })
 
+    this.listeners = {}
+
+    this.previouslyFocused = null
+    this.shown = false
+
     // Execute all callbacks registered for the `create` event
     this.fire('create')
-
-    return this
   }
 
   /**

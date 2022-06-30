@@ -17,9 +17,9 @@ export default class A11yDialog {
   $el
   /** @type {ListenersRecord} */
   listeners = {}
-  /** @type HTMLElement[] */
+  /** @type HTMLNodeListOf<Element> */
   openers = []
-  /** @type HTMLElement[] */
+  /** @type HTMLNodeListOf<Element> */
   closers = []
   previouslyFocused = null
   shown = false
@@ -52,8 +52,8 @@ export default class A11yDialog {
 
     // Keep a collection of dialog closers, each of which will be bound a click
     // event listener to close the dialog
-    this.closers = $$('[data-a11y-dialog-hide]', this.$el).concat(
-      $$('[data-a11y-dialog-hide="' + this.id + '"]')
+    this.closers = $$(
+      `[data-a11y-dialog="${this.id}"] [data-a11y-dialog-hide], #${this.id} [data-a11y-dialog-hide], [data-a11y-dialog-hide="${this.id}"]`
     )
     this.closers.forEach(closer => {
       closer.addEventListener('click', this.hide)
@@ -245,7 +245,6 @@ export default class A11yDialog {
  * the whole document)
  * @param {string} selector
  * @param {Document | ParentNode} context
- * @returns {Element[]}
  */
 function $$(selector, context = document) {
   return Array.prototype.slice.call(context.querySelectorAll(selector))
@@ -266,7 +265,7 @@ function moveFocusToDialog(node) {
 /**
  * Get the focusable children of the given element.
  * @param node {HTMLElement}
- * @returns {HTMLElement[]}
+ * @returns {HTMLNodeListOf<Element>}
  */
 function getFocusableChildren(node) {
   return $$(focusableSelectors.join(','), node).filter(function (child) {

@@ -17,9 +17,9 @@ export default class A11yDialog {
   $el
   /** @type {ListenersRecord} */
   listeners = {}
-  /** @type HTMLNodeListOf<Element> */
+  /** @type HTMLElement[] */
   openers = []
-  /** @type HTMLNodeListOf<Element> */
+  /** @type HTMLElement[] */
   closers = []
   previouslyFocused = null
   shown = false
@@ -266,7 +266,7 @@ function moveFocusToDialog(node) {
 /**
  * Get the focusable children of the given element.
  * @param node {HTMLElement}
- * @returns {HTMLNodeListOf<Element>}
+ * @returns {HTMLElement[]}
  */
 function getFocusableChildren(node) {
   return $$(focusableSelectors.join(','), node).filter(function (child) {

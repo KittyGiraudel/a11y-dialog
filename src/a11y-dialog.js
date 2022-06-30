@@ -45,7 +45,7 @@ export default class A11yDialog {
 
     // Keep a collection of dialog openers, each of which will be bound a click
     // event listener to open the dialog
-    this.openers = $$('[data-a11y-dialog-show="' + this.id + '"]')
+    this.openers = $$(`[data-a11y-dialog-show="${this.id}"]`)
     this.openers.forEach(opener => {
       opener.addEventListener('click', this.show)
     })

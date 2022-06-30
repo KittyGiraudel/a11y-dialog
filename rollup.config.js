@@ -11,7 +11,7 @@ const minify = {
 }
 
 export default {
-  input: 'a11y-dialog.js',
+  input: 'src/a11y-dialog.js',
   output: [
     // Main files
     { file: 'dist/a11y-dialog.js', ...umd },

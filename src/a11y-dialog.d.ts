@@ -1,9 +1,23 @@
 declare namespace A11yDialog {
-  export type Targets = NodeList | Element | string;
   export type EventHandler = (node: Element, event?: Event) => void;
   export type EventType = "show" | "hide" | "destroy" | "create";
+	export type ListenersRecord = Record<EventType, EventHandler[]>;
 
   export class A11yDialog {
+    private id: string
+
+    private $el: HTMLElement;
+
+    private listeners: ListenersRecord;
+
+    private openers: HTMLElement[];
+
+    private closers: HTMLElement[];
+
+    private previouslyFocused: null | HTMLElement;
+
+    private shown: boolean;
+
     constructor(element: Element);
 
     create(): A11yDialog;
@@ -17,20 +31,6 @@ declare namespace A11yDialog {
     on(type: EventType, handler: EventHandler): A11yDialog;
 
     off(type: EventType, handler: EventHandler): A11yDialog;
-
-    private id: string
-
-    private $el: HTMLElement;
-
-    private listeners: Record<string, EventHandler[]>;
-
-    private openers: HTMLElement[];
-
-    private closers: HTMLElement[];
-
-    private previouslyFocused: null | HTMLElement = null;
-
-    private shown: boolean = false;
 
     private fire(type: EventType, event: Event): void;
 

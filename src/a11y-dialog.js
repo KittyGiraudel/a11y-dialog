@@ -7,10 +7,23 @@ const ESCAPE_KEY = 'Escape'
  * @typedef { import ('./a11y-dialog').A11yDialog } A11yDialogType
  * @typedef { import('./a11y-dialog').EventType } EventType
  * @typedef { import('./a11y-dialog').EventHandler } EventHandler
+ * @typedef { import('./a11y-dialog').ListenersRecord } ListenersRecord
  */
 
 /** @type A11yDialogType */
 export default class A11yDialog {
+  id
+  /** @type HTMLElement */
+  $el
+  /** @type {ListenersRecord} */
+  listeners = {}
+  /** @type HTMLElement[] */
+  openers = []
+  /** @type HTMLElement[] */
+  closers = []
+  previouslyFocused = null
+  shown = false
+
   /** @param {element} HTMLElement */
   constructor(element) {
     this.$el = element

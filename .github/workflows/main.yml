@@ -17,5 +17,6 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           config-file: ./cypress.config.js
+          build: npm run build
           start: npm run serve
           wait-on: 'http://localhost:5000'

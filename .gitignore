@@ -6,3 +6,5 @@ cypress/screenshots
 .docusaurus
 .husky/_
 out
+dist/
+cypress/fixtures/a11y-dialog.js

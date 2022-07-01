@@ -231,6 +231,7 @@ export default class A11yDialog {
  * the whole document)
  * @param {string} selector
  * @param {Document | ParentNode} context
+ * @returns {HTMLElement[]}
  */
 function $$(selector, context = document) {
   return Array.prototype.slice.call(context.querySelectorAll(selector))

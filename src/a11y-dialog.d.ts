@@ -1,25 +1,40 @@
 declare namespace A11yDialog {
   export type EventHandler = (node: Element, event?: Event) => void;
   export type EventType = "show" | "hide" | "destroy" | "create";
+	export type ListenersRecord = Record<EventType, EventHandler[]>;
 
   export class A11yDialog {
-    constructor(node: Element, targets?: Targets);
+    constructor(element: Element);
 
-    show(event?: Event): A11yDialog;
+    public $el: HTMLElement;
 
-    hide(event?: Event): A11yDialog;
+    public shown: boolean;
 
-    destroy(): A11yDialog;
+    private id: string
 
-    on(type: EventType, handler: EventHandler): A11yDialog;
+    private listeners: ListenersRecord;
 
-    off(type: EventType, handler: EventHandler): A11yDialog;
+    private openers: HTMLElement[];
 
-    private _fire(type: EventType, event: Event): void;
+    private closers: HTMLElement[];
 
-    private _bindKeypress(event: Event): void;
+    private previouslyFocused: null | HTMLElement;
 
-    private _maintainFocus(event: Event): void;
+    public show(event?: Event): A11yDialog;
+
+    public hide(event?: Event): A11yDialog;
+
+    public destroy(): A11yDialog;
+
+    public on(type: EventType, handler: EventHandler): A11yDialog;
+
+    public off(type: EventType, handler: EventHandler): A11yDialog;
+
+    private fire(type: EventType, event: Event): void;
+
+    private bindKeypress(event: Event): void;
+
+    private maintainFocus(event: Event): void;
   }
 }
 

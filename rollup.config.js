@@ -15,17 +15,9 @@ const babelCfg = {
   presets: [['@babel/preset-env', { targets: 'ie 11' }]],
 }
 
-const umdCfg = {
-  format: 'umd',
-  name: 'A11yDialog',
-  exports: 'default',
-}
+const esmPlugins = [nodeResolve(), commonjs({ include: 'node_modules/**' })]
 
-const commonPlugins = [
-  nodeResolve(),
-  commonjs({ include: 'node_modules/**' }),
-  babel(babelCfg),
-]
+const umdPlugins = [...esmPlugins, babel(babelCfg)]
 
 const minify = terser({
   format: {
@@ -33,55 +25,45 @@ const minify = terser({
   },
 })
 
+const umdCfg = {
+  format: 'umd',
+  name: 'A11yDialog',
+  exports: 'default',
+}
+
 export default [
   {
     input: 'src/a11y-dialog.js',
+    plugins: umdPlugins,
     output: [
       {
+        ...umdCfg,
         file: 'dist/a11y-dialog.js',
-        ...umdCfg,
       },
-    ],
-    plugins: commonPlugins,
-  },
-  {
-    input: 'src/a11y-dialog.js',
-    output: [
       {
-        file: 'dist/a11y-dialog.min.js',
         ...umdCfg,
+        file: 'dist/a11y-dialog.min.js',
+        plugins: [minify],
+      },
+      {
+        ...umdCfg,
+        file: 'cypress/fixtures/a11y-dialog.js',
       },
     ],
-    plugins: [...commonPlugins, minify],
   },
   {
     input: 'src/a11y-dialog.js',
+    plugins: esmPlugins,
     output: [
       {
         file: 'dist/a11y-dialog.esm.js',
         format: 'esm',
       },
-    ],
-    plugins: commonPlugins,
-  },
-  {
-    input: 'src/a11y-dialog.js',
-    output: [
       {
         file: 'dist/a11y-dialog.esm.min.js',
         format: 'esm',
+        plugins: [minify],
       },
     ],
-    plugins: [...commonPlugins, minify],
-  },
-  {
-    input: 'src/a11y-dialog.js',
-    output: [
-      {
-        file: 'cypress/fixtures/a11y-dialog.js',
-        ...umdCfg,
-      },
-    ],
-    plugins: commonPlugins,
   },
 ]

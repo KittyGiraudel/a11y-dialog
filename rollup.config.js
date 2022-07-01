@@ -5,20 +5,14 @@ import commonjs from '@rollup/plugin-commonjs'
 import { babel } from '@rollup/plugin-babel'
 
 const babelCfg = {
+  babelHelpers: 'bundled',
   assumptions: {
     enumerableModuleMeta: true,
     mutableTemplateObject: true,
     noClassCalls: true,
     noDocumentAll: true,
   },
-  presets: [
-    [
-      '@babel/preset-env',
-      {
-        targets: 'ie 11',
-      },
-    ],
-  ],
+  presets: [['@babel/preset-env', { targets: 'ie 11' }]],
 }
 
 const umdCfg = {

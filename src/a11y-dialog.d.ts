@@ -4,9 +4,13 @@ declare namespace A11yDialog {
 	export type ListenersRecord = Record<EventType, EventHandler[]>;
 
   export class A11yDialog {
-    private id: string
+    constructor(element: Element);
 
-    private $el: HTMLElement;
+    public $el: HTMLElement;
+
+    public shown: boolean;
+
+    private id: string
 
     private listeners: ListenersRecord;
 
@@ -16,19 +20,15 @@ declare namespace A11yDialog {
 
     private previouslyFocused: null | HTMLElement;
 
-    private shown: boolean;
+    public show(event?: Event): A11yDialog;
 
-    constructor(element: Element);
+    public hide(event?: Event): A11yDialog;
 
-    show(event?: Event): A11yDialog;
+    public destroy(): A11yDialog;
 
-    hide(event?: Event): A11yDialog;
+    public on(type: EventType, handler: EventHandler): A11yDialog;
 
-    destroy(): A11yDialog;
-
-    on(type: EventType, handler: EventHandler): A11yDialog;
-
-    off(type: EventType, handler: EventHandler): A11yDialog;
+    public off(type: EventType, handler: EventHandler): A11yDialog;
 
     private fire(type: EventType, event: Event): void;
 

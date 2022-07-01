@@ -23,7 +23,7 @@
     "dist/*"
   ],
   "scripts": {
-    "build": "rollup -c",
+    "build": "cp src/a11y-dialog.d.ts dist/ && rollup -c",
     "serve": "npx serve cypress/fixtures -p 5000",
     "test": "cypress run",
     "compress": "gzip -9 -fkc dist/a11y-dialog.min.js > dist/a11y-dialog.min.js.gz",

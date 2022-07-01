@@ -1,12 +1,9 @@
 declare namespace A11yDialog {
-  export type Targets = NodeList | Element | string;
   export type EventHandler = (node: Element, event?: Event) => void;
   export type EventType = "show" | "hide" | "destroy" | "create";
 
   export class A11yDialog {
     constructor(node: Element, targets?: Targets);
-
-    create(targets: Targets): A11yDialog;
 
     show(event?: Event): A11yDialog;
 

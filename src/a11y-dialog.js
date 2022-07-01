@@ -25,15 +25,6 @@ function A11yDialog(element) {
   this._listeners = {}
 
   // Initialise everything needed for the dialog to work properly
-  this.create()
-}
-
-/**
- * Set up everything necessary for the dialog to be functioning
- *
- * @return {A11yDialog}
- */
-A11yDialog.prototype.create = function () {
   this.$el.setAttribute('aria-hidden', true)
   this.$el.setAttribute('aria-modal', true)
   this.$el.setAttribute('tabindex', -1)
@@ -64,8 +55,6 @@ A11yDialog.prototype.create = function () {
 
   // Execute all callbacks registered for the `create` event
   this._fire('create')
-
-  return this
 }
 
 /**

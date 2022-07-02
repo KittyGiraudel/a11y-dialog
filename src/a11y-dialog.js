@@ -45,9 +45,6 @@ export default class A11yDialog {
 
     this.previouslyFocused = null
     this.shown = false
-
-    // Execute all callbacks registered for the `create` event
-    this.fire('create')
   }
 
   /**

@@ -193,8 +193,8 @@ export default class A11yDialog {
    * @param {KeyboardEvent} event
    */
   bindKeypress = event => {
-    // This is an escape hatch in case there are nested dialogs, so the keypresses
-    // are only reacted to for the most recent one
+    // This is an escape hatch in case there are nested dialogs,
+    // so the keypresses are only reacted to for the most recent one
     if (!this.$el.contains(document.activeElement)) return
 
     // If the dialog is shown and the ESC key is pressed, prevent any further

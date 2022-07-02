@@ -173,7 +173,7 @@ export default class A11yDialog {
    * Also dispatch a custom event on the DOM element itself to make it
    * possible to react to the lifecycle of auto-instantiated dialogs.
    * @param {EventType} type
-   * @param {event} event
+   * @param {Event} event
    */
   fire = (type, event) => {
     const listeners = this.listeners[type] || []

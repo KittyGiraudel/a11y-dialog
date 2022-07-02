@@ -67,8 +67,10 @@ export default class A11yDialog {
     this.closers.forEach(closer => {
       closer.removeEventListener('click', this.hide)
     })
+
     // Execute all callbacks registered for the `destroy` event
     this.fire('destroy')
+
     // Empty the listeners map
     this.listeners = {}
 
@@ -78,7 +80,7 @@ export default class A11yDialog {
   /**
    * Show the dialog element, trap the current focus within it, listen for some
    * specific key presses and fire all registered callbacks for `show` event
-   * @param {Event} event
+   * @param {Event} Event
    */
   show = event => {
     // If the dialog is already open, abort
@@ -107,6 +109,7 @@ export default class A11yDialog {
 
     return this
   }
+
   /**
    * Hide the dialog element, restore the focus to the previously
    * active element, stop listening for some specific key presses
@@ -118,6 +121,7 @@ export default class A11yDialog {
     if (!this.shown) {
       return this
     }
+
     this.shown = false
     this.$el.setAttribute('aria-hidden', 'true')
 
@@ -149,8 +153,10 @@ export default class A11yDialog {
       this.listeners[type] = []
     }
     this.listeners[type].push(handler)
+
     return this
   }
+
   /**
    * Unregister an existing callback for the given event type
    * @param {EventType} type
@@ -163,6 +169,7 @@ export default class A11yDialog {
     }
     return this
   }
+
   /**
    * Iterate over all registered handlers for given type and call them all with
    * the dialog element as first argument, event as second argument (if any).
@@ -179,6 +186,7 @@ export default class A11yDialog {
       listener(this.$el, event)
     })
   }
+
   /**
    * Private event handler used when listening to some specific key presses
    * (namely ESC and TAB)
@@ -188,6 +196,7 @@ export default class A11yDialog {
     // This is an escape hatch in case there are nested dialogs, so the keypresses
     // are only reacted to for the most recent one
     if (!this.$el.contains(document.activeElement)) return
+
     // If the dialog is shown and the ESC key is pressed, prevent any further
     // effects from the ESC key and hide the dialog, unless its role is
     // `alertdialog`, which should be modal
@@ -199,6 +208,7 @@ export default class A11yDialog {
       event.preventDefault()
       this.hide(event)
     }
+
     // If the dialog is shown and the TAB key is pressed, make sure the focus
     // stays trapped within the dialog element
     if (this.shown && event.key === TAB_KEY) {
@@ -272,12 +282,14 @@ function getFocusableChildren(node) {
 function trapTabKey(node, event) {
   const focusableChildren = getFocusableChildren(node)
   const focusedItemIndex = focusableChildren.indexOf(document.activeElement)
+
   // If the SHIFT key is pressed while tabbing (moving backwards) and the
   // currently focused item is the first one, move the focus to the last
   // focusable item from the dialog element
   if (event.shiftKey && focusedItemIndex === 0) {
     focusableChildren[focusableChildren.length - 1].focus()
     event.preventDefault()
+
     // If the SHIFT key is not pressed (moving forwards) and the currently
     // focused item is the last one, move the focus to the first focusable item
     // from the dialog element

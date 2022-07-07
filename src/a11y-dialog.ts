@@ -81,7 +81,7 @@ export default class A11yDialog {
    * Show the dialog element, trap the current focus within it, listen for some
    * specific key presses and fire all registered callbacks for `show` event
    */
-  public show = (event: Event): A11yDialogInstance => {
+  public show = (event?: Event): A11yDialogInstance => {
     // If the dialog is already open, abort
     if (this.shown) {
       return this

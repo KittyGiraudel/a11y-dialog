@@ -32,7 +32,7 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.js": [
+    "*.{js,ts}": [
       "prettier --write"
     ]
   },

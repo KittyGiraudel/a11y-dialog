@@ -77,7 +77,8 @@ export default class A11yDialog {
   /**
    * Show the dialog element, trap the current focus within it, listen for some
    * specific key presses and fire all registered callbacks for `show` event
-   * @param {Event} Event
+   * @param {Event} event
+   * @returns {A11yDialogType}
    */
   show = event => {
     // If the dialog is already open, abort
@@ -112,6 +113,7 @@ export default class A11yDialog {
    * active element, stop listening for some specific key presses
    * and fire all registered callbacks for `hide` event.
    * @param {Event} hide
+   * @returns {A11yDialogType}
    */
   hide = event => {
     // If the dialog is already closed, abort
@@ -144,6 +146,7 @@ export default class A11yDialog {
    * Register a new callback for the given event type
    * @param {EventType} type
    * @param {EventHandler} handler
+   * @returns {A11yDialogType}
    */
   on = (type, handler) => {
     if (typeof this.listeners[type] === 'undefined') {
@@ -158,6 +161,7 @@ export default class A11yDialog {
    * Unregister an existing callback for the given event type
    * @param {EventType} type
    * @param {EventHandler} handler
+   * @returns {A11yDialogType}
    */
   off = (type, handler) => {
     const index = (this.listeners[type] || []).indexOf(handler)

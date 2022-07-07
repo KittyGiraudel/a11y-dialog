@@ -3,7 +3,8 @@
     "outDir": "dist",
     "declaration": true,
     "declarationDir": ".",
-    "target": "esnext"
+    "target": "esnext",
+		"moduleResolution": "node"
   },
   "include": ["src/*.ts"],
   "exclude": ["node_modules"]

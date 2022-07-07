@@ -140,6 +140,8 @@ export default class A11yDialog {
     const listenersForType = this.listeners[type] || []
     listenersForType.push(handler)
 
+    this.listeners[type] = listenersForType
+
     return this
   }
 

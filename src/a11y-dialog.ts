@@ -12,7 +12,7 @@ export default class A11yDialog {
   private $el: HTMLElement
   private id: string
   private listeners: ListenersRecord
-  private previouslyFocused: HTMLElement = null
+  private previouslyFocused: HTMLElement
   private openers: HTMLElement[]
   private closers: HTMLElement[]
 
@@ -240,7 +240,6 @@ function $$(
 /**
  * Set the focus to the first element with `autofocus` with the element or the
  * element itself
- * @param {HTMLElement} node
  */
 function moveFocusToDialog(node) {
   /** @type {HTMLElement} */
@@ -251,10 +250,8 @@ function moveFocusToDialog(node) {
 
 /**
  * Get the focusable children of the given element.
- * @param node {HTMLElement}
- * @returns {HTMLElement[]}
  */
-function getFocusableChildren(node) {
+function getFocusableChildren(node: HTMLElement): HTMLElement[] {
   return $$(focusableSelectors.join(','), node).filter(
     child =>
       !!(
@@ -267,10 +264,8 @@ function getFocusableChildren(node) {
 
 /**
  * Trap the focus inside the given element.
- * @param {HTMLElement} node
- * @param {Event} event
  */
-function trapTabKey(node, event) {
+function trapTabKey(node: HTMLElement, event: KeyboardEvent) {
   const focusableChildren = getFocusableChildren(node)
   const focusedItemIndex = focusableChildren.indexOf(
     document.activeElement as HTMLElement

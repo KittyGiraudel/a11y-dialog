@@ -11,19 +11,16 @@ export type ListenersRecord = Record<string, EventHandler[]>
 export default class A11yDialog {
   private $el: HTMLElement
   private id: string
-  private listeners: ListenersRecord
-  private previouslyFocused: HTMLElement
   private openers: HTMLElement[]
   private closers: HTMLElement[]
+  private listeners: ListenersRecord = {}
+  private previouslyFocused: HTMLElement = null
 
-  public shown: boolean
+  public shown = false
 
   constructor(element: HTMLElement) {
     this.$el = element
     this.id = this.$el.getAttribute('data-a11y-dialog') || this.$el.id
-    this.listeners = {}
-    this.previouslyFocused = null
-    this.shown = false
 
     this.$el.setAttribute('aria-hidden', 'true')
     this.$el.setAttribute('aria-modal', 'true')

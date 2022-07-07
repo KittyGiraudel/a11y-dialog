@@ -9,13 +9,15 @@ export type EventHandler = (node: Element, event?: Event) => void
 export type ListenersRecord = Record<string, EventHandler[]>
 
 export default class A11yDialog {
-  $el: HTMLElement
-  id: string
-  listeners: ListenersRecord
-  previouslyFocused: HTMLElement = null
-  shown: boolean
-  openers: HTMLElement[]
-  closers: HTMLElement[]
+  private $el: HTMLElement
+  private id: string
+  private listeners: ListenersRecord
+  private previouslyFocused: HTMLElement = null
+  private openers: HTMLElement[]
+  private closers: HTMLElement[]
+
+  public shown: boolean
+
   constructor(element: HTMLElement) {
     this.$el = element
     this.id = this.$el.getAttribute('data-a11y-dialog') || this.$el.id
@@ -52,7 +54,7 @@ export default class A11yDialog {
    * Destroy the current instance (after making sure the dialog has been hidden)
    * and remove all associated listeners from dialog openers and closers
    */
-  destroy = (): A11yDialogType => {
+  public destroy = (): A11yDialogType => {
     // Hide the dialog to avoid destroying an open instance
     this.hide()
 
@@ -79,7 +81,7 @@ export default class A11yDialog {
    * Show the dialog element, trap the current focus within it, listen for some
    * specific key presses and fire all registered callbacks for `show` event
    */
-  show = (event: Event): A11yDialogType => {
+  public show = (event: Event): A11yDialogType => {
     // If the dialog is already open, abort
     if (this.shown) {
       return this
@@ -111,7 +113,7 @@ export default class A11yDialog {
    * active element, stop listening for some specific key presses
    * and fire all registered callbacks for `hide` event.
    */
-  hide = (event?: Event): A11yDialogType => {
+  public hide = (event?: Event): A11yDialogType => {
     // If the dialog is already closed, abort
     if (!this.shown) {
       return this
@@ -135,7 +137,10 @@ export default class A11yDialog {
   /**
    * Register a new callback for the given event type
    */
-  on = (type: A11yDialogEvent, handler: EventHandler): A11yDialogType => {
+  public on = (
+    type: A11yDialogEvent,
+    handler: EventHandler
+  ): A11yDialogType => {
     if (typeof this.listeners[type] === 'undefined') {
       this.listeners[type] = []
     }
@@ -148,7 +153,10 @@ export default class A11yDialog {
   /**
    * Unregister an existing callback for the given event type
    */
-  off = (type: A11yDialogEvent, handler: EventHandler): A11yDialogType => {
+  public off = (
+    type: A11yDialogEvent,
+    handler: EventHandler
+  ): A11yDialogType => {
     const index = (this.listeners[type] || []).indexOf(handler)
 
     if (index > -1) this.listeners[type].splice(index, 1)
@@ -162,7 +170,7 @@ export default class A11yDialog {
    * Also dispatch a custom event on the DOM element itself to make it
    * possible to react to the lifecycle of auto-instantiated dialogs.
    */
-  fire = (type: A11yDialogEvent, event?: Event) => {
+  private fire = (type: A11yDialogEvent, event?: Event) => {
     const listeners = this.listeners[type] || []
     const domEvent = new CustomEvent(type, { detail: event })
 
@@ -175,7 +183,7 @@ export default class A11yDialog {
    * (namely ESC and TAB)
    * @param {KeyboardEvent} event
    */
-  bindKeypress = event => {
+  private bindKeypress = event => {
     // This is an escape hatch in case there are nested dialogs,
     // so the keypresses are only reacted to for the most recent one
     if (!this.$el.contains(document.activeElement)) return
@@ -205,7 +213,7 @@ export default class A11yDialog {
    * attribute, move it back to the dialog container.
    * See: https://github.com/KittyGiraudel/a11y-dialog/issues/177
    */
-  maintainFocus = (event: Event) => {
+  private maintainFocus = (event: Event) => {
     if (!this.shown) return
 
     const target = event.target as HTMLElement

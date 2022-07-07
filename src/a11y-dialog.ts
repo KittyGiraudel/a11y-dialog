@@ -83,9 +83,7 @@ export default class A11yDialog {
    */
   public show = (event?: Event): A11yDialogInstance => {
     // If the dialog is already open, abort
-    if (this.shown) {
-      return this
-    }
+    if (this.shown) return this
 
     // Keep a reference to the currently focused element to be able to restore
     // it later
@@ -115,9 +113,7 @@ export default class A11yDialog {
    */
   public hide = (event?: Event): A11yDialogInstance => {
     // If the dialog is already closed, abort
-    if (!this.shown) {
-      return this
-    }
+    if (!this.shown) return this
 
     this.shown = false
     this.$el.setAttribute('aria-hidden', 'true')

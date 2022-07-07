@@ -16,6 +16,9 @@ export default class A11yDialog {
   constructor(element) {
     this.$el = element
     this.id = this.$el.getAttribute('data-a11y-dialog') || this.$el.id
+    this.listeners = {}
+    this.previouslyFocused = null
+    this.shown = false
 
     this.$el.setAttribute('aria-hidden', 'true')
     this.$el.setAttribute('aria-modal', 'true')
@@ -40,11 +43,6 @@ export default class A11yDialog {
     this.closers.forEach(closer => {
       closer.addEventListener('click', this.hide)
     })
-
-    this.listeners = {}
-
-    this.previouslyFocused = null
-    this.shown = false
   }
 
   /**
@@ -89,9 +87,8 @@ export default class A11yDialog {
     // Keep a reference to the currently focused element to be able to restore
     // it later
     this.previouslyFocused = document.activeElement
-
-    this.$el.removeAttribute('aria-hidden')
     this.shown = true
+    this.$el.removeAttribute('aria-hidden')
 
     // Set the focus to the dialog element
     moveFocusToDialog(this.$el)
@@ -146,6 +143,7 @@ export default class A11yDialog {
     if (typeof this.listeners[type] === 'undefined') {
       this.listeners[type] = []
     }
+
     this.listeners[type].push(handler)
 
     return this
@@ -159,9 +157,9 @@ export default class A11yDialog {
    */
   off = (type, handler) => {
     const index = (this.listeners[type] || []).indexOf(handler)
-    if (index > -1) {
-      this.listeners[type].splice(index, 1)
-    }
+
+    if (index > -1) this.listeners[type].splice(index, 1)
+
     return this
   }
 
@@ -176,10 +174,9 @@ export default class A11yDialog {
   fire = (type, event) => {
     const listeners = this.listeners[type] || []
     const domEvent = new CustomEvent(type, { detail: event })
+
     this.$el.dispatchEvent(domEvent)
-    listeners.forEach(listener => {
-      listener(this.$el, event)
-    })
+    listeners.forEach(listener => listener(this.$el, event))
   }
 
   /**
@@ -219,15 +216,16 @@ export default class A11yDialog {
    * @param {FocusEvent} event
    */
   maintainFocus = event => {
-    if (this.shown) {
-      /** @type HTMLElement */
-      const target = event.target
-      if (
-        !target.closest('[aria-modal="true"]') &&
-        !target.closest('[data-a11y-dialog-ignore-focus-trap]')
-      )
-        moveFocusToDialog(this.$el)
-    }
+    if (!this.shown) return
+
+    /** @type HTMLElement */
+    const target = event.target
+
+    if (
+      !target.closest('[aria-modal="true"]') &&
+      !target.closest('[data-a11y-dialog-ignore-focus-trap]')
+    )
+      moveFocusToDialog(this.$el)
   }
 }
 
@@ -260,13 +258,14 @@ function moveFocusToDialog(node) {
  * @returns {HTMLElement[]}
  */
 function getFocusableChildren(node) {
-  return $$(focusableSelectors.join(','), node).filter(function (child) {
-    return !!(
-      child.offsetWidth ||
-      child.offsetHeight ||
-      child.getClientRects().length
-    )
-  })
+  return $$(focusableSelectors.join(','), node).filter(
+    child =>
+      !!(
+        child.offsetWidth ||
+        child.offsetHeight ||
+        child.getClientRects().length
+      )
+  )
 }
 
 /**
@@ -298,9 +297,7 @@ function trapTabKey(node, event) {
 }
 
 function instantiateDialogs() {
-  $$('[data-a11y-dialog]').forEach(function (node) {
-    new A11yDialog(node)
-  })
+  $$('[data-a11y-dialog]').forEach(node => new A11yDialog(node))
 }
 
 if (typeof document !== 'undefined') {

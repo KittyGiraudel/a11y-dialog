@@ -4,7 +4,7 @@ const TAB_KEY = 'Tab'
 const ESCAPE_KEY = 'Escape'
 
 export type A11yDialogEvent = 'show' | 'hide' | 'destroy' | 'create'
-export type A11yDialogType = InstanceType<typeof A11yDialog>
+export type A11yDialogInstance = InstanceType<typeof A11yDialog>
 export type EventHandler = (node: Element, event?: Event) => void
 export type ListenersRecord = Record<string, EventHandler[]>
 
@@ -51,7 +51,7 @@ export default class A11yDialog {
    * Destroy the current instance (after making sure the dialog has been hidden)
    * and remove all associated listeners from dialog openers and closers
    */
-  public destroy = (): A11yDialogType => {
+  public destroy = (): A11yDialogInstance => {
     // Hide the dialog to avoid destroying an open instance
     this.hide()
 
@@ -78,7 +78,7 @@ export default class A11yDialog {
    * Show the dialog element, trap the current focus within it, listen for some
    * specific key presses and fire all registered callbacks for `show` event
    */
-  public show = (event: Event): A11yDialogType => {
+  public show = (event: Event): A11yDialogInstance => {
     // If the dialog is already open, abort
     if (this.shown) {
       return this
@@ -110,7 +110,7 @@ export default class A11yDialog {
    * active element, stop listening for some specific key presses
    * and fire all registered callbacks for `hide` event.
    */
-  public hide = (event?: Event): A11yDialogType => {
+  public hide = (event?: Event): A11yDialogInstance => {
     // If the dialog is already closed, abort
     if (!this.shown) {
       return this
@@ -137,7 +137,7 @@ export default class A11yDialog {
   public on = (
     type: A11yDialogEvent,
     handler: EventHandler
-  ): A11yDialogType => {
+  ): A11yDialogInstance => {
     if (typeof this.listeners[type] === 'undefined') {
       this.listeners[type] = []
     }
@@ -153,7 +153,7 @@ export default class A11yDialog {
   public off = (
     type: A11yDialogEvent,
     handler: EventHandler
-  ): A11yDialogType => {
+  ): A11yDialogInstance => {
     const index = (this.listeners[type] || []).indexOf(handler)
 
     if (index > -1) this.listeners[type].splice(index, 1)

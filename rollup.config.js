@@ -1,8 +1,8 @@
 import { terser } from 'rollup-plugin-terser'
 import pkg from './package.json'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
-import commonjs from '@rollup/plugin-commonjs'
 import { babel } from '@rollup/plugin-babel'
+import typescript from '@rollup/plugin-typescript'
 
 const babelCfg = {
   babelHelpers: 'bundled',
@@ -12,12 +12,19 @@ const babelCfg = {
     noClassCalls: true,
     noDocumentAll: true,
   },
+  extensions: ['.ts'],
+  include: ['src/**/*'],
   presets: [['@babel/preset-env', { targets: 'ie 11' }]],
 }
 
-const esmPlugins = [nodeResolve(), commonjs({ include: 'node_modules/**' })]
+const commonPlugins = [
+  nodeResolve(),
+  typescript({ tsconfig: './tsconfig.json' }),
+]
 
-const umdPlugins = [...esmPlugins, babel(babelCfg)]
+const esmPlugins = commonPlugins
+
+const umdPlugins = [...commonPlugins, babel(babelCfg)]
 
 const minify = terser({
   format: {
@@ -33,7 +40,7 @@ const umdCfg = {
 
 export default [
   {
-    input: 'src/a11y-dialog.js',
+    input: 'src/a11y-dialog.ts',
     plugins: umdPlugins,
     output: [
       {
@@ -45,14 +52,10 @@ export default [
         file: 'dist/a11y-dialog.min.js',
         plugins: [minify],
       },
-      {
-        ...umdCfg,
-        file: 'cypress/fixtures/a11y-dialog.js',
-      },
     ],
   },
   {
-    input: 'src/a11y-dialog.js',
+    input: 'src/a11y-dialog.ts',
     plugins: esmPlugins,
     output: [
       {

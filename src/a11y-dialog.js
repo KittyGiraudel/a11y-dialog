@@ -123,13 +123,7 @@ export default class A11yDialog {
 
     this.shown = false
     this.$el.setAttribute('aria-hidden', 'true')
-
-    // If there was a focused element before the dialog was opened (and it has a
-    // `focus` method), restore the focus back to it
-    // See: https://github.com/KittyGiraudel/a11y-dialog/issues/108
-    if (this.previouslyFocused && this.previouslyFocused.focus) {
-      this.previouslyFocused.focus()
-    }
+    this.previouslyFocused?.focus?.()
 
     // Remove the focus event listener to the body element and stop listening
     // for specific key presses

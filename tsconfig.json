@@ -4,7 +4,8 @@
     "declaration": true,
     "declarationDir": ".",
     "target": "esnext",
-		"moduleResolution": "node"
+    "moduleResolution": "node",
+    "strict": true
   },
   "include": ["src/*.ts"],
   "exclude": ["node_modules"]

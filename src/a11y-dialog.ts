@@ -17,7 +17,7 @@ export default class A11yDialog {
   private openers: HTMLElement[]
   private closers: HTMLElement[]
   private listeners: ListenersRecord = {}
-  private previouslyFocused: HTMLElement = null
+  private previouslyFocused: HTMLElement | null = null
 
   public shown = false
 
@@ -141,11 +141,8 @@ export default class A11yDialog {
     type: A11yDialogEvent,
     handler: A11yDialogEventHandler
   ): A11yDialogInstance => {
-    if (typeof this.listeners[type] === 'undefined') {
-      this.listeners[type] = []
-    }
-
-    this.listeners[type].push(handler)
+    const listenersForType = this.listeners[type] || []
+    listenersForType.push(handler)
 
     return this
   }
@@ -157,9 +154,10 @@ export default class A11yDialog {
     type: A11yDialogEvent,
     handler: A11yDialogEventHandler
   ): A11yDialogInstance => {
-    const index = (this.listeners[type] || []).indexOf(handler)
+    const listenersForType = this.listeners[type] || []
+    const index = listenersForType.indexOf(handler)
 
-    if (index > -1) this.listeners[type].splice(index, 1)
+    if (index > -1) listenersForType.splice(index, 1)
 
     return this
   }
@@ -171,11 +169,11 @@ export default class A11yDialog {
    * possible to react to the lifecycle of auto-instantiated dialogs.
    */
   private fire = (type: A11yDialogEvent, event?: Event) => {
-    const listeners = this.listeners[type] || []
+    const listenersForType = this.listeners[type] || []
     const domEvent = new CustomEvent(type, { detail: event })
 
     this.$el.dispatchEvent(domEvent)
-    listeners.forEach(listener => listener(this.$el, event))
+    listenersForType.forEach(listener => listener(this.$el, event))
   }
 
   /**

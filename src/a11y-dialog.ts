@@ -181,9 +181,8 @@ export default class A11yDialog {
   /**
    * Private event handler used when listening to some specific key presses
    * (namely ESC and TAB)
-   * @param {KeyboardEvent} event
    */
-  private bindKeypress = event => {
+  private bindKeypress = (event: KeyboardEvent) => {
     // This is an escape hatch in case there are nested dialogs,
     // so the keypresses are only reacted to for the most recent one
     if (!this.$el.contains(document.activeElement)) return
@@ -230,10 +229,7 @@ export default class A11yDialog {
  * Query the DOM for nodes matching the given selector, scoped to context (or
  * the whole document)
  */
-function $$(
-  selector: string,
-  context: Document | ParentNode = document
-): HTMLElement[] {
+function $$(selector: string, context: ParentNode = document): HTMLElement[] {
   return Array.prototype.slice.call(context.querySelectorAll(selector))
 }
 
@@ -241,9 +237,8 @@ function $$(
  * Set the focus to the first element with `autofocus` with the element or the
  * element itself
  */
-function moveFocusToDialog(node) {
-  /** @type {HTMLElement} */
-  const focused = node.querySelector('[autofocus]') || node
+function moveFocusToDialog(node: HTMLElement) {
+  const focused = (node.querySelector('[autofocus]') || node) as HTMLElement
 
   focused.focus()
 }

@@ -5,8 +5,11 @@ const ESCAPE_KEY = 'Escape'
 
 export type A11yDialogEvent = 'show' | 'hide' | 'destroy' | 'create'
 export type A11yDialogInstance = InstanceType<typeof A11yDialog>
-export type EventHandler = (node: Element, event?: Event) => void
-export type ListenersRecord = Record<string, EventHandler[]>
+export type A11yDialogEventHandler = (node: Element, event?: Event) => void
+
+type ListenersRecord = Partial<
+  Record<A11yDialogEvent, A11yDialogEventHandler[]>
+>
 
 export default class A11yDialog {
   private $el: HTMLElement
@@ -136,7 +139,7 @@ export default class A11yDialog {
    */
   public on = (
     type: A11yDialogEvent,
-    handler: EventHandler
+    handler: A11yDialogEventHandler
   ): A11yDialogInstance => {
     if (typeof this.listeners[type] === 'undefined') {
       this.listeners[type] = []
@@ -152,7 +155,7 @@ export default class A11yDialog {
    */
   public off = (
     type: A11yDialogEvent,
-    handler: EventHandler
+    handler: A11yDialogEventHandler
   ): A11yDialogInstance => {
     const index = (this.listeners[type] || []).indexOf(handler)
 

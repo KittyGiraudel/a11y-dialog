@@ -206,7 +206,7 @@ export default class A11yDialog {
    * attribute, move it back to the dialog container.
    * See: https://github.com/KittyGiraudel/a11y-dialog/issues/177
    */
-  private maintainFocus = (event: Event) => {
+  private maintainFocus = (event: FocusEvent) => {
     if (!this.shown) return
 
     const target = event.target as HTMLElement

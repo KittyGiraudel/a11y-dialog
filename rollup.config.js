@@ -49,12 +49,12 @@ export default [
       },
       {
         ...umdCfg,
-        file: 'cypress/fixtures/a11y-dialog.js',
+        file: 'dist/a11y-dialog.min.js',
+        plugins: [minify],
       },
       {
         ...umdCfg,
-        file: 'dist/a11y-dialog.min.js',
-        plugins: [minify],
+        file: 'cypress/fixtures/a11y-dialog.js',
       },
     ],
   },

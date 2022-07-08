@@ -243,7 +243,7 @@ function moveFocusToDialog(node: HTMLElement) {
 /**
  * Get the focusable children of the given element.
  */
-function getFocusableChildren(node: Element): Element[] {
+function getFocusableChildren(node: HTMLElement): HTMLElement[] {
   return $$(focusableSelectors.join(','), node).filter(
     child =>
       !!(
@@ -259,7 +259,9 @@ function getFocusableChildren(node: Element): Element[] {
  */
 function trapTabKey(node: HTMLElement, event: KeyboardEvent) {
   const focusableChildren = getFocusableChildren(node)
-  const focusedItemIndex = focusableChildren.indexOf(document.activeElement)
+  const focusedItemIndex = focusableChildren.indexOf(
+    document.activeElement as HTMLElement
+  )
 
   // If the SHIFT key is pressed while tabbing (moving backwards) and the
   // currently focused item is the first one, move the focus to the last

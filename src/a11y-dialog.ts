@@ -3,7 +3,7 @@ import focusableSelectors from 'focusable-selectors'
 const TAB_KEY = 'Tab'
 const ESCAPE_KEY = 'Escape'
 
-export type A11yDialogEvent = 'show' | 'hide' | 'destroy' | 'create'
+export type A11yDialogEvent = 'show' | 'hide' | 'destroy'
 export type A11yDialogInstance = InstanceType<typeof A11yDialog>
 export type A11yDialogEventHandler = (node: Element, event?: Event) => void
 

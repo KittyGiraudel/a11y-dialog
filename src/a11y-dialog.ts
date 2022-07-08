@@ -18,8 +18,11 @@ export default class A11yDialog {
   private closers: HTMLElement[]
   private listeners: ListenersRecord = {}
   private previouslyFocused: HTMLElement | null = null
+  private _shown = false
 
-  public shown = false
+  public get shown() {
+    return this._shown
+  }
 
   constructor(element: HTMLElement) {
     this.$el = element
@@ -88,7 +91,7 @@ export default class A11yDialog {
     // Keep a reference to the currently focused element to be able to restore
     // it later
     this.previouslyFocused = document.activeElement as HTMLElement
-    this.shown = true
+    this._shown = true
     this.$el.removeAttribute('aria-hidden')
 
     // Set the focus to the dialog element
@@ -115,7 +118,7 @@ export default class A11yDialog {
     // If the dialog is already closed, abort
     if (!this.shown) return this
 
-    this.shown = false
+    this._shown = false
     this.$el.setAttribute('aria-hidden', 'true')
     this.previouslyFocused?.focus?.()
 

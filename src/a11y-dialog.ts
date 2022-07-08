@@ -137,10 +137,10 @@ export default class A11yDialog {
     type: A11yDialogEvent,
     handler: A11yDialogEventHandler
   ): A11yDialogInstance => {
-    const listenersForType = this.listeners[type] || []
-    listenersForType.push(handler)
+    const listeners = this.listeners[type] || []
+    listeners.push(handler)
 
-    this.listeners[type] = listenersForType
+    this.listeners[type] = listeners
 
     return this
   }
@@ -152,10 +152,10 @@ export default class A11yDialog {
     type: A11yDialogEvent,
     handler: A11yDialogEventHandler
   ): A11yDialogInstance => {
-    const listenersForType = this.listeners[type] || []
-    const index = listenersForType.indexOf(handler)
+    const listeners = this.listeners[type] || []
+    const index = listeners.indexOf(handler)
 
-    if (index > -1) listenersForType.splice(index, 1)
+    if (index > -1) listeners.splice(index, 1)
 
     return this
   }
@@ -167,11 +167,11 @@ export default class A11yDialog {
    * possible to react to the lifecycle of auto-instantiated dialogs.
    */
   private fire = (type: A11yDialogEvent, event?: Event) => {
-    const listenersForType = this.listeners[type] || []
+    const listeners = this.listeners[type] || []
     const domEvent = new CustomEvent(type, { detail: event })
 
     this.$el.dispatchEvent(domEvent)
-    listenersForType.forEach(listener => listener(this.$el, event))
+    listeners.forEach(listener => listener(this.$el, event))
   }
 
   /**
@@ -243,7 +243,7 @@ function moveFocusToDialog(node: HTMLElement) {
 /**
  * Get the focusable children of the given element.
  */
-function getFocusableChildren(node: HTMLElement): HTMLElement[] {
+function getFocusableChildren(node: Element): Element[] {
   return $$(focusableSelectors.join(','), node).filter(
     child =>
       !!(
@@ -259,9 +259,7 @@ function getFocusableChildren(node: HTMLElement): HTMLElement[] {
  */
 function trapTabKey(node: HTMLElement, event: KeyboardEvent) {
   const focusableChildren = getFocusableChildren(node)
-  const focusedItemIndex = focusableChildren.indexOf(
-    document.activeElement as HTMLElement
-  )
+  const focusedItemIndex = focusableChildren.indexOf(document.activeElement)
 
   // If the SHIFT key is pressed while tabbing (moving backwards) and the
   // currently focused item is the first one, move the focus to the last

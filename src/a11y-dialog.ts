@@ -214,8 +214,9 @@ export default class A11yDialog {
     const target = event.target as HTMLElement
 
     if (
-      !target.closest('[aria-modal="true"]') &&
-      !target.closest('[data-a11y-dialog-ignore-focus-trap]')
+      !target.closest(
+        '[aria-modal="true"],[data-a11y-dialog-ignore-focus-trap]'
+      )
     )
       moveFocusToDialog(this.$el)
   }

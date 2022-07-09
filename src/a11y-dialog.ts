@@ -95,7 +95,7 @@ export default class A11yDialog {
     // stays trapped inside the dialog while open, and start listening for some
     // specific key presses (TAB and ESC)
     document.body.addEventListener('focus', this.maintainFocus, true)
-    document.addEventListener('keydown', this.bindKeypress)
+    this.$el.addEventListener('keydown', this.bindKeypress)
 
     // Execute all callbacks registered for the `show` event
     this.fire('show', event)
@@ -119,7 +119,7 @@ export default class A11yDialog {
     // Remove the focus event listener to the body element and stop listening
     // for specific key presses
     document.body.removeEventListener('focus', this.maintainFocus, true)
-    document.removeEventListener('keydown', this.bindKeypress)
+    this.$el.removeEventListener('keydown', this.bindKeypress)
 
     // Execute all callbacks registered for the `hide` event
     this.fire('hide', event)
@@ -176,15 +176,10 @@ export default class A11yDialog {
    * (namely ESC and TAB)
    */
   private bindKeypress = (event: KeyboardEvent) => {
-    // This is an escape hatch in case there are nested dialogs,
-    // so the keypresses are only reacted to for the most recent one
-    if (!this.$el.contains(document.activeElement)) return
-
     // If the dialog is shown and the ESC key is pressed, prevent any further
     // effects from the ESC key and hide the dialog, unless its role is
     // `alertdialog`, which should be modal
     if (
-      this.shown &&
       event.key === 'Escape' &&
       this.$el.getAttribute('role') !== 'alertdialog'
     ) {
@@ -194,7 +189,7 @@ export default class A11yDialog {
 
     // If the dialog is shown and the TAB key is pressed, make sure the focus
     // stays trapped within the dialog element
-    if (this.shown && event.key === 'Tab') {
+    if (event.key === 'Tab') {
       trapTabKey(this.$el, event)
     }
   }
@@ -206,12 +201,8 @@ export default class A11yDialog {
    * See: https://github.com/KittyGiraudel/a11y-dialog/issues/177
    */
   private maintainFocus = (event: FocusEvent) => {
-    if (!this.shown) return
-
-    const target = event.target as HTMLElement
-
     if (
-      !target.closest(
+      !(event.target as HTMLElement).closest(
         '[aria-modal="true"], [data-a11y-dialog-ignore-focus-trap]'
       )
     )

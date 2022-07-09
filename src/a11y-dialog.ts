@@ -1,8 +1,5 @@
 import focusableSelectors from 'focusable-selectors'
 
-const TAB_KEY = 'Tab'
-const ESCAPE_KEY = 'Escape'
-
 export type A11yDialogEvent = 'show' | 'hide' | 'destroy'
 export type A11yDialogInstance = InstanceType<typeof A11yDialog>
 export type A11yDialogEventHandler = (node: Element, event?: Event) => void
@@ -188,7 +185,7 @@ export default class A11yDialog {
     // `alertdialog`, which should be modal
     if (
       this.shown &&
-      event.key === ESCAPE_KEY &&
+      event.key === 'Escape' &&
       this.$el.getAttribute('role') !== 'alertdialog'
     ) {
       event.preventDefault()
@@ -197,7 +194,7 @@ export default class A11yDialog {
 
     // If the dialog is shown and the TAB key is pressed, make sure the focus
     // stays trapped within the dialog element
-    if (this.shown && event.key === TAB_KEY) {
+    if (this.shown && event.key === 'Tab') {
       trapTabKey(this.$el, event)
     }
   }

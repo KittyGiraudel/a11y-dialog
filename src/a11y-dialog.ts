@@ -278,10 +278,6 @@ if (typeof document !== 'undefined') {
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', instantiateDialogs)
   } else {
-    if (window.requestAnimationFrame) {
-      window.requestAnimationFrame(instantiateDialogs)
-    } else {
-      window.setTimeout(instantiateDialogs, 16)
-    }
+    instantiateDialogs()
   }
 }

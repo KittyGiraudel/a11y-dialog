@@ -95,7 +95,7 @@ export default class A11yDialog {
     // stays trapped inside the dialog while open, and start listening for some
     // specific key presses (TAB and ESC)
     document.body.addEventListener('focus', this.maintainFocus, true)
-    this.$el.addEventListener('keydown', this.bindKeypress)
+    this.$el.addEventListener('keydown', this.bindKeypress, true)
 
     // Execute all callbacks registered for the `show` event
     this.fire('show', event)
@@ -119,7 +119,7 @@ export default class A11yDialog {
     // Remove the focus event listener to the body element and stop listening
     // for specific key presses
     document.body.removeEventListener('focus', this.maintainFocus, true)
-    this.$el.removeEventListener('keydown', this.bindKeypress)
+    this.$el.removeEventListener('keydown', this.bindKeypress, true)
 
     // Execute all callbacks registered for the `hide` event
     this.fire('hide', event)

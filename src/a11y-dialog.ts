@@ -3,22 +3,30 @@ import focusableSelectors from 'focusable-selectors'
 const TAB_KEY = 'Tab'
 const ESCAPE_KEY = 'Escape'
 
-/**
- * @typedef { import ('./a11y-dialog').A11yDialog } A11yDialogType
- * @typedef { import('./a11y-dialog').EventType } EventType
- * @typedef { import('./a11y-dialog').EventHandler } EventHandler
- * @typedef { import('./a11y-dialog').ListenersRecord } ListenersRecord
- */
+export type A11yDialogEvent = 'show' | 'hide' | 'destroy'
+export type A11yDialogInstance = InstanceType<typeof A11yDialog>
+export type A11yDialogEventHandler = (node: Element, event?: Event) => void
 
-/** @type A11yDialogType */
+type ListenersRecord = Partial<
+  Record<A11yDialogEvent, A11yDialogEventHandler[]>
+>
+
 export default class A11yDialog {
-  /** @param {element} HTMLElement */
-  constructor(element) {
+  private $el: HTMLElement
+  private id: string
+  private openers: HTMLElement[]
+  private closers: HTMLElement[]
+  private listeners: ListenersRecord = {}
+  private previouslyFocused: HTMLElement | null = null
+  private _shown = false
+
+  public get shown() {
+    return this._shown
+  }
+
+  constructor(element: HTMLElement) {
     this.$el = element
     this.id = this.$el.getAttribute('data-a11y-dialog') || this.$el.id
-    this.listeners = {}
-    this.previouslyFocused = null
-    this.shown = false
 
     this.$el.setAttribute('aria-hidden', 'true')
     this.$el.setAttribute('aria-modal', 'true')
@@ -49,7 +57,7 @@ export default class A11yDialog {
    * Destroy the current instance (after making sure the dialog has been hidden)
    * and remove all associated listeners from dialog openers and closers
    */
-  destroy = () => {
+  public destroy = (): A11yDialogInstance => {
     // Hide the dialog to avoid destroying an open instance
     this.hide()
 
@@ -75,19 +83,15 @@ export default class A11yDialog {
   /**
    * Show the dialog element, trap the current focus within it, listen for some
    * specific key presses and fire all registered callbacks for `show` event
-   * @param {Event} event
-   * @returns {A11yDialogType}
    */
-  show = event => {
+  public show = (event?: Event): A11yDialogInstance => {
     // If the dialog is already open, abort
-    if (this.shown) {
-      return this
-    }
+    if (this.shown) return this
 
     // Keep a reference to the currently focused element to be able to restore
     // it later
-    this.previouslyFocused = document.activeElement
-    this.shown = true
+    this.previouslyFocused = document.activeElement as HTMLElement
+    this._shown = true
     this.$el.removeAttribute('aria-hidden')
 
     // Set the focus to the dialog element
@@ -109,16 +113,12 @@ export default class A11yDialog {
    * Hide the dialog element, restore the focus to the previously
    * active element, stop listening for some specific key presses
    * and fire all registered callbacks for `hide` event.
-   * @param {Event} hide
-   * @returns {A11yDialogType}
    */
-  hide = event => {
+  public hide = (event?: Event): A11yDialogInstance => {
     // If the dialog is already closed, abort
-    if (!this.shown) {
-      return this
-    }
+    if (!this.shown) return this
 
-    this.shown = false
+    this._shown = false
     this.$el.setAttribute('aria-hidden', 'true')
     this.previouslyFocused?.focus?.()
 
@@ -135,30 +135,30 @@ export default class A11yDialog {
 
   /**
    * Register a new callback for the given event type
-   * @param {EventType} type
-   * @param {EventHandler} handler
-   * @returns {A11yDialogType}
    */
-  on = (type, handler) => {
-    if (typeof this.listeners[type] === 'undefined') {
-      this.listeners[type] = []
-    }
+  public on = (
+    type: A11yDialogEvent,
+    handler: A11yDialogEventHandler
+  ): A11yDialogInstance => {
+    const listeners = this.listeners[type] || []
+    listeners.push(handler)
 
-    this.listeners[type].push(handler)
+    this.listeners[type] = listeners
 
     return this
   }
 
   /**
    * Unregister an existing callback for the given event type
-   * @param {EventType} type
-   * @param {EventHandler} handler
-   * @returns {A11yDialogType}
    */
-  off = (type, handler) => {
-    const index = (this.listeners[type] || []).indexOf(handler)
+  public off = (
+    type: A11yDialogEvent,
+    handler: A11yDialogEventHandler
+  ): A11yDialogInstance => {
+    const listeners = this.listeners[type] || []
+    const index = listeners.indexOf(handler)
 
-    if (index > -1) this.listeners[type].splice(index, 1)
+    if (index > -1) listeners.splice(index, 1)
 
     return this
   }
@@ -168,10 +168,8 @@ export default class A11yDialog {
    * the dialog element as first argument, event as second argument (if any).
    * Also dispatch a custom event on the DOM element itself to make it
    * possible to react to the lifecycle of auto-instantiated dialogs.
-   * @param {EventType} type
-   * @param {Event} event
    */
-  fire = (type, event) => {
+  private fire = (type: A11yDialogEvent, event?: Event) => {
     const listeners = this.listeners[type] || []
     const domEvent = new CustomEvent(type, { detail: event })
 
@@ -182,9 +180,8 @@ export default class A11yDialog {
   /**
    * Private event handler used when listening to some specific key presses
    * (namely ESC and TAB)
-   * @param {KeyboardEvent} event
    */
-  bindKeypress = event => {
+  private bindKeypress = (event: KeyboardEvent) => {
     // This is an escape hatch in case there are nested dialogs,
     // so the keypresses are only reacted to for the most recent one
     if (!this.$el.contains(document.activeElement)) return
@@ -213,17 +210,16 @@ export default class A11yDialog {
    * (either this one or another one in case of nested dialogs) or
    * attribute, move it back to the dialog container.
    * See: https://github.com/KittyGiraudel/a11y-dialog/issues/177
-   * @param {FocusEvent} event
    */
-  maintainFocus = event => {
+  private maintainFocus = (event: FocusEvent) => {
     if (!this.shown) return
 
-    /** @type HTMLElement */
-    const target = event.target
+    const target = event.target as HTMLElement
 
     if (
-      !target.closest('[aria-modal="true"]') &&
-      !target.closest('[data-a11y-dialog-ignore-focus-trap]')
+      !target.closest(
+        '[aria-modal="true"],[data-a11y-dialog-ignore-focus-trap]'
+      )
     )
       moveFocusToDialog(this.$el)
   }
@@ -232,32 +228,25 @@ export default class A11yDialog {
 /**
  * Query the DOM for nodes matching the given selector, scoped to context (or
  * the whole document)
- * @param {string} selector
- * @param {Document | ParentNode} context
- * @returns {HTMLElement[]}
  */
-function $$(selector, context = document) {
+function $$(selector: string, context: ParentNode = document): HTMLElement[] {
   return Array.prototype.slice.call(context.querySelectorAll(selector))
 }
 
 /**
  * Set the focus to the first element with `autofocus` with the element or the
  * element itself
- * @param {HTMLElement} node
  */
-function moveFocusToDialog(node) {
-  /** @type {HTMLElement} */
-  const focused = node.querySelector('[autofocus]') || node
+function moveFocusToDialog(node: HTMLElement) {
+  const focused = (node.querySelector('[autofocus]') || node) as HTMLElement
 
   focused.focus()
 }
 
 /**
  * Get the focusable children of the given element.
- * @param node {HTMLElement}
- * @returns {HTMLElement[]}
  */
-function getFocusableChildren(node) {
+function getFocusableChildren(node: HTMLElement): HTMLElement[] {
   return $$(focusableSelectors.join(','), node).filter(
     child =>
       !!(
@@ -270,12 +259,12 @@ function getFocusableChildren(node) {
 
 /**
  * Trap the focus inside the given element.
- * @param {HTMLElement} node
- * @param {Event} event
  */
-function trapTabKey(node, event) {
+function trapTabKey(node: HTMLElement, event: KeyboardEvent) {
   const focusableChildren = getFocusableChildren(node)
-  const focusedItemIndex = focusableChildren.indexOf(document.activeElement)
+  const focusedItemIndex = focusableChildren.indexOf(
+    document.activeElement as HTMLElement
+  )
 
   // If the SHIFT key is pressed while tabbing (moving backwards) and the
   // currently focused item is the first one, move the focus to the last

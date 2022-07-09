@@ -23,7 +23,7 @@
     "dist/*"
   ],
   "scripts": {
-    "build": "mkdir -p dist && cp src/a11y-dialog.d.ts dist && rollup -c",
+    "build": "rollup -c",
     "serve": "npx serve cypress/fixtures -p 5000",
     "test": "cypress run",
     "compress": "gzip -9 -fkc dist/a11y-dialog.min.js > dist/a11y-dialog.min.js.gz",
@@ -32,22 +32,23 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.js": [
+    "*.{js,ts}": [
       "prettier --write"
     ]
   },
   "devDependencies": {
     "@babel/preset-env": "^7.18.6",
     "@rollup/plugin-babel": "^5.3.1",
-    "@rollup/plugin-commonjs": "^22.0.1",
     "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-typescript": "^8.3.3",
     "cypress": "^10.3.0",
     "cypress-plugin-tab": "^1.0.5",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "rollup": "^2.75.7",
-    "rollup-plugin-terser": "^7.0.2"
+    "rollup-plugin-terser": "^7.0.2",
+    "typescript": "^4.7.4"
   },
   "dependencies": {
     "focusable-selectors": "^0.4.0"

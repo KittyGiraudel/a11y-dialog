@@ -8,3 +8,5 @@ cypress/screenshots
 out
 dist/
 cypress/fixtures/a11y-dialog.js
+cypress/fixtures/a11y-dialog.d.ts
+

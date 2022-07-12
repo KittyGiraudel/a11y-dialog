@@ -44,21 +44,21 @@ describe('Instance', () => {
     cy.window()
       .its('instance')
 
-      .invoke('on', 'show', container => {
-        expect(container.id).to.eq('my-dialog')
+      .invoke('on', 'show', event => {
+        expect(event.target.id).to.eq('my-dialog')
         logs.push('Shown')
       })
 
-      .invoke('on', 'hide', container => {
-        expect(container.id).to.eq('my-dialog')
+      .invoke('on', 'hide', event => {
+        expect(event.target.id).to.eq('my-dialog')
         logs.push('Hidden')
       })
 
       .invoke('on', 'hide', event)
       .invoke('off', 'hide', event)
 
-      .invoke('on', 'destroy', container => {
-        expect(container.id).to.eq('my-dialog')
+      .invoke('on', 'destroy', event => {
+        expect(event.target.id).to.eq('my-dialog')
         logs.push('Destroyed')
       })
 

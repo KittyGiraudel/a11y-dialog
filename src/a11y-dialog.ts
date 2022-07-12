@@ -2,7 +2,6 @@ import focusableSelectors from 'focusable-selectors'
 
 export type A11yDialogEvent = 'show' | 'hide' | 'destroy'
 export type A11yDialogInstance = InstanceType<typeof A11yDialog>
-export type A11yDialogEventHandler = (node: Element, event?: Event) => void
 
 export default class A11yDialog {
   private $el: HTMLElement
@@ -124,7 +123,7 @@ export default class A11yDialog {
    */
   public on = (
     type: A11yDialogEvent,
-    handler: A11yDialogEventHandler
+    handler: EventListener
   ): A11yDialogInstance => {
     this.$el.addEventListener(type, handler)
 
@@ -136,7 +135,7 @@ export default class A11yDialog {
    */
   public off = (
     type: A11yDialogEvent,
-    handler: A11yDialogEventHandler
+    handler: EventListener
   ): A11yDialogInstance => {
     this.$el.removeEventListener(type, handler)
 

@@ -2,18 +2,12 @@ import focusableSelectors from 'focusable-selectors'
 
 export type A11yDialogEvent = 'show' | 'hide' | 'destroy'
 export type A11yDialogInstance = InstanceType<typeof A11yDialog>
-export type A11yDialogEventHandler = (node: Element, event?: Event) => void
-
-type ListenersRecord = Partial<
-  Record<A11yDialogEvent, A11yDialogEventHandler[]>
->
 
 export default class A11yDialog {
   private $el: HTMLElement
   private id: string
   private openers: HTMLElement[]
   private closers: HTMLElement[]
-  private listeners: ListenersRecord = {}
   private previouslyFocused: HTMLElement | null = null
 
   public shown = false
@@ -67,9 +61,6 @@ export default class A11yDialog {
 
     // Execute all callbacks registered for the `destroy` event
     this.fire('destroy')
-
-    // Empty the listeners map
-    this.listeners = {}
 
     return this
   }
@@ -132,12 +123,10 @@ export default class A11yDialog {
    */
   public on = (
     type: A11yDialogEvent,
-    handler: A11yDialogEventHandler
+    handler: EventListener,
+    options?: AddEventListenerOptions
   ): A11yDialogInstance => {
-    const listeners = this.listeners[type] || []
-    listeners.push(handler)
-
-    this.listeners[type] = listeners
+    this.$el.addEventListener(type, handler, options)
 
     return this
   }
@@ -147,12 +136,10 @@ export default class A11yDialog {
    */
   public off = (
     type: A11yDialogEvent,
-    handler: A11yDialogEventHandler
+    handler: EventListener,
+    options?: AddEventListenerOptions
   ): A11yDialogInstance => {
-    const listeners = this.listeners[type] || []
-    const index = listeners.indexOf(handler)
-
-    if (index > -1) listeners.splice(index, 1)
+    this.$el.removeEventListener(type, handler, options)
 
     return this
   }
@@ -164,11 +151,7 @@ export default class A11yDialog {
    * possible to react to the lifecycle of auto-instantiated dialogs.
    */
   private fire = (type: A11yDialogEvent, event?: Event) => {
-    const listeners = this.listeners[type] || []
-    const domEvent = new CustomEvent(type, { detail: event })
-
-    this.$el.dispatchEvent(domEvent)
-    listeners.forEach(listener => listener(this.$el, event))
+    this.$el.dispatchEvent(new CustomEvent(type, { detail: event }))
   }
 
   /**

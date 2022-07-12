@@ -123,9 +123,10 @@ export default class A11yDialog {
    */
   public on = (
     type: A11yDialogEvent,
-    handler: EventListener
+    handler: EventListener,
+    options?: AddEventListenerOptions
   ): A11yDialogInstance => {
-    this.$el.addEventListener(type, handler)
+    this.$el.addEventListener(type, handler, options)
 
     return this
   }
@@ -135,9 +136,10 @@ export default class A11yDialog {
    */
   public off = (
     type: A11yDialogEvent,
-    handler: EventListener
+    handler: EventListener,
+    options?: AddEventListenerOptions
   ): A11yDialogInstance => {
-    this.$el.removeEventListener(type, handler)
+    this.$el.removeEventListener(type, handler, options)
 
     return this
   }

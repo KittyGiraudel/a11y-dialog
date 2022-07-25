@@ -151,7 +151,12 @@ export default class A11yDialog {
    * possible to react to the lifecycle of auto-instantiated dialogs.
    */
   private fire = (type: A11yDialogEvent, event?: Event) => {
-    this.$el.dispatchEvent(new CustomEvent(type, { detail: event }))
+    this.$el.dispatchEvent(
+      new CustomEvent(type, {
+        detail: event,
+        cancelable: true,
+      })
+    )
   }
 
   /**

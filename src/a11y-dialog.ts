@@ -150,7 +150,7 @@ export default class A11yDialog {
   private bindDelegatedClicks = (evt: Event) => {
     const target = evt.target as HTMLElement
     if (target.matches(`[data-a11y-dialog-show="${this.id}"]`)) {
-      this.show()
+      this.show(evt)
     }
 
     if (
@@ -158,7 +158,7 @@ export default class A11yDialog {
         `[data-a11y-dialog="${this.id}"] [data-a11y-dialog-hide], #${this.id} [data-a11y-dialog-hide], [data-a11y-dialog-hide="${this.id}"]`
       )
     ) {
-      this.hide()
+      this.hide(evt)
     }
   }
 

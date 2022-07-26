@@ -43,20 +43,12 @@ The following button will close the dialog with the `your-dialog-id` id when int
 Regarding the JS API, it simply consists on `show()` and `hide()` methods on the dialog instance.
 
 ```js
-// Show the dialog
 dialog.show()
-
-// Hide the dialog
 dialog.hide()
 ```
 
-For advanced usages, there are `create()` and `destroy()` methods. These are responsible for attaching click event listeners to dialog openers and closers. Note that the `create()` method is **automatically called on instantiation** so there is no need to call it again directly.
+There is also a `destroy()` method which you can call if your dialog is no longer used and the DOM gets removed. This ensures there won’t be any memory leak, and is typically done in framework usages.
 
 ```js
-// Unbind click listeners from dialog openers and closers and remove all bound
-// custom event listeners registered with `.on()`
 dialog.destroy()
-
-// Bind click listeners to dialog openers and closers
-dialog.create()
 ```

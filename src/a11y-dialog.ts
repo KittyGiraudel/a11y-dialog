@@ -212,17 +212,74 @@ function moveFocusToDialog(node: HTMLElement) {
   focused.focus()
 }
 
+// Elements with these ARIA roles implicitly nullify
+// the semantics of their children.
+const PRESENTATIONAL_CHILDREN_SELECTOR = `
+  a[href],
+  button,
+  img,
+  summary,
+  [role="button"],
+  [role="image"],
+  [role="link"],
+  [role="math"],
+  [role="progressbar"],
+  [role="scrollbar"],
+  [role="slider"]
+`
+
 /**
- * Get the focusable children of the given element.
+ * Get focusable children by recursively traversing the subtree of `node`.
+ * This traversal allows us to account for Shadow DOM subtrees.
  */
-function getFocusableChildren(node: HTMLElement): HTMLElement[] {
-  return $$(focusableSelectors.join(','), node).filter(
-    child =>
-      !!(
-        child.offsetWidth ||
-        child.offsetHeight ||
-        child.getClientRects().length
-      )
+function getFocusableChildren(node: ParentNode): HTMLElement[] {
+  // Check for the base case of our recursion:
+  // If this node has no element children, or
+  // it *does* have element children, but it nullifies
+  // the semantics of those children, we can stop traversing.
+  if (
+    !node.firstElementChild ||
+    (node as HTMLElement).matches(PRESENTATIONAL_CHILDREN_SELECTOR)
+  ) {
+    // Check if the node is focusable, and then return early.
+    return isFocusable(node as HTMLAnchorElement)
+      ? [node as HTMLAnchorElement]
+      : []
+  }
+
+  let focusableEls: HTMLElement[] = []
+
+  // Walk all the immediate children of this node
+  // (with some type casting because node.children is an HTMLCollection)
+  for (const curr of node.children as unknown as HTMLElement[]) {
+    // If this element has a Shadow DOM attached,
+    // check the shadow subtree for focusable children.
+    if (!!curr.shadowRoot) {
+      focusableEls = [...focusableEls, ...getFocusableChildren(curr.shadowRoot)]
+
+      // If this is a slot, look for any elements assigned to it
+      // then check each of those for focusable children.
+    } else if (curr.localName === 'slot') {
+      let assignedElements = (curr as HTMLSlotElement).assignedElements()
+      for (const assignedElement of assignedElements) {
+        focusableEls = [
+          ...focusableEls,
+          ...getFocusableChildren(assignedElement),
+        ]
+      }
+
+      // Or else check this node's subtree for focusable children
+    } else {
+      focusableEls = [...focusableEls, ...getFocusableChildren(curr)]
+    }
+  }
+  return focusableEls
+}
+
+function isFocusable(el: HTMLElement) {
+  return (
+    el.matches(focusableSelectors.join(',')) &&
+    !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length)
   )
 }
 

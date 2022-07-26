@@ -6,8 +6,6 @@ export type A11yDialogInstance = InstanceType<typeof A11yDialog>
 export default class A11yDialog {
   private $el: HTMLElement
   private id: string
-  private openers: HTMLElement[]
-  private closers: HTMLElement[]
   private previouslyFocused: HTMLElement | null = null
 
   public shown = false
@@ -38,12 +36,7 @@ export default class A11yDialog {
     // Remove the click event delegates for our openers and closers
     document.removeEventListener('click', this.bindDelegatedClicks, true)
 
-    // Remove the click event listener from all dialog closers
-    this.closers.forEach(closer => {
-      closer.removeEventListener('click', this.hide)
-    })
-
-    // Execute all callbacks registered for the `destroy` event
+    // Dispatch a `destroy` event.
     this.fire('destroy')
 
     return this
@@ -72,7 +65,7 @@ export default class A11yDialog {
     document.body.addEventListener('focus', this.maintainFocus, true)
     this.$el.addEventListener('keydown', this.bindKeypress, true)
 
-    // Execute all callbacks registered for the `show` event
+    // Dispatch a `show` event
     this.fire('show', event)
 
     return this
@@ -96,7 +89,7 @@ export default class A11yDialog {
     document.body.removeEventListener('focus', this.maintainFocus, true)
     this.$el.removeEventListener('keydown', this.bindKeypress, true)
 
-    // Execute all callbacks registered for the `hide` event
+    // Dispatch a `hide` event.
     this.fire('hide', event)
 
     return this
@@ -129,10 +122,9 @@ export default class A11yDialog {
   }
 
   /**
-   * Iterate over all registered handlers for given type and call them all with
-   * the dialog element as first argument, event as second argument (if any).
-   * Also dispatch a custom event on the DOM element itself to make it
-   * possible to react to the lifecycle of auto-instantiated dialogs.
+   * Dispatch a custom event from the DOM element associated with this dialog.
+   * This allows authors to listen for and respond to the events in their
+   * own code.
    */
   private fire = (type: A11yDialogEvent, event?: Event) => {
     this.$el.dispatchEvent(

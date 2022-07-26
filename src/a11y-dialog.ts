@@ -160,6 +160,25 @@ export default class A11yDialog {
   }
 
   /**
+   * Add a delegated event listener for when elememts that open or close
+   * the dialog are clicked, and call `show` or `hide`, respectively
+   */
+  private bindDelegatedClicks = (evt: Event) => {
+    const target = evt.target as HTMLElement
+    if (target.matches(`[data-a11y-dialog-show="${this.id}"]`)) {
+      this.show()
+    }
+
+    if (
+      target.matches(
+        `[data-a11y-dialog="${this.id}"] [data-a11y-dialog-hide], #${this.id} [data-a11y-dialog-hide], [data-a11y-dialog-hide="${this.id}"]`
+      )
+    ) {
+      this.hide()
+    }
+  }
+
+  /**
    * Private event handler used when listening to some specific key presses
    * (namely ESC and TAB)
    */

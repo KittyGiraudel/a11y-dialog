@@ -1,3 +1,4 @@
+
 # Dependencies
 /node_modules
 
@@ -7,6 +8,8 @@
 # Generated files
 .docusaurus
 .cache-loader
+/out
+/dist
 
 # Misc
 .DS_Store
@@ -14,7 +17,7 @@
 .env.development.local
 .env.test.local
 .env.production.local
-
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+/cypress

@@ -24,21 +24,7 @@ export default class A11yDialog {
       this.$el.setAttribute('role', 'dialog')
     }
 
-    // Keep a collection of dialog openers, each of which will be bound a click
-    // event listener to open the dialog
-    this.openers = $$(`[data-a11y-dialog-show="${this.id}"]`)
-    this.openers.forEach(opener => {
-      opener.addEventListener('click', this.show)
-    })
-
-    // Keep a collection of dialog closers, each of which will be bound a click
-    // event listener to close the dialog
-    this.closers = $$(
-      `[data-a11y-dialog="${this.id}"] [data-a11y-dialog-hide], #${this.id} [data-a11y-dialog-hide], [data-a11y-dialog-hide="${this.id}"]`
-    )
-    this.closers.forEach(closer => {
-      closer.addEventListener('click', this.hide)
-    })
+    document.addEventListener('click', this.bindDelegatedClicks, true)
   }
 
   /**
@@ -49,10 +35,8 @@ export default class A11yDialog {
     // Hide the dialog to avoid destroying an open instance
     this.hide()
 
-    // Remove the click event listener from all dialog openers
-    this.openers.forEach(opener => {
-      opener.removeEventListener('click', this.show)
-    })
+    // Remove the click event delegates for our openers and closers
+    document.removeEventListener('click', this.bindDelegatedClicks, true)
 
     // Remove the click event listener from all dialog closers
     this.closers.forEach(closer => {

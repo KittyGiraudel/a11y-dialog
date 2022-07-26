@@ -6,7 +6,7 @@ module.exports = {
   projectName: 'a11y-dialog',
   url: 'https://a11y-dialog.netlify.app',
   baseUrl: '/',
-  favicon: 'img/favicon.png',
+  favicon: 'img/favicon.jpg',
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',

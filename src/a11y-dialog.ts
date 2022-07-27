@@ -22,7 +22,7 @@ export default class A11yDialog {
       this.$el.setAttribute('role', 'dialog')
     }
 
-    document.addEventListener('click', this.bindDelegatedClicks, true)
+    document.addEventListener('click', this.bindTriggerClicks, true)
   }
 
   /**
@@ -34,7 +34,7 @@ export default class A11yDialog {
     this.hide()
 
     // Remove the click event delegates for our openers and closers
-    document.removeEventListener('click', this.bindDelegatedClicks, true)
+    document.removeEventListener('click', this.bindTriggerClicks, true)
 
     // Dispatch a `destroy` event
     this.fire('destroy')
@@ -139,7 +139,7 @@ export default class A11yDialog {
    * Add a delegated event listener for when elememts that open or close
    * the dialog are clicked, and call `show` or `hide`, respectively
    */
-  private bindDelegatedClicks = (evt: Event) => {
+  private bindTriggerClicks = (evt: Event) => {
     const target = evt.target as HTMLElement
 
     if (target.matches(`[data-a11y-dialog-show="${this.id}"]`)) {

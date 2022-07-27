@@ -7,17 +7,14 @@ describe('Focus', () => {
   })
 
   it('should trap the focus within the dialog', () => {
-    // The next line is a hack, because the `cypress-plugin-tab` library does
-    // not consider elements with `tabindex="-1"` to be valid subject for the
-    // `.tab()` command, which means we can’t tab from the dialog into it.
-    cy.get('.dialog-close').focus()
-    cy.get('.dialog-close').tab()
-    cy.get('input[type="email"]')
-      .should('have.focus')
-      .tab({ shift: true })
-      .tab({ shift: true })
-    cy.get('#move-focus-outside').should('have.focus').tab()
-    cy.get('.dialog-close').should('have.focus')
+    // Press Tab and verify that the correct element is focused
+    cy.realPress('Tab').focused().should('have.class', 'dialog-close')
+
+    // Tab backwards and verify that we've looped around
+    // to the last focusable element
+    cy.realPress(['Shift', 'Tab'])
+      .focused()
+      .should('have.id', 'move-focus-outside')
   })
 
   it('should maintain focus in the dialog', () => {

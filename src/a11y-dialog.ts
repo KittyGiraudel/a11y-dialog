@@ -36,7 +36,7 @@ export default class A11yDialog {
     // Remove the click event delegates for our openers and closers
     document.removeEventListener('click', this.bindDelegatedClicks, true)
 
-    // Dispatch a `destroy` event.
+    // Dispatch a `destroy` event
     this.fire('destroy')
 
     return this
@@ -89,7 +89,7 @@ export default class A11yDialog {
     document.body.removeEventListener('focus', this.maintainFocus, true)
     this.$el.removeEventListener('keydown', this.bindKeypress, true)
 
-    // Dispatch a `hide` event.
+    // Dispatch a `hide` event
     this.fire('hide', event)
 
     return this
@@ -141,6 +141,7 @@ export default class A11yDialog {
    */
   private bindDelegatedClicks = (evt: Event) => {
     const target = evt.target as HTMLElement
+
     if (target.matches(`[data-a11y-dialog-show="${this.id}"]`)) {
       this.show(evt)
     }

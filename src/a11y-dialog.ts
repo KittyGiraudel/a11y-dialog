@@ -212,8 +212,9 @@ function moveFocusToDialog(node: HTMLElement) {
   focused.focus()
 }
 
-// Elements with these ARIA roles implicitly nullify
-// the semantics of their children.
+// Elements with these ARIA roles make their children
+// `presentational`, which nullifies their semantics.
+// @see: https://www.w3.org/TR/wai-aria/
 const PRESENTATIONAL_CHILDREN_SELECTOR = `
   a[href],
   button,

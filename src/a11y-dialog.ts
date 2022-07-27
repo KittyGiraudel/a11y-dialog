@@ -277,6 +277,9 @@ function getFocusableChildren(node: ParentNode): HTMLElement[] {
   return focusableEls
 }
 
+/**
+ * Determine if an element is focusable and has user-visible painted dimensions
+ */
 function isFocusable(el: HTMLElement) {
   return (
     el.matches(focusableSelectors.join(',')) &&

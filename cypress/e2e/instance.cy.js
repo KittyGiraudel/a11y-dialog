@@ -43,9 +43,9 @@ describe('Instance', () => {
       showManual: event => {
         // When manually showing the dialog, event details should contain the
         // opener.
-        expect(
-          event.detail.currentTarget.getAttribute('data-a11y-dialog-show')
-        ).to.eq('my-dialog')
+        expect(event.detail.target.getAttribute('data-a11y-dialog-show')).to.eq(
+          'my-dialog'
+        )
         expect(event.target.id).to.eq('my-dialog')
       },
       hide: event => {
@@ -55,8 +55,8 @@ describe('Instance', () => {
       },
       hideManual: event => {
         // When manually showing the dialog, event details should contain the
-        // closeer.
-        expect(event.detail.currentTarget.hasAttribute('data-a11y-dialog-hide'))
+        // closer.
+        expect(event.detail.target.hasAttribute('data-a11y-dialog-hide'))
         expect(event.target.id).to.eq('my-dialog')
       },
       destroy: event => {

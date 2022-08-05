@@ -18,6 +18,8 @@ declare namespace A11yDialog {
 
     off(type: EventType, handler: EventHandler): A11yDialog;
 
+    shown: Boolean;
+
     private _fire(type: EventType, event: Event): void;
 
     private _bindKeypress(event: Event): void;

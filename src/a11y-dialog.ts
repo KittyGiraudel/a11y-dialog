@@ -6,8 +6,6 @@ export type A11yDialogInstance = InstanceType<typeof A11yDialog>
 export default class A11yDialog {
   private $el: HTMLElement
   private id: string
-  private openers: HTMLElement[]
-  private closers: HTMLElement[]
   private previouslyFocused: HTMLElement | null = null
 
   public shown = false
@@ -24,21 +22,7 @@ export default class A11yDialog {
       this.$el.setAttribute('role', 'dialog')
     }
 
-    // Keep a collection of dialog openers, each of which will be bound a click
-    // event listener to open the dialog
-    this.openers = $$(`[data-a11y-dialog-show="${this.id}"]`)
-    this.openers.forEach(opener => {
-      opener.addEventListener('click', this.show)
-    })
-
-    // Keep a collection of dialog closers, each of which will be bound a click
-    // event listener to close the dialog
-    this.closers = $$(
-      `[data-a11y-dialog="${this.id}"] [data-a11y-dialog-hide], #${this.id} [data-a11y-dialog-hide], [data-a11y-dialog-hide="${this.id}"]`
-    )
-    this.closers.forEach(closer => {
-      closer.addEventListener('click', this.hide)
-    })
+    document.addEventListener('click', this.handleTriggerClicks, true)
   }
 
   /**
@@ -49,17 +33,10 @@ export default class A11yDialog {
     // Hide the dialog to avoid destroying an open instance
     this.hide()
 
-    // Remove the click event listener from all dialog openers
-    this.openers.forEach(opener => {
-      opener.removeEventListener('click', this.show)
-    })
+    // Remove the click event delegates for our openers and closers
+    document.removeEventListener('click', this.handleTriggerClicks, true)
 
-    // Remove the click event listener from all dialog closers
-    this.closers.forEach(closer => {
-      closer.removeEventListener('click', this.hide)
-    })
-
-    // Execute all callbacks registered for the `destroy` event
+    // Dispatch a `destroy` event
     this.fire('destroy')
 
     return this
@@ -88,7 +65,7 @@ export default class A11yDialog {
     document.body.addEventListener('focus', this.maintainFocus, true)
     this.$el.addEventListener('keydown', this.bindKeypress, true)
 
-    // Execute all callbacks registered for the `show` event
+    // Dispatch a `show` event
     this.fire('show', event)
 
     return this
@@ -112,7 +89,7 @@ export default class A11yDialog {
     document.body.removeEventListener('focus', this.maintainFocus, true)
     this.$el.removeEventListener('keydown', this.bindKeypress, true)
 
-    // Execute all callbacks registered for the `hide` event
+    // Dispatch a `hide` event
     this.fire('hide', event)
 
     return this
@@ -145,10 +122,9 @@ export default class A11yDialog {
   }
 
   /**
-   * Iterate over all registered handlers for given type and call them all with
-   * the dialog element as first argument, event as second argument (if any).
-   * Also dispatch a custom event on the DOM element itself to make it
-   * possible to react to the lifecycle of auto-instantiated dialogs.
+   * Dispatch a custom event from the DOM element associated with this dialog.
+   * This allows authors to listen for and respond to the events in their
+   * own code.
    */
   private fire = (type: A11yDialogEvent, event?: Event) => {
     this.$el.dispatchEvent(
@@ -157,6 +133,26 @@ export default class A11yDialog {
         cancelable: true,
       })
     )
+  }
+
+  /**
+   * Add a delegated event listener for when elememts that open or close
+   * the dialog are clicked, and call `show` or `hide`, respectively
+   */
+  private handleTriggerClicks = (event: Event) => {
+    const target = event.target as HTMLElement
+
+    if (target.matches(`[data-a11y-dialog-show="${this.id}"]`)) {
+      this.show(event)
+    }
+
+    if (
+      target.matches(
+        `[data-a11y-dialog="${this.id}"] [data-a11y-dialog-hide], #${this.id} [data-a11y-dialog-hide], [data-a11y-dialog-hide="${this.id}"]`
+      )
+    ) {
+      this.hide(event)
+    }
   }
 
   /**

@@ -234,18 +234,22 @@ const PRESENTATIONAL_CHILDREN_SELECTOR = `
  * This traversal allows us to account for Shadow DOM subtrees.
  */
 function getFocusableChildren(node: ParentNode): HTMLElement[] {
-  // Check for the base case of our recursion:
-  // If this node has no element children, or
-  // it *does* have element children, but it nullifies
-  // the semantics of those children, we can stop traversing.
-  if (
-    !node.firstElementChild ||
-    (node as HTMLElement).matches(PRESENTATIONAL_CHILDREN_SELECTOR)
-  ) {
-    // Check if the node is focusable, and then return early.
-    return isFocusable(node as HTMLAnchorElement)
-      ? [node as HTMLAnchorElement]
-      : []
+  // Check for the bases case of our recursion:
+  if (node instanceof HTMLElement) {
+    // If this node is marked as inert, neither it nor any member of
+    // its subtree will be focusable.
+    if (node.inert === true) return []
+
+    // If this node has no children, we can stop traversing.
+    // If this node has children, but nullifies its children's
+    // semantics, we can stop traversing.
+    if (
+      !node.firstElementChild ||
+      node.matches(PRESENTATIONAL_CHILDREN_SELECTOR)
+    ) {
+      // Check if the node is focusable, and then return early.
+      return isFocusable(node) ? [node] : []
+    }
   }
 
   let focusableEls: HTMLElement[] = []
@@ -324,5 +328,13 @@ if (typeof document !== 'undefined') {
     document.addEventListener('DOMContentLoaded', instantiateDialogs)
   } else {
     instantiateDialogs()
+  }
+}
+
+// TypeScript doesn't know about `inert` yet; this declaration extends
+// the HTMLElement interface to include it.
+declare global {
+  interface HTMLElement {
+    inert: boolean
   }
 }

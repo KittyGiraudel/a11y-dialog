@@ -21,27 +21,26 @@
       <h1 id="dialog-title-1">Dialog 1</h1>
       <button class="link-like" data-a11y-dialog-show="dialog-2">Open dialog 2</button>
     </div>
-  </div>
 
-  <div class="dialog" data-a11y-dialog="dialog-2" aria-hidden="true" aria-labelledby="dialog-title-2">
-    <div class="dialog-overlay" data-a11y-dialog-hide></div>
-    <div role="document" class="dialog-content">
-      <button data-a11y-dialog-hide class="dialog-close" aria-label="Close this dialog window">&times;</button>
+    <div class="dialog" data-a11y-dialog="dialog-2" aria-hidden="true" aria-labelledby="dialog-title-2">
+      <div class="dialog-overlay" data-a11y-dialog-hide></div>
+      <div role="document" class="dialog-content">
+        <button data-a11y-dialog-hide class="dialog-close" aria-label="Close this dialog window">&times;</button>
 
-      <h1 id="dialog-title-2">Dialog 2</h1>
-      <button class="link-like" data-a11y-dialog-show="dialog-3">Open dialog 3</button>
+        <h1 id="dialog-title-2">Dialog 2</h1>
+        <button class="link-like" data-a11y-dialog-show="dialog-3">Open dialog 3</button>
+      </div>
+
+      <div class="dialog" data-a11y-dialog="dialog-3" aria-hidden="true" aria-labelledby="dialog-title-3">
+        <div class="dialog-overlay" data-a11y-dialog-hide></div>
+        <div role="document" class="dialog-content">
+          <button data-a11y-dialog-hide class="dialog-close" aria-label="Close this dialog window">&times;</button>
+
+          <h1 id="dialog-title-3">Dialog 3</h1>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="dialog" data-a11y-dialog="dialog-3" aria-hidden="true" aria-labelledby="dialog-title-3">
-    <div class="dialog-overlay" data-a11y-dialog-hide></div>
-    <div role="document" class="dialog-content">
-      <button data-a11y-dialog-hide class="dialog-close" aria-label="Close this dialog window">&times;</button>
-
-      <h1 id="dialog-title-3">Dialog 3</h1>
-    </div>
-  </div>
-
 
   <script src="../a11y-dialog.js"></script>
 </body>

@@ -147,9 +147,9 @@ export default class A11yDialog {
     }
 
     if (
-      target.matches(
-        `[data-a11y-dialog="${this.id}"] [data-a11y-dialog-hide], #${this.id} [data-a11y-dialog-hide], [data-a11y-dialog-hide="${this.id}"]`
-      )
+      target.matches(`[data-a11y-dialog-hide="${this.id}"]`) ||
+      (target.matches('[data-a11y-dialog-hide]') &&
+        target.closest('[aria-modal="true"]') === this.$el)
     ) {
       this.hide(event)
     }

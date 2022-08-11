@@ -22,6 +22,8 @@
       <button class="link-like" data-a11y-dialog-show="dialog-2">Open dialog 2</button>
     </div>
 
+    <!-- It is important that this dialog (#2) lives *within* the
+         `aria-modal="true"` container of its parent dialog (#1) -->
     <div class="dialog" data-a11y-dialog="dialog-2" aria-hidden="true" aria-labelledby="dialog-title-2">
       <div class="dialog-overlay" data-a11y-dialog-hide></div>
       <div role="document" class="dialog-content">
@@ -31,6 +33,8 @@
         <button class="link-like" data-a11y-dialog-show="dialog-3">Open dialog 3</button>
       </div>
 
+      <!-- It is important that this dialog (#3) lives *within* the
+           `aria-modal="true"` container of its parent dialog (#2) -->
       <div class="dialog" data-a11y-dialog="dialog-3" aria-hidden="true" aria-labelledby="dialog-title-3">
         <div class="dialog-overlay" data-a11y-dialog-hide></div>
         <div role="document" class="dialog-content">

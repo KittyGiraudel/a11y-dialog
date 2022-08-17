@@ -5,14 +5,16 @@ This is a lightweight (1.4Kb) yet flexible script to create accessible dialog wi
 - [Documentation ↗](https://a11y-dialog.netlify.app)
 - [Demo on CodeSandbox ↗](https://codesandbox.io/s/a11y-dialog-v7-pnwqu)
 
-**Features:**
+## Features
 
-- Closing dialog on overlay click and <kbd>ESC</kbd>
-- Toggling `aria-*` attributes
-- Trapping and restoring focus
-- Firing events
-- DOM and JS APIs
-- Fast and tiny
+- Follows the [Dialog (Modal) pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialogmodal/) from the ARIA Authoring Practices Guide (APG)
+- Supports [alert dialogs](https://w3c.github.io/aria/#alertdialog) as per the WAI-ARIA specifications
+- Supports nested dialogs (however questionable)
+- Exposes events to react to changes
+- Provides both a DOM and a JavaScript API
+- Is unopinionated with styling
+- Is extensively tested and documented
+- Is fast and tiny
 
 ## Contributing
 

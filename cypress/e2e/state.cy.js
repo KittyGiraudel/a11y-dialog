@@ -18,15 +18,11 @@ describe('State', () => {
   it('should close when clicking a closer', () => {
     cy.get('.dialog-close').click()
     cy.get('.dialog').then(shouldBeHidden)
-    cy.get('#pre-hidden-sibling').should(
-      'not.have.attr',
-      'data-a11y-dialog-original-aria-hidden'
-    )
   })
 
   it('should close when pressing ESC', () => {
     cy.get('[data-a11y-dialog-show="my-dialog"]').click()
-    cy.get('body').trigger('keydown', { key: 'Escape', keyCode: 27, which: 27 })
+    cy.realPress('Escape')
     cy.get('.dialog').then(shouldBeHidden)
   })
 

@@ -1,4 +1,4 @@
-import { shouldBeHidden, shouldBeVisible } from './utils'
+import { shouldBeVisible } from './utils'
 
 describe('Alert Dialog', () => {
   before(() => cy.visit('/alert-dialog'))

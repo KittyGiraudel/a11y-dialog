@@ -3,7 +3,7 @@
 This is a lightweight (1.3Kb) yet flexible script to create accessible dialog windows.
 
 - [Documentation ↗](https://a11y-dialog.netlify.app)
-- [Demo on CodeSandbox ↗](https://codesandbox.io/s/a11y-dialog-cp3rz)
+- [Demo on CodeSandbox ↗](https://codesandbox.io/s/a11y-dialog-v7-pnwqu)
 
 **Features:**
 

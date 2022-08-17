@@ -66,9 +66,22 @@ A11yDialog.prototype.create = function () {
 
   // Keep a collection of dialog closers, each of which will be bound a click
   // event listener to close the dialog
-  this._closers = $$('[data-a11y-dialog-hide]', this.$el).concat(
-    $$('[data-a11y-dialog-hide="' + this._id + '"]')
-  );
+  const $el = this.$el;
+
+  this._closers = $$('[data-a11y-dialog-hide]', this.$el)
+    // This filter is necessary in case there are nested dialogs, so that
+    // only closers from the current dialog are retrieved and effective
+    .filter(function (closer) {
+      // Testing for `[aria-modal="true"]` is not enough since this attribute
+      // and the collect of closers is done at instantation time, when nested
+      // dialogs might not have yet been instantiated. Note that if the dialogs
+      // are manually instantiated, this could still fail because none of these
+      // selectors would match; this would cause closers to close all parent
+      // dialogs instead of just the current one
+      return closer.closest('[aria-modal="true"], [data-a11y-dialog]') === $el
+    })
+    .concat($$('[data-a11y-dialog-hide="' + this._id + '"]'));
+
   this._closers.forEach(
     function (closer) {
       closer.addEventListener('click', this._hide);
@@ -249,7 +262,8 @@ A11yDialog.prototype._fire = function (type, event) {
 A11yDialog.prototype._bindKeypress = function (event) {
   // This is an escape hatch in case there are nested dialogs, so the keypresses
   // are only reacted to for the most recent one
-  if (!this.$el.contains(document.activeElement)) return
+  const focused = document.activeElement;
+  if (focused && focused.closest('[aria-modal="true"]') !== this.$el) return
 
   // If the dialog is shown and the ESCAPE key is being pressed, prevent any
   // further effects from the ESCAPE key and hide the dialog, unless its role

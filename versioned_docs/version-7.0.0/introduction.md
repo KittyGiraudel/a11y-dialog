@@ -7,12 +7,14 @@ a11y-dialog is a lightweight yet flexible script to create accessible dialog win
 
 ![a11y-dialog: 1.3Kb](https://badgen.net/bundlephobia/minzip/a11y-dialog/)
 
-✔︎ Closing dialog on overlay click and <kbd>ESC</kbd>  
-✔︎ Toggling `aria-*` attributes  
-✔︎ Trapping and restoring focus  
-✔︎ Firing events  
-✔︎ DOM and JS APIs  
-✔︎ Fast and tiny
+- Follows the [Dialog (Modal) pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialogmodal/) from the ARIA Authoring Practices Guide (APG)
+- Supports [alert dialogs](https://w3c.github.io/aria/#alertdialog) as per the WAI-ARIA specifications
+- Supports nested dialogs (however questionable)
+- Exposes events to react to changes
+- Provides both a DOM and a JavaScript API
+- Is unopinionated with styling
+- Is extensively tested and documented
+- Is fast and tiny
 
 You can try the [live demo on CodeSandbox](https://codesandbox.io/s/a11y-dialog-v7-pnwqu).
 

@@ -3,6 +3,14 @@ import { shouldBeHidden, shouldBeVisible } from './utils'
 describe('State', () => {
   before(() => cy.visit('/base'))
 
+  it('should add relevant attributes to the dialog', () => {
+    cy.get('.dialog')
+      .should('have.attr', 'role', 'dialog')
+      .and('have.attr', 'aria-modal', 'true')
+      .and('have.attr', 'tabindex', '-1')
+      .and('have.attr', 'aria-hidden', 'true')
+  })
+
   it('should hide the dialog by default', () => {
     cy.get('.dialog').then(shouldBeHidden)
   })

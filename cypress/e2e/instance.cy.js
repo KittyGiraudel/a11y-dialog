@@ -33,6 +33,10 @@ describe('Instance', () => {
       .should('have.attr', 'id', 'my-dialog')
   })
 
+  it('should expose the dialog ID on the instance', () => {
+    cy.window().its('instance').its('id').should('eq', 'my-dialog')
+  })
+
   it('should be possible to register/unregister events', () => {
     const handlers = {
       show: event => {

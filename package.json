@@ -39,7 +39,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.18.6",
     "@rollup/plugin-node-resolve": "^14.0.1",
-    "@rollup/plugin-typescript": "^8.3.3",
+    "@rollup/plugin-typescript": "^9.0.1",
     "cypress": "^10.3.0",
     "cypress-real-events": "^1.7.1",
     "husky": "^8.0.1",

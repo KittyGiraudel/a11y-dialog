@@ -1,6 +1,6 @@
-import { shouldBeHidden, shouldBeVisible } from './utils'
+import { shouldBeHidden, shouldBeVisible } from './utils.js'
 
-describe('State', () => {
+describe('State', { testIsolation: false }, () => {
   before(() => cy.visit('/base'))
 
   it('should add relevant attributes to the dialog', () => {

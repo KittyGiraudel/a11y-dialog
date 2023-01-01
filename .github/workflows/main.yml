@@ -17,6 +17,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           config-file: ./cypress.config.js
+          install-command: npm ci --legacy-peer-deps
           build: npm run build
           start: npm run serve
           wait-on: 'http://localhost:5000'

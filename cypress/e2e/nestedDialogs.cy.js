@@ -1,6 +1,6 @@
-import { shouldBeHidden, shouldBeVisible } from './utils'
+import { shouldBeHidden, shouldBeVisible } from './utils.js'
 
-describe('Nested dialogs', () => {
+describe('Nested dialogs', { testIsolation: false }, () => {
   before(() => {
     cy.visit('/nested-dialogs')
 

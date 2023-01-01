@@ -1,4 +1,4 @@
-describe('Focus', () => {
+describe('Focus', { testIsolation: false }, () => {
   before(() => cy.visit('/base'))
 
   it('should focus the dialog container on open', () => {

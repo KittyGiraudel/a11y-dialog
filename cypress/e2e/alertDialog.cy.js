@@ -1,9 +1,9 @@
-import { shouldBeVisible } from './utils'
+import { shouldBeVisible } from './utils.js'
 
-describe('Alert Dialog', () => {
-  before(() => cy.visit('/alert-dialog'))
-
+describe('Alert Dialog', { testIsolation: false }, () => {
   it('should prevent closing the dialog with ESC', () => {
+    cy.visit('/alert-dialog')
+
     cy.get('[data-a11y-dialog-show="my-dialog"]').click()
     cy.get('.dialog').then(shouldBeVisible)
 
@@ -12,6 +12,11 @@ describe('Alert Dialog', () => {
   })
 
   it('should prevent closing by clicking the backdrop', () => {
+    cy.visit('/alert-dialog')
+
+    cy.get('[data-a11y-dialog-show="my-dialog"]').click()
+    cy.get('.dialog').then(shouldBeVisible)
+
     cy.get('.dialog-overlay').click({ force: true })
     cy.get('.dialog').then(shouldBeVisible)
   })

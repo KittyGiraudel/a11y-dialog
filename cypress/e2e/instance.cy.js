@@ -1,6 +1,6 @@
-import { shouldBeHidden, shouldBeVisible } from './utils'
+import { shouldBeHidden, shouldBeVisible } from './utils.js'
 
-describe('Instance', () => {
+describe('Instance', { testIsolation: false }, () => {
   before(() => cy.visit('/instance'))
 
   it('should be possible to instantiate a dialog with JavaScript', () => {

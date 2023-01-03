@@ -2,22 +2,6 @@
  * Necessary styling for the dialog to work
  * -------------------------------------------------------------------------- */
 
-/**
- * When `<dialog>` is properly supported, the overlay is implied and can be
- * styled with `::backdrop`, which means the DOM one should be removed.
- */
-[data-a11y-dialog-native] .dialog-overlay {
-  display: none;
-}
-
-/**
- * When `<dialog>` is not supported, its default display is `inline` which can
- * cause layout issues.
- */
-dialog[open] {
-  display: block;
-}
-
 .dialog[aria-hidden='true'] {
   display: none;
 }
@@ -26,13 +10,14 @@ dialog[open] {
  * Styling to make the dialog look like a dialog
  * -------------------------------------------------------------------------- */
 
-.dialog:not([data-a11y-dialog-native]),
+.dialog,
 .dialog-overlay {
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
+  z-index: 2;
 }
 
 .dialog {
@@ -43,23 +28,11 @@ dialog[open] {
   background-color: rgba(43, 46, 56, 0.9);
 }
 
-dialog::backdrop {
-  background-color: rgba(43, 46, 56, 0.9);
-}
-
 .dialog-content {
   background-color: rgb(255, 255, 255);
   margin: auto;
   z-index: 2;
   position: relative;
-}
-
-dialog.dialog-content {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin: 0;
 }
 
 /* -------------------------------------------------------------------------- *\
@@ -84,10 +57,6 @@ dialog.dialog-content {
 
 .dialog-content {
   animation: fade-in 400ms 200ms both, slide-up 400ms 200ms both;
-}
-
-dialog.dialog-content {
-  animation: fade-in 400ms 200ms both;
 }
 
 .dialog-content {
@@ -219,9 +188,6 @@ form {
 
 @media screen and (min-width: 700px) {
   form {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
   }
 }
@@ -242,9 +208,6 @@ form input {
 
 @media screen and (min-width: 700px) {
   form input {
-    -webkit-box-flex: 1;
-    -webkit-flex: 1;
-    -ms-flex: 1;
     flex: 1;
     border-right: 0;
     width: auto;

@@ -1,7 +1,15 @@
-import { shouldBeHidden, shouldBeVisible } from './utils'
+import { shouldBeHidden, shouldBeVisible } from './utils.js'
 
-describe('State', () => {
+describe('State', { testIsolation: false }, () => {
   before(() => cy.visit('/base'))
+
+  it('should add relevant attributes to the dialog', () => {
+    cy.get('.dialog')
+      .should('have.attr', 'role', 'dialog')
+      .and('have.attr', 'aria-modal', 'true')
+      .and('have.attr', 'tabindex', '-1')
+      .and('have.attr', 'aria-hidden', 'true')
+  })
 
   it('should hide the dialog by default', () => {
     cy.get('.dialog').then(shouldBeHidden)
@@ -18,15 +26,11 @@ describe('State', () => {
   it('should close when clicking a closer', () => {
     cy.get('.dialog-close').click()
     cy.get('.dialog').then(shouldBeHidden)
-    cy.get('#pre-hidden-sibling').should(
-      'not.have.attr',
-      'data-a11y-dialog-original-aria-hidden'
-    )
   })
 
   it('should close when pressing ESC', () => {
     cy.get('[data-a11y-dialog-show="my-dialog"]').click()
-    cy.get('body').trigger('keydown', { key: 'Escape', keyCode: 27, which: 27 })
+    cy.realPress('Escape')
     cy.get('.dialog').then(shouldBeHidden)
   })
 

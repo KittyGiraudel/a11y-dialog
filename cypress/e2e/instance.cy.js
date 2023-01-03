@@ -1,6 +1,6 @@
-import { shouldBeHidden, shouldBeVisible } from './utils'
+import { shouldBeHidden, shouldBeVisible } from './utils.js'
 
-describe('Instance', () => {
+describe('Instance', { testIsolation: false }, () => {
   before(() => cy.visit('/instance'))
 
   it('should be possible to instantiate a dialog with JavaScript', () => {
@@ -31,6 +31,10 @@ describe('Instance', () => {
       .its('instance')
       .its('$el')
       .should('have.attr', 'id', 'my-dialog')
+  })
+
+  it('should expose the dialog ID on the instance', () => {
+    cy.window().its('instance').its('id').should('eq', 'my-dialog')
   })
 
   it('should be possible to register/unregister events', () => {

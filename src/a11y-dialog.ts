@@ -221,19 +221,20 @@ function moveFocusToDialog(node: HTMLElement) {
 // Elements with these ARIA roles make their children
 // `presentational`, which nullifies their semantics.
 // @see: https://www.w3.org/TR/wai-aria/
-const PRESENTATIONAL_CHILDREN_SELECTOR = `
-  a[href],
-  button,
-  img,
-  summary,
-  [role="button"],
-  [role="image"],
-  [role="link"],
-  [role="math"],
-  [role="progressbar"],
-  [role="scrollbar"],
-  [role="slider"]
-`
+const PRESENTATIONAL_CHILDREN_SELECTOR = [
+  'a[href]',
+  'button',
+  'img',
+  'summary',
+  '[role="button"]',
+  '[role="image"]',
+  '[role="link"]',
+  '[role="math"]',
+  '[role="presentation"]',
+  '[role="progressbar"]',
+  '[role="scrollbar"]',
+  '[role="slider"]',
+].join(',')
 
 /**
  * Get focusable children by recursively traversing the subtree of `node`.

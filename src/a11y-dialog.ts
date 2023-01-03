@@ -244,7 +244,7 @@ function getFocusableChildren(node: ParentNode): HTMLElement[] {
   if (node instanceof HTMLElement) {
     // If this node is marked as inert, neither it nor any member of
     // its subtree will be focusable.
-    if (node.inert === true) return []
+    if (node.inert) return []
 
     // If this node has no children, we can stop traversing.
     // If this node has children, but nullifies its children's
@@ -265,13 +265,13 @@ function getFocusableChildren(node: ParentNode): HTMLElement[] {
   for (const curr of node.children as unknown as HTMLElement[]) {
     // If this element has a Shadow DOM attached,
     // check the shadow subtree for focusable children.
-    if (!!curr.shadowRoot) {
+    if (curr.shadowRoot) {
       focusableEls = [...focusableEls, ...getFocusableChildren(curr.shadowRoot)]
 
       // If this is a slot, look for any elements assigned to it
       // then check each of those for focusable children.
     } else if (curr.localName === 'slot') {
-      let assignedElements = (curr as HTMLSlotElement).assignedElements()
+      const assignedElements = (curr as HTMLSlotElement).assignedElements()
       for (const assignedElement of assignedElements) {
         focusableEls = [
           ...focusableEls,

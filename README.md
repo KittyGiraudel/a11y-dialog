@@ -12,6 +12,7 @@ This is a lightweight (1.4Kb) yet flexible script to create accessible dialog wi
 - Supports nested dialogs (however questionable)
 - Exposes events to react to changes
 - Provides both a DOM and a JavaScript API
+- Plays nicely with Shadow DOM
 - Is unopinionated with styling
 - Is extensively tested and documented
 - Is fast and tiny

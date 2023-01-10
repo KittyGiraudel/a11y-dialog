@@ -72,9 +72,9 @@ export default class A11yDialog {
   }
 
   /**
-   * Hide the dialog element, restore the focus to the previously
-   * active element, stop listening for some specific key presses
-   * and fire all registered callbacks for `hide` event.
+   * Hide the dialog element, restore the focus to the previously active
+   * element, stop listening for some specific key presses and fire all
+   * registered callbacks for `hide` event
    */
   public hide = (event?: Event): A11yDialogInstance => {
     // If the dialog is already closed, abort
@@ -123,8 +123,8 @@ export default class A11yDialog {
 
   /**
    * Dispatch a custom event from the DOM element associated with this dialog.
-   * This allows authors to listen for and respond to the events in their
-   * own code.
+   * This allows authors to listen for and respond to the events in their own
+   * code
    */
   private fire = (type: A11yDialogEvent, event?: Event) => {
     this.$el.dispatchEvent(
@@ -136,8 +136,8 @@ export default class A11yDialog {
   }
 
   /**
-   * Add a delegated event listener for when elememts that open or close
-   * the dialog are clicked, and call `show` or `hide`, respectively
+   * Add a delegated event listener for when elememts that open or close the
+   * dialog are clicked, and call `show` or `hide`, respectively
    */
   private handleTriggerClicks = (event: Event) => {
     const target = event.target as HTMLElement
@@ -185,23 +185,26 @@ export default class A11yDialog {
   }
 
   /**
-   * If the dialog is shown and the focus is not within a dialog element
-   * (either this one or another one in case of nested dialogs) or
-   * attribute, move it back to the dialog container.
+   * If the dialog is shown and the focus is not within a dialog element (either
+   * this one or another one in case of nested dialogs) or attribute, move it
+   * back to the dialog container
    * See: https://github.com/KittyGiraudel/a11y-dialog/issues/177
    */
   private maintainFocus = (event: FocusEvent) => {
+    const target = event.target as HTMLElement
+
     if (
-      !(event.target as HTMLElement).closest(
+      !target.closest(
         '[aria-modal="true"], [data-a11y-dialog-ignore-focus-trap]'
       )
-    )
+    ) {
       moveFocusToDialog(this.$el)
+    }
   }
 }
 
 /**
- * Query the DOM for nodes matching the given selector, scoped to context (or
+ * Query the DOM for elements matching the given selector, scoped to context (or
  * the whole document)
  */
 function $$(selector: string, context: ParentNode = document): HTMLElement[] {
@@ -212,14 +215,14 @@ function $$(selector: string, context: ParentNode = document): HTMLElement[] {
  * Set the focus to the first element with `autofocus` with the element or the
  * element itself
  */
-function moveFocusToDialog(node: HTMLElement) {
-  const focused = (node.querySelector('[autofocus]') || node) as HTMLElement
+function moveFocusToDialog(el: HTMLElement) {
+  const focused = (el.querySelector('[autofocus]') || el) as HTMLElement
 
   focused.focus()
 }
 
-// Elements with these ARIA roles make their children
-// `presentational`, which nullifies their semantics.
+// Elements with these ARIA roles make their children `presentational`, which
+// nullifies their semantics
 // @see: https://www.w3.org/TR/wai-aria/
 const PRESENTATIONAL_CHILDREN_SELECTOR = [
   'a[href]',
@@ -237,54 +240,53 @@ const PRESENTATIONAL_CHILDREN_SELECTOR = [
 ].join(',')
 
 /**
- * Get focusable children by recursively traversing the subtree of `node`.
- * This traversal allows us to account for Shadow DOM subtrees.
+ * Get focusable children by recursively traversing the subtree of the given
+ * element, while accounting for Shadow DOM subtrees
  */
-function getFocusableChildren(node: ParentNode): HTMLElement[] {
-  // Check for the bases case of our recursion:
-  if (node instanceof HTMLElement) {
-    // If this node is marked as inert, neither it nor any member of
-    // its subtree will be focusable.
-    if (node.inert) return []
+function getFocusableChildren(el: ParentNode): HTMLElement[] {
+  // Check for the base case of our recursion
+  if (el instanceof HTMLElement) {
+    // If this element is marked as inert, neither it nor any member of its
+    // subtree will be focusable, therefore there are no focusable children
+    if (el.inert) return []
 
-    // If this node has no children, we can stop traversing.
-    // If this node has children, but nullifies its children's
-    // semantics, we can stop traversing.
-    if (
-      !node.firstElementChild ||
-      node.matches(PRESENTATIONAL_CHILDREN_SELECTOR)
-    ) {
-      // Check if the node is focusable, and then return early.
-      return isFocusable(node) ? [node] : []
+    // If this element has no children or if it nullifies its children’s
+    // semantics, there are no focusable children
+    if (!el.firstElementChild || el.matches(PRESENTATIONAL_CHILDREN_SELECTOR)) {
+      // If the element itself is focusable, return it otherwise return nothing
+      return isFocusable(el) ? [el] : []
     }
   }
 
   let focusableEls: HTMLElement[] = []
 
-  // Walk all the immediate children of this node
-  // (with some type casting because node.children is an HTMLCollection)
-  for (const curr of node.children as unknown as HTMLElement[]) {
-    // If this element has a Shadow DOM attached,
-    // check the shadow subtree for focusable children.
+  // Walk all the immediate children of this element (with some type casting
+  // because `el.children` is an `HTMLCollection`)
+  for (const curr of el.children as unknown as HTMLElement[]) {
+    // If this element has a Shadow DOM attached, check the Shadow subtree for
+    // focusable children
     if (curr.shadowRoot) {
-      focusableEls = [...focusableEls, ...getFocusableChildren(curr.shadowRoot)]
+      focusableEls = focusableEls.concat(getFocusableChildren(curr.shadowRoot))
+    }
 
-      // If this is a slot, look for any elements assigned to it
-      // then check each of those for focusable children.
-    } else if (curr.localName === 'slot') {
+    // If this element is a slot, look for any elements assigned to it then
+    // check each of those elements for focusable children
+    else if (curr.localName === 'slot') {
       const assignedElements = (curr as HTMLSlotElement).assignedElements()
-      for (const assignedElement of assignedElements) {
-        focusableEls = [
-          ...focusableEls,
-          ...getFocusableChildren(assignedElement),
-        ]
-      }
 
-      // Or else check this node's subtree for focusable children
-    } else {
-      focusableEls = [...focusableEls, ...getFocusableChildren(curr)]
+      for (const assignedElement of assignedElements) {
+        focusableEls = focusableEls.concat(
+          getFocusableChildren(assignedElement)
+        )
+      }
+    }
+
+    // Or else check this element’s subtree for focusable children
+    else {
+      focusableEls = focusableEls.concat(getFocusableChildren(curr))
     }
   }
+
   return focusableEls
 }
 
@@ -299,10 +301,10 @@ function isFocusable(el: HTMLElement) {
 }
 
 /**
- * Trap the focus inside the given element.
+ * Trap the focus inside the given element
  */
-function trapTabKey(node: HTMLElement, event: KeyboardEvent) {
-  const focusableChildren = getFocusableChildren(node)
+function trapTabKey(el: HTMLElement, event: KeyboardEvent) {
+  const focusableChildren = getFocusableChildren(el)
   const focusedItemIndex = focusableChildren.indexOf(
     document.activeElement as HTMLElement
   )
@@ -313,11 +315,12 @@ function trapTabKey(node: HTMLElement, event: KeyboardEvent) {
   if (event.shiftKey && focusedItemIndex === 0) {
     focusableChildren[focusableChildren.length - 1].focus()
     event.preventDefault()
+  }
 
-    // If the SHIFT key is not pressed (moving forwards) and the currently
-    // focused item is the last one, move the focus to the first focusable item
-    // from the dialog element
-  } else if (
+  // If the SHIFT key is not pressed (moving forwards) and the currently focused
+  // item is the last one, move the focus to the first focusable item from the
+  // dialog element
+  else if (
     !event.shiftKey &&
     focusedItemIndex === focusableChildren.length - 1
   ) {
@@ -327,7 +330,7 @@ function trapTabKey(node: HTMLElement, event: KeyboardEvent) {
 }
 
 function instantiateDialogs() {
-  $$('[data-a11y-dialog]').forEach(node => new A11yDialog(node))
+  $$('[data-a11y-dialog]').forEach(el => new A11yDialog(el))
 }
 
 if (typeof document !== 'undefined') {
@@ -338,8 +341,8 @@ if (typeof document !== 'undefined') {
   }
 }
 
-// TypeScript doesn't know about `inert` yet; this declaration extends
-// the HTMLElement interface to include it.
+// TypeScript doesn’t know about the `inert` attribute/property yet; this
+// declaration extends the `HTMLElement` interface to include it
 declare global {
   interface HTMLElement {
     inert: boolean

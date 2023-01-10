@@ -218,17 +218,83 @@ function moveFocusToDialog(node: HTMLElement) {
   focused.focus()
 }
 
+// Elements with these ARIA roles make their children
+// `presentational`, which nullifies their semantics.
+// @see: https://www.w3.org/TR/wai-aria/
+const PRESENTATIONAL_CHILDREN_SELECTOR = [
+  'a[href]',
+  'button',
+  'img',
+  'summary',
+  '[role="button"]',
+  '[role="image"]',
+  '[role="link"]',
+  '[role="math"]',
+  '[role="presentation"]',
+  '[role="progressbar"]',
+  '[role="scrollbar"]',
+  '[role="slider"]',
+].join(',')
+
 /**
- * Get the focusable children of the given element.
+ * Get focusable children by recursively traversing the subtree of `node`.
+ * This traversal allows us to account for Shadow DOM subtrees.
  */
-function getFocusableChildren(node: HTMLElement): HTMLElement[] {
-  return $$(focusableSelectors.join(','), node).filter(
-    child =>
-      !!(
-        child.offsetWidth ||
-        child.offsetHeight ||
-        child.getClientRects().length
-      )
+function getFocusableChildren(node: ParentNode): HTMLElement[] {
+  // Check for the bases case of our recursion:
+  if (node instanceof HTMLElement) {
+    // If this node is marked as inert, neither it nor any member of
+    // its subtree will be focusable.
+    if (node.inert) return []
+
+    // If this node has no children, we can stop traversing.
+    // If this node has children, but nullifies its children's
+    // semantics, we can stop traversing.
+    if (
+      !node.firstElementChild ||
+      node.matches(PRESENTATIONAL_CHILDREN_SELECTOR)
+    ) {
+      // Check if the node is focusable, and then return early.
+      return isFocusable(node) ? [node] : []
+    }
+  }
+
+  let focusableEls: HTMLElement[] = []
+
+  // Walk all the immediate children of this node
+  // (with some type casting because node.children is an HTMLCollection)
+  for (const curr of node.children as unknown as HTMLElement[]) {
+    // If this element has a Shadow DOM attached,
+    // check the shadow subtree for focusable children.
+    if (curr.shadowRoot) {
+      focusableEls = [...focusableEls, ...getFocusableChildren(curr.shadowRoot)]
+
+      // If this is a slot, look for any elements assigned to it
+      // then check each of those for focusable children.
+    } else if (curr.localName === 'slot') {
+      const assignedElements = (curr as HTMLSlotElement).assignedElements()
+      for (const assignedElement of assignedElements) {
+        focusableEls = [
+          ...focusableEls,
+          ...getFocusableChildren(assignedElement),
+        ]
+      }
+
+      // Or else check this node's subtree for focusable children
+    } else {
+      focusableEls = [...focusableEls, ...getFocusableChildren(curr)]
+    }
+  }
+  return focusableEls
+}
+
+/**
+ * Determine if an element is focusable and has user-visible painted dimensions
+ */
+function isFocusable(el: HTMLElement) {
+  return (
+    el.matches(focusableSelectors.join(',')) &&
+    !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length)
   )
 }
 
@@ -269,5 +335,13 @@ if (typeof document !== 'undefined') {
     document.addEventListener('DOMContentLoaded', instantiateDialogs)
   } else {
     instantiateDialogs()
+  }
+}
+
+// TypeScript doesn't know about `inert` yet; this declaration extends
+// the HTMLElement interface to include it.
+declare global {
+  interface HTMLElement {
+    inert: boolean
   }
 }

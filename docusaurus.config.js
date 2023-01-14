@@ -12,7 +12,6 @@ module.exports = {
   onBrokenMarkdownLinks: 'warn',
 
   themeConfig: {
-    sidebarCollapsible: false,
     navbar: {
       title: 'a11y-dialog',
       items: [
@@ -50,9 +49,9 @@ module.exports = {
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
           showLastUpdateTime: true,
-          // Please change this to your repo.
+          sidebarCollapsible: false,
           editUrl:
-            'https://github.com/KittyGiraudel/a11y-dialog/edit/documentation/',
+            'https://github.com/KittyGiraudel/a11y-dialog/tree/documentation/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),

@@ -5,7 +5,11 @@ slug: /further-reading/known-issues
 
 ## Focus restoration on iOS
 
-It has been reported that the focus restoration to the formerly active element when closing the dialog does not always work properly on iOS. It is unclear what causes this or even if it happens consistently. Refer to [issue #102](https://github.com/KittyGiraudel/a11y-dialog/issues/102) as a reference.
+It has been reported that the focus restoration to the formerly active element when closing the dialog does not always work properly on iOS.
+
+:::info  
+It is unclear whether this is still an issue. It was reported a long time ago and has never been voiced since. Refer to [issue #102](https://github.com/KittyGiraudel/a11y-dialog/issues/102) as a reference.  
+:::
 
 ## aria-hidden content on VoiceOver
 
@@ -22,3 +26,21 @@ The library relies on `aria-modal`, a standardized attribute from [WAI-ARIA 1.1]
 - Use [version 6](/6.1.0/) of the library which did not rely on the `aria-modal` attribute. Keep in mind the setup is significantly more complex though — pay attention to the documentation.
 
 - Use the library in conjunction with the [aria-hidden](https://github.com/theKashey/aria-hidden) package (<1kb) to combine both implementations for maximum support. Refer to [this demo](https://codesandbox.io/s/a11y-dialog-w-aria-hidden-v7-forked-u3unbr) for implementation details.
+
+```js {2,6,8-15}
+import A11yDialog from 'a11y-dialog'
+import { hideOthers } from 'aria-hidden'
+
+const container = document.getElementById('my-dialog')
+const dialog = new A11yDialog(container)
+let registered = false
+
+dialog.on('show', function (event) {
+  const undo = hideOthers(container)
+
+  if (!registered) {
+    dialog.on('hide', undo)
+    registered = true
+  }
+})
+```

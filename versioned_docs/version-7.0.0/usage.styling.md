@@ -44,7 +44,7 @@ Here is a solid set of styles to get started (note that you might have to rename
  * 1. Make the overlay look like an overlay.
  */
 .dialog-overlay {
-  background-color: rgba(43, 46, 56, 0.9); /* 1 */
+  background-color: rgb(43 46 56 / 0.9); /* 1 */
 }
 
 /**

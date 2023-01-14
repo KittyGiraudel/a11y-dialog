@@ -27,7 +27,6 @@ module.exports = {
         'advanced.alert_dialog',
         'advanced.events',
         'advanced.scroll_lock',
-        'advanced.dialog_element',
         'advanced.nested_dialogs',
       ],
     },
@@ -37,6 +36,7 @@ module.exports = {
       items: [
         'further_reading.implementations',
         'further_reading.known_issues',
+        'further_reading.dialog_element',
         'further_reading.migrating_to_v7',
       ],
     },

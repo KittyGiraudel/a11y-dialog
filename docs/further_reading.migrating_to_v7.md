@@ -12,10 +12,9 @@ Summary:
 - Different expected markup
 - More flexible position in the DOM
 
-
 ## No more `<dialog>`
 
-The support for the native `<dialog>` HTML element has been discontinued. The rational behind this choice is explained more in detail in the page [about the `<dialog>` element](./advanced.dialog_element.md).
+The support for the native `<dialog>` HTML element has been discontinued. The rational behind this choice is explained more in detail in the page [about the `<dialog>` element](./further_reading.dialog_element.md).
 
 Before migrating to v7, it is recommended you update your usage to no longer use the `<dialog>` element as this will make the actual migration easier. To do so, replace any usage of the `<dialog>` element with a `<div role="dialog">`.
 

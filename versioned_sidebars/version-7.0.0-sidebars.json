@@ -58,10 +58,6 @@
         },
         {
           "type": "doc",
-          "id": "version-7.0.0/advanced.dialog_element"
-        },
-        {
-          "type": "doc",
           "id": "version-7.0.0/advanced.nested_dialogs"
         }
       ]
@@ -78,6 +74,10 @@
         {
           "type": "doc",
           "id": "version-7.0.0/further_reading.known_issues"
+        },
+        {
+          "type": "doc",
+          "id": "version-7.0.0/further_reading.dialog_element"
         },
         {
           "type": "doc",

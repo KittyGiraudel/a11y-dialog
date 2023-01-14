@@ -11,4 +11,22 @@ To do so:
 2. Remove `data-a11y-dialog-hide` from the overlay element. This makes sure it is not possible to close the modal by clicking outside of it.
 3. In case the user actively needs to operate with the modal, you might consider removing the close button from it. Be sure to still offer a way to eventually close the modal.
 
-For more information about modals, refer to the [WAI-ARIA 1.1 recommendations](https://www.w3.org/TR/wai-aria-1.1/#alertdialog).
+```diff
+  <div
+    id="your-dialog-id"
+    aria-labelledby="your-dialog-title-id"
+    aria-hidden="true"
++   role="alertdialog"
+  >
+-   <div data-a11y-dialog-hide></div>
++   <div></div>
+    <div role="document">
+      <button type="button" data-a11y-dialog-hide aria-label="Close dialog">
+        &times;
+      </button>
+      <h1 id="your-dialog-title-id">Your dialog title</h1>
+    </div>
+  </div>
+```
+
+For more information about alert dialogs, refer to the [WAI-ARIA 1.1 recommendations](https://www.w3.org/TR/wai-aria-1.1/#alertdialog).

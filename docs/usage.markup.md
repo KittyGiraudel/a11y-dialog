@@ -3,7 +3,7 @@ title: Markup
 slug: /usage/markup
 ---
 
-Here is the basic markup, which can be enhanced. Pay extra attention to the comments.
+Here is the basic markup, which can be enhanced as desired. Pay extra attention to the comments after the next code snippet.
 
 ```html
 <!-- 1. The dialog container -->

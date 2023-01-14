@@ -12,6 +12,7 @@ a11y-dialog is a lightweight yet flexible script to create accessible dialog win
 - Supports nested dialogs (however questionable)
 - Exposes events to react to changes
 - Provides both a DOM and a JavaScript API
+- Plays nicely with Shadow DOM
 - Is unopinionated with styling
 - Is extensively tested and documented
 - Is fast and tiny

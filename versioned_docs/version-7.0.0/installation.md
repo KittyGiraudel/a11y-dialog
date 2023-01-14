@@ -3,17 +3,29 @@ title: Installation
 slug: /installation
 ---
 
+import Tabs from '@theme/Tabs';  
+import TabItem from '@theme/TabItem';
+
 ## Using a bundler (recommended)
 
 If you’re using a bundler (such as Webpack or Rollup), you can install `a11y-dialog` through npm or yarn like any other dependency:
+
+<Tabs>
+  <TabItem value="npm" label="npm">
 
 ```sh
 npm install a11y-dialog
 ```
 
+  </TabItem>
+  <TabItem value="yarn" label="yarn">
+
 ```sh
 yarn add a11y-dialog
 ```
+
+  </TabItem>
+</Tabs>
 
 Then you can import the library in your JavaScript codebase to access the `A11yDialog` class and instantiate your dialogs as you intend to.
 
@@ -34,30 +46,54 @@ import 'a11y-dialog'
 
 If you prefer loading `a11y-dialog` from a CDN such as jsdelivr or unpkg, you can do so by adding this script tag in your HTML. It will expose the `A11yDialog` global variable.
 
+<Tabs>
+  <TabItem value="jsdeliver" label="jsdeliver">
+
 ```html
-<!-- Via jsdeliver -->
 <script
   defer
   src="https://cdn.jsdelivr.net/npm/a11y-dialog@7/dist/a11y-dialog.min.js"
 ></script>
+```
 
-<!-- Via unpkg -->
+  </TabItem>
+  <TabItem value="unpkg" label="unpkg">
+
+```html
 <script
   defer
   src="https://unpkg.com/a11y-dialog@7/dist/a11y-dialog.min.js"
 ></script>
 ```
 
+  </TabItem>
+</Tabs>
+
 If you intend to use ES modules, you can use the ESM version of script (from v6.0.0 onwards only):
+
+<Tabs>
+  <TabItem value="jsdeliver" label="jsdeliver">
 
 ```html
 <script type="module">
-  // Via jsdeliver
   import A11yDialog from 'https://cdn.jsdelivr.net/npm/a11y-dialog@7/dist/a11y-dialog.esm.min.js'
-  // Via unpkg
-  // import A11yDialog from 'https://unpkg.com/a11y-dialog@7/dist/a11y-dialog.esm.min.js'
 
   const container = document.querySelector('#my-dialog-container')
   const dialog = new A11yDialog(container)
 </script>
 ```
+
+  </TabItem>
+  <TabItem value="unpkg" label="unpkg">
+
+```html
+<script type="module">
+  import A11yDialog from 'https://unpkg.com/a11y-dialog@7/dist/a11y-dialog.esm.min.js'
+
+  const container = document.querySelector('#my-dialog-container')
+  const dialog = new A11yDialog(container)
+</script>
+```
+
+  </TabItem>
+</Tabs>

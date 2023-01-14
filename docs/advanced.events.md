@@ -45,7 +45,7 @@ dialog.off('show', doSomething)
 For [auto-instantiated dialogs](usage.instantiation.md) though, registering event listeners on the instance is not possible since there is no access to the dialog instance itself. To work around the problem while still relying on auto-instantiation, it is possible to listen for DOM events on the dialog container.
 
 ```js
-element.addEventListener('show', function (event) {
+dialog.addEventListener('show', function (event) {
   // Do something when dialog gets shown
   // Note: opener is `event.detail.currentTarget`
 })
@@ -71,7 +71,7 @@ Because these event listeners can be registered on the DOM element, before the d
 You can unregister these event listeners with the `removeEventListener()` method, just like any other DOM event.
 
 ```js
-element.addEventListener('show', doSomething)
+dialog.addEventListener('show', doSomething)
 // …
-element.removeEventListener('show', doSomething)
+dialog.removeEventListener('show', doSomething)
 ```

@@ -9,6 +9,7 @@ By default, any element with the `data-a11y-dialog` attribute (with 1’s, not L
 <div
   class="dialog-container"
   aria-hidden="true"
+  // highlight-next-line
   data-a11y-dialog="your-dialog-id"
 >
   …
@@ -18,7 +19,12 @@ By default, any element with the `data-a11y-dialog` attribute (with 1’s, not L
 If automatic loading is not an option because the expected dialog markup is not present in the DOM on script execution (or the dialog instance is needed to do more complicated things), the `data-a11y-dialog` should be omitted and it can be instantiated through JavaScript. In that case, **it must have an `id`.**
 
 ```html
-<div class="dialog-container" aria-hidden="true" id="your-dialog-id">…</div>
+<div
+  class="dialog-container"
+  aria-hidden="true"
+  // highlight-next-line
+  id="your-dialog-id"
+>…</div>
 ```
 
 ```js

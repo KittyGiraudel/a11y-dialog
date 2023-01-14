@@ -60,4 +60,8 @@ Here is a solid set of styles to get started (note that you might have to rename
 }
 ```
 
-The rest, such as what the dialog really looks like, and how its content is styled, is left at your own discretion. These styles should be enough to get you on the right track. Feel free to look at [the demo](https://codesandbox.io/s/a11y-dialog-v7-pnwqu) for more extensive styles.
+The rest, such as what the dialog really looks like, and how its content is styled, is left at your own discretion. These styles should be enough to get you on the right track.
+
+:::tip  
+Feel free to look at the [demo on CodeSandbox](https://codesandbox.io/s/a11y-dialog-v7-pnwqu) for more extensive styles.  
+:::

@@ -15,7 +15,7 @@ If you need to support Internet Explorer, you will need to stick to version 7 as
 
 If you were doing weird things with these private properties, you’ll have to adjust your code to take the renaming into consideration, and ideally no longer use them at all.
 
-## DOM events
+## Events
 
 Events used to be handled with a tiny home made event system. Instead, they now go entirely through the DOM. They are internally bound to the dialog container with `addEventListener` and they are emitted via `CustomEvent` objects.
 
@@ -39,7 +39,7 @@ dialog.on('show', function (event) {
 })
 ```
 
-## No more `create` event
+### No more `create` event
 
 It used to be possible to listen to `create` events, although it was very awkward because that event would be fired in the constructor. This means it used to fire, but it was technically impossible to bind a listener before it does. This oddity has been addressed.
 

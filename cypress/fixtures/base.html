@@ -10,7 +10,10 @@
 <body>
   <main>
     <h1>Tests — Base</h1>
-    <button class="link-like" data-a11y-dialog-show="my-dialog">Open the dialog window</button>
+    <button class="link-like" data-a11y-dialog-show="my-dialog">
+      <!-- Insert a needless span here to make sure delegated clicks work -->
+      <span>Open the dialog window</span>
+    </button>
     <button class="link-like" data-a11y-dialog-show="something-else">Open the dialog window</button>
   </main>
 

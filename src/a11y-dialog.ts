@@ -142,13 +142,15 @@ export default class A11yDialog {
   private handleTriggerClicks = (event: Event) => {
     const target = event.target as HTMLElement
 
-    if (target.matches(`[data-a11y-dialog-show="${this.id}"]`)) {
+    // We use `.closest(..)` and not `.matches(..)` here so that clicking
+    // an element nested within a dialog opener does cause the dialog to open
+    if (target.closest(`[data-a11y-dialog-show="${this.id}"]`)) {
       this.show(event)
     }
 
     if (
-      target.matches(`[data-a11y-dialog-hide="${this.id}"]`) ||
-      (target.matches('[data-a11y-dialog-hide]') &&
+      target.closest(`[data-a11y-dialog-hide="${this.id}"]`) ||
+      (target.closest('[data-a11y-dialog-hide]') &&
         target.closest('[aria-modal="true"]') === this.$el)
     ) {
       this.hide(event)

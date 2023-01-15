@@ -34,17 +34,17 @@ As mentioned in the [styling](usage.styling.md) section, how the dialog looks is
 It is recommended you consider your user’s motion preferences by utilizing the `prefers-reduced-motion` media query when adding animations to your CSS. For example, you can place a small snippet below the animation or transition code from above with:
 
 ```css
+// highlight-next-line
 @media (prefers-reduced-motion: reduce) {
-  .dialog-close {
-    transition: none;
-  }
+  .dialog-overlay,
   .dialog-content {
+    // highlight-next-line
     animation: none;
   }
 }
 ```
 
-This way, the animation and transition are completely off if the user prefers reduced motion. This approach is [only suitable](https://css-tricks.com/revisiting-prefers-reduced-motion-the-reduced-motion-media-query/#taking-it-to-code) if core functionality is not removed by doing so. In our case, the core showing and hiding of the dialog is done through `dialog[aria-hidden='true']` which is unrelated to the animation code entirely.
+This way, the animations are completely off if the user prefers reduced motion. This approach is [only suitable](https://css-tricks.com/revisiting-prefers-reduced-motion-the-reduced-motion-media-query/#taking-it-to-code) if core functionality is not removed by doing so. In our case, the core showing and hiding of the dialog is done through `dialog[aria-hidden='true']` which is unrelated to the animation code entirely.
 
 This step is crucial for users with vestibular motion disorders:
 

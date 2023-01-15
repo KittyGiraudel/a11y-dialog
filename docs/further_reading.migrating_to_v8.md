@@ -45,6 +45,15 @@ It used to be possible to listen to `create` events, although it was very awkwar
 
 Again, because it was basically a glitch, it shouldn’t cause any issue.
 
-## Shadow DOM
+## Focus trap
 
-Shadow DOM should now be properly accounted for within the focus trap, so you should be able to remove any workaround you might have come up with.
+The focus trap is improved in version 8. Namely, it addresses issues where certain focusable elements were not properly recognized as such when used as first or last item in the dialog (any other position than first/last worked fine).
+
+It now properly accounts for [shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM), which means it plays nicely with web components (such as [Lit](https://lit.dev/), [webc](https://github.com/11ty/webc) or [Polymer](https://polymer-library.polymer-project.org/)). If you had problems with them before, you should be able to remove any workaround you might have come up with.
+
+Additionally, it now properly handles `details` and `summary` elements. Namely:
+
+- It considers focusable the first `summary` element directly within a `details` element, provided it doesn’t have a negative tabindex attribute.
+- It considers focusable `details` elements provided they do not have a `summary` element and do not have a negative tabindex attribute.
+
+Finally, it now checks for the presence of the [`inert` attribute](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/inert) (now that the [support for `inert`](https://caniuse.com/mdn-api_htmlelement_inert) has grown).

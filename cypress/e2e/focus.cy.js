@@ -23,7 +23,7 @@ describe('Focus', { testIsolation: false }, () => {
   })
 
   it('should restore focus to the previously focused element', () => {
-    cy.get('.dialog-close').click()
+    cy.get('#close-my-dialog').click()
     cy.get('[data-a11y-dialog-show="my-dialog"]').should('have.focus')
   })
 
@@ -31,5 +31,29 @@ describe('Focus', { testIsolation: false }, () => {
     cy.get('[data-a11y-dialog-show="my-dialog"]').click()
     cy.get('#move-focus-outside').click()
     cy.get('#focus-me').should('have.focus')
+
+    // Close the open dialog
+    cy.get('#close-my-dialog').click()
+  })
+
+  it('Should properly handle focus with Shadow DOM children', () => {
+    cy.get('[data-a11y-dialog-show="shadow-dialog"]').click()
+
+    // Move focus into the dialog
+    // and ensure that the first focused element
+    // is a <fancy-button>
+    cy.realPress('Tab')
+      .focused()
+      .then($el => {
+        expect($el[0].tagName).to.equal('FANCY-BUTTON')
+      })
+
+    // Verify that focus goes backward into the <fancy-card> element.
+    // Wthin that, verify that the <fancy-button> element is focused.
+    cy.realPress(['Shift', 'Tab'])
+      .focused()
+      .shadow()
+      .find('fancy-button')
+      .should('have.focus')
   })
 })

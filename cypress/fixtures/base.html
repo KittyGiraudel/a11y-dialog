@@ -17,7 +17,7 @@
     <button class="link-like" data-a11y-dialog-show="shadow-dialog">
       Open the shadow dialog
     </button>
-    <button class="link-like" data-a11y-dialog-show="edge-case-dialog">Open the edge case dialog</button>
+    <button class="link-like" data-a11y-dialog-show="focusable-shadow-host-dialog">Open the focusable shadow host dialog</button>
   </main>
 
   <div class="dialog" data-a11y-dialog="my-dialog" aria-labelledby="my-dialog-title">
@@ -62,21 +62,21 @@
     </div>
     <div
       class="dialog"
-      data-a11y-dialog="edge-case-dialog"
-      aria-labelledby="edge-case-dialog-title"
+      data-a11y-dialog="focusable-shadow-host-dialog"
+      aria-labelledby="focusable-shadow-host-dialog-title"
     >
       <div class="dialog-overlay" data-a11y-dialog-hide></div>
       <div class="dialog-content" role="document">
         <fancy-button
           data-a11y-dialog-hide
-          id="close-edge-case-dialog"
+          id="close-focusable-shadow-host-dialog"
           class="dialog-close"
-          aria-label="Close edge case dialog"
+          aria-label="Close focusable shadow host dialog"
         >
           &times;
         </fancy-button>
 
-        <h1 id="edge-case-dialog-title">Dialog with an edge case</h1>
+        <h1 id="focusable-shadow-host-dialog-title">Dialog with an focusable shadow host</h1>
         <a href="#" class="link-like">A link</a>
         <fancy-div tabindex="0">
           I'm a focusable Shadow Dom element, and I'm last in the DOM!

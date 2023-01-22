@@ -52,7 +52,7 @@ export default class A11yDialog {
 
     // Keep a reference to the currently focused element to be able to restore
     // it later
-    this.previouslyFocused = document.activeElement as HTMLElement
+    this.previouslyFocused = getActiveElement() as HTMLElement
     this.shown = true
     this.$el.removeAttribute('aria-hidden')
 
@@ -307,27 +307,46 @@ function isFocusable(el: HTMLElement) {
  */
 function trapTabKey(el: HTMLElement, event: KeyboardEvent) {
   const focusableChildren = getFocusableChildren(el)
-  const focusedItemIndex = focusableChildren.indexOf(
-    document.activeElement as HTMLElement
-  )
+  const firstFocusableChild = focusableChildren[0]
+  const lastFocusableChild = focusableChildren.at(-1)
+
+  const activeElement = getActiveElement()
 
   // If the SHIFT key is pressed while tabbing (moving backwards) and the
   // currently focused item is the first one, move the focus to the last
   // focusable item from the dialog element
-  if (event.shiftKey && focusedItemIndex === 0) {
-    focusableChildren[focusableChildren.length - 1].focus()
+  if (event.shiftKey && activeElement === firstFocusableChild) {
+    lastFocusableChild.focus()
     event.preventDefault()
   }
 
   // If the SHIFT key is not pressed (moving forwards) and the currently focused
   // item is the last one, move the focus to the first focusable item from the
   // dialog element
-  else if (
-    !event.shiftKey &&
-    focusedItemIndex === focusableChildren.length - 1
-  ) {
-    focusableChildren[0].focus()
+  else if (!event.shiftKey && activeElement === lastFocusableChild) {
+    firstFocusableChild.focus()
     event.preventDefault()
+  }
+}
+
+// Get the active element, accounting for Shadow DOM subtrees.
+// Credit to Cory LaViska for this implementation
+// @see: https://www.abeautifulsite.net/posts/finding-the-active-element-in-a-shadow-root/
+function getActiveElement(
+  root: Document | ShadowRoot = document
+): Element | null {
+  const activeEl = root.activeElement
+
+  if (!activeEl) {
+    return null
+  }
+
+  // If there's a shadow root, recursively look for the active element within it
+  if (activeEl.shadowRoot) {
+    return getActiveElement(activeEl.shadowRoot)
+    // If not, we can just return the active element
+  } else {
+    return activeEl
   }
 }
 

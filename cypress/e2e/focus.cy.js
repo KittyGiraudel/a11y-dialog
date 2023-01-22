@@ -55,5 +55,21 @@ describe('Focus', { testIsolation: false }, () => {
       .shadow()
       .find('fancy-button')
       .should('have.focus')
+
+    // Close the open dialog
+    cy.get('#close-shadow-dialog').click()
+  })
+
+  it('Should properly handle focus when the first or last child is a focusable shadow host', () => {
+    cy.get('[data-a11y-dialog-show="focusable-shadow-host-dialog"]').click()
+
+    cy.realPress('Tab')
+      .realPress(['Shift', 'Tab'])
+      .focused()
+      .then($el => {
+        const el = $el[0]
+        expect(el.getAttribute('tabindex')).to.equal('0')
+        expect(el.tagName).to.equal('FANCY-DIV')
+      })
   })
 })

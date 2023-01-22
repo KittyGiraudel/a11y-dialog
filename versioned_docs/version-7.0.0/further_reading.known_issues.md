@@ -15,6 +15,12 @@ It is unclear whether this is still an issue. It was reported a long time ago an
 
 Content with `aria-hidden` appears to be sometimes read by VoiceOver on iOS and macOS. It is unclear in which case this happens, and does not appear to be an issue directly related to the library. Refer to this [WebKit bug](https://bugs.webkit.org/show_bug.cgi?id=201887#c2) for reference.
 
+## aria-labelledby announcement on VoiceOver
+
+The dialog name associated via `aria-labelledby` is not read by VoiceOver in Chrome and FireFox (but is in Safari). This peculiar behavior appears when the close button is located before the dialog name.
+
+Making sure the element associated with `aria-labelledby` comes as a first child of the dialog is a simple workaround to this minor issue.
+
 ## Shadow DOM
 
 As reported in [issue #322](https://github.com/KittyGiraudel/a11y-dialog/issues/322), a11y-dialog fails to account for shadow DOM when trapping the focus. This can be a problem when rendering interactive web components within the dialog.

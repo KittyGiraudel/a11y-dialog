@@ -52,7 +52,7 @@ export default class A11yDialog {
 
     // Keep a reference to the currently focused element to be able to restore
     // it later
-    this.previouslyFocused = document.activeElement as HTMLElement
+    this.previouslyFocused = getDeepActiveElement() as HTMLElement
     this.shown = true
     this.$el.removeAttribute('aria-hidden')
 
@@ -307,26 +307,24 @@ function isFocusable(el: HTMLElement) {
  */
 function trapTabKey(el: HTMLElement, event: KeyboardEvent) {
   const focusableChildren = getFocusableChildren(el)
-  const focusedItemIndex = focusableChildren.indexOf(
-    document.activeElement as HTMLElement
-  )
+  const firstFocusableChild = focusableChildren[0]
+  const lastFocusableChild = focusableChildren[focusableChildren.length - 1]
+
+  const activeElement = getDeepActiveElement()
 
   // If the SHIFT key is pressed while tabbing (moving backwards) and the
   // currently focused item is the first one, move the focus to the last
   // focusable item from the dialog element
-  if (event.shiftKey && focusedItemIndex === 0) {
-    focusableChildren[focusableChildren.length - 1].focus()
+  if (event.shiftKey && activeElement === firstFocusableChild) {
+    lastFocusableChild.focus()
     event.preventDefault()
   }
 
   // If the SHIFT key is not pressed (moving forwards) and the currently focused
   // item is the last one, move the focus to the first focusable item from the
   // dialog element
-  else if (
-    !event.shiftKey &&
-		event.target === focusableChildren[focusableChildren.length - 1]
-  ) {
-    focusableChildren[0].focus()
+  else if (!event.shiftKey && activeElement === lastFocusableChild) {
+    firstFocusableChild.focus()
     event.preventDefault()
   }
 }

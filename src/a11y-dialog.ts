@@ -316,6 +316,8 @@ function trapTabKey(el: HTMLElement, event: KeyboardEvent) {
   // currently focused item is the first one, move the focus to the last
   // focusable item from the dialog element
   if (event.shiftKey && activeElement === firstFocusableChild) {
+    // TypeScript doesn’t play well with `Array.prototype.at`
+    // @ts-ignore
     lastFocusableChild.focus()
     event.preventDefault()
   }
@@ -330,24 +332,20 @@ function trapTabKey(el: HTMLElement, event: KeyboardEvent) {
 }
 
 // Get the active element, accounting for Shadow DOM subtrees.
-// Credit to Cory LaViska for this implementation
+// @author Cory LaViska
 // @see: https://www.abeautifulsite.net/posts/finding-the-active-element-in-a-shadow-root/
 function getActiveElement(
   root: Document | ShadowRoot = document
 ): Element | null {
   const activeEl = root.activeElement
 
-  if (!activeEl) {
-    return null
-  }
+  if (!activeEl) return null
 
-  // If there's a shadow root, recursively look for the active element within it
-  if (activeEl.shadowRoot) {
-    return getActiveElement(activeEl.shadowRoot)
-    // If not, we can just return the active element
-  } else {
-    return activeEl
-  }
+  // If there’s a shadow root, recursively look for the active element within it
+  if (activeEl.shadowRoot) return getActiveElement(activeEl.shadowRoot)
+
+  // If not, we can just return the active element
+  return activeEl
 }
 
 function instantiateDialogs() {

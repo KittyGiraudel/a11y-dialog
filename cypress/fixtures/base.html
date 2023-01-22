@@ -5,25 +5,6 @@
   <meta charset="utf-8">
   <title>Tests — Base</title>
   <link rel="stylesheet" href="../styles.css" />
-  <style>
-    fancy-button.dialog-close::part(root) {
-      background-color: transparent;
-      border: none;
-      color: black;
-      font-weight: bold;
-      padding-inline: 0.25em;
-    }
-    fancy-div {
-      border: 2px solid #005ec2;
-      border-radius: 4px;
-      margin-top: .5em;
-      padding: 0.25em 0.75em;
-    }
-    fancy-div:focus {
-      outline: 2px solid tomato;
-      outline-offset: 2px;
-    }
-  </style>
 </head>
 
 <body>
@@ -36,6 +17,7 @@
     <button class="link-like" data-a11y-dialog-show="shadow-dialog">
       Open the shadow dialog
     </button>
+    <button class="link-like" data-a11y-dialog-show="edge-case-dialog">Open the edge case dialog</button>
   </main>
 
   <div class="dialog" data-a11y-dialog="my-dialog" aria-labelledby="my-dialog-title">
@@ -78,6 +60,29 @@
         </fancy-card>
       </div>
     </div>
+    <div
+      class="dialog"
+      data-a11y-dialog="edge-case-dialog"
+      aria-labelledby="edge-case-dialog-title"
+    >
+      <div class="dialog-overlay" data-a11y-dialog-hide></div>
+      <div class="dialog-content" role="document">
+        <fancy-button
+          data-a11y-dialog-hide
+          id="close-edge-case-dialog"
+          class="dialog-close"
+          aria-label="Close edge case dialog"
+        >
+          &times;
+        </fancy-button>
+
+        <h1 id="edge-case-dialog-title">Dialog with an edge case</h1>
+        <a href="#" class="link-like">A link</a>
+        <fancy-div tabindex="0">
+          I'm a focusable Shadow Dom element, and I'm last in the DOM!
+        </fancy-div>
+      </div>
+    </div>
 
   <div data-a11y-dialog-ignore-focus-trap>
     <button type="button" id="focus-me">Focus me</button>
@@ -89,15 +94,15 @@
       document.querySelector('#focus-me').focus()
     })
 
-    window.customElements.define(
-      'fancy-button',
-      class FancyButton extends HTMLElement {
-        constructor() {
-          super()
-          this.attachShadow({
-            delegatesFocus: true,
-            mode: 'open',
-          }).innerHTML = `
+      window.customElements.define(
+        'fancy-button',
+        class FancyButton extends HTMLElement {
+          constructor() {
+            super()
+            this.attachShadow({
+              delegatesFocus: true,
+              mode: 'open',
+            }).innerHTML = `
     <style>
       *:focus-visible {outline: 2px solid #005ec2; outline-offset: 2px}
       :host { display: inline-block; }
@@ -115,17 +120,17 @@
     </style>
     <button part="root"><slot></slot></button>
   `
+          }
         }
-      }
-    )
-    window.customElements.define(
-      'fancy-card',
-      class MyCard extends HTMLElement {
-        constructor() {
-          super()
-          this.attachShadow({
-            mode: 'open',
-          }).innerHTML = `
+      )
+      window.customElements.define(
+        'fancy-card',
+        class MyCard extends HTMLElement {
+          constructor() {
+            super()
+            this.attachShadow({
+              mode: 'open',
+            }).innerHTML = `
     <style>
       :host  { contain: content; margin-block: 1em; }
       .container {
@@ -146,17 +151,17 @@
       <fancy-button>I'm in the card's Shadow DOM</fancy-button>
     </div>
   `
+          }
         }
-      }
-    )
-    window.customElements.define(
-      'fancy-div',
-      class MyCard extends HTMLElement {
-        constructor() {
-          super()
-          this.attachShadow({
-            mode: 'open',
-          }).innerHTML = `
+      )
+      window.customElements.define(
+        'fancy-div',
+        class MyCard extends HTMLElement {
+          constructor() {
+            super()
+            this.attachShadow({
+              mode: 'open',
+            }).innerHTML = `
     <style>
       :host { contain: content; display: inline-block; }
     </style>
@@ -164,9 +169,9 @@
       <slot></slot>
     </span>
   `
+          }
         }
-      }
-    )
+      )
   </script>
 </body>
 

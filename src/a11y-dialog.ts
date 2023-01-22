@@ -324,10 +324,31 @@ function trapTabKey(el: HTMLElement, event: KeyboardEvent) {
   // dialog element
   else if (
     !event.shiftKey &&
-    focusedItemIndex === focusableChildren.length - 1
+		event.target === focusableChildren[focusableChildren.length - 1]
   ) {
     focusableChildren[0].focus()
     event.preventDefault()
+  }
+}
+
+// Get the active element, accounting for Shadow DOM subtrees.
+// Credit to Cory LaViska for this inmplementation
+// @see: https://www.abeautifulsite.net/posts/finding-the-active-element-in-a-shadow-root/
+function getDeepActiveElement(
+  root: Document | ShadowRoot = document
+): Element | null {
+  const activeEl = root.activeElement
+
+  if (!activeEl) {
+    return null
+  }
+
+  // If there's a shadow root, recursively look for the active element within it
+  if (activeEl.shadowRoot) {
+    return getDeepActiveElement(activeEl.shadowRoot)
+    // If not, we can just return the active element
+  } else {
+    return activeEl
   }
 }
 

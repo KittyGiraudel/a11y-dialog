@@ -46,10 +46,18 @@ describe('Instance', { testIsolation: false }, () => {
       },
       showManual: event => {
         // When manually showing the dialog, event details should contain the
-        // opener.
-        expect(event.detail.target.getAttribute('data-a11y-dialog-show')).to.eq(
-          'my-dialog'
-        )
+        // element that was interacted with. Important to note that the `target`
+        // is the element that was *interacted with*, which is not always the
+        // element with the `data-a11y-dialog-show` attribute (which could be an
+        // ancestor).
+        const target = event.detail.target
+
+        expect(target.getAttribute('data-testid')).to.eq('inside-span')
+        expect(
+          target
+            .closest('[data-a11y-dialog-show]')
+            .getAttribute('data-a11y-dialog-show')
+        ).to.eq('my-dialog')
         expect(event.target.id).to.eq('my-dialog')
       },
       hide: event => {

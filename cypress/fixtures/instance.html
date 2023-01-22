@@ -10,7 +10,10 @@
 <body>
   <main>
     <h1>Tests — Instance</h1>
-    <button class="link-like" data-a11y-dialog-show="my-dialog">Open the dialog window</button>
+    <button class="link-like" data-a11y-dialog-show="my-dialog">
+      <!-- Insert a needless span here to make sure delegated clicks work -->
+      <span data-testid="inside-span">Open the dialog window</span>
+    </button>
   </main>
 
   <div class="dialog" id="my-dialog" aria-hidden="true" aria-labelledby="my-dialog-title">

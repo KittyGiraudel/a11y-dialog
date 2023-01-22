@@ -52,7 +52,7 @@ export default class A11yDialog {
 
     // Keep a reference to the currently focused element to be able to restore
     // it later
-    this.previouslyFocused = getDeepActiveElement() as HTMLElement
+    this.previouslyFocused = getActiveElement() as HTMLElement
     this.shown = true
     this.$el.removeAttribute('aria-hidden')
 
@@ -310,7 +310,7 @@ function trapTabKey(el: HTMLElement, event: KeyboardEvent) {
   const firstFocusableChild = focusableChildren[0]
   const lastFocusableChild = focusableChildren[focusableChildren.length - 1]
 
-  const activeElement = getDeepActiveElement()
+  const activeElement = getActiveElement()
 
   // If the SHIFT key is pressed while tabbing (moving backwards) and the
   // currently focused item is the first one, move the focus to the last
@@ -330,9 +330,9 @@ function trapTabKey(el: HTMLElement, event: KeyboardEvent) {
 }
 
 // Get the active element, accounting for Shadow DOM subtrees.
-// Credit to Cory LaViska for this inmplementation
+// Credit to Cory LaViska for this implementation
 // @see: https://www.abeautifulsite.net/posts/finding-the-active-element-in-a-shadow-root/
-function getDeepActiveElement(
+function getActiveElement(
   root: Document | ShadowRoot = document
 ): Element | null {
   const activeEl = root.activeElement
@@ -343,7 +343,7 @@ function getDeepActiveElement(
 
   // If there's a shadow root, recursively look for the active element within it
   if (activeEl.shadowRoot) {
-    return getDeepActiveElement(activeEl.shadowRoot)
+    return getActiveElement(activeEl.shadowRoot)
     // If not, we can just return the active element
   } else {
     return activeEl

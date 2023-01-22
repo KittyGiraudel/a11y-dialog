@@ -3,7 +3,10 @@ title: Migrating to v8
 slug: /migrating-to-v8
 ---
 
-Version 8 should be backward compatible with version 7 for the most part so the required changes should be minor if anything.
+import Tabs from '@theme/Tabs';  
+import TabItem from '@theme/TabItem';
+
+Version 8 should be backward compatible with version 7 **for the most part** so the required changes should be minor if anything.
 
 ## Internet Explorer support
 
@@ -21,11 +24,15 @@ Events used to be handled with a tiny home made event system. Instead, they now 
 
 While the `on` and `off` methods remain, the callback signature has changed. First, it no longer receive the dialog element, and secondly the event itself is different than it used to be since it’s now a `CustomEvent`. This goes for all event types.
 
+<Tabs>
+  <TabItem value="js-events" label="JS Events">
+
 **Before (version 7):**
 
 ```js
 // Version 7
-dialog.on('show', function (element, event) {
+dialog.on('show', function (container, event) {
+  const target = event.target
   const opener = event.currentTarget
 })
 ```
@@ -35,9 +42,45 @@ dialog.on('show', function (element, event) {
 ```js
 // Version 8
 dialog.on('show', function (event) {
+  // `event.target` contains the dialog container, since it’s where we dispatch
+  // the custom event from.
+  const container = event.target
+  // `event.detail.target` contains the interacted-with element, which may be a
+  // child of the actual dialog opener.
+  const target = event.detail.target
+  // The opener itself is not stored anywhere and needs to be retrieved with
+  // `.closest(..)`.
+  const opener = target.closest('[data-a11y-dialog-show]')
+})
+```
+
+  </TabItem>
+  <TabItem value="dom-events" label="DOM Events">
+
+```js
+// Version 7
+container.addEventListener('show', function (event) {
+  const container = event.target
+  const target = event.detail.target
   const opener = event.detail.currentTarget
 })
 ```
+
+**After (version 8):**
+
+```js
+// Version 8
+container.addEventListener('show', function (event) {
+  const container = event.target
+  const target = event.detail.target
+  const opener = target.closest('[data-a11y-dialog-show]')
+})
+```
+
+  </TabItem>
+</Tabs>
+
+Refer to the documentation on [events](./advanced.events.md) for more information about listening to dialog events.
 
 ### No more `create` event
 

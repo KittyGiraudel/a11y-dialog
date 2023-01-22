@@ -308,7 +308,7 @@ function isFocusable(el: HTMLElement) {
 function trapTabKey(el: HTMLElement, event: KeyboardEvent) {
   const focusableChildren = getFocusableChildren(el)
   const firstFocusableChild = focusableChildren[0]
-  const lastFocusableChild = focusableChildren[focusableChildren.length - 1]
+  const lastFocusableChild = focusableChildren.at(-1)
 
   const activeElement = getActiveElement()
 

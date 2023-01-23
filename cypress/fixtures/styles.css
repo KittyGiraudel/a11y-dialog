@@ -118,10 +118,16 @@
 }
 
 body {
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
   font: 125% / 1.5 -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
     sans-serif;
+  gap: 1em;
   padding: 2em 0;
 }
+
+
 
 h1 {
   font-size: 1.6em;
@@ -149,6 +155,24 @@ a:active {
   color: #e50050;
 }
 
+fancy-button.dialog-close::part(root) {
+  background-color: transparent;
+  border: none;
+  color: black;
+  font-weight: bold;
+  padding-inline: 0.25em;
+}
+fancy-div {
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  margin-top: 0.5em;
+  padding: 0.25em 0.75em;
+}
+fancy-div:focus {
+  outline: 2px solid tomato;
+  outline-offset: 2px;
+}
+
 /* -------------------------------------------------------------------------- *\
  * Helpers
  * -------------------------------------------------------------------------- */
@@ -168,9 +192,13 @@ a:active {
  * -------------------------------------------------------------------------- */
 
 main {
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 0 1em;
+  align-items: flex-start;
+  display: flex;
+	flex-basis: 100%;
+  flex-direction: column;
+  gap: 0.5em;
+	margin: 0;
+	padding: 0 1em;
 }
 
 footer {

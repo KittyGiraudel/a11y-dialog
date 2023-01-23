@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Tests — Base</title>
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+
+<body>
+  <main>
+    <h1>Tests — Base</h1>
+    <button class="link-like" data-a11y-dialog-show="my-dialog">
+      <!-- Insert a needless span here to make sure delegated clicks work -->
+      <span>Open the dialog window</span>
+    </button>
+    <button class="link-like" data-a11y-dialog-show="shadow-dialog">
+      Open the shadow dialog
+    </button>
+    <button class="link-like" data-a11y-dialog-show="focusable-shadow-host-dialog">Open the focusable shadow host
+      dialog</button>
+  </main>
+
+  <div class="dialog" data-a11y-dialog="my-dialog" aria-labelledby="my-dialog-title">
+    <div class="dialog-overlay" data-a11y-dialog-hide></div>
+    <div class="dialog-content" role="document">
+      <button data-a11y-dialog-hide id="close-my-dialog" class="dialog-close"
+        aria-label="Close this dialog window">&times;</button>
+
+      <h1 id="my-dialog-title">Dialog title</h1>
+
+      <form>
+        <label for="email">Email (required)</label>
+        <input type="email" name="EMAIL" id="email" placeholder="john.doe@gmail.com" required>
+        <button type="submit" name="button">Sign up</button>
+      </form>
+
+      <button type="button" id="move-focus-outside">Move focus outside</button>
+    </div>
+  </div>
+  <div class="dialog" data-a11y-dialog="shadow-dialog" aria-labelledby="shadow-dialog-title">
+    <div class="dialog-overlay" data-a11y-dialog-hide></div>
+    <div class="dialog-content" role="document">
+      <fancy-button data-a11y-dialog-hide id="close-shadow-dialog" class="dialog-close"
+        aria-label="Close shadow dialog">
+        &times;
+      </fancy-button>
+
+      <h1 id="shadow-dialog-title">Dialog with shadow children</h1>
+      <fancy-card>
+        <h2 style="margin-block-start: 0">A fancy card</h2>
+        <p>I'm Light DOM text</p>
+        <a href="#" class="link-like">I'm a Light Dom link</a>
+      </fancy-card>
+    </div>
+  </div>
+  <div class="dialog" data-a11y-dialog="focusable-shadow-host-dialog"
+    aria-labelledby="focusable-shadow-host-dialog-title">
+    <div class="dialog-overlay" data-a11y-dialog-hide></div>
+    <div class="dialog-content" role="document">
+      <fancy-button data-a11y-dialog-hide id="close-focusable-shadow-host-dialog" class="dialog-close"
+        aria-label="Close focusable shadow host dialog">
+        &times;
+      </fancy-button>
+
+      <h1 id="focusable-shadow-host-dialog-title">Dialog with an focusable shadow host</h1>
+      <a href="#" class="link-like">A link</a>
+      <fancy-div tabindex="0">
+        I'm a focusable Shadow Dom element, and I'm last in the DOM!
+      </fancy-div>
+    </div>
+  </div>
+
+  <div data-a11y-dialog-ignore-focus-trap>
+    <button type="button" id="focus-me">Focus me</button>
+  </div>
+
+  <script src="./a11y-dialog.js"></script>
+  <script>
+    document.querySelector('#move-focus-outside').addEventListener('click', () => {
+      document.querySelector('#focus-me').focus()
+    })
+
+    window.customElements.define(
+      'fancy-button',
+      class FancyButton extends HTMLElement {
+        constructor() {
+          super()
+          this.attachShadow({
+            delegatesFocus: true,
+            mode: 'open',
+          }).innerHTML = `
+    <style>
+      *:focus-visible {outline: 2px solid #005ec2; outline-offset: 2px}
+      :host { display: inline-block; }
+      button {
+        appareance: none;
+        border: 2px solid #005ec2;
+        border-radius: 4px;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+        display: inline-block;
+        font-size: inherit;
+        padding: 0.25em 0.75em;
+      }
+    </style>
+    <button part="root"><slot></slot></button>
+  `
+        }
+      }
+    )
+    window.customElements.define(
+      'fancy-card',
+      class MyCard extends HTMLElement {
+        constructor() {
+          super()
+          this.attachShadow({
+            mode: 'open',
+          }).innerHTML = `
+    <style>
+      :host  { contain: content; margin-block: 1em; }
+      .container {
+        background-color: aliceblue;
+        border: 1px solid skyblue;
+        border-radius: 4px;
+        display: flex;
+        flex-direction: column;
+        margin-top: 1em;
+        padding: 0.5em;
+      }
+      .container > * + * { margin-top: 1em; }
+      a { display: inline-block }
+      p { margin: 0 }
+    </style>
+    <div class="container">
+      <slot></slot>
+      <fancy-button>I'm in the card's Shadow DOM</fancy-button>
+    </div>
+  `
+        }
+      }
+    )
+    window.customElements.define(
+      'fancy-div',
+      class MyCard extends HTMLElement {
+        constructor() {
+          super()
+          this.attachShadow({
+            mode: 'open',
+          }).innerHTML = `
+    <style>
+      :host { contain: content; display: inline-block; }
+    </style>
+    <div>
+      <slot></slot>
+    </div>
+  `
+        }
+      }
+    )
+  </script>
+</body>
+
+</html>

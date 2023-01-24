@@ -53,15 +53,6 @@ function findFocusableElement(
     return null
   }
 
-  // If we're walking forward, descend starting at the first child;
-  // otherwise, start at the last child.
-  const descentPoint = forward ? 'firstElementChild' : 'lastElementChild'
-  // If we're walking forward, traverse siblings using nextElementSibling;
-  // otherwise, use previousElementSibling.
-  const siblingDirection = forward
-    ? 'nextElementSibling'
-    : 'previousElementSibling'
-
   // Start walking the DOM tree, looking for focusable elements.
   // If we find one, return it immediately.
 
@@ -69,13 +60,15 @@ function findFocusableElement(
   if (node.shadowRoot) {
     let shadowRoot = node.shadowRoot
     // Descend into this subtree.
-    let child = shadowRoot[descentPoint]
+    let child = forward
+      ? shadowRoot.firstElementChild
+      : shadowRoot.lastElementChild
     // Traverse siblings, searching the subtree of each one
     // for focusable elements.
     while (child) {
       const focusableEl = findFocusableElement(child as HTMLElement, forward)
       if (focusableEl) return focusableEl
-      child = child[siblingDirection]
+      child = forward ? child.nextElementSibling : child.previousElementSibling
     }
     // Case 2: If this node is a slot for a Custom Element,
     // search its assigned nodes recursively.
@@ -91,13 +84,13 @@ function findFocusableElement(
     // Case 3: this is a regular Light DOM node. Search its subtree.
   } else {
     // Descend into this subtree.
-    let child = node[descentPoint]
+    let child = forward ? node.firstElementChild : node.lastElementChild
     // Traverse siblings, searching the subtree of each one
     // for focusable elements.
     while (child) {
       const focusableEl = findFocusableElement(child as HTMLElement, forward)
       if (focusableEl) return focusableEl
-      child = child[siblingDirection]
+      child = forward ? child.nextElementSibling : child.previousElementSibling
     }
   }
 

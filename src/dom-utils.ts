@@ -111,10 +111,10 @@ export function isFocusable(el: HTMLElement) {
 }
 
 function canHaveFocusableChildren(el: HTMLElement) {
-  return !!(
+  return !(
     el.matches(
       '[hidden],[inert],:disabled,[aria-hidden="true"],[aria-disabled="true"]'
-    ) || !el.matches(PRESENTATIONAL_CHILDREN_SELECTOR)
+    ) && el.matches(PRESENTATIONAL_CHILDREN_SELECTOR)
   )
 }
 

@@ -56,7 +56,8 @@ export default class A11yDialog {
 
     // Keep a reference to the currently focused element to be able to restore
     // it later
-    this.previouslyFocused = getActiveElement() as HTMLElement
+    this.previouslyFocused =
+      (getActiveElement() as HTMLElement) || document.activeElement
     this.shown = true
     this.$el.removeAttribute('aria-hidden')
 

@@ -27,55 +27,58 @@ export function moveFocusToDialog(el: HTMLElement) {
   focused.focus()
 }
 
-/**
- * Get focusable children by recursively traversing the subtree of the given
- * element, while accounting for Shadow DOM subtrees
- */
-export function getFocusableChildren(el: ParentNode): HTMLElement[] {
-  // Check for the base case of our recursion
-  if (el instanceof HTMLElement) {
-    // If this element is marked as inert, neither it nor any member of its
-    // subtree will be focusable, therefore there are no focusable children
-    if (el.inert) return []
+// Get the first and last focusable elements in a given subtree
+export function getFirstAndLastFocusableChild(el: HTMLElement) {
+  const first = findFocusableChild(el)
+  let last = null
+  if (first !== null) {
+    last = findFocusableChild(el, false) || first
+  }
+  return [first, last]
+}
 
-    // If this element has no children or if it nullifies its children’s
-    // semantics, there are no focusable children
-    if (!el.firstElementChild || el.matches(PRESENTATIONAL_CHILDREN_SELECTOR)) {
-      // If the element itself is focusable, return it otherwise return nothing
-      return isFocusable(el) ? [el] : []
+function findFocusableChild(
+  node: HTMLElement,
+  forward: boolean = true
+): HTMLElement | null {
+  if (forward && isFocusable(node)) return node
+
+  if (node.shadowRoot) {
+    let shadowRoot: ShadowRoot = node.shadowRoot
+    let child = forward
+      ? shadowRoot.firstElementChild
+      : shadowRoot.lastElementChild
+    let focusableEl: HTMLElement | null = null
+    while (child) {
+      focusableEl = findFocusableChild(child as HTMLElement, forward)
+      if (focusableEl !== null) return focusableEl
+      child = forward ? child.nextElementSibling : child.previousElementSibling
+    }
+  } else if (node?.localName === 'slot') {
+    const assignedElements = [
+      ...(node as HTMLSlotElement).assignedElements({ flatten: true }),
+    ]
+    let focusableEl: HTMLElement | null = null
+    if (!forward) assignedElements.reverse()
+    for (const assignedElement of assignedElements as HTMLElement[]) {
+      focusableEl = findFocusableChild(assignedElement, forward)
+      if (focusableEl !== null) return focusableEl
+    }
+  } else {
+    let child = forward ? node.firstElementChild : node.lastElementChild
+    let focusableEl: HTMLElement | null = null
+    while (child) {
+      focusableEl = findFocusableChild(child as HTMLElement, forward)
+      if (focusableEl !== null) return focusableEl
+      child = forward ? child.nextElementSibling : child.previousElementSibling
     }
   }
 
-  let focusableEls: HTMLElement[] = []
+  // Searching in reverse means we need to go deep first and only return the current element
+  // if we don't find any focusable elements in its subtree.
+  if (!forward && isFocusable(node)) return node
 
-  // Walk all the immediate children of this element (with some type casting
-  // because `el.children` is an `HTMLCollection`)
-  for (const curr of el.children as unknown as HTMLElement[]) {
-    // If this element has a Shadow DOM attached, check the Shadow subtree for
-    // focusable children
-    if (curr.shadowRoot) {
-      focusableEls = focusableEls.concat(getFocusableChildren(curr.shadowRoot))
-    }
-
-    // If this element is a slot, look for any elements assigned to it then
-    // check each of those elements for focusable children
-    else if (curr.localName === 'slot') {
-      const assignedElements = (curr as HTMLSlotElement).assignedElements()
-
-      for (const assignedElement of assignedElements) {
-        focusableEls = focusableEls.concat(
-          getFocusableChildren(assignedElement)
-        )
-      }
-    }
-
-    // Or else check this element’s subtree for focusable children
-    else {
-      focusableEls = focusableEls.concat(getFocusableChildren(curr))
-    }
-  }
-
-  return focusableEls
+  return null
 }
 
 /**

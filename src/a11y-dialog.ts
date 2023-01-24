@@ -1,6 +1,6 @@
 import {
   getActiveElement,
-  getFocusableChildren,
+  getFirstAndLastFocusableChild,
   moveFocusToDialog,
 } from './dom-utils'
 
@@ -221,9 +221,10 @@ function $$(selector: string, context: ParentNode = document): HTMLElement[] {
  * Trap the focus inside the given element
  */
 function trapTabKey(el: HTMLElement, event: KeyboardEvent) {
-  const focusableChildren = getFocusableChildren(el)
-  const firstFocusableChild = focusableChildren[0]
-  const lastFocusableChild = focusableChildren.at(-1)
+  const [firstFocusableChild, lastFocusableChild] =
+    getFirstAndLastFocusableChild(el)
+
+  if (!firstFocusableChild || !lastFocusableChild) return
 
   const activeElement = getActiveElement()
 

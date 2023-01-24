@@ -226,7 +226,7 @@ function trapTabKey(el: HTMLElement, event: KeyboardEvent) {
 
   if (!firstFocusableChild || !lastFocusableChild) return
 
-  const activeElement = getActiveElement()
+  const activeElement = getActiveElement() || document.activeElement
 
   // If the SHIFT key is pressed while tabbing (moving backwards) and the
   // currently focused item is the first one, move the focus to the last

@@ -41,7 +41,17 @@ function findFocusableElement(
   node: HTMLElement,
   forward: boolean
 ): HTMLElement | null {
-  if (forward && isFocusable(node)) return node
+  // If we're walking forward and this node is focusable,
+  // return it immediately.
+  if (forward && isFocusable(node)) {
+    return node
+  }
+
+  // If this node can't have focusable children, we can't go any deeper
+  // regardless of whether we're walking forward or backward.
+  if (!canHaveFocusableChildren(node)) {
+    return null
+  }
 
   const firstChild = forward ? 'firstElementChild' : 'lastElementChild'
   const siblingDirection = forward
@@ -92,6 +102,14 @@ export function isFocusable(el: HTMLElement) {
   return (
     el.matches(focusableSelectors.join(',')) &&
     !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length)
+  )
+}
+
+function canHaveFocusableChildren(el: HTMLElement) {
+  return !!(
+    el.matches(
+      '[hidden],[inert],:disabled,[aria-hidden="true"],[aria-disabled="true"]'
+    ) || !el.matches(PRESENTATIONAL_CHILDREN_SELECTOR)
   )
 }
 

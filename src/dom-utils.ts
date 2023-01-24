@@ -54,11 +54,9 @@ function findFocusableElement(
   }
 
   // Start walking the DOM tree, looking for focusable elements.
-  // If we find one, return it immediately.
-
   // Case 1: If this node has a shadow root, search it recursively.
   if (node.shadowRoot) {
-    let shadowRoot = node.shadowRoot
+    const shadowRoot = node.shadowRoot
     // Descend into this subtree.
     let child = forward
       ? shadowRoot.firstElementChild

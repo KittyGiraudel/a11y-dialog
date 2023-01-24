@@ -1,22 +1,5 @@
 import focusableSelectors from 'focusable-selectors'
 
-// Elements with these ARIA roles make their children `presentational`, which
-// nullifies their semantics
-// @see: https://www.w3.org/TR/wai-aria/
-const PRESENTATIONAL_CHILDREN_SELECTOR = [
-  'a[href]',
-  'button',
-  'img',
-  'summary',
-  '[role="button"]',
-  '[role="image"]',
-  '[role="link"]',
-  '[role="math"]',
-  '[role="presentation"]',
-  '[role="progressbar"]',
-  '[role="scrollbar"]',
-  '[role="slider"]',
-].join(',')
 /**
  * Set the focus to the first element with `autofocus` with the element or the
  * element itself
@@ -117,6 +100,32 @@ export function isFocusable(el: HTMLElement) {
   )
 }
 
+// Elements with these ARIA roles make their children `presentational`, which
+// nullifies their semantics
+// @see: https://www.w3.org/TR/wai-aria/
+const PRESENTATIONAL_CHILDREN_SELECTOR = [
+  'a[href]',
+  'button',
+  'img',
+  'summary',
+  '[role="button"]',
+  '[role="image"]',
+  '[role="link"]',
+  '[role="math"]',
+  '[role="presentation"]',
+  '[role="progressbar"]',
+  '[role="scrollbar"]',
+  '[role="slider"]',
+].join(',')
+
+// Elemments matching these selectors are not available to the user.
+// Neither they nor any of their descentants can ever receive focus.
+const HIDDEN_FROM_USER_SELECTOR =
+  ':disabled,[aria-disabled="true"],[aria-hidden="true"],[hidden],[inert]'
+
+const cannotHaveFocusableChildrenSelector =
+  PRESENTATIONAL_CHILDREN_SELECTOR + ',' + HIDDEN_FROM_USER_SELECTOR
+
 /**
  * Determine if an element can have focusable children. Useful for bailing out
  * early when walking the DOM tree.
@@ -141,11 +150,7 @@ export function isFocusable(el: HTMLElement) {
  * ```
  */
 function canHaveFocusableChildren(el: HTMLElement) {
-  return !(
-    el.matches(
-      '[hidden],[inert],:disabled,[aria-hidden="true"],[aria-disabled="true"]'
-    ) && el.matches(PRESENTATIONAL_CHILDREN_SELECTOR)
-  )
+  return !el.matches(cannotHaveFocusableChildrenSelector)
 }
 
 // Get the active element, accounting for Shadow DOM subtrees.

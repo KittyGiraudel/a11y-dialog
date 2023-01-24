@@ -58,7 +58,6 @@ describe('Focus', { testIsolation: false }, () => {
     cy.get('#close-shadow-dialog').click()
   })
 
-  // @TODO: Currently not working and needs fixing
   it('should properly handle focus when the first or last child is a focusable shadow host', () => {
     cy.get('[data-a11y-dialog-show="focusable-shadow-host-dialog"]').click()
 

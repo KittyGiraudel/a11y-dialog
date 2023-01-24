@@ -28,7 +28,7 @@ export function moveFocusToDialog(el: HTMLElement) {
 }
 
 // Get the first and last focusable elements in a given subtree
-export function getFirstAndLastFocusableChild(el: HTMLElement) {
+export function getFocusableEdges(el: HTMLElement) {
   const first = findFocusableElement(el, true)
   let last = null
   if (first !== null) {

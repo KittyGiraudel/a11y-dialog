@@ -47,8 +47,9 @@ function findFocusableElement(
     return node
   }
 
-  // If this node can't have focusable children, we can't go any deeper
-  // regardless of whether we're walking forward or backward.
+  // If this node can't have focusable children, there's no point
+  // in checking its subtree, even if it it contains nodes that
+  // would otherwise be focusable.
   if (!canHaveFocusableChildren(node)) {
     return null
   }
@@ -116,6 +117,29 @@ export function isFocusable(el: HTMLElement) {
   )
 }
 
+/**
+ * Determine if an element can have focusable children. Useful for bailing out
+ * early when walking the DOM tree.
+ * @example:
+ * The following div is inert, so none of its children can be focused,
+ * even though they meet our criteria for what is focusable.
+ * Once we check the div, we can skip the rest of the subtree.
+ * ```html
+ * <div inert>
+ *   <button>Button</button>
+ *   <a href="#">Link</a>
+ * </div>
+ * ```
+ * This is bad HTML. Links render their children presentaional, so
+ * the nested link has no meaning to the user. We bail out on the
+ * parent link so we don't mistakenly think the nested link is focusable.
+ * ```html
+ * <a href="#">
+ *   Hello,
+ *   <a href="#">world</a>
+ * </a>
+ * ```
+ */
 function canHaveFocusableChildren(el: HTMLElement) {
   return !(
     el.matches(

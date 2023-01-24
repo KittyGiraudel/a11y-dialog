@@ -221,9 +221,11 @@ function $$(selector: string, context: ParentNode = document): HTMLElement[] {
  * Trap the focus inside the given element
  */
 function trapTabKey(el: HTMLElement, event: KeyboardEvent) {
-  const [firstFocusableChild, lastFocusableChild] = getFocusableEdges(el)
+  const [firstFocusableChild, lastFocusableChild] = getFocusableEdges(el)!
 
-  if (!firstFocusableChild || !lastFocusableChild) return
+  // If there are no focusable children in the dialog,
+  // prevent the user from tabbing out of it
+  if (!firstFocusableChild || !lastFocusableChild) return event.preventDefault()
 
   const activeElement = getActiveElement()
 

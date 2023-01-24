@@ -79,9 +79,9 @@ function findFocusableElement(
     }
     // Case 2: If this node is a slot for a Custom Element,
     // search its assigned nodes recursively.
-  } else if (node instanceof HTMLSlotElement) {
+  } else if (node.localName === 'slot') {
     const assignedElements = [
-      ...node.assignedElements({ flatten: true }),
+      ...(node as HTMLSlotElement).assignedElements({ flatten: true }),
     ] as HTMLElement[]
     if (!forward) assignedElements.reverse()
     for (const assignedElement of assignedElements) {

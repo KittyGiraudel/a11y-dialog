@@ -41,8 +41,8 @@ function findFocusableElement(
   node: HTMLElement,
   forward: boolean
 ): HTMLElement | null {
-  // If we're walking forward and this node is focusable,
-  // return it immediately.
+  // If we're walking forward, check if this node is focusable,
+  // and return it immediately if it is.
   if (forward && isFocusable(node)) {
     return node
   }
@@ -53,43 +53,57 @@ function findFocusableElement(
     return null
   }
 
-  const firstChild = forward ? 'firstElementChild' : 'lastElementChild'
+  // If we're walking forward, descend starting at the first child;
+  // otherwise, start at the last child.
+  const descentPoint = forward ? 'firstElementChild' : 'lastElementChild'
+  // If we're walking forward, traverse siblings using nextElementSibling;
+  // otherwise, use previousElementSibling.
   const siblingDirection = forward
     ? 'nextElementSibling'
     : 'previousElementSibling'
 
-  let focusableEl: HTMLElement | null = null
+  // Start walking the DOM tree, looking for focusable elements.
+  // If we find one, return it immediately.
 
+  // Case 1: If this node has a shadow root, search it recursively.
   if (node.shadowRoot) {
-    let shadowRoot: ShadowRoot = node.shadowRoot
-    let child = shadowRoot[firstChild]
-    while (child && !focusableEl) {
-      focusableEl = findFocusableElement(child as HTMLElement, forward)
+    let shadowRoot = node.shadowRoot
+    // Descend into this subtree.
+    let child = shadowRoot[descentPoint]
+    // Traverse siblings, searching the subtree of each one
+    // for focusable elements.
+    while (child) {
+      const focusableEl = findFocusableElement(child as HTMLElement, forward)
+      if (focusableEl) return focusableEl
       child = child[siblingDirection]
     }
+    // Case 2: If this node is a slot for a Custom Element,
+    // search its assigned nodes recursively.
   } else if (node instanceof HTMLSlotElement) {
-    const assignedElements = Array.from(
-      node.assignedElements({ flatten: true })
-    ) as HTMLElement[]
+    const assignedElements = [
+      ...node.assignedElements({ flatten: true }),
+    ] as HTMLElement[]
     if (!forward) assignedElements.reverse()
     for (const assignedElement of assignedElements) {
-      focusableEl = findFocusableElement(assignedElement, forward)
+      const focusableEl = findFocusableElement(assignedElement, forward)
       if (focusableEl) return focusableEl
     }
+    // Case 3: this is a regular Light DOM node. Search its subtree.
   } else {
-    let child = node[firstChild]
-    while (child && !focusableEl) {
-      focusableEl = findFocusableElement(child as HTMLElement, forward)
+    // Descend into this subtree.
+    let child = node[descentPoint]
+    // Traverse siblings, searching the subtree of each one
+    // for focusable elements.
+    while (child) {
+      const focusableEl = findFocusableElement(child as HTMLElement, forward)
+      if (focusableEl) return focusableEl
       child = child[siblingDirection]
     }
   }
 
-  if (focusableEl) {
-    return focusableEl
-  }
-
-  // Searching in reverse means we need to go deep first and only return the current element
-  // if we don't find any focusable elements in its subtree.
+  // If we're walking backward, we want to check the node's entire subtree
+  // before checking the node itself.
+  // If this node is focusable, return it.
   if (!forward && isFocusable(node)) return node
 
   return null

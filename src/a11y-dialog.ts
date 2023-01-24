@@ -56,8 +56,7 @@ export default class A11yDialog {
 
     // Keep a reference to the currently focused element to be able to restore
     // it later
-    this.previouslyFocused =
-      (getActiveElement() as HTMLElement) || document.activeElement
+    this.previouslyFocused = getActiveElement() as HTMLElement
     this.shown = true
     this.$el.removeAttribute('aria-hidden')
 
@@ -227,7 +226,7 @@ function trapTabKey(el: HTMLElement, event: KeyboardEvent) {
 
   if (!firstFocusableChild || !lastFocusableChild) return
 
-  const activeElement = getActiveElement() || document.activeElement
+  const activeElement = getActiveElement()
 
   // If the SHIFT key is pressed while tabbing (moving backwards) and the
   // currently focused item is the first one, move the focus to the last

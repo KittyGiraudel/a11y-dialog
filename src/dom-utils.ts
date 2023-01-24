@@ -29,49 +29,53 @@ export function moveFocusToDialog(el: HTMLElement) {
 
 // Get the first and last focusable elements in a given subtree
 export function getFirstAndLastFocusableChild(el: HTMLElement) {
-  const first = findFocusableChild(el)
+  const first = findFocusableElement(el, true)
   let last = null
   if (first !== null) {
-    last = findFocusableChild(el, false) || first
+    last = findFocusableElement(el, false) || first
   }
   return [first, last]
 }
 
-function findFocusableChild(
+function findFocusableElement(
   node: HTMLElement,
-  forward: boolean = true
+  forward: boolean
 ): HTMLElement | null {
   if (forward && isFocusable(node)) return node
 
+  const firstChild = forward ? 'firstElementChild' : 'lastElementChild'
+  const siblingDirection = forward
+    ? 'nextElementSibling'
+    : 'previousElementSibling'
+
+  let focusableEl: HTMLElement | null = null
+
   if (node.shadowRoot) {
     let shadowRoot: ShadowRoot = node.shadowRoot
-    let child = forward
-      ? shadowRoot.firstElementChild
-      : shadowRoot.lastElementChild
-    let focusableEl: HTMLElement | null = null
-    while (child) {
-      focusableEl = findFocusableChild(child as HTMLElement, forward)
-      if (focusableEl !== null) return focusableEl
-      child = forward ? child.nextElementSibling : child.previousElementSibling
+    let child = shadowRoot[firstChild]
+    while (child && !focusableEl) {
+      focusableEl = findFocusableElement(child as HTMLElement, forward)
+      child = child[siblingDirection]
     }
-  } else if (node?.localName === 'slot') {
-    const assignedElements = [
-      ...(node as HTMLSlotElement).assignedElements({ flatten: true }),
-    ]
-    let focusableEl: HTMLElement | null = null
+  } else if (node instanceof HTMLSlotElement) {
+    const assignedElements = Array.from(
+      node.assignedElements({ flatten: true })
+    ) as HTMLElement[]
     if (!forward) assignedElements.reverse()
-    for (const assignedElement of assignedElements as HTMLElement[]) {
-      focusableEl = findFocusableChild(assignedElement, forward)
-      if (focusableEl !== null) return focusableEl
+    for (const assignedElement of assignedElements) {
+      focusableEl = findFocusableElement(assignedElement, forward)
+      if (focusableEl) return focusableEl
     }
   } else {
-    let child = forward ? node.firstElementChild : node.lastElementChild
-    let focusableEl: HTMLElement | null = null
-    while (child) {
-      focusableEl = findFocusableChild(child as HTMLElement, forward)
-      if (focusableEl !== null) return focusableEl
-      child = forward ? child.nextElementSibling : child.previousElementSibling
+    let child = node[firstChild]
+    while (child && !focusableEl) {
+      focusableEl = findFocusableElement(child as HTMLElement, forward)
+      child = child[siblingDirection]
     }
+  }
+
+  if (focusableEl) {
+    return focusableEl
   }
 
   // Searching in reverse means we need to go deep first and only return the current element

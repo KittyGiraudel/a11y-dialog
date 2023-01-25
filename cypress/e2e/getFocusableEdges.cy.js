@@ -31,4 +31,13 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
       expect(focusableEdges[1]).to.be.null
     })
   })
+  it('Should return Shadow DOM elements', () => {
+    cy.get('#shadow-dom-two-els').then(container => {
+      const focusableEdges = getFocusableEdges(container[0])
+
+      expect(focusableEdges).to.have.length(2)
+      expect(focusableEdges[0]).to.not.be.null
+      expect(focusableEdges[1]).to.not.be.null
+    })
+  })
 })

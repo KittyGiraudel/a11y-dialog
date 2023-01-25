@@ -225,7 +225,7 @@ function trapTabKey(el: HTMLElement, event: KeyboardEvent) {
 
   // If there are no focusable children in the dialog,
   // prevent the user from tabbing out of it
-  if (!firstFocusableChild || !lastFocusableChild) return event.preventDefault()
+  if (!firstFocusableChild) return event.preventDefault()
 
   const activeElement = getActiveElement()
 

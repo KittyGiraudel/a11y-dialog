@@ -16,9 +16,9 @@ export function getFocusableEdges(el: HTMLElement) {
   const first = findFocusableElement(el, true)
   let last = null
   // Only if we find the first element do we need to look for the last one.
-  // If there's no last element, element, we set `last` as a reference
+  // If there's no last element, we set `last` as a reference
   // to `first` so that the returned array is always of length 2.
-  if (first !== null) {
+  if (first) {
     last = findFocusableElement(el, false) || first
   }
   return [first, last] as const
@@ -34,8 +34,8 @@ function findFocusableElement(
     return node
   }
 
-  // If this node can't have focusable children, there's no point
-  // in walking its subtree.
+  // We should only search the subtree of this node
+  // if it can have focusable children.
   if (canHaveFocusableChildren(node)) {
     // Start walking the DOM tree, looking for focusable elements.
     // Case 1: If this node has a shadow root, search it recursively.

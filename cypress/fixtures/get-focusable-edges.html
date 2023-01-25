@@ -42,6 +42,19 @@
         <h2>Node with a focusable Shadow DOM host</h2>
         <fancy-div tabindex="1">I'm a focusable Shadow DOM host!</fancy-div>
       </div>
+      <div id="inert-children">
+        <h2>Node with inert children</h2>
+        <div inert>
+          <button class="link-like">Hellaur</button>
+        </div>
+        <button disabled>Goodbye</button>
+      </div>
+      <div id="hidden-children">
+        <h2>Node with hidden children 2</h2>
+        <div hidden>
+          <button class="link-like">Hellaur</button>
+        </div>
+      </div>
     </main>
     <script>
       window.customElements.define(

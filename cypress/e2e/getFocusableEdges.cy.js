@@ -58,4 +58,23 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
       expect(focusableEdges[1]).to.not.be.null
     })
   })
+  it('should ignore nodes in unfocusable subtrees', () => {
+    cy.get('#inert-children').then(container => {
+      const focusableEdges = getFocusableEdges(container[0])
+
+      expect(focusableEdges).to.have.length(2)
+      // The child of the inert div
+      expect(focusableEdges[0]).to.be.null
+      // The individially disabled button
+      expect(focusableEdges[1]).to.be.null
+    })
+    cy.get('#hidden-children').then(container => {
+      const focusableEdges = getFocusableEdges(container[0])
+
+      // The only focusable element is the child of a hidden div
+      expect(focusableEdges).to.have.length(2)
+      expect(focusableEdges[0]).to.be.null
+      expect(focusableEdges[1]).to.be.null
+    })
+  })
 })

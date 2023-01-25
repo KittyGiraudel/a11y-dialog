@@ -12,7 +12,7 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
       expect(focusableEdges[1]).to.not.be.null
     })
   })
-  it('Should return the same element twice if there is only one focusable element', () => {
+  it('should return the same element twice if there is only one focusable element', () => {
     cy.get('#light-dom-one-el').then(container => {
       const focusableEdges = getFocusableEdges(container[0])
 
@@ -22,7 +22,7 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
       expect(focusableEdges[0]).to.equal(focusableEdges[1])
     })
   })
-  it('Should return null if there are no focusable elements', () => {
+  it('should return [null, null] if there are no focusable elements', () => {
     cy.get('#light-dom-no-els').then(container => {
       const focusableEdges = getFocusableEdges(container[0])
 
@@ -31,7 +31,7 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
       expect(focusableEdges[1]).to.be.null
     })
   })
-  it('Should return Shadow DOM elements', () => {
+  it('should return Shadow DOM elements', () => {
     cy.get('#shadow-dom-two-els').then(container => {
       const focusableEdges = getFocusableEdges(container[0])
 

@@ -40,4 +40,13 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
       expect(focusableEdges[1]).to.not.be.null
     })
   })
+  it('should return elements nested in Shadow DOM subtrees', () => {
+    cy.get('#shadow-dom-nested').then(container => {
+      const focusableEdges = getFocusableEdges(container[0])
+
+      expect(focusableEdges).to.have.length(2)
+      expect(focusableEdges[0]).to.not.be.null
+      expect(focusableEdges[1]).to.not.be.null
+    })
+  })
 })

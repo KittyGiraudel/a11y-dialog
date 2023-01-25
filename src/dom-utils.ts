@@ -119,7 +119,8 @@ const PRESENTATIONAL_CHILDREN_SELECTOR = [
   '[role="slider"]',
 ].join(',')
 
-// Elemments matching these selectors are not available to the user.
+// Elemments matching these selectors are either hidden entirely from the user,
+// or are visible but unavailable for interaction.
 // Neither they nor any of their descentants can ever receive focus.
 const HIDDEN_FROM_USER_SELECTOR =
   ':disabled,[aria-disabled="true"],[aria-hidden="true"],[hidden],[inert]'
@@ -140,9 +141,9 @@ const cannotHaveFocusableChildrenSelector =
  *   <a href="#">Link</a>
  * </div>
  * ```
- * This is bad HTML. Links render their children presentaional, so
- * the nested link has no meaning to the user. We bail out on the
- * parent link so we don't mistakenly think the nested link is focusable.
+ * This is bad HTML. Links make their children presentaional, so
+ * the nested link is not available to the user. We bail out on the
+ * parent link so we don't mistakenly consider the nested link focusable.
  * ```html
  * <a href="#">
  *   Hello,

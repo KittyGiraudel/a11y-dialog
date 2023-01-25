@@ -101,38 +101,12 @@ export function isFocusable(el: HTMLElement) {
   )
 }
 
-// Elements with these ARIA roles make their children `presentational`, which
-// nullifies their semantics
-// @see: https://www.w3.org/TR/wai-aria/
-const PRESENTATIONAL_CHILDREN_SELECTOR = [
-  'a[href]',
-  'button',
-  'img',
-  'summary',
-  '[role="button"]',
-  '[role="image"]',
-  '[role="link"]',
-  '[role="math"]',
-  '[role="presentation"]',
-  '[role="progressbar"]',
-  '[role="scrollbar"]',
-  '[role="slider"]',
-].join(',')
-
-// Elemments matching these selectors are either hidden entirely from the user,
-// or are visible but unavailable for interaction.
-// Neither they nor any of their descentants can ever receive focus.
-const HIDDEN_FROM_USER_SELECTOR =
-  ':disabled,[aria-disabled="true"],[aria-hidden="true"],[hidden],[inert]'
-
-const cannotHaveFocusableChildrenSelector =
-  PRESENTATIONAL_CHILDREN_SELECTOR + ',' + HIDDEN_FROM_USER_SELECTOR
-
 /**
  * Determine if an element can have focusable children. Useful for bailing out
- * early when walking the DOM tree.
- * @example:
- * The following div is inert, so none of its children can be focused,
+ * early when walking the DOM tree. Note: while this check has some overlap with
+ * `isFocusable`, its goal is to bail on an entire subtree, so it has to happen * at a different time.
+ * @example
+ * This div is inert, so none of its children can be focused,
  * even though they meet our criteria for what is focusable.
  * Once we check the div, we can skip the rest of the subtree.
  * ```html
@@ -141,18 +115,12 @@ const cannotHaveFocusableChildrenSelector =
  *   <a href="#">Link</a>
  * </div>
  * ```
- * This is bad HTML. Links make their children presentaional, so
- * the nested link is not available to the user. We bail out on the
- * parent link so we don't mistakenly consider the nested link focusable.
- * ```html
- * <a href="#">
- *   Hello,
- *   <a href="#">world</a>
- * </a>
- * ```
  */
 function canHaveFocusableChildren(el: HTMLElement) {
-  return !el.matches(cannotHaveFocusableChildrenSelector)
+  // Elemments matching this selector are either hidden entirely
+  //from the user, or are visible but unavailable for interaction.
+  // Their descentants can never receive focus.
+  return !el.matches(':disabled,[hidden],[inert]')
 }
 
 // Get the active element, accounting for Shadow DOM subtrees.

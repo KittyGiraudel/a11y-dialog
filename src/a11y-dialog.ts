@@ -1,8 +1,4 @@
-import {
-  getActiveElement,
-  getFocusableEdges,
-  moveFocusToDialog,
-} from './dom-utils'
+import { getActiveElement, moveFocusToDialog, trapTabKey } from './dom-utils'
 
 export type A11yDialogEvent = 'show' | 'hide' | 'destroy'
 export type A11yDialogInstance = InstanceType<typeof A11yDialog>
@@ -206,64 +202,5 @@ export default class A11yDialog {
     ) {
       moveFocusToDialog(this.$el)
     }
-  }
-}
-
-/**
- * Query the DOM for elements matching the given selector, scoped to context (or
- * the whole document)
- */
-function $$(selector: string, context: ParentNode = document): HTMLElement[] {
-  return Array.prototype.slice.call(context.querySelectorAll(selector))
-}
-
-/**
- * Trap the focus inside the given element
- */
-function trapTabKey(el: HTMLElement, event: KeyboardEvent) {
-  const [firstFocusableChild, lastFocusableChild] = getFocusableEdges(el)
-
-  // If there are no focusable children in the dialog,
-  // prevent the user from tabbing out of it
-  if (!firstFocusableChild) return event.preventDefault()
-
-  const activeElement = getActiveElement()
-
-  // If the SHIFT key is pressed while tabbing (moving backwards) and the
-  // currently focused item is the first one, move the focus to the last
-  // focusable item from the dialog element
-  if (event.shiftKey && activeElement === firstFocusableChild) {
-    // TypeScript doesn’t play well with `Array.prototype.at`
-    // @ts-ignore
-    lastFocusableChild.focus()
-    event.preventDefault()
-  }
-
-  // If the SHIFT key is not pressed (moving forwards) and the currently focused
-  // item is the last one, move the focus to the first focusable item from the
-  // dialog element
-  else if (!event.shiftKey && activeElement === lastFocusableChild) {
-    firstFocusableChild.focus()
-    event.preventDefault()
-  }
-}
-
-function instantiateDialogs() {
-  $$('[data-a11y-dialog]').forEach(el => new A11yDialog(el))
-}
-
-if (typeof document !== 'undefined') {
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', instantiateDialogs)
-  } else {
-    instantiateDialogs()
-  }
-}
-
-// TypeScript doesn’t know about the `inert` attribute/property yet; this
-// declaration extends the `HTMLElement` interface to include it
-declare global {
-  interface HTMLElement {
-    inert: boolean
   }
 }

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Tests — Base</title>
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+
+<body>
+  <main>
+    <h1>Tests — <code>getFocusableEdges()</code></h1>
+    <div id="light-dom-two-els">
+      <h2>Node with two focusable Light DOM element children</h2>
+      <button id="start">Start</button>
+      <a href="#">End</a>
+    </div>
+    <div id="light-dom-one-el">
+      <h2>Node with one focusable Light DOM element child</h2>
+      <button id="start">Start</button>
+    </div>
+    <div id="light-dom-no-els">
+      <h2>Node with no focusable element children</h2>
+    <script>
+      window.customElements.define(
+        'fancy-button',
+        class FancyButton extends HTMLElement {
+          constructor() {
+            super()
+            this.attachShadow({
+              delegatesFocus: true,
+              mode: 'open',
+            }).innerHTML = `
+  <style>
+    *:focus-visible {outline: 2px solid #005ec2; outline-offset: 2px}
+    :host { display: inline-block; }
+    button {
+      appareance: none;
+      border: 2px solid #005ec2;
+      border-radius: 4px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      display: inline-block;
+      font-size: inherit;
+      padding: 0.25em 0.75em;
+    }
+  </style>
+  <button part="root"><slot></slot></button>
+`
+          }
+        }
+      )
+      window.customElements.define(
+        'fancy-card',
+        class MyCard extends HTMLElement {
+          constructor() {
+            super()
+            this.attachShadow({
+              mode: 'open',
+            }).innerHTML = `
+  <style>
+    :host  { contain: content; margin-block: 1em; }
+    .container {
+      background-color: aliceblue;
+      border: 1px solid skyblue;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      margin-top: 1em;
+      padding: 0.5em;
+    }
+    .container > * + * { margin-top: 1em; }
+    a { display: inline-block }
+    p { margin: 0 }
+  </style>
+  <div class="container">
+    <slot></slot>
+    <fancy-button>I'm in the card's Shadow DOM</fancy-button>
+  </div>
+`
+          }
+        }
+      )
+      window.customElements.define(
+        'fancy-div',
+        class MyCard extends HTMLElement {
+          constructor() {
+            super()
+            this.attachShadow({
+              mode: 'open',
+            }).innerHTML = `
+  <style>
+    :host { contain: content; display: inline-block; }
+  </style>
+  <div>
+    <slot></slot>
+  </div>
+`
+          }
+        }
+      )
+    </script>
+</body>
+
+</html>

@@ -1,26 +1,27 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Tests — Base</title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
 
-<head>
-  <meta charset="utf-8">
-  <title>Tests — Base</title>
-  <link rel="stylesheet" href="../styles.css" />
-</head>
-
-<body>
-  <main>
-    <h1>Tests — <code>getFocusableEdges()</code></h1>
-    <div id="light-dom-two-els">
-      <h2>Node with two focusable Light DOM element children</h2>
-      <button id="start">Start</button>
-      <a href="#">End</a>
-    </div>
-    <div id="light-dom-one-el">
-      <h2>Node with one focusable Light DOM element child</h2>
-      <button id="start">Start</button>
-    </div>
-    <div id="light-dom-no-els">
-      <h2>Node with no focusable element children</h2>
+  <body>
+    <main>
+      <h1>Tests — <code>getFocusableEdges()</code></h1>
+      <div id="light-dom-two-els">
+        <h2>Node with two focusable Light DOM element children</h2>
+        <button id="start">Start</button>
+        <a href="#">End</a>
+      </div>
+      <div id="light-dom-one-el">
+        <h2>Node with one focusable Light DOM element child</h2>
+        <button id="start">Start</button>
+      </div>
+      <div id="light-dom-no-els">
+        <h2>Node with no focusable element children</h2>
+      </div>
+    </main>
     <script>
       window.customElements.define(
         'fancy-button',
@@ -101,6 +102,5 @@
         }
       )
     </script>
-</body>
-
+  </body>
 </html>

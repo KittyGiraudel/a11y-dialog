@@ -22,7 +22,7 @@ const umdCfg = {
 
 export default [
   {
-    input: 'src/a11y-dialog.ts',
+    input: 'src/index.ts',
     plugins: plugins,
     output: [
       {
@@ -41,7 +41,7 @@ export default [
     ],
   },
   {
-    input: 'src/a11y-dialog.ts',
+    input: 'src/index.ts',
     plugins: plugins,
     output: [
       {

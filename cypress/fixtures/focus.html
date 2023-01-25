@@ -5,6 +5,13 @@
   <meta charset="utf-8">
   <title>Tests — Base</title>
   <link rel="stylesheet" href="../styles.css" />
+	<style>
+		[inert] {
+			pointer-events: none;
+			background-color: antiquewhite;
+			opacity: 0.5;
+		}
+	</style>
 </head>
 
 <body>
@@ -27,15 +34,9 @@
       <button data-a11y-dialog-hide id="close-my-dialog" class="dialog-close"
         aria-label="Close this dialog window">&times;</button>
 
-      <h1 id="my-dialog-title">Dialog title</h1>
-
-      <form>
-        <label for="email">Email (required)</label>
-        <input type="email" name="EMAIL" id="email" placeholder="john.doe@gmail.com" required>
-        <button type="submit" name="button">Sign up</button>
-      </form>
-
-      <button type="button" id="move-focus-outside">Move focus outside</button>
+      <h1 id="my-dialog-title" hidden>Dialog title</h1>
+      <button type="button" id="move-focus-outside">Confirm</button>
+			<div inert><a href="#">I'm an anchor</a></div>
     </div>
   </div>
   <div class="dialog" data-a11y-dialog="shadow-dialog" aria-labelledby="shadow-dialog-title">

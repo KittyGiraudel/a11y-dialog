@@ -41,13 +41,22 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
       expect(focusableEdges[0].host).to.not.be.null
     })
   })
-  it('should return elements nested in Shadow DOM subtrees', () => {
-    cy.get('#shadow-dom-nested').then(container => {
+  it('should return slotted Light DOM elements and elements nested in Shadow DOM', () => {
+    cy.get('#shadow-dom-mixed').then(container => {
       const focusableEdges = getFocusableEdges(container[0])
 
       expect(focusableEdges).to.have.length(2)
-      expect(focusableEdges[0]).to.not.be.null
-      expect(focusableEdges[1]).to.not.be.null
+
+      const [first, last] = focusableEdges
+
+      expect(first).to.not.be.null
+      expect(last).to.not.be.null
+
+      // The first focusable element is slotted, so it has no host
+      expect(first.host instanceof ShadowRoot).to.be.false
+      expect(first.id).to.equal('slotted-link')
+      // The last focusable element is nested in a Shadow DOM
+      expect(last.host).to.not.be.null
     })
   })
   it('should return focusable Shadow DOM hosts', () => {

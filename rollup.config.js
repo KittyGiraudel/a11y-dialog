@@ -1,7 +1,10 @@
-import { terser } from 'rollup-plugin-terser'
-import pkg from './package.json'
+import { createRequire } from 'node:module'
+import terser from '@rollup/plugin-terser'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import typescript from '@rollup/plugin-typescript'
+
+const require = createRequire(import.meta.url)
+const pkg = require('./package.json')
 
 const plugins = [nodeResolve(), typescript({ tsconfig: './tsconfig.json' })]
 

@@ -3,7 +3,7 @@ import { getFocusableEdges } from '../fixtures/dom-utils'
 describe('getFocusableEdges()', { testIsolation: false }, () => {
   before(() => cy.visit('/get-focusable-edges'))
 
-  it('should return an array of focusable elements', () => {
+  it('should return [HTMLElement, HTMLElement] if focusable elements are present', () => {
     cy.get('#light-dom-two-els').then(container => {
       const focusableEdges = getFocusableEdges(container[0])
 
@@ -38,6 +38,7 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
       expect(focusableEdges).to.have.length(2)
       expect(focusableEdges[0]).to.not.be.null
       expect(focusableEdges[1]).to.not.be.null
+      expect(focusableEdges[0].host).to.not.be.null
     })
   })
   it('should return elements nested in Shadow DOM subtrees', () => {

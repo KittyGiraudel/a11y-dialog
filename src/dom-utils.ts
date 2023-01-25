@@ -42,7 +42,7 @@ function findFocusableElement(
     if (node.shadowRoot) {
       const shadowRoot = node.shadowRoot
       // Descend into this subtree.
-      let next = getNextDescendantEl(shadowRoot, forward)
+      let next = getNextChildEl(shadowRoot, forward)
       // Traverse siblings, searching the subtree of each one
       // for focusable elements.
       while (next) {
@@ -64,7 +64,7 @@ function findFocusableElement(
       // Case 3: this is a regular Light DOM node. Search its subtree.
     } else {
       // Descend into this subtree.
-      let next = getNextDescendantEl(node, forward)
+      let next = getNextChildEl(node, forward)
       // Traverse siblings, searching the subtree of each one
       // for focusable elements.
       while (next) {
@@ -83,7 +83,7 @@ function findFocusableElement(
   return null
 }
 
-function getNextDescendantEl(node: ParentNode, forward: boolean) {
+function getNextChildEl(node: ParentNode, forward: boolean) {
   return forward ? node.firstElementChild : node.lastElementChild
 }
 

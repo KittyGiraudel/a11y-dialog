@@ -1,5 +1,6 @@
 {
   "name": "a11y-dialog",
+  "type": "module",
   "version": "7.5.0",
   "description": "A tiny script to make dialog windows accessible to assistive technology users.",
   "homepage": "https://a11y-dialog.netlify.app/",
@@ -38,15 +39,15 @@
   },
   "devDependencies": {
     "@babel/preset-env": "^7.18.6",
-    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-terser": "^0.4.0",
     "@rollup/plugin-typescript": "^11.0.0",
     "cypress": "^12.2.0",
     "cypress-real-events": "^1.7.1",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
-    "rollup": "^2.75.7",
-    "rollup-plugin-terser": "^7.0.2",
+    "rollup": "^3.10.1",
     "typescript": "^4.7.4"
   },
   "dependencies": {

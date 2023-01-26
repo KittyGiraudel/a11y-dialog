@@ -8,17 +8,25 @@ function isInShadow(node) {
   }
   return false
 }
+// Cypress runs everything in its own iframes, so we can't assert
+// .instanceOf(Element) here; we have to use its helper function.
+const isElement = Cypress.dom.isElement
 
 describe('getFocusableEdges()', { testIsolation: false }, () => {
   before(() => cy.visit('/get-focusable-edges'))
 
-  it('should return [HTMLElement, HTMLElement] if focusable elements are present', () => {
+  it('should return two unique elements if multiple focusable elements are present', () => {
     cy.get('#light-dom-two-els').then(container => {
       const elems = getFocusableEdges(container[0])
-
       expect(elems).to.have.length(2)
-      expect(elems[0]).to.not.be.null
-      expect(elems[1]).to.not.be.null
+
+      const [first, last] = elems
+
+      expect(isElement(first)).to.be.true
+      expect(isElement(last)).to.be.true
+      expect(first).to.not.equal(last)
+      expect(first).to.have.property('id', 'first')
+      expect(last).to.have.property('id', 'last')
     })
   })
   it('should return the same element twice if there is only one focusable element', () => {

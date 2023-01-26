@@ -1,4 +1,12 @@
 import { getFocusableEdges } from '../fixtures/dom-utils'
+const { isElement, isFocusable: _isFocusable, isHidden } = Cypress.dom
+
+// The types of Cypress.dom.isFocusable are wrong >:C
+// Elements must be jQuery objects.
+const isFocusable = element =>
+  element instanceof Cypress.$
+    ? _isFocusable(element)
+    : _isFocusable(Cypress.$(element))
 
 // Helper function to check if an element is in a Shadow DOM
 function isInShadow(node) {
@@ -10,8 +18,6 @@ function isInShadow(node) {
 }
 
 const hasShadowDOM = node => !!node.shadowRoot
-
-const { isElement, isFocusable, isHidden } = Cypress.dom
 
 describe('getFocusableEdges()', { testIsolation: false }, () => {
   before(() => cy.visit('/get-focusable-edges'))
@@ -27,6 +33,24 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
       expect(first).to.not.equal(last)
       expect(first).to.have.property('id', 'first')
       expect(last).to.have.property('id', 'last')
+    })
+  })
+  it('should return *exactly* the first and last focusable elements, ignoring others', () => {
+    cy.get('#light-dom-multiple-els').then(container => {
+      // Get all focusable elements in this container.
+      const focusableElems = container.find('[data-cy-focus-candidate]')
+      // Get the first and last focusable elements,
+      // according to our library.
+      const [first, last] = getFocusableEdges(container[0])
+
+      // Assert that all of these is focusable according to the browser
+      focusableElems.each((_, el) => {
+        expect(isFocusable(el)).to.be.true
+      })
+
+      // Assert that our library returns the correct first and last elements
+      expect(focusableElems[0]).to.equal(first)
+      expect(focusableElems[focusableElems.length - 1]).to.equal(last)
     })
   })
   it('should return the same element twice if there is only one focusable element', () => {

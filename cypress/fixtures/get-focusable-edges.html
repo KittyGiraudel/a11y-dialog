@@ -14,6 +14,13 @@
         <button id="first">Start</button>
         <a href="#" id="last">End</a>
       </div>
+      <div id="light-dom-multiple-els">
+        <h2>Node with multiple focusable element children</h2>
+        <button data-cy="first" data-cy-focus-candidate>First</button>
+        <button data-cy="second" data-cy-focus-candidate>Second</button>
+        <button data-cy="third" data-cy-focus-candidate>Third</button>
+        <button data-cy="fourth" data-cy-focus-candidate>Fourth</button>
+      </div>
       <div id="light-dom-one-el">
         <h2>Node with one focusable Light DOM element child</h2>
         <button id="solo">Start</button>
@@ -33,8 +40,8 @@
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
             euismod, nisl nec ultricies ultricies, nunc nisl aliquam nisl, eget
-            aliquam nisl nunc vel nisl. <a href="#" id="slotted-link">Sed</a> euismod, nisl nec
-            ultricies.
+            aliquam nisl nunc vel nisl.
+            <a href="#" id="slotted-link">Sed</a> euismod, nisl nec ultricies.
           </p>
         </fancy-card>
       </div>

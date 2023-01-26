@@ -8,6 +8,9 @@ function isInShadow(node) {
   }
   return false
 }
+
+const hasShadowDOM = node => !!node.shadowRoot
+
 // Cypress runs everything in its own iframes, so we can't assert
 // .instanceOf(Element) here; we have to use its helper function.
 const isElement = Cypress.dom.isElement
@@ -51,11 +54,13 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
   it('should return Shadow DOM elements', () => {
     cy.get('#shadow-dom-two-els').then(container => {
       const elems = getFocusableEdges(container[0])
+      const [first, last] = elems
 
       expect(elems).to.have.length(2)
-      expect(elems[0]).to.not.be.null
-      expect(elems[1]).to.not.be.null
-      expect(isInShadow(elems[0])).to.be.true
+      expect(first).to.not.be.null
+      expect(last).to.not.be.null
+      expect(isInShadow(first)).to.be.true
+      expect(isInShadow(last)).to.be.true
     })
   })
   it('should return slotted Light DOM elements and elements nested in Shadow DOM', () => {
@@ -79,10 +84,13 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
   it('should return focusable Shadow DOM hosts', () => {
     cy.get('#focusable-shadow-host').then(container => {
       const elems = getFocusableEdges(container[0])
+      const [first, last] = elems
 
       expect(elems).to.have.length(2)
-      expect(elems[0]).to.not.be.null
-      expect(elems[1]).to.not.be.null
+      expect(first).to.not.be.null
+      expect(last).to.not.be.null
+      expect(hasShadowDOM(first)).to.be.true
+      expect(hasShadowDOM(last)).to.be.true
     })
   })
   it('should ignore nodes in unfocusable subtrees', () => {

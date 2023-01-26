@@ -14,49 +14,49 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
 
   it('should return [HTMLElement, HTMLElement] if focusable elements are present', () => {
     cy.get('#light-dom-two-els').then(container => {
-      const focusableEdges = getFocusableEdges(container[0])
+      const elems = getFocusableEdges(container[0])
 
-      expect(focusableEdges).to.have.length(2)
-      expect(focusableEdges[0]).to.not.be.null
-      expect(focusableEdges[1]).to.not.be.null
+      expect(elems).to.have.length(2)
+      expect(elems[0]).to.not.be.null
+      expect(elems[1]).to.not.be.null
     })
   })
   it('should return the same element twice if there is only one focusable element', () => {
     cy.get('#light-dom-one-el').then(container => {
-      const focusableEdges = getFocusableEdges(container[0])
+      const elems = getFocusableEdges(container[0])
 
-      expect(focusableEdges).to.have.length(2)
-      expect(focusableEdges[0]).to.not.be.null
-      expect(focusableEdges[1]).to.not.be.null
-      expect(focusableEdges[0]).to.equal(focusableEdges[1])
+      expect(elems).to.have.length(2)
+      expect(elems[0]).to.not.be.null
+      expect(elems[1]).to.not.be.null
+      expect(elems[0]).to.equal(elems[1])
     })
   })
   it('should return [null, null] if there are no focusable elements', () => {
     cy.get('#light-dom-no-els').then(container => {
-      const focusableEdges = getFocusableEdges(container[0])
+      const elems = getFocusableEdges(container[0])
 
-      expect(focusableEdges).to.have.length(2)
-      expect(focusableEdges[0]).to.be.null
-      expect(focusableEdges[1]).to.be.null
+      expect(elems).to.have.length(2)
+      expect(elems[0]).to.be.null
+      expect(elems[1]).to.be.null
     })
   })
   it('should return Shadow DOM elements', () => {
     cy.get('#shadow-dom-two-els').then(container => {
-      const focusableEdges = getFocusableEdges(container[0])
+      const elems = getFocusableEdges(container[0])
 
-      expect(focusableEdges).to.have.length(2)
-      expect(focusableEdges[0]).to.not.be.null
-      expect(focusableEdges[1]).to.not.be.null
-      expect(isInShadow(focusableEdges[0])).to.be.true
+      expect(elems).to.have.length(2)
+      expect(elems[0]).to.not.be.null
+      expect(elems[1]).to.not.be.null
+      expect(isInShadow(elems[0])).to.be.true
     })
   })
   it('should return slotted Light DOM elements and elements nested in Shadow DOM', () => {
     cy.get('#shadow-dom-mixed').then(container => {
-      const focusableEdges = getFocusableEdges(container[0])
+      const elems = getFocusableEdges(container[0])
 
-      expect(focusableEdges).to.have.length(2)
+      expect(elems).to.have.length(2)
 
-      const [first, last] = focusableEdges
+      const [first, last] = elems
 
       expect(first).to.not.be.null
       expect(last).to.not.be.null
@@ -70,30 +70,30 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
   })
   it('should return focusable Shadow DOM hosts', () => {
     cy.get('#focusable-shadow-host').then(container => {
-      const focusableEdges = getFocusableEdges(container[0])
+      const elems = getFocusableEdges(container[0])
 
-      expect(focusableEdges).to.have.length(2)
-      expect(focusableEdges[0]).to.not.be.null
-      expect(focusableEdges[1]).to.not.be.null
+      expect(elems).to.have.length(2)
+      expect(elems[0]).to.not.be.null
+      expect(elems[1]).to.not.be.null
     })
   })
   it('should ignore nodes in unfocusable subtrees', () => {
     cy.get('#inert-children').then(container => {
-      const focusableEdges = getFocusableEdges(container[0])
+      const elems = getFocusableEdges(container[0])
 
-      expect(focusableEdges).to.have.length(2)
+      expect(elems).to.have.length(2)
       // The child of the inert div
-      expect(focusableEdges[0]).to.be.null
+      expect(elems[0]).to.be.null
       // The individially disabled button
-      expect(focusableEdges[1]).to.be.null
+      expect(elems[1]).to.be.null
     })
     cy.get('#hidden-children').then(container => {
-      const focusableEdges = getFocusableEdges(container[0])
+      const elems = getFocusableEdges(container[0])
 
       // The only focusable element is the child of a hidden div
-      expect(focusableEdges).to.have.length(2)
-      expect(focusableEdges[0]).to.be.null
-      expect(focusableEdges[1]).to.be.null
+      expect(elems).to.have.length(2)
+      expect(elems[0]).to.be.null
+      expect(elems[1]).to.be.null
     })
   })
 })

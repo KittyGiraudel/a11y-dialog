@@ -1,5 +1,14 @@
 import { getFocusableEdges } from '../fixtures/dom-utils'
 
+// Helper function to check if an element is in a Shadow DOM
+function isInShadow(node) {
+  while (node) {
+    if (node.toString() === '[object ShadowRoot]') return true
+    node = node.parentNode
+  }
+  return false
+}
+
 describe('getFocusableEdges()', { testIsolation: false }, () => {
   before(() => cy.visit('/get-focusable-edges'))
 
@@ -38,7 +47,7 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
       expect(focusableEdges).to.have.length(2)
       expect(focusableEdges[0]).to.not.be.null
       expect(focusableEdges[1]).to.not.be.null
-      expect(focusableEdges[0].host).to.not.be.null
+      expect(isInShadow(focusableEdges[0])).to.be.true
     })
   })
   it('should return slotted Light DOM elements and elements nested in Shadow DOM', () => {
@@ -53,10 +62,10 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
       expect(last).to.not.be.null
 
       // The first focusable element is slotted, so it has no host
-      expect(first.host instanceof ShadowRoot).to.be.false
+      expect(isInShadow(first)).to.be.false
       expect(first.id).to.equal('slotted-link')
       // The last focusable element is nested in a Shadow DOM
-      expect(last.host).to.not.be.null
+      expect(isInShadow(last)).to.be.true
     })
   })
   it('should return focusable Shadow DOM hosts', () => {

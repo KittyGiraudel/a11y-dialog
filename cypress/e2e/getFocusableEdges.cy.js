@@ -11,9 +11,7 @@ function isInShadow(node) {
 
 const hasShadowDOM = node => !!node.shadowRoot
 
-// Cypress runs everything in its own iframes, so we can't assert
-// .instanceOf(Element) here; we have to use its helper function.
-const isElement = Cypress.dom.isElement
+const { isElement, isFocusable, isHidden } = Cypress.dom
 
 describe('getFocusableEdges()', { testIsolation: false }, () => {
   before(() => cy.visit('/get-focusable-edges'))
@@ -96,6 +94,11 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
       const elems = getFocusableEdges(container[0])
       const [first, last] = elems
 
+      const inertNode = container.find('div[inert]')
+      const disabledNode = container.find('button[disabled]')
+      expect(isFocusable(inertNode)).to.be.false
+      expect(isFocusable(disabledNode)).to.be.false
+
       expect(elems).to.have.length(2)
       // The child of the inert div
       expect(first).to.be.null
@@ -105,7 +108,10 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
     cy.get('#hidden-children').then(container => {
       const elems = getFocusableEdges(container[0])
       const [first, last] = elems
+      const hiddenNode = container.find('div[hidden]')
 
+      expect(isHidden(hiddenNode)).to.be.true
+      expect(isFocusable(hiddenNode)).to.be.false
       // The only focusable element is the child of a hidden div
       expect(elems).to.have.length(2)
       expect(first).to.be.null

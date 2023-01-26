@@ -57,9 +57,7 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
       const elems = getFocusableEdges(container[0])
       const [first, last] = elems
 
-      expect(elems).to.have.length(2)
-      expect(first).to.not.be.null
-      expect(last).to.not.be.null
+      expect(isElement(first)).to.be.true
       expect(first).to.equal(last)
     })
   })
@@ -75,12 +73,10 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
   })
   it('should return Shadow DOM elements', () => {
     cy.get('#shadow-dom-two-els').then(container => {
-      const elems = getFocusableEdges(container[0])
-      const [first, last] = elems
+      const [first, last] = getFocusableEdges(container[0])
 
-      expect(elems).to.have.length(2)
-      expect(first).to.not.be.null
-      expect(last).to.not.be.null
+      expect(isElement(first)).to.be.true
+      expect(isElement(last)).to.be.true
       expect(isInShadow(first)).to.be.true
       expect(isInShadow(last)).to.be.true
     })
@@ -90,9 +86,6 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
       const elems = getFocusableEdges(container[0])
       const [first, last] = elems
 
-      expect(elems).to.have.length(2)
-      expect(first).to.not.be.null
-      expect(last).to.not.be.null
       // The first focusable element is slotted, so it has no host
       expect(isInShadow(first)).to.be.false
       expect(first.id).to.equal('slotted-link')
@@ -105,9 +98,8 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
       const elems = getFocusableEdges(container[0])
       const [first, last] = elems
 
-      expect(elems).to.have.length(2)
-      expect(first).to.not.be.null
-      expect(last).to.not.be.null
+      expect(isElement(first)).to.be.true
+      expect(isElement(last)).to.be.true
       expect(hasShadowDOM(first)).to.be.true
       expect(hasShadowDOM(last)).to.be.true
     })

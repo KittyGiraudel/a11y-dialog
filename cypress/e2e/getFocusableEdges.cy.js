@@ -141,4 +141,39 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
       expect(last).to.be.null
     })
   })
+
+  /**
+   * A shadow host that delegates focus will never directly receive focus,
+   * even when the host itself is focusable. Consider our <fancy-button> custom
+   * element, which delegates focus. If we were to apply a tabindex to it, it
+   * would look like this:
+   *
+   * <fancy-button tabindex="0">
+   *  #shadow-root
+   *  <button><slot></slot></button>
+   * </fancy-button>
+   *
+   * The browser acts as as if there is only one focusable element – the shadow
+   * button. Our library should behave the same way.
+   */
+  // TODO: This test is currently failing. We do not account for this
+  // browser behavior.
+  it.skip('should ignore focusable shadow hosts if they delegate focus to their shadow subtree', () => {
+    cy.get('#shadow-host-delegates-focus').then(container => {
+      // Get the shadow host element in this container
+      const focusableShadowHostEl = container.find(
+        '[data-cy-delegates-focus]'
+      )[0]
+      // Get the first focusable element, according to our library
+      const [first] = getFocusableEdges(container[0])
+
+      // Assert that we have a shadow host that delegates focus to its subtree
+      expect(focusableShadowHostEl.shadowRoot?.delegatesFocus).to.be.true
+      // Assert that the host el is *not* what our library returns
+      expect(first).to.not.equal(focusableShadowHostEl)
+      // Assert that our library returns the button inside the shadow subtree
+      expect(isInShadow(first)).to.be.true
+      expect(first).to.have.prop('localName', 'button')
+    })
+  })
 })

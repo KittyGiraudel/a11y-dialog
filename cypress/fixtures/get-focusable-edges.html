@@ -62,6 +62,23 @@
           <button class="link-like">Hellaur</button>
         </div>
       </div>
+      <div id="shadow-host-delegates-focus">
+        <p>Custom Elements that delegate focus</p>
+        should <i>not</i> return the host as a focusable element; only the
+        focusable elements in the shadow DOM.
+        <fancy-button data-cy-delegates-focus tabindex="0">I'm in the Shadow DOM</fancy-button
+        >
+      </div>
+      <div id="shadow-host-negative-tabindex">
+        <p>
+          Custom Elements with a tabindex of -1 render their children
+          unfocusable.
+        </p>
+        <fancy-card tabindex="-1">
+          <h3>AAAA</h3>
+          <p>Hello, <a href="#">link</a></p>
+        </fancy-card>
+      </div>
     </main>
     <script>
       window.customElements.define(

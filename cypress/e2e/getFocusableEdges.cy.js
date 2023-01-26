@@ -156,8 +156,8 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
    * The browser acts as as if there is only one focusable element – the shadow
    * button. Our library should behave the same way.
    */
-  // TODO: This test is currently failing. We do not account for this
-  // browser behavior.
+  // TODO: This test is currently failing. We do not match this
+  // browser behavior yet
   it.skip('should ignore focusable shadow hosts if they delegate focus to their shadow subtree', () => {
     cy.get('#shadow-host-delegates-focus').then(container => {
       // Get the shadow host element in this container
@@ -174,6 +174,29 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
       // Assert that our library returns the button inside the shadow subtree
       expect(isInShadow(first)).to.be.true
       expect(first).to.have.prop('localName', 'button')
+    })
+  })
+  /**
+   * The browser will never send focus into a Shadow DOM if the host element
+   * has a negative tabindex. This applies to both slotted Light DOM Shadow DOM
+   * children
+   */
+  // TODO: This test is currently failing. We do not match this browser behavior yet.
+  it.skip('should ignore shadow hosts with a negative tabindex', () => {
+    cy.get('#shadow-host-negative-tabindex').then(container => {
+      // Get the <fancy-card> with a negative tabindex
+      const shadowHostEl = container.find('[data-cy-negative-tabindex]')[0]
+      // Get the first and last focusable element, according to our library
+      const [first, last] = getFocusableEdges(container[0])
+
+      // Assert that the shadow host has a negative tabindex
+      expect(shadowHostEl).to.have.attr('tabindex', '-1')
+      // Asseert that the shadow DOM contains a <fancy-button>
+      expect(shadowHostEl.shadowRoot?.querySelector('fancy-button')).to.not.be
+        .null
+      // Assert that our library finds no focusable elements in this container
+      expect(first).to.be.null
+      expect(last).to.be.null
     })
   })
 })

@@ -2,22 +2,21 @@ import { getFocusableEdges } from '../fixtures/dom-utils'
 const { isElement, isFocusable: _isFocusable, isHidden } = Cypress.dom
 
 // The types of Cypress.dom.isFocusable are wrong >:C
-// Elements must be jQuery objects.
+// It only accepts jQuery objects.
 const isFocusable = element =>
   element instanceof Cypress.$
     ? _isFocusable(element)
     : _isFocusable(Cypress.$(element))
 
-// Helper function to check if an element is in a Shadow DOM
-function isInShadow(node) {
-  while (node) {
-    if (node.toString() === '[object ShadowRoot]') return true
-    node = node.parentNode
+const isInShadow = element => {
+  while (element) {
+    if (element.toString() === '[object ShadowRoot]') return true
+    element = element.parentNode
   }
   return false
 }
 
-const hasShadowDOM = node => !!node.shadowRoot
+const hasShadowDOM = element => !!element.shadowRoot
 
 describe('getFocusableEdges()', { testIsolation: false }, () => {
   before(() => cy.visit('/get-focusable-edges'))

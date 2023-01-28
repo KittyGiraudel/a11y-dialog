@@ -99,4 +99,8 @@ Additionally, it now properly handles `details` and `summary` elements. Namely:
 - It considers focusable the first `summary` element directly within a `details` element, provided it doesn’t have a negative tabindex attribute.
 - It considers focusable `details` elements provided they do not have a `summary` element and do not have a negative tabindex attribute.
 
-Finally, it now checks for the presence of the [`inert` attribute](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/inert) (now that the [support for `inert`](https://caniuse.com/mdn-api_htmlelement_inert) has grown).
+Finally, it now checks for the presence of the [`inert` attribute](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/inert).
+
+:::note  
+While the [support for `inert`](https://caniuse.com/mdn-api_htmlelement_inert) is increasing, it’s not perfect. The focus trap will ignore inert elements and all elements inside them, **regardless** of the browser support for inert. If you want or need to rely on it, consider [using this polyfill](https://github.com/WICG/inert).  
+:::

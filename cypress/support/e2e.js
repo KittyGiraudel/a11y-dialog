@@ -2,7 +2,7 @@ import 'cypress-real-events/support'
 import '@cypress/fiddle'
 import { getFocusableEdges } from '../fixtures/dom-utils'
 
-Cypress.Commands.add('getFocusableEdges', { prevSubject: true }, subject => {
+Cypress.Commands.add('aliasFocusableEdges', { prevSubject: true }, subject => {
   cy.wrap(subject, { log: false })
     .then(subject => getFocusableEdges(subject[0]))
     .as('edges')

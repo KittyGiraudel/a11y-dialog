@@ -1,23 +1,17 @@
-const test = fn => {
-  const string = fn.toString()
-  const openingBrace = string.indexOf('{')
-  const closingBrace = string.lastIndexOf('}')
-
-  return string.slice(openingBrace + 1, closingBrace)
-}
+import { stripIndent, serialize } from '../support/utils'
 
 describe('Focus trap', () => {
   it('should return two unique elements if multiple focusable elements are present', () => {
     cy.runExample({
-      html: `
+      html: stripIndent(/* html */ `
       <div id="light-dom-two-els">
-        <h2>Node with two focusable Light DOM element children</h2>
+        <p>Node with two focusable Light DOM element children</p>
         <button id="first">Start</button>
         <a href="#" id="last">End</a>
       </div>
-      `,
-      test: test(() => {
-        cy.get('#light-dom-two-els').getFocusableEdges()
+      `),
+      test: serialize(() => {
+        cy.get('#light-dom-two-els').aliasFocusableEdges()
 
         cy.get('@first').should('have.attr', 'id', 'first')
         cy.get('@last').should('have.attr', 'id', 'last')

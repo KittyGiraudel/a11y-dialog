@@ -191,4 +191,22 @@ describe('getFocusableEdges()', { testIsolation: false }, () => {
       expect(last).to.be.null
     })
   })
+
+  /**
+   * Browsers hide all non-<summary> descendants of closed <details> elements
+   * from user interaction, but those non-<summary> elements may still match our
+   * focusable-selectors and may still have dimensions, so we need a special
+   * case to ignore them.
+   */
+  // TODO: This test is currently failing. We do not match this browser
+  // behavior yet.
+  it.skip('should should ignore non-<summary> elements in a closed <details>', () => {
+    cy.get('#with-details').then(container => {
+      const [first, last] = getFocusableEdges(container[0])
+      expect(isElement(first)).to.be.true
+      expect(first.localName).to.equal('summary')
+      // This is the only focusable element, so it should be returned twice
+      expect(first).to.equal(last)
+    })
+  })
 })

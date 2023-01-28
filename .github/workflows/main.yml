@@ -1,4 +1,5 @@
 name: Tests
+
 on:
   push:
     branches:
@@ -6,18 +7,33 @@ on:
   pull_request:
     branches:
       - main
+
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Cypress
-        uses: cypress-io/github-action@v2
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build files
+        run: npm run build
+
+      - name: Start server
+        run: npm run serve &
+
+      - name: Run Cypress (Chrome)
+        uses: cypress-io/github-action@v5
         with:
-          config-file: ./cypress.config.js
-          install-command: npm ci --legacy-peer-deps
-          build: npm run build
-          start: npm run serve
+          browser: chrome
+          install: false
+          wait-on: 'http://localhost:5000'
+
+      - name: Run Cypress (Edge)
+        uses: cypress-io/github-action@v5
+        with:
+          browser: edge
+          install: false
           wait-on: 'http://localhost:5000'

@@ -11,3 +11,12 @@ Cypress.Commands.add('getFocusableEdges', { prevSubject: true }, subject => {
   cy.get('@edges', { log: false }).its('0', { log: false }).as('first')
   cy.get('@edges', { log: false }).its('1', { log: false }).as('last')
 })
+
+chai.use(_chai => {
+  _chai.Assertion.addMethod('element', function isElement() {
+    this.assert(
+      Cypress.dom.isElement(this._obj),
+      `expected #{this} to be an element`
+    )
+  })
+})

@@ -45,6 +45,10 @@ export default class A11yDialog {
     // Remove the click event delegates for our openers and closers
     document.removeEventListener('click', this.handleTriggerClicks, true)
 
+    // Clone and replace the dialog element to prevent memory leaks caused by
+    // event listeners that the author might not have cleaned up.
+    this.$el.replaceWith(this.$el.cloneNode(true))
+
     // Dispatch a `destroy` event
     this.fire('destroy')
 

@@ -12,8 +12,7 @@ Creating [an issue](https://github.com/KittyGiraudel/a11y-dialog/issues) to disc
 
 We use the following fork-pull-request model:
 
-1. [Fork](https://help.github.com/articles/fork-a-repo/) the project, clone your fork,
-   and configure the remotes:
+1. [Fork](https://help.github.com/articles/fork-a-repo/) the project, clone your fork, and configure the remotes:
 
    ```bash
    # Use GitHub interface to fork the repo into your own forked repo
@@ -32,8 +31,7 @@ We use the following fork-pull-request model:
    git pull --rebase upstream main
    ```
 
-3. Create a new topic branch (off the `main` project development branch) to
-   contain your feature, change, or fix:
+3. Create a new topic branch (off the `main` project development branch) to contain your feature, change, or fix:
 
    ```bash
    git checkout -b <topic-branch-name>
@@ -53,13 +51,11 @@ We use the following fork-pull-request model:
    git push origin <topic-branch-name>
    ```
 
-7. [Open a Pull Request](https://help.github.com/articles/about-pull-requests/)
-   with a clear title and description against the `main` branch.
+7. [Open a Pull Request](https://help.github.com/articles/about-pull-requests/) with a clear title and description against the `main` branch.
 
 _For visual changes, it never hurts to leave some screen grabs on the pull request._
 
-**IMPORTANT**: By submitting a patch, you agree to allow the project owners to
-license your work under the terms of the [MIT License](./LICENSE).
+**IMPORTANT**: By submitting a patch, you agree to allow the project owners to license your work under the terms of the [MIT License](./LICENSE).
 
 ## Development
 
@@ -67,7 +63,7 @@ Here are the main steps to get you started developing on `a11y-dialog`.
 
 #### Setup
 
-Simply clone your fork of the repo and then do `npm install` from the project root to download all required dependencies.
+Clone your fork of the repo and then do `npm install` from the project root to download all required dependencies.
 
 ### Serve
 
@@ -94,5 +90,3 @@ Generally, if you make an update to a particular page in the documentation that 
 For example, to update the Advanced chapter’s Animations page, you would need to update the files `docs/advanced.animations.md`, `versioned_docs/version-6.1.0/advanced.animations.md` and `versioned_docs/version-7.0.0/advanced.animations.md`.
 
 _Of course, if your update is only relevant to v7 and current you would only update the files that correspond to those versions._
-
-Once you’ve made the documentation updates intended locally, run `npm build` to build them locally, and then `npm start` to view them. The `/build` directory is in `.gitignore` so you will only need to check in and commit the 3 files you’ve updated if you’re intending to submit a pull request.

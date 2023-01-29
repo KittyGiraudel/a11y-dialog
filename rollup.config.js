@@ -55,4 +55,13 @@ export default [
       },
     ],
   },
+  {
+    input: 'src/dom-utils.ts',
+    plugins: plugins,
+    output: [
+      {
+        file: 'cypress/fixtures/dom-utils.js',
+      },
+    ],
+  },
 ]

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Tests — Base</title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+
+  <body>
+    <main>
+      <h1>Tests — <code>getFocusableEdges()</code></h1>
+      <div id="light-dom-two-els">
+        <h2>Node with two focusable Light DOM element children</h2>
+        <button id="first">Start</button>
+        <a href="#" id="last">End</a>
+      </div>
+      <div id="light-dom-multiple-els">
+        <h2>Node with multiple focusable element children</h2>
+        <button data-cy="first" data-cy-focus-candidate>First</button>
+        <button data-cy="second" data-cy-focus-candidate>Second</button>
+        <button data-cy="third" data-cy-focus-candidate>Third</button>
+        <button data-cy="fourth" data-cy-focus-candidate>Fourth</button>
+      </div>
+      <div id="light-dom-one-el">
+        <h2>Node with one focusable Light DOM element child</h2>
+        <button id="solo">Start</button>
+      </div>
+      <div id="light-dom-no-els">
+        <h2>Node with no focusable element children</h2>
+      </div>
+      <div id="shadow-dom-two-els">
+        <h2>Node with two focusable Shadow DOM element children</h2>
+        <fancy-button id="start">Start</fancy-button>
+        <fancy-button id="end">End</fancy-button>
+      </div>
+      <div id="shadow-dom-mixed">
+        <h2>Node with Shadow DOM and slotted element children</h2>
+        <fancy-card>
+          <h2>Hellaur</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+            euismod, nisl nec ultricies ultricies, nunc nisl aliquam nisl, eget
+            aliquam nisl nunc vel nisl.
+            <a href="#" id="slotted-link">Sed</a> euismod, nisl nec ultricies.
+          </p>
+        </fancy-card>
+      </div>
+      <div id="focusable-shadow-host">
+        <h2>Node with a focusable Shadow DOM host</h2>
+        <fancy-div tabindex="0">I'm a focusable Shadow DOM host!</fancy-div>
+      </div>
+      <div id="inert-children">
+        <h2>Node with inert children</h2>
+        <div inert>
+          <button class="link-like">Hellaur</button>
+        </div>
+        <button disabled>Goodbye</button>
+      </div>
+      <div id="hidden-children">
+        <h2>Node with hidden children 2</h2>
+        <div hidden>
+          <button class="link-like">Hellaur</button>
+        </div>
+      </div>
+      <div id="shadow-host-delegates-focus">
+        <p>Custom Elements that delegate focus</p>
+        should <i>not</i> return the host as a focusable element; only the
+        focusable elements in the shadow DOM.
+        <fancy-button data-cy-delegates-focus tabindex="0">I'm in the Shadow DOM</fancy-button
+        >
+      </div>
+      <div id="shadow-host-negative-tabindex">
+        <p>
+          Custom Elements with a tabindex of -1 render their children
+          unfocusable.
+        </p>
+        <fancy-card tabindex="-1" data-cy-negative-tabindex>
+          <h3>AAAA</h3>
+          <p>Hello, <a href="#">link</a></p>
+        </fancy-card>
+      </div>
+      <div id="with-details">
+        <h2>With details & summary elements</h2>
+        <details>
+          <summary>Hellaur</summary>
+          <p>What are frogs?
+            <a href="#">Science</a> may one day understand.
+          </p>
+        </details>
+      </div>
+    </main>
+    <script>
+      window.customElements.define(
+        'fancy-button',
+        class FancyButton extends HTMLElement {
+          constructor() {
+            super()
+            this.attachShadow({
+              delegatesFocus: true,
+              mode: 'open',
+            }).innerHTML = `
+  <style>
+    *:focus-visible {outline: 2px solid #005ec2; outline-offset: 2px}
+    :host { display: inline-block; }
+    button {
+      appareance: none;
+      border: 2px solid #005ec2;
+      border-radius: 4px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      display: inline-block;
+      font-size: inherit;
+      padding: 0.25em 0.75em;
+    }
+  </style>
+  <button part="root"><slot></slot></button>
+`
+          }
+        }
+      )
+      window.customElements.define(
+        'fancy-card',
+        class MyCard extends HTMLElement {
+          constructor() {
+            super()
+            this.attachShadow({
+              mode: 'open',
+            }).innerHTML = `
+  <style>
+    :host  { contain: content; margin-block: 1em; }
+    .container {
+      background-color: aliceblue;
+      border: 1px solid skyblue;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      margin-top: 1em;
+      padding: 0.5em;
+    }
+    .container > * + * { margin-top: 1em; }
+    a { display: inline-block }
+    p { margin: 0 }
+  </style>
+  <div class="container">
+    <slot></slot>
+    <fancy-button>I'm in the card's Shadow DOM</fancy-button>
+  </div>
+`
+          }
+        }
+      )
+      window.customElements.define(
+        'fancy-div',
+        class MyCard extends HTMLElement {
+          constructor() {
+            super()
+            this.attachShadow({
+              mode: 'open',
+            }).innerHTML = `
+  <style>
+    :host { contain: content; display: inline-block; }
+  </style>
+  <div>
+    <slot></slot>
+  </div>
+`
+          }
+        }
+      )
+    </script>
+  </body>
+</html>

@@ -190,4 +190,95 @@ describe('Focus trap', () => {
       }),
     })
   })
+
+  /**
+   * A shadow host that delegates focus will never directly receive focus,
+   * even when the host itself is focusable. Consider our <fancy-button> custom
+   * element, which delegates focus. If we were to apply a tabindex to it, it
+   * would look like this:
+   *
+   * <fancy-button tabindex="0">
+   *  #shadow-root
+   *  <button><slot></slot></button>
+   * </fancy-button>
+   *
+   * The browser acts as as if there is only one focusable element – the shadow
+   * button. Our library should behave the same way.
+   */
+  it('should ignore focusable shadow hosts if they delegate focus to their shadow subtree', () => {
+    cy.runExample({
+      html: stripIndent(/* html */ `
+      <div id="shadow-host-delegates-focus">
+        <p>
+          Custom Elements that delegate focus
+          should <i>not</i> return the host as a focusable element; only the
+          focusable elements in the shadow DOM.
+        </p>
+        <fancy-button data-cy-delegates-focus tabindex="0">I'm in the Shadow DOM</fancy-button>
+      </div>
+    `),
+      test: serialize(() => {
+        // Get the first focusable element, according to our library
+        cy.get('#shadow-host-delegates-focus')
+          .as('container')
+          .aliasFocusableEdges()
+
+        // Get the shadow host in this container
+        cy.get('@container').find('[data-cy-delegates-focus]').as('shadowHost')
+
+        // Assert that we have a shadow host that delegates focus to its subtree
+        cy.get('@shadowHost')
+          .shadow()
+          .should('have.prop', 'delegatesFocus', true)
+
+        // Assert that the shadowHost is *not* what our library returns
+        cy.get('@first')
+          .should('not.deep.equal', '@shadowHost')
+          // and that it is a button within a shadowRoot
+          .and('have.prop', 'localName', 'button')
+          .and('be.withinShadowRoot')
+      }),
+    })
+  })
+})
+/**
+ * The browser will never send focus into a Shadow DOM if the host element
+ * has a negative tabindex. This applies to both slotted Light DOM Shadow DOM
+ * children
+ */
+// TODO: This test is currently failing. We do not match this browser behavior yet.
+it.skip('should ignore shadow hosts with a negative tabindex', () => {
+  cy.get('#shadow-host-negative-tabindex').then(container => {
+    // Get the <fancy-card> with a negative tabindex
+    const shadowHostEl = container.find('[data-cy-negative-tabindex]')[0]
+    // Get the first and last focusable element, according to our library
+    const [first, last] = getFocusableEdges(container[0])
+
+    // Assert that the shadow host has a negative tabindex
+    expect(shadowHostEl).to.have.attr('tabindex', '-1')
+    // Asseert that the shadow DOM contains a <fancy-button>
+    expect(shadowHostEl.shadowRoot?.querySelector('fancy-button')).to.not.be
+      .null
+    // Assert that our library finds no focusable elements in this container
+    expect(first).to.be.null
+    expect(last).to.be.null
+  })
+})
+
+/**
+ * Browsers hide all non-<summary> descendants of closed <details> elements
+ * from user interaction, but those non-<summary> elements may still match our
+ * focusable-selectors and may still have dimensions, so we need a special
+ * case to ignore them.
+ */
+// TODO: This test is currently failing. We do not match this browser
+// behavior yet.
+it.skip('should should ignore non-<summary> elements in a closed <details>', () => {
+  cy.get('#with-details').then(container => {
+    const [first, last] = getFocusableEdges(container[0])
+    expect(isElement(first)).to.be.true
+    expect(first.localName).to.equal('summary')
+    // This is the only focusable element, so it should be returned twice
+    expect(first).to.equal(last)
+  })
 })

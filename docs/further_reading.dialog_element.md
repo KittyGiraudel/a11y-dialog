@@ -1,6 +1,7 @@
 ---
 title: Dialog element
 slug: /further-reading/dialog-element
+description: The native HTML <dialog> element has come a long way. While it used to be very inconsistent, not to mention somewhat unfinished, it is now in a pretty healthy place and can generally be used — provided one is aware of the remaining caveats.
 ---
 
 The native HTML `<dialog>` element has come a long way. While it used to be very inconsistent, not to mention somewhat unfinished, it is now in a pretty healthy place and [can generally be used](https://www.scottohara.me/blog/2023/01/26/use-the-dialog-element.html) — provided one is aware of the [remaining caveats](#remaining-caveats).

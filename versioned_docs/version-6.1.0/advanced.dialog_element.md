@@ -1,6 +1,7 @@
 ---
 title: Dialog element
 slug: /advanced/dialog-element
+description: The script works fine with the native HTML <dialog> element and will polyfill its behaviour so the dialog works in any browser, regardless of their support for that HTML element.
 ---
 
 As mentioned in the [HTML section](usage.markup.md), the script works fine with the native HTML `<dialog>` element and will polyfill its behaviour so the dialog works in any browser, regardless of their support for that HTML element. However, it is recommended _not_ to use it and to rely on a `<div>` with `role="dialog"` instead. Amongst other, here are the issues with the HTML `<dialog>` element:

@@ -1,6 +1,7 @@
 ---
 title: Dialog element
 slug: /further-reading/dialog-element
+description: The native HTML <dialog> element is notoriously inconsistent, so much so that it has long been discouraged to use it.
 ---
 
 The native HTML `<dialog>` element is notoriously inconsistent, so much so that it has long been discouraged to use it. Among other things, here are some of the issues with the HTML `<dialog>` element:

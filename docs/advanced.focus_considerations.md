@@ -7,7 +7,7 @@ slug: /advanced/focus-considerations
 
 When the dialog opens, the dialog container receives the focus. This is why it is important it has a `tabindex="-1"` attribute — so that it can be programmatically focused with JavaScript.
 
-That is unless there is a form control within the dialog with the `autofocus` HTML attribute. In that case, that element will receive the focus when the dialog opens instead of the dialog container. The focus trap (mentioned below) is not impacted by this whatsoever.
+That is unless there is a form control within the dialog with the `autofocus` HTML attribute, as per [the specification](https://github.com/whatwg/html/commit/a9f103c9f7bd09ef712990194638c75db1f50e3c). In that case, that element will receive the focus when the dialog opens instead of the dialog container. The focus trap (mentioned below) is not impacted by this whatsoever.
 
 ## Focus Trap
 

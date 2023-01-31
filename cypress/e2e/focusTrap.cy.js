@@ -240,56 +240,88 @@ describe('Focus trap', () => {
       }),
     })
   })
-})
-/**
- * The browser will never send focus into a Shadow DOM if the host element
- * has a negative tabindex. This applies to both slotted Light DOM Shadow DOM
- * children
- */
-// TODO: This test is currently failing. We do not match this browser behavior yet.
-it('should ignore shadow hosts with a negative tabindex', () => {
-  cy.runExample({
-    html: stripIndent(/* html */ ` <div id="shadow-host-negative-tabindex">
-    <fancy-card tabindex="-1" data-cy-negative-tabindex>
-      <h3>AAAA</h3>
-      <p>Hello, <a href="#">link</a></p>
-    </fancy-card>
-  </div>`),
-    test: serialize(() => {
-      // Get the first and last focusable element, according to our library
-      cy.get('#shadow-host-negative-tabindex')
-        .as('container')
-        .aliasFocusableEdges({ skipAliases: true })
+  /**
+   * The browser will never send focus into a Shadow DOM if the host element
+   * has a negative tabindex. This applies to both slotted Light DOM Shadow DOM
+   * children
+   */
+  // TODO: This test is currently failing. We do not match this browser behavior yet.
+  it('should ignore shadow hosts with a negative tabindex', () => {
+    cy.runExample({
+      html: /* html */ `
+        <div id="shadow-host-negative-tabindex">
+          <fancy-card tabindex="-1" data-cy-negative-tabindex>
+            <h3>AAAA</h3>
+            <p>Hello, <a href="#">link</a></p>
+          </fancy-card>
+        </div>
+      `,
+      test: serialize(() => {
+        // Get the first and last focusable element, according to our library
+        cy.get('#shadow-host-negative-tabindex')
+          .as('container')
+          .aliasFocusableEdges({ skipAliases: true })
 
-      // Get the shadow host with a negative tabindex
-      cy.get('@container').find('[data-cy-negative-tabindex]').as('shadowHost')
+        // Get the shadow host with a negative tabindex
+        cy.get('@container')
+          .find('[data-cy-negative-tabindex]')
+          .as('shadowHost')
 
-      // Assert that the shadow host has a negative tabindex
-      cy.get('@shadowHost').should('have.attr', 'tabindex', '-1')
-      // Asseert that the shadow DOM contains a <fancy-button>
-      cy.get('@shadowHost').shadow().find('fancy-button').should('exist')
+        // Assert that the shadow host has a negative tabindex
+        cy.get('@shadowHost').should('have.attr', 'tabindex', '-1')
+        // Asseert that the shadow DOM contains a <fancy-button>
+        cy.get('@shadowHost').shadow().find('fancy-button').should('exist')
 
-      // Assert that our library finds no focusable elements in this container
-      cy.get('@edges').its('0').should('be.null')
-      cy.get('@edges').its('1').should('be.null')
-    }),
+        // Assert that our library finds no focusable elements in this container
+        cy.get('@edges').its('0').should('be.null')
+        cy.get('@edges').its('1').should('be.null')
+      }),
+    })
   })
-})
 
-/**
- * Browsers hide all non-<summary> descendants of closed <details> elements
- * from user interaction, but those non-<summary> elements may still match our
- * focusable-selectors and may still have dimensions, so we need a special
- * case to ignore them.
- */
-// TODO: This test is currently failing. We do not match this browser
-// behavior yet.
-it.skip('should should ignore non-<summary> elements in a closed <details>', () => {
-  cy.get('#with-details').then(container => {
-    const [first, last] = getFocusableEdges(container[0])
-    expect(isElement(first)).to.be.true
-    expect(first.localName).to.equal('summary')
-    // This is the only focusable element, so it should be returned twice
-    expect(first).to.equal(last)
+  /**
+   * Browsers hide all non-<summary> descendants of closed <details> elements
+   * from user interaction, but those non-<summary> elements may still match our
+   * focusable-selectors and may still have dimensions, so we need a special
+   * case to ignore them.
+   */
+  // TODO: This test is currently failing. We do not match this browser
+  // behavior yet.
+  it('should ignore non-<summary> elements in a closed <details>', () => {
+    cy.runExample({
+      html: stripIndent(/* html */ `
+      <div id="with-details">
+        <h2>With details & summary elements</h2>
+        <details>
+          <summary>Hellaur</summary>
+          <p>What are frogs?
+            <a href="#">Science</a> may one day understand.
+          </p>
+        </details>
+      </div>
+    `),
+      test: serialize(() => {
+        cy.get('#with-details').as('container').aliasFocusableEdges()
+
+        // Assert that this container has a <details> element
+        // and it is closed
+        cy.get('@container')
+          .find('details')
+          .as('details')
+          .should('have.prop', 'open', false)
+
+        // Assert that there is an anchor element within the <details>
+        cy.get('@details').find('a').should('exist')
+
+        // Assert that the <summary> is the only focusable element our library
+        // finds
+        cy.get('@first')
+          .should('be.element')
+          .and('have.prop', 'localName', 'summary')
+          .then(first => {
+            cy.get('@last').should('deep.equal', first.get(0))
+          })
+      }),
+    })
   })
 })

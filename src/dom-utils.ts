@@ -102,6 +102,7 @@ function getNextSiblingEl(el: HTMLElement, forward: boolean) {
  * Determine if an element is focusable and has user-visible painted dimensions.
  */
 export function isFocusable(el: HTMLElement) {
+  if (el.shadowRoot?.delegatesFocus) return false
   return (
     el.matches(focusableSelectors.join(',')) &&
     !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length)

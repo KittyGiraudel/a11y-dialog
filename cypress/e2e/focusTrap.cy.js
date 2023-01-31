@@ -245,7 +245,6 @@ describe('Focus trap', () => {
    * has a negative tabindex. This applies to both slotted Light DOM Shadow DOM
    * children
    */
-  // TODO: This test is currently failing. We do not match this browser behavior yet.
   it('should ignore shadow hosts with a negative tabindex', () => {
     cy.runExample({
       html: /* html */ `
@@ -285,8 +284,6 @@ describe('Focus trap', () => {
    * focusable-selectors and may still have dimensions, so we need a special
    * case to ignore them.
    */
-  // TODO: This test is currently failing. We do not match this browser
-  // behavior yet.
   it('should ignore non-<summary> elements in a closed <details>', () => {
     cy.runExample({
       html: stripIndent(/* html */ `

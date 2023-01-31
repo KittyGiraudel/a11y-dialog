@@ -214,15 +214,19 @@ describe('Focus trap', () => {
 
         // Assert that we have a shadow host that delegates focus to its subtree
         cy.get('@shadowHost')
+          .should('have.prop', 'localName', 'fancy-button')
           .shadow()
           .should('have.prop', 'delegatesFocus', true)
 
         // Assert that the shadowHost is *not* what our library returns
         cy.get('@first')
-          .should('not.deep.equal', '@shadowHost')
-          // and that it is a button within a shadowRoot
+          // First check that it is a button within a shadowRoot
           .and('have.prop', 'localName', 'button')
           .and('be.withinShadowRoot')
+          // then check that it is not the same as the shadow host
+          .then(first => {
+            cy.get('@shadowHost').its(0).should('not.deep.equal', first.get(0))
+          })
       }),
     })
   })

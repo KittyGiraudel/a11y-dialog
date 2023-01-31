@@ -191,20 +191,6 @@ describe('Focus trap', () => {
     })
   })
 
-  /**
-   * A shadow host that delegates focus will never directly receive focus,
-   * even when the host itself is focusable. Consider our <fancy-button> custom
-   * element, which delegates focus. If we were to apply a tabindex to it, it
-   * would look like this:
-   *
-   * <fancy-button tabindex="0">
-   *  #shadow-root
-   *  <button><slot></slot></button>
-   * </fancy-button>
-   *
-   * The browser acts as as if there is only one focusable element – the shadow
-   * button. Our library should behave the same way.
-   */
   it('should ignore focusable shadow hosts if they delegate focus to their shadow subtree', () => {
     cy.runExample({
       html: stripIndent(/* html */ `
@@ -240,11 +226,7 @@ describe('Focus trap', () => {
       }),
     })
   })
-  /**
-   * The browser will never send focus into a Shadow DOM if the host element
-   * has a negative tabindex. This applies to both slotted Light DOM Shadow DOM
-   * children
-   */
+
   it('should ignore shadow hosts with a negative tabindex', () => {
     cy.runExample({
       html: /* html */ `
@@ -278,12 +260,6 @@ describe('Focus trap', () => {
     })
   })
 
-  /**
-   * Browsers hide all non-<summary> descendants of closed <details> elements
-   * from user interaction, but those non-<summary> elements may still match our
-   * focusable-selectors and may still have dimensions, so we need a special
-   * case to ignore them.
-   */
   it('should ignore non-<summary> elements in a closed <details>', () => {
     cy.runExample({
       html: stripIndent(/* html */ `

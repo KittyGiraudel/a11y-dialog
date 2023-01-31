@@ -102,8 +102,12 @@ function getNextSiblingEl(el: HTMLElement, forward: boolean) {
  * Determine if an element is hidden from the user.
  */
 const isHidden = (el: HTMLElement) => {
-  // If this is a descendant of a closed <details> and NOT a <summary>,
-  // it's hidden.
+  /**
+   * Browsers hide all non-<summary> descendants of closed <details> elements
+   * from user interaction, but those non-<summary> elements may still match our
+   * focusable-selectors and may still have dimensions, so we need a special
+   * case to ignore them.
+   */
   if (
     el.matches('details:not([open]) *') &&
     !el.matches('details>summary:first-of-type')
@@ -118,16 +122,27 @@ const isHidden = (el: HTMLElement) => {
  * Determine if an element is focusable and has user-visible painted dimensions.
  */
 const isFocusable = (el: HTMLElement) => {
-  // A shadow host that delegates focus is not focusable.
+  /**
+   * A shadow host that delegates focus will never directly receive focus,
+   * even with `tabindex=0`. Consider our <fancy-button> custom element, which
+   * delegates focus to its shadow button:
+   *
+   * <fancy-button tabindex="0">
+   *  #shadow-root
+   *  <button><slot></slot></button>
+   * </fancy-button>
+   *
+   * The browser acts as as if there is only one focusable element – the shadow
+   * button. Our library should behave the same way.
+   */
   if (el.shadowRoot?.delegatesFocus) return false
+
   return el.matches(focusableSelectors.join(',')) && !isHidden(el)
 }
 
 /**
  * Determine if an element can have focusable children. Useful for bailing out
- * early when walking the DOM tree. Note: while this check has some overlap with
- * `isFocusable`, its goal is to bail on an entire subtree, so it has to happen
- * at a different time.
+ * early when walking the DOM tree.
  * @example
  * This div is inert, so none of its children can be focused, even though they
  * meet our criteria for what is focusable. Once we check the div, we can skip
@@ -140,12 +155,18 @@ const isFocusable = (el: HTMLElement) => {
  * ```
  */
 function canHaveFocusableChildren(el: HTMLElement) {
-  // If an element is a shadow host with a negative tabindex, it cannot have
-  // focusable children.
+  /**
+   * The browser will never send focus into a Shadow DOM if the host element
+   * has a negative tabindex. This applies to both slotted Light DOM Shadow DOM
+   * children
+   */
   if (el.shadowRoot && el.getAttribute('tabindex') === '-1') return false
-  // Elemments matching this selector are either hidden entirely from the user,
-  // or are visible but unavailable for interaction. Their descentants can never
-  // receive focus.
+
+  /**
+   * Elemments matching this selector are either hidden entirely from the user,
+   * or are visible but unavailable for interaction. Their descentants can never
+   * receive focus.
+   */
   return !el.matches(':disabled,[hidden],[inert]')
 }
 

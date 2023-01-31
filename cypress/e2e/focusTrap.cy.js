@@ -293,8 +293,7 @@ describe('Focus trap', () => {
         // Assert that the <summary> is the only focusable element our library
         // finds
         cy.get('@first')
-          .should('be.element')
-          .and('have.prop', 'localName', 'summary')
+          .should('be.element', 'summary')
           .then(first => {
             cy.get('@last').should('deep.equal', first.get(0))
           })

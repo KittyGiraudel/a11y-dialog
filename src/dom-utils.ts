@@ -126,6 +126,9 @@ export function isFocusable(el: HTMLElement) {
  * ```
  */
 function canHaveFocusableChildren(el: HTMLElement) {
+  // If an element is a shadow host with a negative tabindex, it cannot have
+  // focusable children.
+  if (el.shadowRoot && el.getAttribute('tabindex') === '-1') return false
   // Elemments matching this selector are either hidden entirely from the user,
   // or are visible but unavailable for interaction. Their descentants can never
   // receive focus.

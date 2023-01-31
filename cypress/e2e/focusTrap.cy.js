@@ -247,21 +247,32 @@ describe('Focus trap', () => {
  * children
  */
 // TODO: This test is currently failing. We do not match this browser behavior yet.
-it.skip('should ignore shadow hosts with a negative tabindex', () => {
-  cy.get('#shadow-host-negative-tabindex').then(container => {
-    // Get the <fancy-card> with a negative tabindex
-    const shadowHostEl = container.find('[data-cy-negative-tabindex]')[0]
-    // Get the first and last focusable element, according to our library
-    const [first, last] = getFocusableEdges(container[0])
+it('should ignore shadow hosts with a negative tabindex', () => {
+  cy.runExample({
+    html: stripIndent(/* html */ ` <div id="shadow-host-negative-tabindex">
+    <fancy-card tabindex="-1" data-cy-negative-tabindex>
+      <h3>AAAA</h3>
+      <p>Hello, <a href="#">link</a></p>
+    </fancy-card>
+  </div>`),
+    test: serialize(() => {
+      // Get the first and last focusable element, according to our library
+      cy.get('#shadow-host-negative-tabindex')
+        .as('container')
+        .aliasFocusableEdges({ skipAliases: true })
 
-    // Assert that the shadow host has a negative tabindex
-    expect(shadowHostEl).to.have.attr('tabindex', '-1')
-    // Asseert that the shadow DOM contains a <fancy-button>
-    expect(shadowHostEl.shadowRoot?.querySelector('fancy-button')).to.not.be
-      .null
-    // Assert that our library finds no focusable elements in this container
-    expect(first).to.be.null
-    expect(last).to.be.null
+      // Get the shadow host with a negative tabindex
+      cy.get('@container').find('[data-cy-negative-tabindex]').as('shadowHost')
+
+      // Assert that the shadow host has a negative tabindex
+      cy.get('@shadowHost').should('have.attr', 'tabindex', '-1')
+      // Asseert that the shadow DOM contains a <fancy-button>
+      cy.get('@shadowHost').shadow().find('fancy-button').should('exist')
+
+      // Assert that our library finds no focusable elements in this container
+      cy.get('@edges').its('0').should('be.null')
+      cy.get('@edges').its('1').should('be.null')
+    }),
   })
 })
 

@@ -190,4 +190,114 @@ describe('Focus trap', () => {
       }),
     })
   })
+
+  it('should ignore focusable shadow hosts if they delegate focus to their shadow subtree', () => {
+    cy.runExample({
+      html: stripIndent(/* html */ `
+      <div id="shadow-host-delegates-focus">
+        <p>
+          Custom Elements that delegate focus
+          should <i>not</i> return the host as a focusable element; only the
+          focusable elements in the shadow DOM.
+        </p>
+        <fancy-button data-cy-delegates-focus tabindex="0">I'm in the Shadow DOM</fancy-button>
+      </div>
+    `),
+      test: serialize(() => {
+        // Get the first focusable element, according to our library
+        cy.get('#shadow-host-delegates-focus')
+          .as('container')
+          .aliasFocusableEdges()
+
+        // Get the shadow host in this container
+        cy.get('@container').find('[data-cy-delegates-focus]').as('shadowHost')
+
+        // Assert that we have a shadow host that delegates focus to its subtree
+        cy.get('@shadowHost')
+          .should('have.prop', 'localName', 'fancy-button')
+          .shadow()
+          .should('have.prop', 'delegatesFocus', true)
+
+        // Assert that the shadowHost is *not* what our library returns
+        cy.get('@first')
+          // First check that it is a button within a shadowRoot
+          .and('have.prop', 'localName', 'button')
+          .and('be.withinShadowRoot')
+          // then check that it is not the same as the shadow host
+          .then(first => {
+            cy.get('@shadowHost').its(0).should('not.deep.equal', first.get(0))
+          })
+      }),
+    })
+  })
+
+  it('should ignore shadow hosts with a negative tabindex', () => {
+    cy.runExample({
+      html: /* html */ `
+        <div id="shadow-host-negative-tabindex">
+          <fancy-card tabindex="-1" data-cy-negative-tabindex>
+            <h3>AAAA</h3>
+            <p>Hello, <a href="#">link</a></p>
+          </fancy-card>
+        </div>
+      `,
+      test: serialize(() => {
+        // Get the first and last focusable element, according to our library
+        cy.get('#shadow-host-negative-tabindex')
+          .as('container')
+          .aliasFocusableEdges({ skipAliases: true })
+
+        // Get the shadow host with a negative tabindex
+        cy.get('@container')
+          .find('[data-cy-negative-tabindex]')
+          .as('shadowHost')
+
+        // Assert that the shadow host has a negative tabindex
+        cy.get('@shadowHost').should('have.attr', 'tabindex', '-1')
+        // Asseert that the shadow DOM contains a <fancy-button>
+        cy.get('@shadowHost').shadow().find('fancy-button').should('exist')
+
+        // Assert that our library finds no focusable elements in this container
+        cy.get('@edges').its('0').should('be.null')
+        cy.get('@edges').its('1').should('be.null')
+      }),
+    })
+  })
+
+  it('should ignore non-<summary> elements in a closed <details>', () => {
+    cy.runExample({
+      html: stripIndent(/* html */ `
+      <div id="with-details">
+        <h2>With details & summary elements</h2>
+        <details>
+          <summary>Hellaur</summary>
+          <p>What are frogs?
+            <a href="#">Science</a> may one day understand.
+          </p>
+        </details>
+      </div>
+    `),
+      test: serialize(() => {
+        cy.get('#with-details').as('container').aliasFocusableEdges()
+
+        // Assert that this container has a <details> element
+        // and it is closed
+        cy.get('@container')
+          .find('details')
+          .as('details')
+          .should('have.prop', 'open', false)
+
+        // Assert that there is an anchor element within the <details>
+        cy.get('@details').find('a').should('exist')
+
+        // Assert that the <summary> is the only focusable element our library
+        // finds
+        cy.get('@first')
+          .should('be.element', 'summary')
+          .then(first => {
+            cy.get('@last').should('deep.equal', first.get(0))
+          })
+      }),
+    })
+  })
 })

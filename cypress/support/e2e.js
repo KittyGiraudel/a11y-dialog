@@ -21,7 +21,14 @@ Cypress.Commands.add(
 )
 
 chai.use(_chai => {
-  _chai.Assertion.addMethod('element', function isElement() {
+  _chai.Assertion.addMethod('element', function isElement(localName) {
+    if (localName) {
+      this.assert(
+        this._obj.localName === localName,
+        `expected #{this} to be an element with localName "${localName}"`,
+        `expected #{this} not to be an element with localName "${localName}"`
+      )
+    }
     this.assert(
       Cypress.dom.isElement(this._obj),
       `expected #{this} to be an element`,

@@ -64,3 +64,16 @@ The rest, such as what the dialog really looks like, and how its content is styl
 :::tip  
 Feel free to look at the [demo on CodeSandbox](https://codesandbox.io/s/a11y-dialog-v7-pnwqu) for more extensive styles.  
 :::
+
+## Scrollable content
+
+For dialogs that may hold a lot of content, or generally to make dialogs resilient to arbitrary content, you may want to make sure it has a maximum height and can scroll. The way you go about it depends on your styles, but the following declarations should get you mostly there:
+
+```css
+.dialog-content {
+  overflow: auto;
+  max-height: 90vh;
+}
+```
+
+Please refer to [this CodeSandbox](https://codesandbox.io/s/a11y-dialog-v7-scrollable-g5ysc5) for a demo of a dialog with scrollable content.

@@ -93,14 +93,14 @@ export default class A11yDialog {
     // If the dialog is already closed, abort
     if (!this.shown) return this
 
-    this.shown = false
-    this.$el.setAttribute('aria-hidden', 'true')
-    this.previouslyFocused?.focus?.()
-
     // Remove the focus event listener to the body element and stop listening
     // for specific key presses
     document.body.removeEventListener('focus', this.maintainFocus, true)
     this.$el.removeEventListener('keydown', this.bindKeypress, true)
+
+    this.shown = false
+    this.$el.setAttribute('aria-hidden', 'true')
+    this.previouslyFocused?.focus?.()
 
     // Dispatch a `hide` event
     this.fire('hide', event)

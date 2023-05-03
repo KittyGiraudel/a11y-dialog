@@ -130,6 +130,11 @@ A11yDialog.prototype.hide = function (event) {
     return this
   }
 
+  // Remove the focus event listener to the body element and stop listening
+  // for specific key presses
+  document.body.removeEventListener('focus', this._maintainFocus, true)
+  document.removeEventListener('keydown', this._bindKeypress)
+
   this.shown = false
   this.$el.setAttribute('aria-hidden', 'true')
 
@@ -139,11 +144,6 @@ A11yDialog.prototype.hide = function (event) {
   if (this._previouslyFocused && this._previouslyFocused.focus) {
     this._previouslyFocused.focus()
   }
-
-  // Remove the focus event listener to the body element and stop listening
-  // for specific key presses
-  document.body.removeEventListener('focus', this._maintainFocus, true)
-  document.removeEventListener('keydown', this._bindKeypress)
 
   // Execute all callbacks registered for the `hide` event
   this._fire('hide', event)

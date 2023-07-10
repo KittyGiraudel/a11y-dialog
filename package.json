@@ -44,7 +44,7 @@
     "cypress-real-events": "^1.7.6",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.0",
-    "prettier": "^2.8.3",
+    "prettier": "^3.0.0",
     "rollup": "^3.10.1",
     "typescript": "^5.1.6"
   },

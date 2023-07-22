@@ -98,6 +98,19 @@ A11yDialog.prototype.show = function (event) {
   // Keep a reference to the currently focused element to be able to restore
   // it later
   this._previouslyFocused = document.activeElement
+
+  // Due to a long lasting bug in Safari, clicking an interactive element (like
+  // a <button>) does *not* move the focus to that element, which means
+  // `document.activeElement` is whatever element is currently focused (like an
+  // <input>), or the <body> element otherwise. We can work around that problem
+  // by checking whether the focused element is the <body>, and if it, store the
+  // click event target.
+  // See: https://bugs.webkit.org/show_bug.cgi?id=22261
+  const target = event && event.target ? event.target : null
+  if (target && Object.is(this._previouslyFocused, document.body)) {
+    this._previouslyFocused = target
+  }
+
   this.$el.removeAttribute('aria-hidden')
   this.shown = true
 

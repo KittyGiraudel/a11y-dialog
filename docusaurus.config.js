@@ -16,7 +16,7 @@ module.exports = {
       title: 'a11y-dialog',
       items: [
         {
-          href: 'https://codesandbox.io/s/a11y-dialog-v7-pnwqu',
+          href: 'https://codesandbox.io/s/a11y-dialog-v8-5gqfz8',
           label: 'Demo',
           position: 'right',
         },

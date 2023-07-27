@@ -1,0 +1,111 @@
+
+    {  
+    "id": "INV2-ACSD-T3LG-8L7A-W7R4",
+    "receipt_items": {  
+        "items": [  
+        {  
+            "name": "Item",
+            "quantity": 1,
+            "unit_price": {  
+            "currency": "USD",
+            "value": "1.0"
+            },
+            "calculated_price": {  
+            "currency": "USD",
+            "value": "1.0"
+            },
+            "taxes": [ ],
+            "discounts": [ ],
+            "additional_fees": [ ],
+            "customer_data": [ ]
+        }
+        ],
+        "taxes": [ ],
+        "sub_total": {  
+        "currency": "USD",
+        "value": "1.00"
+        },
+        "discounts": [ ],
+        "total": {  
+        "currency": "USD",
+        "value": "1.0"
+        }
+    },
+    "receipt_payment": {  
+        "payment_status": "CANCELLED",
+        "payment_type": "AUTHORIZATION",
+        "payment_time": "0",
+        "authorized_amount": {  
+        "currency": "USD",
+        "value": "1.0"
+        },
+        "payment_card": {  
+        "card_scheme": "CREDIT",
+        "card_number": "2677",
+        "authorization_code": "087202",
+        "card_soft_description": "PP*PAYDIANTPAY",
+        "icc_info": {  
+            "pin_present":false,
+            "signature_verified":false,
+            "authorization_response_code": "00",
+            "authorization_response_code_label": "APPROVED",
+            "icc_application_cryptogram": "606C700D55FB5C0A",
+            "icc_application_cryptogram_label": "TC",
+            "icc_application_identifier": "A0000000041010",
+            "icc_application_PAN_number": "01",
+            "terminal_id": "7688",
+            "transaction_status_information": "E800",
+            "issuer_application_data": "011060700222000014E100000000000000FF",
+            "terminal_verification_results": "0000008000"
+        }
+        },
+        "payment_method": [  
+        {  
+            "name": "ICC",
+            "amount": {  
+            "currency": "USD",
+            "value": "1.0"
+            }
+        }
+        ],
+        "payment_location": {  
+        "latitude":42.3388173,
+        "longitude":-71.2535543
+        },
+        "customer_data": [ ]
+    },
+    "merchant_info": {  
+        "account_id": "BN33NU7YGPY78",
+        "business_name": "Paydiant, Paypal",
+        "business_address": {  
+        "line1": "275 Grove Street",
+        "city": "Aurbandale",
+        "country_code": "US",
+        "postal_code": "02466",
+        "state": "MA"
+        },
+        "email_address": "paydiantconnectors@gmail.com",
+        "country": "US",
+        "preferred_language": "en_US",
+        "time_zone": "America/Los_Angeles",
+        "customer_data": [ ]
+    },
+    "store_info": { },
+    "buyer_info": {  
+        "address": { }
+    },
+    "receipt_details": {  
+        "order_id": "sdk2test68797",
+        "create_time": "1519325030",
+        "is_seller_receipt":true,
+        "customer_data":[ ]
+    },
+    "links":[  
+        {  
+        "href": "SELF",
+        "rel": "https://api-m.paypal.com/v1/sales/transactions/INV2-ACSD-T3LG-8L7A-W7R4/receipt",
+        "method": "GET"
+        }
+    ]
+    }
+    https://creativecloud.adobe.com/campaign/creative-cloud?workflow=route-to-path&route-path=/apps/beta-apps?id=ACOM_202305_PsGAUpdate&source=acom&alt-path=http%3A%2F%2Fhelpx.adobe.com%2Fphotoshop%2Fusing%2Fgenerative-fill.html

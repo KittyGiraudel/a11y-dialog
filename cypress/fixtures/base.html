@@ -22,7 +22,13 @@
       <h1 id="my-dialog-title">Dialog title</h1>
 
       <form>
-        <label for="email">Email (required)</label>
+        <label for="email">Email (required)
+          <button type="button" popovertarget="email-tip" aria-describedby="email-tip">!</button>
+        </label>
+        <p id="email-tip" popover>
+          Make sure your email address is correct as we’ll send you a confirmation email that you’ll need to read to
+          activate your account.
+        </p>
         <input type="email" name="EMAIL" id="email" placeholder="john.doe@gmail.com" required>
         <button type="submit" name="button">Sign up</button>
       </form>

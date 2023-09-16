@@ -34,6 +34,17 @@ describe('State', { testIsolation: false }, () => {
     cy.get('.dialog').then(shouldBeHidden)
   })
 
+  it('should not close when pressing ESC if it contains an open popover', () => {
+    cy.get('[data-a11y-dialog-show="my-dialog"]').click()
+    cy.get('[popovertarget]').click()
+    cy.get('[popover]').should('be.visible')
+    cy.realPress('Escape')
+    cy.get('[popover]').should('not.be.visible')
+    cy.get('.dialog').then(shouldBeVisible)
+    cy.realPress('Escape')
+    cy.get('.dialog').then(shouldBeHidden)
+  })
+
   it('should close when clicking the backdrop', () => {
     cy.get('[data-a11y-dialog-show="my-dialog"]').click()
     cy.get('.dialog-overlay').click({ force: true })

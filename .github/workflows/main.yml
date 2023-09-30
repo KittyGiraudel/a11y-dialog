@@ -25,14 +25,14 @@ jobs:
         run: npm run serve &
 
       - name: Run Cypress (Chrome)
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v6
         with:
           browser: chrome
           install: false
           wait-on: 'http://localhost:5000'
 
       - name: Run Cypress (Edge)
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v6
         with:
           browser: edge
           install: false

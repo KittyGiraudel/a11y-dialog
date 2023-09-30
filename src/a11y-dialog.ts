@@ -3,6 +3,10 @@ import { getActiveElement, moveFocusToDialog, trapTabKey } from './dom-utils'
 export type A11yDialogEvent = 'show' | 'hide' | 'destroy'
 export type A11yDialogInstance = InstanceType<typeof A11yDialog>
 
+function isFocusEvent(event?: Event): event is FocusEvent {
+  return event?.type === 'focus'
+}
+
 export default class A11yDialog {
   private $el: HTMLElement
   private id: string
@@ -81,7 +85,11 @@ export default class A11yDialog {
     }
 
     // Set the focus to the dialog element
-    moveFocusToDialog(this.$el)
+    if (isFocusEvent(event)) {
+      this.maintainFocus(event)
+    } else {
+      moveFocusToDialog(this.$el)
+    }
 
     // Bind a focus event listener to the body element to make sure the focus
     // stays trapped inside the dialog while open, and start listening for some

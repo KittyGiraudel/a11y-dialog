@@ -198,11 +198,13 @@ export default class A11yDialog {
     }
 
     // If the dialog is shown and the ESC key is pressed, prevent any further
-    // effects from the ESC key and hide the dialog, unless its role is
-    // `alertdialog`, which should be modal
+    // effects from the ESC key and hide the dialog, unless:
+    // - its role is `alertdialog`, which means it should be modal
+    // - or it contains an open popover, in which case ESC should close it
     if (
       event.key === 'Escape' &&
-      this.$el.getAttribute('role') !== 'alertdialog'
+      this.$el.getAttribute('role') !== 'alertdialog' &&
+      !this.$el.querySelector('[popover]:not([popover="manual"]):popover-open')
     ) {
       event.preventDefault()
       this.hide(event)

@@ -56,7 +56,9 @@
 }
 
 .dialog-content {
-  animation: fade-in 400ms 200ms both, slide-up 400ms 200ms both;
+  animation:
+    fade-in 400ms 200ms both,
+    slide-up 400ms 200ms both;
 }
 
 .dialog-content {
@@ -121,13 +123,16 @@ body {
   align-items: stretch;
   display: flex;
   flex-direction: column;
-  font: 125% / 1.5 -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+  font:
+    125% / 1.5 -apple-system,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Helvetica,
+    Arial,
     sans-serif;
   gap: 1em;
   padding: 2em 0;
 }
-
-
 
 h1 {
   font-size: 1.6em;
@@ -194,11 +199,11 @@ fancy-div:focus {
 main {
   align-items: flex-start;
   display: flex;
-	flex-basis: 100%;
+  flex-basis: 100%;
   flex-direction: column;
   gap: 0.5em;
-	margin: 0;
-	padding: 0 1em;
+  margin: 0;
+  padding: 0 1em;
 }
 
 footer {
@@ -212,6 +217,7 @@ footer {
 
 form {
   margin-top: 2em;
+  position: relative;
 }
 
 @media screen and (min-width: 700px) {
@@ -258,4 +264,38 @@ form button {
 form button:hover,
 form button:active {
   background-color: #66bb6a;
+}
+
+[popovertarget] {
+  border: 1px solid #00f;
+  background-color: #00f;
+  font-weight: bold;
+  font-size: 125%;
+  line-height: 0;
+  color: #fff;
+  border-radius: 50%;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin: 0;
+  padding: 0;
+}
+
+[popovertarget]:focus,
+[popovertarget]:hover {
+  color: #00f;
+  background-color: #ff0;
+}
+
+[popover] {
+  background-color: #ff9;
+  padding: 0.5em 1em;
+  max-width: 12.5em;
+  font-weight: normal;
+  position: absolute;
+  left: 2em;
+  top: 13.5em;
+  border: 1px solid #cc0;
+  border-radius: 0.25em;
+  box-shadow: 0 0 0.5em #333;
 }

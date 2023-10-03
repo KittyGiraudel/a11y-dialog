@@ -197,6 +197,19 @@ export default class A11yDialog {
       return
     }
 
+    let hasOpenPopover = false
+    try {
+      hasOpenPopover = !!this.$el.querySelector(
+        '[popover]:not([popover="manual"]):popover-open'
+      )
+    } catch {
+      // Run that DOM query in a try/catch because not all browsers support the
+      // `:popover-open` selector, which would cause the whole expression to
+      // fail
+      // See: https://caniuse.com/mdn-css_selectors_popover-open
+      // See: https://github.com/KittyGiraudel/a11y-dialog/pull/578#discussion_r1343215149
+    }
+
     // If the dialog is shown and the ESC key is pressed, prevent any further
     // effects from the ESC key and hide the dialog, unless:
     // - its role is `alertdialog`, which means it should be modal
@@ -204,7 +217,7 @@ export default class A11yDialog {
     if (
       event.key === 'Escape' &&
       this.$el.getAttribute('role') !== 'alertdialog' &&
-      !this.$el.querySelector('[popover]:not([popover="manual"]):popover-open')
+      !hasOpenPopover
     ) {
       event.preventDefault()
       this.hide(event)

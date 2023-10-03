@@ -1,7 +1,7 @@
 {
   "name": "a11y-dialog",
   "type": "module",
-  "version": "8.0.3",
+  "version": "8.0.4",
   "description": "A tiny script to make dialog windows accessible to assistive technology users.",
   "homepage": "https://a11y-dialog.netlify.app/",
   "license": "MIT",

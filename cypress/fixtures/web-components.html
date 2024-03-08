@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Tests — Web Components</title>
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+
+<body>
+  <main>
+    <h1>Tests — Web Components</h1>
+
+    <my-dialog>
+      <template>
+        <button type="button" data-show>Open the dialog</button>
+        <div class="dialog" id="my-dialog" aria-labelledby="my-dialog-title" aria-hidden="true">
+          <div class="dialog-overlay" data-a11y-dialog-hide></div>
+          <div class="dialog-content" role="document">
+            <button data-a11y-dialog-hide class="dialog-close" aria-label="Close this dialog window">&times;</button>
+            <h1 id="my-dialog-title">Your dialog title</h1>
+          </div>
+        </div>
+        <link rel="stylesheet" href="../styles.css" />
+      </template>
+    </my-dialog>
+  </main>
+
+  <script src="./a11y-dialog.js"></script>
+  <script>
+    class MyDialog extends HTMLElement {
+      connectedCallback() {
+        const shadow = this.attachShadow({ mode: 'open' });
+        const template = this.querySelector('template');
+        shadow.appendChild(template.content.cloneNode(true));
+
+        const container = this.shadowRoot.querySelector("#my-dialog");
+        const dialog = new A11yDialog(container);
+
+        const trigger = this.shadowRoot.querySelector('[data-show]');
+        trigger.addEventListener('click', () => dialog.show())
+      }
+    }
+
+    customElements.define("my-dialog", MyDialog);
+  </script>
+</body>
+
+</html>

@@ -1,6 +1,6 @@
 # [A11y Dialog](https://a11y-dialog.netlify.app)
 
-This is a lightweight (1.4Kb) yet flexible script to create accessible dialog windows.
+This is a lightweight (1.5Kb) yet flexible script to create accessible dialog windows.
 
 - [Documentation ↗](https://a11y-dialog.netlify.app)
 - [Demo on CodeSandbox ↗](https://codesandbox.io/s/a11y-dialog-v8-5gqfz8)

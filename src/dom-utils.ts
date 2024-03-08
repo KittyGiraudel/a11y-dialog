@@ -213,3 +213,24 @@ export function trapTabKey(el: HTMLElement, event: KeyboardEvent) {
     event.preventDefault()
   }
 }
+
+/**
+ * Find the closest element to the given element matching the given selector,
+ * accounting for Shadow DOM subtrees.
+ * @author Louis St-Amour
+ * @see: https://stackoverflow.com/a/56105394
+ */
+export function closest(selector: string, base: Element | null) {
+  function __closestFrom(
+    el: Element | Window | Document | null
+  ): Element | null {
+    if (!el || el === document || el === window) return null
+    if ((el as Slottable).assignedSlot) el = (el as Slottable).assignedSlot
+    return (
+      (el as Element).closest(selector) ||
+      __closestFrom(((el as Element).getRootNode() as ShadowRoot).host)
+    )
+  }
+
+  return __closestFrom(base)
+}

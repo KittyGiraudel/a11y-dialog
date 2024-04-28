@@ -40,18 +40,27 @@ describe('Focus', { testIsolation: false }, () => {
     cy.get('[data-a11y-dialog-show="shadow-dialog"]').click()
 
     // Move focus into the dialog and ensure that the first focused element is a
-    // `<fancy-button>` element.
+    // the `<button>` element within the `<fancy-button>` element. Note: as of
+    // Cypress 13.7.1, the `.focused()` command properly return the active
+    // element of the shadow root for Shadow DOM.
+    // See: https://github.com/cypress-io/cypress/pull/29125/files
     cy.realPress('Tab')
-      .focused()
-      .should('have.prop', 'tagName')
-      .should('eq', 'FANCY-BUTTON')
+    cy.get('[data-a11y-dialog="shadow-dialog"]')
+      .find('fancy-button')
+      .shadow()
+      .find('button')
+      .should('have.focus')
 
     // Verify that focus goes backward into the `<fancy-card>` element. Within
-    // that, verify that the `<fancy-button>` element is focused.
+    // that, verify that the `<button>` element within the `<fancy-button>`
+    // element is focused.
     cy.realPress(['Shift', 'Tab'])
-      .focused()
+    cy.get('[data-a11y-dialog="shadow-dialog"]')
+      .find('fancy-card')
       .shadow()
       .find('fancy-button')
+      .shadow()
+      .find('button')
       .should('have.focus')
 
     // Close the open dialog

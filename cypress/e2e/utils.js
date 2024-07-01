@@ -6,8 +6,14 @@ export function shouldBeVisible($subject) {
     consoleProps: () => ({ $el: $subject }),
   })
 
-  cy.wrap($subject, { log: false }).should('not.have.attr', 'aria-hidden')
-  cy.wrap($subject, { log: false })
+  if ($subject[0].shadowRoot) {
+    cy.wrap($subject, { log: false }).shadow().find('.dialog').as('subject')
+  } else {
+    cy.wrap($subject, { log: false }).as('subject')
+  }
+
+  cy.get('@subject').should('not.have.attr', 'aria-hidden')
+  cy.get('@subject')
     .find('.dialog-content', { log: false })
     .should('be.visible')
 }
@@ -20,11 +26,17 @@ export function shouldBeHidden($subject) {
     consoleProps: () => ({ $el: $subject }),
   })
 
-  cy.wrap($subject, { log: false })
-    .should('have.attr', 'aria-hidden', 'true')
+  if ($subject[0].shadowRoot) {
+    cy.wrap($subject, { log: false }).shadow().find('.dialog').as('subject')
+  } else {
+    cy.wrap($subject, { log: false }).as('subject')
+  }
+
+  cy.get('@subject').should('have.attr', 'aria-hidden', 'true')
+  cy.get('@subject')
     .find('.dialog-overlay', { log: false })
     .should('not.be.visible')
-  cy.wrap($subject, { log: false })
+  cy.get('@subject')
     .find('.dialog-content', { log: false })
     .should('not.be.visible')
 }

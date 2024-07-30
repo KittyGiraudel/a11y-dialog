@@ -8,6 +8,21 @@
   "main": "dist/a11y-dialog.js",
   "module": "dist/a11y-dialog.esm.js",
   "types": "dist/a11y-dialog.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/a11y-dialog.esm.js",
+      "require": "./dist/a11y-dialog.js",
+      "types": "./dist/a11y-dialog.d.ts"
+    },
+    "dist/*.esm.js": "./dist/*.esm.js",
+    "dist/*.js": "./dist/*.js",
+    "dist/*": {
+      "import": "./dist/*.esm.js",
+      "require": "./dist/*.js",
+      "types": "./dist/*.d.ts"
+    },
+    "package.json": "./package.json"
+  },
   "keywords": [
     "modal",
     "dialog",

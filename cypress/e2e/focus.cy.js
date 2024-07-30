@@ -1,3 +1,5 @@
+import { shouldBeHidden } from './utils.js'
+
 describe('Focus', { testIsolation: false }, () => {
   before(() => cy.visit('/focus'))
 
@@ -34,6 +36,7 @@ describe('Focus', { testIsolation: false }, () => {
 
     // Close the open dialog
     cy.get('#close-my-dialog').click()
+    cy.get('.dialog').then(shouldBeHidden)
   })
 
   it('should properly handle focus with Shadow DOM children', () => {

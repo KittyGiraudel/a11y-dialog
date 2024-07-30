@@ -1,4 +1,9 @@
-import { getActiveElement, moveFocusToDialog, trapTabKey } from './dom-utils'
+import {
+  getActiveElement,
+  moveFocusToDialog,
+  trapTabKey,
+  closest,
+} from './dom-utils'
 
 export type A11yDialogEvent = 'show' | 'hide' | 'destroy'
 export type A11yDialogInstance = InstanceType<typeof A11yDialog>
@@ -169,7 +174,16 @@ export default class A11yDialog {
    * dialog are clicked, and call `show` or `hide`, respectively
    */
   private handleTriggerClicks(event: Event) {
-    const target = event.target as HTMLElement
+    // This is a bit clumsy, but basically we want to account for being inside
+    // a web component *and* the target being a web component itself. In the
+    // 1st case, `event.target` ends up being the shadow root, so we need to use
+    // `event.composedPath()[0]` to get the actual click target. However in the
+    // case where the clicked element is a custom element (e.g. `<my-button>`),
+    // `event.composedPath()[0]` ends up being a `<slot>` element
+    // See: https://github.com/KittyGiraudel/a11y-dialog/issues/582
+    const target = [event.composedPath()[0], event.target].find(
+      node => (node as HTMLElement)?.tagName !== 'SLOT'
+    ) as HTMLElement
 
     // We use `.closest(..)` and not `.matches(..)` here so that clicking
     // an element nested within a dialog opener does cause the dialog to open
@@ -192,8 +206,9 @@ export default class A11yDialog {
    */
   private bindKeypress(event: KeyboardEvent) {
     // This is an escape hatch in case there are nested open dialogs, so that
-    // only the top most dialog gets interacted with
-    if (document.activeElement?.closest('[aria-modal="true"]') !== this.$el) {
+    // only the top most dialog gets interacted with (`closest` is basically
+    // `Element.prototype.closest()` accounting for Shadow DOM subtrees)
+    if (closest('[aria-modal="true"]', getActiveElement()) !== this.$el) {
       return
     }
 

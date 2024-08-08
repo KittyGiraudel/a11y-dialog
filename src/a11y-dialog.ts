@@ -213,14 +213,25 @@ export default class A11yDialog {
     // If the dialog is shown and the ESC key is pressed, prevent any further
     // effects from the ESC key and hide the dialog, unless:
     // - its role is `alertdialog`, which means it should be modal
-    // - or it contains an open popover, in which case ESC should close it
+    // - it contains an open popover, in which case ESC should close it
+    // - or the custom event dialog:escape is cancelled
     if (
       event.key === 'Escape' &&
       this.$el.getAttribute('role') !== 'alertdialog' &&
       !hasOpenPopover
     ) {
-      event.preventDefault()
-      this.hide(event)
+      const escapeEvent = new CustomEvent('dialog:escape', {
+        bubbles: true,
+        cancelable: true,
+        detail: { originalEvent: event },
+      })
+
+      this.$el.dispatchEvent(escapeEvent)
+
+      if (!escapeEvent.defaultPrevented) {
+        event.preventDefault()
+        this.hide(event)
+      }
     }
 
     // If the dialog is shown and the TAB key is pressed, make sure the focus

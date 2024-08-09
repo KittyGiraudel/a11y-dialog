@@ -45,6 +45,52 @@ describe('State', { testIsolation: false }, () => {
     cy.get('.dialog').then(shouldBeHidden)
   })
 
+  it('should not close when pressing ESC if the event is captured and canceled', () => {
+    const onEscapeWithoutDefaultPrevention = event => {
+      expect(event.detail.target.hasAttribute('data-a11y-dialog-hide'))
+    }
+    const onEscapeWithDefaultPrevention = event => {
+      event.preventDefault()
+      expect(event.detail.target.hasAttribute('data-a11y-dialog-hide'))
+    }
+
+    // Listen to ESC events, but do not prevent them
+    cy.get('[data-a11y-dialog]').then($node =>
+      $node[0].addEventListener('escape', onEscapeWithoutDefaultPrevention)
+    )
+
+    // Open the dialog and expect it to be visible
+    cy.get('[data-a11y-dialog-show="my-dialog"]').click()
+    cy.get('.dialog').then(shouldBeVisible)
+
+    // Press ESC and expect it to close
+    cy.realPress('Escape')
+    cy.get('.dialog').then(shouldBeHidden)
+
+    // Start canceling escape events
+    cy.get('[data-a11y-dialog]').then($node =>{
+      $node[0].removeEventListener('escape', onEscapeWithoutDefaultPrevention)
+      $node[0].addEventListener('escape', onEscapeWithDefaultPrevention)
+    })
+
+    // Open the dialog and expect it to be visible
+    cy.get('[data-a11y-dialog-show="my-dialog"]').click()
+    cy.get('.dialog').then(shouldBeVisible)
+
+    // Press ESC and expect it to still be visible
+    cy.realPress('Escape')
+    cy.get('.dialog').then(shouldBeVisible)
+
+    // Stop canceling ESC events
+    cy.get('[data-a11y-dialog]').then($node =>{
+      $node[0].removeEventListener('escape', onEscapeWithDefaultPrevention)
+    })
+
+    // Press ESC and expect it to be closed
+    cy.realPress('Escape')
+    cy.get('.dialog').then(shouldBeHidden)
+  })
+
   it('should close when clicking the backdrop', () => {
     cy.get('[data-a11y-dialog-show="my-dialog"]').click()
     cy.get('.dialog-overlay').click({ force: true })

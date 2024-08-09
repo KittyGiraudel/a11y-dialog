@@ -1,6 +1,6 @@
 import { getActiveElement, moveFocusToDialog, trapTabKey } from './dom-utils'
 
-export type A11yDialogEvent = 'show' | 'hide' | 'destroy'
+export type A11yDialogEvent = 'show' | 'hide' | 'destroy' | 'escape'
 export type A11yDialogInstance = InstanceType<typeof A11yDialog>
 
 export default class A11yDialog {
@@ -156,12 +156,15 @@ export default class A11yDialog {
    * code
    */
   private fire(type: A11yDialogEvent, event?: Event) {
-    this.$el.dispatchEvent(
-      new CustomEvent(type, {
-        detail: event,
-        cancelable: true,
-      })
-    )
+    const customEvent = new CustomEvent(type, {
+      detail: event,
+      bubbles: true,
+      cancelable: true,
+    })
+
+    this.$el.dispatchEvent(customEvent)
+
+    return customEvent
   }
 
   /**
@@ -220,13 +223,7 @@ export default class A11yDialog {
       this.$el.getAttribute('role') !== 'alertdialog' &&
       !hasOpenPopover
     ) {
-      const escapeEvent = new CustomEvent('dialog:escape', {
-        bubbles: true,
-        cancelable: true,
-        detail: { originalEvent: event },
-      })
-
-      this.$el.dispatchEvent(escapeEvent)
+      const escapeEvent = this.fire('escape', event)
 
       if (!escapeEvent.defaultPrevented) {
         event.preventDefault()

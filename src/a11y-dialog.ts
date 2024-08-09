@@ -39,6 +39,12 @@ export default class A11yDialog {
    * and remove all associated listeners from dialog openers and closers
    */
   public destroy(): A11yDialogInstance {
+    // Dispatch a `destroy` event
+    const destroyEvent = this.fire('destroy')
+
+    // If the event was prevented, do not continue with the normal behavior
+    if (destroyEvent.defaultPrevented) return this
+
     // Hide the dialog to avoid destroying an open instance
     this.hide()
 
@@ -48,9 +54,6 @@ export default class A11yDialog {
     // Clone and replace the dialog element to prevent memory leaks caused by
     // event listeners that the author might not have cleaned up.
     this.$el.replaceWith(this.$el.cloneNode(true))
-
-    // Dispatch a `destroy` event
-    this.fire('destroy')
 
     return this
   }
@@ -62,6 +65,12 @@ export default class A11yDialog {
   public show(event?: Event): A11yDialogInstance {
     // If the dialog is already open, abort
     if (this.shown) return this
+
+    // Dispatch a `show` event
+    const showEvent = this.fire('show', event)
+
+    // If the event was prevented, do not continue with the normal behavior
+    if (showEvent.defaultPrevented) return this
 
     // Keep a reference to the currently focused element to be able to restore
     // it later
@@ -94,9 +103,6 @@ export default class A11yDialog {
     document.body.addEventListener('focus', this.maintainFocus, true)
     this.$el.addEventListener('keydown', this.bindKeypress, true)
 
-    // Dispatch a `show` event
-    this.fire('show', event)
-
     return this
   }
 
@@ -109,6 +115,12 @@ export default class A11yDialog {
     // If the dialog is already closed, abort
     if (!this.shown) return this
 
+    // Dispatch a `hide` event
+    const hideEvent = this.fire('hide', event)
+
+    // If the event was prevented, do not continue with the normal behavior
+    if (hideEvent.defaultPrevented) return this
+
     this.shown = false
     this.$el.setAttribute('aria-hidden', 'true')
     this.previouslyFocused?.focus?.()
@@ -117,9 +129,6 @@ export default class A11yDialog {
     // for specific key presses
     document.body.removeEventListener('focus', this.maintainFocus, true)
     this.$el.removeEventListener('keydown', this.bindKeypress, true)
-
-    // Dispatch a `hide` event
-    this.fire('hide', event)
 
     return this
   }
@@ -151,17 +160,19 @@ export default class A11yDialog {
   }
 
   /**
-   * Dispatch a custom event from the DOM element associated with this dialog.
-   * This allows authors to listen for and respond to the events in their own
-   * code
+   * Dispatch and return a custom event from the DOM element associated with
+   * this dialog; this allows authors to listen for and respond to the events
+   * in their own code
    */
   private fire(type: A11yDialogEvent, event?: Event) {
-    this.$el.dispatchEvent(
-      new CustomEvent(type, {
-        detail: event,
-        cancelable: true,
-      })
-    )
+    const customEvent = new CustomEvent(type, {
+      detail: event,
+      cancelable: true,
+    })
+
+    this.$el.dispatchEvent(customEvent)
+
+    return customEvent
   }
 
   /**

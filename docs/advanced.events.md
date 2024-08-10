@@ -13,7 +13,7 @@ Therefore:
 
 - `event.target` is the **dialog container** since all events are dispatched from that element under the hood.
 - `event.detail` contains the original click event (if triggered via a UI interaction).
-- `event.detail.target` contains the element that was interacted with. **Beware:** This may be a descendant of the dialog opener/closer!
+- `event.detail.target` contains the element that was interacted with. **Beware:** This may be a descendant of the dialog opener/closer such as an icon!
 - `event.detail.target.closest('[data-a11y-dialog-show]')` can be used to retrieve the actual opener.
 - `event.detail.target.closest('[data-a11y-dialog-hide]')` can be used to retrieve the actual closer.
 
@@ -24,8 +24,10 @@ dialog.on('show', function (event) {
   // And if the event is the result of a UI interaction (i.e. was not triggered
   // programmatically via `.show(..)`), the `detail` prop contains the original
   // event
-  const target = event.detail.target
-  const opener = target.closest('[data-a11y-dialog-show]')
+  if (event.detail) {
+    const target = event.detail.target
+    const opener = target.closest('[data-a11y-dialog-show]')
+  }
 })
 
 // Do something when the dialog gets hidden
@@ -34,8 +36,10 @@ dialog.on('hide', function (event) {
   // And if the event is the result of a UI interaction (i.e. was not triggered
   // programmatically via `.hide(..)`), the `detail` prop contains the original
   // event
-  const target = event.detail.target
-  const closer = target.closest('[data-a11y-dialog-hide]')
+  if (event.detail) {
+    const target = event.detail.target
+    const closer = target.closest('[data-a11y-dialog-hide]')
+  }
 })
 
 // Do something when the dialog instance gets destroyed
@@ -83,4 +87,32 @@ You can unregister these event listeners with the `removeEventListener()` method
 container.addEventListener('show', doSomething)
 // …
 container.removeEventListener('show', doSomething)
+```
+
+## Canceling events
+
+As of v8.1.0, all three events can be prevented to opt out from the default behavior. This can be particularly handy to prevent pressing <kbd>ESC</kbd> from closing the dialog when another widget is being interacted with (such as a dropdown or tooltip).
+
+```js
+dialog.on('hide', function (event) {
+  // If the `hide` event was the result of pressing the ‘Escape’ key, and a
+  // hypothetical dropdown menu contained within the dialog is open, prevent
+  // the `hide` operation from completing.
+  if (event.detail?.key === 'Escape' && isDropdownMenuOpen()) {
+    event.preventDefault()
+  }
+})
+```
+
+The same can be done with DOM events as well:
+
+```js
+container.addEventListener('hide', function (event) {
+  // If the `hide` event was the result of pressing the ‘Escape’ key, and a
+  // hypothetical dropdown menu contained within the dialog is open, prevent
+  // the `hide` operation from completing.
+  if (event.detail?.key === 'Escape' && isDropdownMenuOpen()) {
+    event.preventDefault()
+  }
+})
 ```

@@ -1,4 +1,4 @@
-import { shouldBeHidden, shouldBeVisible } from './utils.js'
+import { shouldBeHidden, shouldBeVisible } from './utils.ts'
 
 describe('Nested dialogs', { testIsolation: false }, () => {
   before(() => {

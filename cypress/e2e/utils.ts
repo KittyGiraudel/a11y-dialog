@@ -1,4 +1,4 @@
-export function shouldBeVisible($subject) {
+export function shouldBeVisible($subject: Parameters<(typeof cy)['wrap']>[0]) {
   Cypress.log({
     displayName: 'visible',
     name: 'shouldBeVisible',
@@ -12,7 +12,7 @@ export function shouldBeVisible($subject) {
     .should('be.visible')
 }
 
-export function shouldBeHidden($subject) {
+export function shouldBeHidden($subject: Parameters<(typeof cy)['wrap']>[0]) {
   Cypress.log({
     displayName: 'hidden',
     name: 'shouldBeHidden',

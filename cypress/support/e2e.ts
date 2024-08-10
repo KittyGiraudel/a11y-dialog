@@ -1,6 +1,14 @@
 import 'cypress-real-events/support'
 import '@cypress/fiddle'
-import { getFocusableEdges } from '../fixtures/dom-utils'
+import { getFocusableEdges } from '../fixtures/dom-utils.js'
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      aliasFocusableEdges(options?: { skipAliases: boolean }): Chainable<void>
+    }
+  }
+}
 
 Cypress.Commands.add(
   'aliasFocusableEdges',
@@ -26,29 +34,34 @@ chai.use(_chai => {
       this.assert(
         this._obj.localName === localName,
         `expected #{this} to be an element with localName "${localName}"`,
-        `expected #{this} not to be an element with localName "${localName}"`
+        `expected #{this} not to be an element with localName "${localName}"`,
+        undefined
       )
     }
     this.assert(
       Cypress.dom.isElement(this._obj),
-      `expected #{this} to be an element`,
-      `expected #{this} not to be an element`
+      'expected #{this} to be an element',
+      'expected #{this} not to be an element',
+      undefined
     )
   })
 
   _chai.Assertion.addMethod('focusable', function isFocusable() {
     this.assert(
       Cypress.dom.isFocusable(this._obj),
-      `expected #{this} to be focusable`,
-      `expected #{this} not to be focusable`
+      'expected #{this} to be focusable',
+      'expected #{this} not to be focusable',
+      undefined
     )
   })
 
   _chai.Assertion.addMethod('withinShadowRoot', function isFocusable() {
     this.assert(
+      // @ts-expect-error
       Cypress.dom.isWithinShadowRoot(this._obj),
-      `expected #{this} to be in shadow DOM`,
-      `expected #{this} not to be in shadow DOM`
+      'expected #{this} to be in shadow DOM',
+      'expected #{this} not to be in shadow DOM',
+      undefined
     )
   })
 
@@ -56,8 +69,9 @@ chai.use(_chai => {
   _chai.Assertion.addMethod('shadowRoot', function isFocusable() {
     this.assert(
       this._obj.shadowRoot?.toString() === '[object ShadowRoot]',
-      `expected #{this} to have a shadow root`,
-      `expected #{this} not to have a shadow root`
+      'expected #{this} to have a shadow root',
+      'expected #{this} not to have a shadow root',
+      undefined
     )
   })
 })

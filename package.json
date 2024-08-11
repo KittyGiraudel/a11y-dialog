@@ -21,8 +21,8 @@
     "test": "cypress run --browser chrome",
     "size": "./size.sh",
     "prepare": "husky install",
-    "lint": "biome check --write --unsafe src/*.ts",
-    "lint:staged": "biome check --write --unsafe --staged src/**/*.ts"
+    "lint": "biome check --write --unsafe --no-errors-on-unmatched src/*.ts",
+    "lint:staged": "biome check --write --unsafe --staged --no-errors-on-unmatched src/**/*.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",

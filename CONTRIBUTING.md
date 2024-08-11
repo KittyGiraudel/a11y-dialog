@@ -61,7 +61,7 @@ _For visual changes, it never hurts to leave some screen grabs on the pull reque
 
 Here are the main steps to get you started developing on `a11y-dialog`.
 
-#### Setup
+### Setup
 
 Clone your fork of the repo and then do `npm install` from the project root to download all required dependencies.
 
@@ -81,12 +81,18 @@ npm run serve
 npm run test
 ```
 
+Alternatively, you can open the Cypress application with the following command if you want to benefit from the Cypress debugger:
+
+```shell
+npx cypress open
+```
+
 ### Documentation
 
 You can run the [documentation site](https://a11y-dialog.netlify.app/) locally by checking out the `documentation` branch, and then running `npm install` and then `npm start`. This should fire up a local server that runs [Docusaurus](https://docusaurus.io/).
 
 Generally, if you make an update to a particular page in the documentation that is pertinent to all versions of `a11y-dialog`, you will need to update 3 files (since there are 3 versions for the documentation—v6, v7 and current).
 
-For example, to update the Advanced chapter’s Animations page, you would need to update the files `docs/advanced.animations.md`, `versioned_docs/version-6.1.0/advanced.animations.md` and `versioned_docs/version-7.0.0/advanced.animations.md`.
+For example, to update the _Advanced_ chapter’s _Animations_ page, you would need to update the files `docs/advanced.animations.md`, `versioned_docs/version-6.1.0/advanced.animations.md` and `versioned_docs/version-7.0.0/advanced.animations.md`.
 
-_Of course, if your update is only relevant to v7 and current you would only update the files that correspond to those versions._
+Of course, if your update is only relevant to v7 or v8 and current you would only update the files that correspond to those versions.

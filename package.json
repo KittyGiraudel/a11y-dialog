@@ -9,16 +9,15 @@
   "module": "dist/a11y-dialog.esm.js",
   "types": "dist/a11y-dialog.d.ts",
   "exports": {
-    ".": {
-      "import": "./dist/a11y-dialog.esm.js",
-      "require": "./dist/a11y-dialog.js",
-      "types": "./dist/a11y-dialog.d.ts"
-    },
+    "import": "./dist/a11y-dialog.esm.js",
+    "require": "./dist/a11y-dialog.cjs",
+    "types": "./dist/a11y-dialog.d.ts",
     "dist/*.esm.js": "./dist/*.esm.js",
-    "dist/*.js": "./dist/*.js",
+    "dist/*.cjs": "./dist/*.cjs",
+    "dist/*.js": "./dist/*.cjs",
     "dist/*": {
       "import": "./dist/*.esm.js",
-      "require": "./dist/*.js",
+      "require": "./dist/*.cjs",
       "types": "./dist/*.d.ts"
     },
     "package.json": "./package.json"

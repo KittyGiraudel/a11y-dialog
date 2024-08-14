@@ -8,6 +8,15 @@
   "main": "dist/a11y-dialog.js",
   "module": "dist/a11y-dialog.esm.js",
   "types": "dist/a11y-dialog.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/a11y-dialog.esm.js",
+      "browser": "./dist/a11y-dialog.js",
+      "require": "./dist/a11y-dialog.cjs",
+      "types": "./dist/a11y-dialog.d.ts"
+    },
+    "./*": "./*"
+  },
   "keywords": ["modal", "dialog", "accessibility", "a11y", "focus"],
   "author": "Kitty Giraudel (https://kittygiraudel.com)",
   "repository": {

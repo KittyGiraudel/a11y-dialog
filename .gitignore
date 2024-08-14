@@ -9,6 +9,5 @@ cypress/screenshots
 out
 dist/
 cypress/fixtures/*.js
-cypress/fixtures/*.cjs
 !cypress/fixtures/shadow-dom-fixture.js
 

@@ -1,6 +1,6 @@
 import { createRequire } from 'node:module'
-import terser from '@rollup/plugin-terser'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
+import terser from '@rollup/plugin-terser'
 import typescript from '@rollup/plugin-typescript'
 
 const require = createRequire(import.meta.url)
@@ -27,16 +27,16 @@ export default [
     output: [
       {
         ...umdCfg,
-        file: 'dist/a11y-dialog.cjs',
+        file: 'dist/a11y-dialog.js',
       },
       {
         ...umdCfg,
-        file: 'dist/a11y-dialog.min.cjs',
+        file: 'dist/a11y-dialog.min.js',
         plugins: [minify],
       },
       {
         ...umdCfg,
-        file: 'cypress/fixtures/a11y-dialog.cjs',
+        file: 'cypress/fixtures/a11y-dialog.js',
       },
     ],
   },
@@ -52,6 +52,16 @@ export default [
         file: 'dist/a11y-dialog.esm.min.js',
         format: 'esm',
         plugins: [minify],
+      },
+    ],
+  },
+  {
+    input: 'src/index.ts',
+    plugins: plugins,
+    output: [
+      {
+        file: 'dist/a11y-dialog.cjs',
+        format: 'cjs',
       },
     ],
   },

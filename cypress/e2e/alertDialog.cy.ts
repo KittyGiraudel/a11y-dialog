@@ -1,4 +1,4 @@
-import { shouldBeVisible } from './utils.js'
+import { shouldBeVisible } from './utils.ts'
 
 describe('Alert Dialog', { testIsolation: false }, () => {
   it('should prevent closing the dialog with ESC', () => {

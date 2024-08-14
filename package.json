@@ -22,43 +22,31 @@
     },
     "package.json": "./package.json"
   },
-  "keywords": [
-    "modal",
-    "dialog",
-    "accessibility",
-    "a11y",
-    "focus"
-  ],
+  "keywords": ["modal", "dialog", "accessibility", "a11y", "focus"],
   "author": "Kitty Giraudel (https://kittygiraudel.com)",
   "repository": {
     "type": "git",
     "url": "https://github.com/KittyGiraudel/a11y-dialog"
   },
-  "files": [
-    "dist/*"
-  ],
+  "files": ["dist/*"],
   "scripts": {
     "build": "rollup -c",
     "serve": "npx serve cypress/fixtures -p 5000",
     "test": "cypress run --browser chrome",
     "size": "./size.sh",
-    "prepare": "husky install"
-  },
-  "lint-staged": {
-    "*.{js,ts}": [
-      "prettier --write"
-    ]
+    "prepare": "husky install",
+    "lint": "biome check --write --unsafe --no-errors-on-unmatched src/*.ts",
+    "lint:staged": "biome check --write --unsafe --staged --no-errors-on-unmatched src/**/*.ts"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
     "@cypress/fiddle": "^1.19.3",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-terser": "^0.4.0",
     "@rollup/plugin-typescript": "^11.0.0",
-    "cypress": "^13.1.0",
+    "cypress": "^13.7.1",
     "cypress-real-events": "^1.7.6",
-    "husky": "^8.0.3",
-    "lint-staged": "^15.0.1",
-    "prettier": "^3.0.0",
+    "husky": "^9.0.11",
     "rollup": "^4.4.0",
     "typescript": "^5.1.6"
   },

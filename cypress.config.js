@@ -9,7 +9,7 @@ export default defineConfig({
     'cypress-fiddle': {
       scripts: ['/shadow-dom-fixture.js'],
       stylesheets: ['/styles.css'],
-      style: `body { max-width: 600px; margin: 0 auto; }`,
+      style: 'body { max-width: 600px; margin: 0 auto; }',
     },
   },
 })

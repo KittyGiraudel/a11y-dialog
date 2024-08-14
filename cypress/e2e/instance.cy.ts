@@ -1,10 +1,11 @@
-import { shouldBeHidden, shouldBeVisible } from './utils.js'
+import { shouldBeHidden, shouldBeVisible } from './utils.ts'
 
 describe('Instance', { testIsolation: false }, () => {
   before(() => cy.visit('/instance'))
 
   it('should be possible to instantiate a dialog with JavaScript', () => {
     cy.window().then(win => {
+      // @ts-expect-error
       win.instance = new win.A11yDialog(
         win.document.getElementById('my-dialog')
       )

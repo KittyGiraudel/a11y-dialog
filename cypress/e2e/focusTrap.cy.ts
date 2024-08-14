@@ -1,4 +1,4 @@
-import { stripIndent, serialize } from '../support/utils'
+import { stripIndent, serialize } from '../support/utils.ts'
 
 describe('Focus trap', () => {
   it('should return two unique elements if multiple focusable elements are present', () => {

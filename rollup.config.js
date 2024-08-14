@@ -27,16 +27,16 @@ export default [
     output: [
       {
         ...umdCfg,
-        file: 'dist/a11y-dialog.js',
+        file: 'dist/a11y-dialog.cjs',
       },
       {
         ...umdCfg,
-        file: 'dist/a11y-dialog.min.js',
+        file: 'dist/a11y-dialog.min.cjs',
         plugins: [minify],
       },
       {
         ...umdCfg,
-        file: 'cypress/fixtures/a11y-dialog.js',
+        file: 'cypress/fixtures/a11y-dialog.cjs',
       },
     ],
   },

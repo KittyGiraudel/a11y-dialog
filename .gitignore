@@ -10,4 +10,4 @@ out
 dist/
 cypress/fixtures/*.js
 !cypress/fixtures/shadow-dom-fixture.js
-
+tests/**/package-lock.json

@@ -21,6 +21,9 @@ jobs:
       - name: Build files
         run: npm run build
 
+      - name: Test package
+        run: npm run test:package
+
       - name: Start server
         run: npm run serve &
 

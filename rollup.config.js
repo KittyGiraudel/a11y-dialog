@@ -25,53 +25,21 @@ export default [
     input: 'src/index.ts',
     plugins: plugins,
     output: [
-      {
-        ...umdCfg,
-        file: 'dist/a11y-dialog.js',
-      },
-      {
-        ...umdCfg,
-        file: 'dist/a11y-dialog.min.js',
-        plugins: [minify],
-      },
-      {
-        ...umdCfg,
-        file: 'cypress/fixtures/a11y-dialog.js',
-      },
-    ],
-  },
-  {
-    input: 'src/index.ts',
-    plugins: plugins,
-    output: [
-      {
-        file: 'dist/a11y-dialog.esm.js',
-        format: 'esm',
-      },
-      {
-        file: 'dist/a11y-dialog.esm.min.js',
-        format: 'esm',
-        plugins: [minify],
-      },
-    ],
-  },
-  {
-    input: 'src/index.ts',
-    plugins: plugins,
-    output: [
-      {
-        file: 'dist/a11y-dialog.cjs',
-        format: 'cjs',
-      },
+      // UMD
+      { file: 'dist/a11y-dialog.js', ...umdCfg },
+      { file: 'dist/a11y-dialog.min.js', ...umdCfg, plugins: [minify] },
+      // ESM
+      { file: 'dist/a11y-dialog.esm.js', format: 'esm' },
+      { file: 'dist/a11y-dialog.esm.min.js', format: 'esm', plugins: [minify] },
+      // CJS
+      { file: 'dist/a11y-dialog.cjs', format: 'cjs' },
+      // Tests
+      { file: 'cypress/fixtures/a11y-dialog.js', ...umdCfg },
     ],
   },
   {
     input: 'src/dom-utils.ts',
     plugins: plugins,
-    output: [
-      {
-        file: 'cypress/fixtures/dom-utils.js',
-      },
-    ],
+    output: [{ file: 'cypress/fixtures/dom-utils.js' }],
   },
 ]

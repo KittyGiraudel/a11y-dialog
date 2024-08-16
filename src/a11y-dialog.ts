@@ -1,4 +1,9 @@
-import { getActiveElement, moveFocusToDialog, trapTabKey } from './dom-utils'
+import {
+  closest,
+  getActiveElement,
+  moveFocusToDialog,
+  trapTabKey,
+} from './dom-utils'
 
 export type A11yDialogEvent = 'show' | 'hide' | 'destroy'
 export type A11yDialogInstance = InstanceType<typeof A11yDialog>
@@ -192,8 +197,9 @@ export default class A11yDialog {
    */
   private bindKeypress(event: KeyboardEvent) {
     // This is an escape hatch in case there are nested open dialogs, so that
-    // only the top most dialog gets interacted with
-    if (document.activeElement?.closest('[aria-modal="true"]') !== this.$el) {
+    // only the top most dialog gets interacted with (`closest` is basically
+    // `Element.prototype.closest()` accounting for Shadow DOM subtrees)
+    if (closest('[aria-modal="true"]', getActiveElement()) !== this.$el) {
       return
     }
 

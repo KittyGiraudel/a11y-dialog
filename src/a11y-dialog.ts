@@ -125,6 +125,10 @@ export default class A11yDialog {
 
     this.shown = false
     this.$el.setAttribute('aria-hidden', 'true')
+
+    // Ensure the previously focused element (if any) has a `focus` method
+    // before attempting to call it to account for SVG elements
+    // See: https://github.com/KittyGiraudel/a11y-dialog/issues/108
     this.previouslyFocused?.focus?.()
 
     // Remove the focus event listener to the body element and stop listening

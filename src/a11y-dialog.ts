@@ -1,4 +1,4 @@
-import { closest, getActiveElement, focus, trapTabKey } from './dom-utils'
+import { closest, focus, getActiveElement, trapTabKey } from './dom-utils'
 
 export type A11yDialogEvent = 'show' | 'hide' | 'destroy'
 export type A11yDialogInstance = InstanceType<typeof A11yDialog>
@@ -38,7 +38,7 @@ export default class A11yDialog {
    * Destroy the current instance (after making sure the dialog has been hidden)
    * and remove all associated listeners from dialog openers and closers
    */
-  public destroy(): A11yDialogInstance {
+  public destroy() {
     // Dispatch a `destroy` event
     const destroyEvent = this.fire('destroy')
 
@@ -62,7 +62,7 @@ export default class A11yDialog {
    * Show the dialog element, trap the current focus within it, listen for some
    * specific key presses and fire all registered callbacks for `show` event
    */
-  public show(event?: Event): A11yDialogInstance {
+  public show(event?: Event) {
     // If the dialog is already open, abort
     if (this.shown) return this
 
@@ -111,7 +111,7 @@ export default class A11yDialog {
    * element, stop listening for some specific key presses and fire all
    * registered callbacks for `hide` event
    */
-  public hide(event?: Event): A11yDialogInstance {
+  public hide(event?: Event) {
     // If the dialog is already closed, abort
     if (!this.shown) return this
 
@@ -140,7 +140,7 @@ export default class A11yDialog {
     type: A11yDialogEvent,
     handler: EventListener,
     options?: AddEventListenerOptions
-  ): A11yDialogInstance {
+  ) {
     this.$el.addEventListener(type, handler, options)
 
     return this
@@ -153,7 +153,7 @@ export default class A11yDialog {
     type: A11yDialogEvent,
     handler: EventListener,
     options?: AddEventListenerOptions
-  ): A11yDialogInstance {
+  ) {
     this.$el.removeEventListener(type, handler, options)
 
     return this

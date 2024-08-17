@@ -1,4 +1,4 @@
-import { closest, focus, getActiveElement, trapTabKey } from './dom-utils'
+import { closest, focus, getActiveEl, trapTabKey } from './dom-utils'
 
 export type A11yDialogEvent = 'show' | 'hide' | 'destroy'
 export type A11yDialogInstance = InstanceType<typeof A11yDialog>
@@ -78,7 +78,7 @@ export default class A11yDialog {
     // it later
     this.shown = true
     this.$el.removeAttribute('aria-hidden')
-    this.previouslyFocused = getActiveElement() as HTMLElement
+    this.previouslyFocused = getActiveEl() as HTMLElement
 
     // Due to a long lasting bug in Safari, clicking an interactive element
     // (like a <button>) does *not* move the focus to that element, which means
@@ -211,7 +211,7 @@ export default class A11yDialog {
     // This is an escape hatch in case there are nested open dialogs, so that
     // only the top most dialog gets interacted with (`closest` is basically
     // `Element.prototype.closest()` accounting for Shadow DOM subtrees)
-    if (closest('[aria-modal="true"]', getActiveElement()) !== this.$el) {
+    if (closest('[aria-modal="true"]', getActiveEl()) !== this.$el) {
       return
     }
 

@@ -3,6 +3,8 @@ import { closest, focus, getActiveElement, trapTabKey } from './dom-utils'
 export type A11yDialogEvent = 'show' | 'hide' | 'destroy'
 export type A11yDialogInstance = InstanceType<typeof A11yDialog>
 
+const SCOPE = 'data-a11y-dialog'
+
 export default class A11yDialog {
   private $el: HTMLElement
   private id: string
@@ -12,7 +14,7 @@ export default class A11yDialog {
 
   constructor(element: HTMLElement) {
     this.$el = element
-    this.id = this.$el.getAttribute('data-a11y-dialog') || this.$el.id
+    this.id = this.$el.getAttribute(SCOPE) || this.$el.id
     this.previouslyFocused = null
     this.shown = false
 
@@ -184,13 +186,13 @@ export default class A11yDialog {
 
     // We use `.closest(..)` and not `.matches(..)` here so that clicking
     // an element nested within a dialog opener does cause the dialog to open
-    if (target.closest(`[data-a11y-dialog-show="${this.id}"]`)) {
+    if (target.closest(`[${SCOPE}-show="${this.id}"]`)) {
       this.show(event)
     }
 
     if (
-      target.closest(`[data-a11y-dialog-hide="${this.id}"]`) ||
-      (target.closest('[data-a11y-dialog-hide]') &&
+      target.closest(`[${SCOPE}-hide="${this.id}"]`) ||
+      (target.closest(`[${SCOPE}-hide]`) &&
         target.closest('[aria-modal="true"]') === this.$el)
     ) {
       this.hide(event)
@@ -251,11 +253,7 @@ export default class A11yDialog {
   private maintainFocus(event: FocusEvent) {
     const target = event.target as HTMLElement
 
-    if (
-      !target.closest(
-        '[aria-modal="true"], [data-a11y-dialog-ignore-focus-trap]'
-      )
-    ) {
+    if (!target.closest(`[aria-modal="true"], [${SCOPE}-ignore-focus-trap]`)) {
       focus(this.$el)
     }
   }

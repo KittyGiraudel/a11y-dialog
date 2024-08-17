@@ -1,9 +1,4 @@
-import {
-  closest,
-  getActiveElement,
-  moveFocusToDialog,
-  trapTabKey,
-} from './dom-utils'
+import { closest, getActiveElement, focus, trapTabKey } from './dom-utils'
 
 export type A11yDialogEvent = 'show' | 'hide' | 'destroy'
 export type A11yDialogInstance = InstanceType<typeof A11yDialog>
@@ -99,7 +94,7 @@ export default class A11yDialog {
     if (event?.type === 'focus') {
       this.maintainFocus(event as FocusEvent)
     } else {
-      moveFocusToDialog(this.$el)
+      focus(this.$el)
     }
 
     // Bind a focus event listener to the body element to make sure the focus
@@ -261,7 +256,7 @@ export default class A11yDialog {
         '[aria-modal="true"], [data-a11y-dialog-ignore-focus-trap]'
       )
     ) {
-      moveFocusToDialog(this.$el)
+      focus(this.$el)
     }
   }
 }

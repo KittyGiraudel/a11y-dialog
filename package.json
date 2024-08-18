@@ -32,7 +32,7 @@
     "test:esm": "npm install --prefix tests/esm && npm test --prefix tests/esm",
     "test:package": "npm run test:cjs && npm run test:esm",
     "size": "./size.sh",
-    "prepare": "husky install",
+    "prepare": "husky",
     "lint": "biome check --write --unsafe --no-errors-on-unmatched src/*.ts",
     "lint:staged": "biome check --write --unsafe --staged --no-errors-on-unmatched src/**/*.ts"
   },

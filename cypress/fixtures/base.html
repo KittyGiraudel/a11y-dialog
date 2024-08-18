@@ -12,6 +12,7 @@
     <h1>Tests — Base</h1>
     <button class="link-like" data-a11y-dialog-show="my-dialog">Open the dialog window</button>
     <button class="link-like" data-a11y-dialog-show="something-else">Open the dialog window</button>
+    <fancy-button class="link-like" data-a11y-dialog-show="my-dialog">Open the dialog window</fancy-button>
   </main>
 
   <div class="dialog" data-a11y-dialog="my-dialog" aria-labelledby="my-dialog-title">
@@ -42,6 +43,7 @@
   </div>
 
   <script src="./a11y-dialog.js"></script>
+  <script src="./shadow-dom-fixture.js"></script>
   <script>
     document.querySelector('#move-focus-outside').addEventListener('click', () => {
       document.querySelector('#focus-me').focus()

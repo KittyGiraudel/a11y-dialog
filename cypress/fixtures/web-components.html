@@ -14,10 +14,16 @@
     <my-dialog>
       <template>
         <button type="button" data-show>Open the dialog</button>
+        <fancy-button data-a11y-dialog-show="my-dialog">
+          Open the dialog
+        </fancy-button>
         <div class="dialog" id="my-dialog" aria-labelledby="my-dialog-title" aria-hidden="true">
           <div class="dialog-overlay" data-a11y-dialog-hide></div>
           <div class="dialog-content" role="document">
             <button data-a11y-dialog-hide class="dialog-close" aria-label="Close this dialog window">&times;</button>
+            <fancy-button data-a11y-dialog-hide>
+              Close the dialog
+            </fancy-button>
             <h1 id="my-dialog-title">Your dialog title</h1>
           </div>
         </div>
@@ -27,6 +33,7 @@
   </main>
 
   <script src="./a11y-dialog.js"></script>
+  <script src="./shadow-dom-fixture.js"></script>
   <script>
     class MyDialog extends HTMLElement {
       connectedCallback() {
@@ -36,9 +43,10 @@
 
         const container = this.shadowRoot.querySelector("#my-dialog");
         const dialog = new A11yDialog(container);
+        window.instance = dialog
 
-        const trigger = this.shadowRoot.querySelector('[data-show]');
-        trigger.addEventListener('click', () => dialog.show())
+        const triggers = this.shadowRoot.querySelectorAll('[data-show]');
+        triggers.forEach(trigger => trigger.addEventListener('click', (event) => dialog.show(event)))
       }
     }
 

@@ -3,7 +3,7 @@ title: Alert Dialogs
 slug: /advanced/alert-dialog
 ---
 
-By default, a11y-dialog behaves as a dialog: it is closable with the <kbd>ESC</kbd> key, and by clicking the backdrop (provided the `data-a11y-dialog-hide` attribute is given to is). However, it is possible to make it an “alert dialog” for critical interactions, which would remove these features.
+By default, a11y-dialog behaves as a dialog: it is closable with the <kbd>ESC</kbd> key, and by clicking the backdrop (provided the `data-a11y-dialog-hide` attribute is given to it). However, it is possible to make it an “alert dialog” for critical interactions, which would remove these features.
 
 To do so:
 
@@ -29,4 +29,6 @@ To do so:
   </div>
 ```
 
-For more information about alert dialogs, refer to the [WAI-ARIA 1.1 recommendations](https://www.w3.org/TR/wai-aria-1.1/#alertdialog).
+:::info Alert dialogs  
+For more information about alert dialogs, refer to the [WAI-ARIA 1.1 recommendations](https://www.w3.org/TR/wai-aria-1.1/#alertdialog).  
+:::

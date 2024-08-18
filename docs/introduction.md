@@ -5,7 +5,7 @@ slug: /
 
 a11y-dialog is a lightweight yet flexible script to create accessible dialog windows.
 
-![a11y-dialog: 1.4Kb](https://badgen.net/bundlephobia/minzip/a11y-dialog/)
+![a11y-dialog: 1.6Kb](https://badgen.net/bundlephobia/minzip/a11y-dialog/)
 
 - Follows the [Dialog (Modal) pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialogmodal/) from the ARIA Authoring Practices Guide (APG)
 - Supports [alert dialogs](https://w3c.github.io/aria/#alertdialog) as per the WAI-ARIA specifications

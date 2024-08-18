@@ -29,7 +29,7 @@ The library relies on `aria-modal`, a standardized attribute from [WAI-ARIA 1.1]
 import A11yDialog from 'a11y-dialog'
 import { hideOthers } from 'aria-hidden'
 
-const container = document.getElementById('my-dialog')
+const container = document.querySelector('#my-dialog')
 const dialog = new A11yDialog(container)
 let registered = false
 

@@ -7,8 +7,8 @@ slug: /usage/interactions
 
 The DOM API relies on `data-*` attributes. They all live under the `data-a11y-dialog-*` namespace for consistency (with 1’s, not L’s), clarity and robustness. Two attributes are recognised:
 
-- `data-a11y-dialog-show`: the `id` of the dialog element is expected as a value
-- `data-a11y-dialog-hide`: the `id` of the dialog element is expected as a value; if omitted, the closest parent dialog element (if any) will be the target
+- `data-a11y-dialog-show`: the unique identifier of the dialog element is expected as a value
+- `data-a11y-dialog-hide`: the unique identifier of the dialog element is expected as a value; if omitted, the closest parent dialog container (if any) will be the target
 
 The following button will open the dialog with the `your-dialog-id` id when interacted with.
 

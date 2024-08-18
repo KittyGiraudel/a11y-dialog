@@ -15,10 +15,7 @@ Here is a solid set of styles to get started (note that you might have to rename
 .dialog-container,
 .dialog-overlay {
   position: fixed; /* 1 */
-  top: 0; /* 1 */
-  right: 0; /* 1 */
-  bottom: 0; /* 1 */
-  left: 0; /* 1 */
+  inset: 0; /* 1 */
 }
 
 /**

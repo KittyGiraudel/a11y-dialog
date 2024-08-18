@@ -29,7 +29,7 @@ If automatic loading is not an option because the expected dialog markup is not 
 
 ```js
 // Get the dialog container HTML element (with the accessor method you want)
-const element = document.getElementById('your-dialog-id')
+const element = document.querySelector('#your-dialog-id')
 
 // Instantiate a new A11yDialog module
 const dialog = new A11yDialog(element)

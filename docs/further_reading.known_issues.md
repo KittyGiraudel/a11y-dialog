@@ -25,7 +25,7 @@ The library relies on `aria-modal`, a standardized attribute from [WAI-ARIA 1.1]
 import A11yDialog from 'a11y-dialog'
 import { hideOthers } from 'aria-hidden'
 
-const container = document.getElementById('my-dialog')
+const container = document.querySelector('#my-dialog')
 const dialog = new A11yDialog(container)
 let registered = false
 
@@ -41,4 +41,10 @@ dialog.on('show', function (event) {
 
 ## popover considerations
 
-Be cautious if you use a11y-dialog alongside the [native popover API](https://developer.chrome.com/blog/introducing-popover-api/). Pressing the `ESC` key to close a popover would close an open dialog, which may not be the desired behavior. Refer to [this article by Adrian Roselli](https://adrianroselli.com/2023/05/brief-note-on-popovers-with-dialogs.html) for more information about this challenge.
+Be cautious if you use a11y-dialog alongside the [native popover API](https://developer.chrome.com/blog/introducing-popover-api/), as mentioned in [this article by Adrian Roselli](https://adrianroselli.com/2023/05/brief-note-on-popovers-with-dialogs.html).
+
+When processing <kbd>ESC</kbd> key presses, a11y-dialog will first check whether the dialog contains an open popover, and if it does, will **not** close the dialog since the key press was intended to hide the popover.
+
+However, this is **not** done for clicks on the backdrop. So clicking the backdrop of the dialog while a popover is open will actually close the dialog, which is not intended.
+
+Feel free to bump [issue #667](https://github.com/KittyGiraudel/a11y-dialog/issues/667) with your recommendations in order to give traction to this issue.

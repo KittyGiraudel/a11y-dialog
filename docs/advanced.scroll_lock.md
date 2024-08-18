@@ -10,7 +10,7 @@ To prevent it from happening, one can hide overflow from the `<html>` element wh
 ```js
 import A11yDialog from 'a11y-dialog'
 
-const container = document.getElementById('your-dialog-id')
+const container = document.querySelector('#your-dialog-id')
 const dialog = new A11yDialog(container)
 
 dialog
@@ -27,7 +27,7 @@ import A11yDialog from 'a11y-dialog'
 // highlight-next-line
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 
-const container = document.getElementById('your-dialog-id')
+const container = document.querySelector('#your-dialog-id')
 const dialog = new A11yDialog(container)
 
 dialog

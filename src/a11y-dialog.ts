@@ -186,7 +186,12 @@ export default class A11yDialog {
    * dialog are clicked, and call `show` or `hide`, respectively
    */
   private handleTriggerClicks(event: Event) {
-    const target = event.target as HTMLElement
+    // We need to retrieve the click target while accounting for Shadow DOM.
+    // When within a web component, `event.target` is the shadow root (e.g.
+    // `<my-dialog>`), so we need to use `event.composedPath()` to get the click
+    // target
+    // See: https://github.com/KittyGiraudel/a11y-dialog/issues/582
+    const target = event.composedPath()[0] as HTMLElement
 
     // We use `.closest(..)` and not `.matches(..)` here so that clicking
     // an element nested within a dialog opener does cause the dialog to open

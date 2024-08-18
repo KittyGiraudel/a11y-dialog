@@ -19,7 +19,7 @@ describe('State', { testIsolation: false }, () => {
     cy.get('[data-a11y-dialog-show="something-else"]').click()
     cy.get('.dialog').then(shouldBeHidden)
 
-    cy.get('[data-a11y-dialog-show="my-dialog"]').click()
+    cy.get('[data-a11y-dialog-show="my-dialog"]').first().click()
     cy.get('.dialog').then(shouldBeVisible)
   })
 
@@ -28,14 +28,18 @@ describe('State', { testIsolation: false }, () => {
     cy.get('.dialog').then(shouldBeHidden)
   })
 
+  it('should open the dialog when clicking a custom element opener', () => {
+    cy.get('fancy-button').click()
+    cy.get('.dialog').then(shouldBeVisible)
+  })
+
   it('should close when pressing ESC', () => {
-    cy.get('[data-a11y-dialog-show="my-dialog"]').click()
     cy.realPress('Escape')
     cy.get('.dialog').then(shouldBeHidden)
   })
 
   it('should not close when pressing ESC if it contains an open popover', () => {
-    cy.get('[data-a11y-dialog-show="my-dialog"]').click()
+    cy.get('[data-a11y-dialog-show="my-dialog"]').first().click()
     cy.get('[popovertarget]').click()
     cy.get('[popover]').should('be.visible')
     cy.realPress('Escape')
@@ -46,7 +50,7 @@ describe('State', { testIsolation: false }, () => {
   })
 
   it('should close when clicking the backdrop', () => {
-    cy.get('[data-a11y-dialog-show="my-dialog"]').click()
+    cy.get('[data-a11y-dialog-show="my-dialog"]').first().click()
     cy.get('.dialog-overlay').click({ force: true })
     cy.get('.dialog').then(shouldBeHidden)
   })
@@ -56,7 +60,7 @@ describe('State', { testIsolation: false }, () => {
       $node[0].addEventListener('show', cy.stub().as('shown'))
       $node[0].addEventListener('hide', cy.stub().as('hidden'))
     })
-    cy.get('[data-a11y-dialog-show="my-dialog"]').click()
+    cy.get('[data-a11y-dialog-show="my-dialog"]').first().click()
     cy.get('@shown').should('have.been.calledOnce')
     cy.get('.dialog-overlay').click({ force: true })
     cy.get('@hidden').should('have.been.calledOnce')

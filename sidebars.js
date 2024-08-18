@@ -35,6 +35,7 @@ module.exports = {
       label: 'Further reading',
       items: [
         'further_reading.implementations',
+        'further_reading.web_components',
         'further_reading.known_issues',
         'further_reading.dialog_element',
         'further_reading.migrating_to_v7',

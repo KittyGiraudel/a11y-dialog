@@ -186,16 +186,12 @@ export default class A11yDialog {
    * dialog are clicked, and call `show` or `hide`, respectively
    */
   private handleTriggerClicks(event: Event) {
-    // This is a bit clumsy, but basically we want to account for being inside
-    // a web component *and* the target being a web component itself. In the
-    // 1st case, `event.target` ends up being the shadow root, so we need to use
-    // `event.composedPath()[0]` to get the actual click target. However in the
-    // case where the clicked element is a custom element (e.g. `<my-button>`),
-    // `event.composedPath()[0]` ends up being a `<slot>` element
+    // We need to retrieve the click target while accounting for Shadow DOM.
+    // When within a web component, `event.target` is the shadow root (e.g.
+    // `<my-dialog>`), so we need to use `event.composedPath()` to get the click
+    // target
     // See: https://github.com/KittyGiraudel/a11y-dialog/issues/582
-    const target = [event.composedPath()[0], event.target].find(
-      node => (node as HTMLElement)?.tagName !== 'SLOT'
-    ) as HTMLElement
+    const target = event.composedPath()[0] as HTMLElement
 
     // We use `.closest(..)` and not `.matches(..)` here so that clicking
     // an element nested within a dialog opener does cause the dialog to open

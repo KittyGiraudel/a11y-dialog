@@ -48,7 +48,7 @@ module.exports = {
           lastVersion: 'current',
           versions: {
             current: {
-              label: '8.0.0',
+              label: '8.x.x',
             },
           },
           path: 'docs',

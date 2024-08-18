@@ -1,4 +1,4 @@
-import { closest, focus, getActiveEl, trapTabKey } from './dom-utils'
+import { closest, focus, getActiveEl, trapTabKey } from './dom-utils.js'
 
 export type A11yDialogEvent = 'show' | 'hide' | 'destroy'
 export type A11yDialogInstance = InstanceType<typeof A11yDialog>

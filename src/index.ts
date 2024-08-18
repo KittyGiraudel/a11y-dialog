@@ -1,4 +1,4 @@
-import A11yDialog from './a11y-dialog'
+import A11yDialog from './a11y-dialog.js'
 
 function instantiateDialogs() {
   for (const el of document.querySelectorAll('[data-a11y-dialog]')) {

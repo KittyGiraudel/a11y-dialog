@@ -1,11 +1,43 @@
 {
+  // See: https://www.totaltypescript.com/tsconfig-cheat-sheet
   "compilerOptions": {
-    "outDir": "dist",
+    // Allows importing .js files
+    "allowJs": true,
+    // Tells TypeScript to emit .d.ts files, which are needed so that our files
+    // can benefit from autocomplete
     "declaration": true,
-    "declarationDir": ".",
-    "target": "esnext",
-    "moduleResolution": "node",
-    "strict": true
+    // Helps mend a few of the fences between CommonJS and ES Modules
+    "esModuleInterop": true,
+    // Prevents a few TypeScript features which are unsafe when treating modules
+    // as isolated files
+    "isolatedModules": true,
+    // Tells TypeScript what built-in types to include; `es2022` is the best
+    // option for stability, `dom` and `dom.iterable` give types for window,
+    // document, etc.
+    "lib": ["es2022", "dom", "dom.iterable"],
+    // Tells TypeScript what module syntax to use; `NodeNext` is the best option
+    // for Node, and `moduleResolution: "NodeNext"` is implied from this option
+    "module": "NodeNext",
+    // Forces TypeScript to consider all files as modules; this helps to avoid
+    // 'cannot redeclare block-scoped variable' errors
+    "moduleDetection": "force",
+    // Prevents accessing an array or object without first checking if it’s
+    // defined, which can prevent a lot of runtime errors
+    "noUncheckedIndexedAccess": true,
+    // Tells TypeScript where to put the output declaration files
+    "outDir": "./dist",
+    // Skips checking the types of .d.ts files; this is important for
+    // performance, because otherwise all node_modules will be checked
+    "skipLibCheck": true,
+    // Enables all strict type checking options
+    "strict": true,
+    // The version of JavaScript we’re targeting; we use `es2022` over `esnext`
+    // for stability
+    "target": "es2022",
+    // Forces to use import type and export type, leading to more predictable
+    // behavior and fewer unnecessary imports — with `module` set to `NodeNext`,
+    // it also enforces using the correct import syntax for ESM or CJS
+    "verbatimModuleSyntax": true
   },
   "include": ["src/*.ts"],
   "exclude": ["node_modules"]

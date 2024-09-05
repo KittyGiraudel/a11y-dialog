@@ -37,11 +37,11 @@ describe('Web Components', () => {
     const handlers = {
       show: event => {
         expect(event.detail.target.tagName).to.eq('MY-DIALOG')
-        expect(event.detail.composedPath()[0].tagName).to.eq('FANCY-BUTTON')
+        expect(event.detail.composedPath()[0].tagName).to.eq('SLOT')
       },
       hide: event => {
         expect(event.detail.target.tagName).to.eq('MY-DIALOG')
-        expect(event.detail.composedPath()[0].tagName).to.eq('FANCY-BUTTON')
+        expect(event.detail.composedPath()[0].tagName).to.eq('SLOT')
       },
     }
 
@@ -49,10 +49,10 @@ describe('Web Components', () => {
     cy.spy(handlers, 'hide').as('hide')
     cy.window().its('instance').invoke('on', 'show', handlers.show)
     cy.window().its('instance').invoke('on', 'hide', handlers.hide)
-    cy.get('my-dialog').shadow().find('fancy-button').first().click()
+    cy.get('my-dialog').shadow().find('fancy-button').first().realClick()
     cy.get('@show').should('have.been.called')
     cy.get('my-dialog').then(shouldBeVisible)
-    cy.get('my-dialog').shadow().find('fancy-button').last().click()
+    cy.get('my-dialog').shadow().find('fancy-button').last().realClick()
     cy.get('@hide').should('have.been.called')
     cy.get('my-dialog').then(shouldBeHidden)
     cy.window().its('instance').invoke('off', 'show', handlers.show)

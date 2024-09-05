@@ -192,20 +192,19 @@ export default class A11yDialog {
     // target
     // See: https://github.com/KittyGiraudel/a11y-dialog/issues/582
     const target = event.composedPath()[0] as HTMLElement
+    const opener = closest(`[${SCOPE}-show="${this.id}"]`, target)
+    const explicitCloser = closest(`[${SCOPE}-hide="${this.id}"]`, target)
+    const implicitCloser =
+      closest(`[${SCOPE}-hide]`, target) &&
+      closest('[aria-modal="true"]', target) === this.$el
 
-    // We use `.closest(..)` and not `.matches(..)` here so that clicking
-    // an element nested within a dialog opener does cause the dialog to open
-    if (target.closest(`[${SCOPE}-show="${this.id}"]`)) {
-      this.show(event)
-    }
-
-    if (
-      target.closest(`[${SCOPE}-hide="${this.id}"]`) ||
-      (target.closest(`[${SCOPE}-hide]`) &&
-        target.closest('[aria-modal="true"]') === this.$el)
-    ) {
-      this.hide(event)
-    }
+    // We use `closest(..)` (instead of `matches(..)`) so that clicking an
+    // element nested within a dialog opener does cause the dialog to open, and
+    // we use our custom `closest(..)` function so that it can cross shadow
+    // boundaries
+    // See: https://github.com/KittyGiraudel/a11y-dialog/issues/712
+    if (opener) this.show(event)
+    if (explicitCloser || implicitCloser) this.hide(event)
   }
 
   /**

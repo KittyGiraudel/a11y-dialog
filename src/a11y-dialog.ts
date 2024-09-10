@@ -5,6 +5,8 @@ export type A11yDialogInstance = InstanceType<typeof A11yDialog>
 
 const SCOPE = 'data-a11y-dialog'
 
+let closeWatcher: CloseWatcher | null = null
+
 export default class A11yDialog {
   private $el: HTMLElement
   private id: string
@@ -48,7 +50,8 @@ export default class A11yDialog {
     if (destroyEvent.defaultPrevented) return this
 
     // Hide the dialog to avoid destroying an open instance
-    this.hide()
+    if (closeWatcher) closeWatcher.requestClose()
+    else this.hide()
 
     // Remove the click event delegates for our openers and closers
     document.removeEventListener('click', this.handleTriggerClicks, true)
@@ -73,6 +76,16 @@ export default class A11yDialog {
 
     // If the event was prevented, do not continue with the normal behavior
     if (showEvent.defaultPrevented) return this
+
+    // When opening the dialog, create a new `CloseWatcher` instance, and listen
+    // for a close event to call our `.hide(..)` method and nuking the close
+    // watcher once it’s been consumed
+    if (typeof CloseWatcher !== 'undefined') {
+      closeWatcher = new CloseWatcher()
+      closeWatcher.onclose = event => {
+        this.hide(event)
+      }
+    }
 
     // Keep a reference to the currently focused element to be able to restore
     // it later
@@ -204,7 +217,10 @@ export default class A11yDialog {
     // boundaries
     // See: https://github.com/KittyGiraudel/a11y-dialog/issues/712
     if (opener) this.show(event)
-    if (explicitCloser || implicitCloser) this.hide(event)
+    if (explicitCloser || implicitCloser) {
+      if (closeWatcher) closeWatcher.requestClose()
+      else this.hide(event)
+    }
   }
 
   /**
@@ -242,7 +258,8 @@ export default class A11yDialog {
       !hasOpenPopover
     ) {
       event.preventDefault()
-      this.hide(event)
+      if (closeWatcher) closeWatcher.requestClose()
+      else this.hide(event)
     }
 
     // If the dialog is shown and the TAB key is pressed, make sure the focus

@@ -5,8 +5,6 @@ export type A11yDialogInstance = InstanceType<typeof A11yDialog>
 
 const SCOPE = 'data-a11y-dialog'
 
-let closeWatcher: CloseWatcher | null = null
-
 export default class A11yDialog {
   private $el: HTMLElement
   private id: string
@@ -50,8 +48,7 @@ export default class A11yDialog {
     if (destroyEvent.defaultPrevented) return this
 
     // Hide the dialog to avoid destroying an open instance
-    if (closeWatcher) closeWatcher.requestClose()
-    else this.hide()
+    this.hide()
 
     // Remove the click event delegates for our openers and closers
     document.removeEventListener('click', this.handleTriggerClicks, true)
@@ -78,13 +75,10 @@ export default class A11yDialog {
     if (showEvent.defaultPrevented) return this
 
     // When opening the dialog, create a new `CloseWatcher` instance, and listen
-    // for a close event to call our `.hide(..)` method and nuking the close
-    // watcher once it’s been consumed
+    // for a close event to call our `.hide(..)` method (mainly to support the
+    // Android back button as well as the “Back” command for VoiceOcer)
     if (typeof CloseWatcher !== 'undefined') {
-      closeWatcher = new CloseWatcher()
-      closeWatcher.onclose = event => {
-        this.hide(event)
-      }
+      new CloseWatcher().onclose = this.hide
     }
 
     // Keep a reference to the currently focused element to be able to restore
@@ -217,10 +211,10 @@ export default class A11yDialog {
     // boundaries
     // See: https://github.com/KittyGiraudel/a11y-dialog/issues/712
     if (opener) this.show(event)
-    if (explicitCloser || implicitCloser) {
-      if (closeWatcher) closeWatcher.requestClose()
-      else this.hide(event)
-    }
+    // The reason we do not replace all internal usages of `.hide(..)` (such as
+    // this one) with a watcher interaction is because we would lose the event
+    // details, which can be important to determine the cause of the event
+    if (explicitCloser || implicitCloser) this.hide(event)
   }
 
   /**
@@ -258,8 +252,7 @@ export default class A11yDialog {
       !hasOpenPopover
     ) {
       event.preventDefault()
-      if (closeWatcher) closeWatcher.requestClose()
-      else this.hide(event)
+      this.hide(event)
     }
 
     // If the dialog is shown and the TAB key is pressed, make sure the focus

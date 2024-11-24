@@ -9,9 +9,9 @@ As mentioned in the [HTML section](usage.markup.md), the script works fine with 
 - Clicking the backdrop does not close the dialog on Chrome.
 - The native `::backdrop` only shows when programatically opening the dialog, not when using the `open` attribute.
 - Default styles are left to the browsers’ discretion and can be inconsistent.
-- The [alert dialog pattern](advanced.alert_dialog.md) (`role="alertdialog"`) simply does not work with the dialog element.
 - It still requires JavaScript anyway, so it’s not even 100% HTML.
 - [Read more about the shortcoming of the dialog element by Scott O'hara](https://www.scottohara.me/blog/2019/03/05/open-dialog.html).
+- Using `role="alertdialog"` on the `<dialog>` element does not prevent the <kbd>ESC</kbd> key from closing the dialog, which is not a violation of the spec, but potentially problematic (e.g. with forms).
 
 If you really want to use the `<dialog>` HTML element nevertheless, here are a few things you should know.
 

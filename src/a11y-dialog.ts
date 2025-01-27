@@ -74,6 +74,13 @@ export default class A11yDialog {
     // If the event was prevented, do not continue with the normal behavior
     if (showEvent.defaultPrevented) return this
 
+    // When opening the dialog, create a new `CloseWatcher` instance, and listen
+    // for a close event to call our `.hide(..)` method (mainly to support the
+    // Android back button as well as the “Back” command for VoiceOcer)
+    if (typeof CloseWatcher !== 'undefined') {
+      new CloseWatcher().onclose = this.hide
+    }
+
     // Keep a reference to the currently focused element to be able to restore
     // it later
     this.shown = true
@@ -204,6 +211,9 @@ export default class A11yDialog {
     // boundaries
     // See: https://github.com/KittyGiraudel/a11y-dialog/issues/712
     if (opener) this.show(event)
+    // The reason we do not replace all internal usages of `.hide(..)` (such as
+    // this one) with a watcher interaction is because we would lose the event
+    // details, which can be important to determine the cause of the event
     if (explicitCloser || implicitCloser) this.hide(event)
   }
 

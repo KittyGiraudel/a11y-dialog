@@ -4,6 +4,7 @@ export default defineConfig({
   video: false,
   e2e: {
     baseUrl: 'http://localhost:5000',
+    experimentalRunAllSpecs: true,
   },
   env: {
     'cypress-fiddle': {

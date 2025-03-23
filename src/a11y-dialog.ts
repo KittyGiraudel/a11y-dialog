@@ -254,14 +254,21 @@ export default class A11yDialog {
 
   /**
    * If the dialog is shown and the focus is not within a dialog element (either
-   * this one or another one in case of nested dialogs) or attribute, move it
-   * back to the dialog container
+   * this one or another one in case of nested dialogs) or an element with the
+   * ignore attribute, move it back to the dialog container
    * See: https://github.com/KittyGiraudel/a11y-dialog/issues/177
    */
-  private maintainFocus(event: FocusEvent) {
-    const target = event.target as HTMLElement
+  private maintainFocus() {
+    // We use `getActiveEl()` and not `event.target` here because the latter can
+    // be a shadow root. This can happen when having a focusable element after
+    // slotted content: tabbing out of it causes this focus listener to trigger
+    // with the shadow root as a target event. In such a case, the focus would
+    // be incorrectly moved to the dialog, which shouldn’t happen. Getting the
+    // active element (while accounting for Shadow DOM) avoids that problem.
+    // See: https://github.com/KittyGiraudel/a11y-dialog/issues/778
+    const target = getActiveEl()
 
-    if (!target.closest(`[aria-modal="true"], [${SCOPE}-ignore-focus-trap]`)) {
+    if (!closest(`[aria-modal="true"], [${SCOPE}-ignore-focus-trap]`, target)) {
       focus(this.$el)
     }
   }

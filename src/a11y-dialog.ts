@@ -94,7 +94,7 @@ export default class A11yDialog {
     // Set the focus to the dialog element
     // See: https://github.com/KittyGiraudel/a11y-dialog/pull/583
     if (event?.type === 'focus') {
-      this.maintainFocus(event as FocusEvent)
+      this.maintainFocus()
     } else {
       focus(this.$el)
     }

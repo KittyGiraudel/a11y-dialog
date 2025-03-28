@@ -222,7 +222,14 @@ export function trapTabKey(el: HTMLElement, event: KeyboardEvent) {
 export function closest(selector: string, base: Element | null) {
   function from(el: Element | Window | Document | null): Element | null {
     if (!el || el === document || el === window) return null
-    if ((el as Slottable).assignedSlot) el = (el as Slottable).assignedSlot
+    // Reading the `assignedSlot` property from the element (as suggested by the
+    // aforementioned StackOverflow answer) is not enough, because it does not
+    // take into consideration elements nested deeply within a <slot>. For these
+    // elements, the `assignedSlot` property is `null` as it is only specified
+    // for top-level elements within a <slot>. To still find the closest <slot>,
+    // we walk up the tree looking for the `assignedSlot` property.
+    const slot = findAssignedSlot(el as Element)
+    if (slot) el = slot
     return (
       (el as Element).closest(selector) ||
       from(((el as Element).getRootNode() as ShadowRoot).host)
@@ -230,4 +237,11 @@ export function closest(selector: string, base: Element | null) {
   }
 
   return from(base)
+}
+
+function findAssignedSlot(node: Element): Element | null {
+  return (
+    node.assignedSlot ||
+    (node.parentNode ? findAssignedSlot(node.parentNode as Element) : null)
+  )
 }

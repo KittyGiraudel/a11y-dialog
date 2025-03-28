@@ -13,7 +13,9 @@ export function shouldBeVisible($subject: Parameters<(typeof cy)['wrap']>[0]) {
   }
 
   cy.get('@subject').should('not.have.attr', 'aria-hidden')
-  cy.get('@subject').should('be.visible')
+  cy.get('@subject')
+    .find('.dialog-content', { log: false })
+    .should('be.visible')
 }
 
 export function shouldBeHidden($subject: Parameters<(typeof cy)['wrap']>[0]) {

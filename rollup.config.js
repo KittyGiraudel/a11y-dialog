@@ -6,7 +6,10 @@ import typescript from '@rollup/plugin-typescript'
 const require = createRequire(import.meta.url)
 const pkg = require('./package.json')
 
-const plugins = [nodeResolve(), typescript({ tsconfig: './tsconfig.json' })]
+const getPlugins = (outDir) => [
+  nodeResolve(),
+  typescript({ tsconfig: './tsconfig.json', compilerOptions: { outDir } })
+]
 
 const minify = terser({
   format: {
@@ -23,7 +26,7 @@ const umdCfg = {
 export default [
   {
     input: 'src/index.ts',
-    plugins: plugins,
+    plugins: getPlugins('dist'),
     output: [
       // UMD
       { file: 'dist/a11y-dialog.js', ...umdCfg },
@@ -33,13 +36,18 @@ export default [
       { file: 'dist/a11y-dialog.esm.min.js', format: 'esm', plugins: [minify] },
       // CJS
       { file: 'dist/a11y-dialog.cjs', format: 'cjs' },
-      // Tests
-      { file: 'cypress/fixtures/a11y-dialog.js', ...umdCfg },
     ],
   },
   {
+    input: 'src/index.ts',
+    plugins: getPlugins('cypress/fixtures'),
+    // Library output for the Cypress fixtures to import
+    output: { file: 'cypress/fixtures/a11y-dialog.js', ...umdCfg },
+  },
+  {
     input: 'src/dom-utils.ts',
-    plugins: plugins,
-    output: [{ file: 'cypress/fixtures/dom-utils.js' }],
+    plugins: getPlugins('cypress/fixtures'),
+    // Library utilities for the Cypress tests to consume
+    output: { file: 'cypress/fixtures/dom-utils.js' },
   },
 ]

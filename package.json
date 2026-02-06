@@ -1,7 +1,7 @@
 {
   "name": "a11y-dialog",
   "type": "module",
-  "version": "8.1.4",
+  "version": "8.1.5",
   "description": "A tiny script to make dialog windows accessible to assistive technology users.",
   "homepage": "https://a11y-dialog.netlify.app/",
   "license": "MIT",
@@ -17,13 +17,21 @@
     },
     "./*": "./*"
   },
-  "keywords": ["modal", "dialog", "accessibility", "a11y", "focus"],
+  "keywords": [
+    "modal",
+    "dialog",
+    "accessibility",
+    "a11y",
+    "focus"
+  ],
   "author": "Kitty Giraudel (https://kittygiraudel.com)",
   "repository": {
     "type": "git",
     "url": "https://github.com/KittyGiraudel/a11y-dialog"
   },
-  "files": ["dist/*"],
+  "files": [
+    "dist/*"
+  ],
   "scripts": {
     "build": "rollup -c",
     "serve": "npx serve cypress/fixtures -p 5000",

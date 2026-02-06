@@ -12,10 +12,12 @@ module.exports = {
       type: 'category',
       label: 'Usage',
       items: [
+        'usage.quick_start',
         'usage.markup',
         'usage.styling',
         'usage.instantiation',
         'usage.interactions',
+        'usage.api',
       ],
     },
     {

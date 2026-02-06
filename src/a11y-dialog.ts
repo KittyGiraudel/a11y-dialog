@@ -1,17 +1,74 @@
 import { closest, focus, getActiveEl, trapTabKey } from './dom-utils.js'
 
+/**
+ * Names of the custom events emitted by an `A11yDialog` instance.
+ *
+ * Each event is dispatched as a `CustomEvent` from the dialog element. The
+ * original DOM event that triggered the dialog change (for example a click or
+ * key press) is exposed on `event.detail`.
+ *
+ * - `'show'`: fired when the dialog is requested to open
+ * - `'hide'`: fired when the dialog is requested to close
+ * - `'destroy'`: fired when the instance is about to be destroyed
+ *
+ * All events are cancelable: calling `event.preventDefault()` inside a
+ * listener will prevent the default behavior (opening, closing or destroying
+ * the dialog).
+ */
 export type A11yDialogEvent = 'show' | 'hide' | 'destroy'
+
+/**
+ * Convenience type alias for the public `A11yDialog` instance.
+ *
+ * Useful when you want to store or pass around a reference to an instance
+ * created with `new A11yDialog(...)`.
+ */
 export type A11yDialogInstance = InstanceType<typeof A11yDialog>
 
 const SCOPE = 'data-a11y-dialog'
 
+/**
+ * Controls an accessible modal dialog bound to a single DOM element.
+ *
+ * An instance:
+ * - Initialises the dialog element with the required HTML attributes
+ *   (`aria-hidden`, `aria-modal`, `role="dialog"` by default, and `tabindex`).
+ * - Keeps track of the element that had focus before the dialog was opened and
+ *   restores focus when the dialog is closed.
+ * - Traps focus within the dialog while it is open and closes it with the ESC
+ *   key (except when `role="alertdialog"` or when an opened popover is
+ *   present).
+ * - Delegates click handling for openers and closers declared with
+ *   `[data-a11y-dialog-show]` and `[data-a11y-dialog-hide]` attributes,
+ *   including elements inside Shadow DOM trees.
+ *
+ * The dialog starts hidden (`aria-hidden="true"`). Call `show()` or activate an
+ * opener to display it.
+ */
 export default class A11yDialog {
   private $el: HTMLElement
   private id: string
   private previouslyFocused: HTMLElement | null
 
+  /**
+   * Whether this dialog is currently shown.
+   *
+   * This flag is updated by `show()` and `hide()` and should be treated as
+   * read-only by consumers.
+   */
   public shown: boolean
 
+  /**
+   * Create a new `A11yDialog` controller for the given dialog element.
+   *
+   * The element must either:
+   * - have a unique `id`, or
+   * - define a `data-a11y-dialog` attribute whose value is used as the
+   *   instance identifier.
+   *
+   * That identifier is referenced by opener and closer elements using
+   * `[data-a11y-dialog-show="<id>"]` and `[data-a11y-dialog-hide="<id>"]`.
+   */
   constructor(element: HTMLElement) {
     this.$el = element
     this.id = this.$el.getAttribute(SCOPE) || this.$el.id
@@ -61,8 +118,20 @@ export default class A11yDialog {
   }
 
   /**
-   * Show the dialog element, trap the current focus within it, listen for some
-   * specific key presses and fire all registered callbacks for `show` event
+   * Show the dialog.
+   *
+   * This:
+   * - updates ARIA attributes on the dialog (`aria-hidden` is removed),
+   * - remembers the previously focused element to restore it on `hide()`,
+   * - moves focus into the dialog (or maintains it when opened via a focus
+   *   event),
+   * - starts trapping focus within the dialog, and
+   * - dispatches a cancelable `'show'` `CustomEvent` from the dialog element.
+   *
+   * If a listener for the `'show'` event calls `event.preventDefault()`, the
+   * dialog will not be opened.
+   *
+   * Returns the instance to allow method chaining.
    */
   public show(event?: Event) {
     // If the dialog is already open, abort
@@ -109,9 +178,18 @@ export default class A11yDialog {
   }
 
   /**
-   * Hide the dialog element, restore the focus to the previously active
-   * element, stop listening for some specific key presses and fire all
-   * registered callbacks for `hide` event
+   * Hide the dialog.
+   *
+   * This:
+   * - sets `aria-hidden="true"` on the dialog,
+   * - stops trapping focus and key listeners associated with this instance, and
+   * - restores focus to the element that was active before `show()` was called
+   *   (when possible).
+   *
+   * A cancelable `'hide'` `CustomEvent` is dispatched before closing. If a
+   * listener calls `event.preventDefault()`, the dialog will remain open.
+   *
+   * Returns the instance to allow method chaining.
    */
   public hide(event?: Event) {
     // If the dialog is already closed, abort

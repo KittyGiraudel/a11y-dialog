@@ -199,7 +199,7 @@ export function trapTabKey(el: HTMLElement, event: KeyboardEvent) {
   // currently focused item is the first one, move the focus to the last
   // focusable item from the dialog element
   if (event.shiftKey && activeEl === firstFocusableEl) {
-    // @ts-ignore: we know that `lastFocusableEl` is not null here
+    // @ts-expect-error: we know that `lastFocusableEl` is not null here
     lastFocusableEl.focus()
     event.preventDefault()
   }

@@ -28,7 +28,6 @@ Here is the basic markup, which can be enhanced as desired. Pay extra attention 
 ```
 
 1. The dialog container.
-
    - It is not the actual dialog window, just the container with which the script interacts.
    - It must have a unique name as `data-a11y-dialog` for [automatic instantion through HTML](usage.instantiation.md), or as `id` for JavaScript instantiation.
    - It might need a class for you to be able to style it.
@@ -37,27 +36,32 @@ Here is the basic markup, which can be enhanced as desired. Pay extra attention 
    - It doesn’t have to have the `aria-labelledby` attribute however this is recommended. It should match the `id` of the dialog title (which can be still hidden if desired so).
 
 2. The dialog overlay.
-
    - It doesn’t have to have the `data-a11y-dialog-hide` attribute, however this is recommended. It hides the dialog when clicking outside of it.
    - It should not have the `data-a11y-dialog-hide` attribute if the dialog is an [alert dialog](advanced.alert_dialog.md).
 
 3. The actual dialog.
-
    - It should be styled as a dialog (fixed on top of the page).
    - It should have the `role="document"` attribute to improve support in NVDA.
    - The script does not interact with it whatsoever.
 
 4. The dialog close button.
-
    - It does have to have the `type="button"` attribute.
    - It does have to have the `data-a11y-dialog-hide` attribute.
    - It does have to have an `aria-label` attribute (or otherwise accessible name) if you use an icon as content.
 
 5. The dialog title.
-
    - It should have a different content than “Dialog Title”.
    - It can have a different id than `your-dialog-title-id`.
 
 6. The dialog content.
-
    - This is where your dialog content lives.
+
+## Data attributes and roles at a glance
+
+- `data-a11y-dialog="id"`: Marks a container for [automatic instantiation](usage.instantiation.md). The value must be a unique identifier for the dialog.
+- `id="id"`: Required when instantiating a dialog via JavaScript (without `data-a11y-dialog`).
+- `data-a11y-dialog-show="id"`: Clicking this element opens the dialog whose container has the matching `data-a11y-dialog` or `id`.
+- `data-a11y-dialog-hide="id"`: Clicking this element closes the dialog whose container has the matching `data-a11y-dialog` or `id`.
+- `data-a11y-dialog-hide` (without a value): Clicking this element closes the dialog it is contained in (useful for overlays and close buttons).
+- `role="dialog"`: Default role for modal dialogs.
+- `role="alertdialog"`: Makes the dialog behave as an [alert dialog](advanced.alert_dialog.md); among other things, pressing <kbd>ESC</kbd> will not close it.

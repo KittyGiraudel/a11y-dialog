@@ -7,6 +7,12 @@ slug: /advanced/events
 
 When shown, hidden and destroyed, the instance will emit certain events. It is possible to subscribe to these with the `.on(..)` method which will receive a cancelable [`CustomEvent`](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent).
 
+The three instance events are:
+
+- `show`: Fired when the dialog is requested to open (via `show()` or an opener). Cancelable.
+- `hide`: Fired when the dialog is requested to close (via `hide()` or a closer / <kbd>ESC</kbd>). Cancelable.
+- `destroy`: Fired when the dialog instance is about to be destroyed. Cancelable.
+
 For events triggered from interacting with a UI element (such as opening or closing with a button), the original click event is passed in the `detail` key of the DOM event.
 
 Therefore:

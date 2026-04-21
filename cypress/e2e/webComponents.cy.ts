@@ -34,11 +34,11 @@ describe('Web Components', () => {
     // In a custom element, the event target ends up being the shadow root which
     // is the custom dialog element in this instance
     const handlers = {
-      show: event => {
+      show: (event: CustomEvent) => {
         expect(event.detail.target.tagName).to.eq('FANCY-BUTTON')
         expect(event.detail.composedPath()[0].tagName).to.eq('FANCY-BUTTON')
       },
-      hide: event => {
+      hide: (event: CustomEvent) => {
         expect(event.detail.target.tagName).to.eq('MY-DIALOG')
         expect(event.detail.composedPath()[0].tagName).to.eq('SLOT')
       },

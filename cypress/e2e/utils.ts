@@ -1,4 +1,4 @@
-export function shouldBeVisible($subject: Parameters<(typeof cy)['wrap']>[0]) {
+export function shouldBeVisible($subject: JQuery<HTMLElement>) {
   Cypress.log({
     displayName: 'visible',
     name: 'shouldBeVisible',
@@ -18,7 +18,7 @@ export function shouldBeVisible($subject: Parameters<(typeof cy)['wrap']>[0]) {
     .should('be.visible')
 }
 
-export function shouldBeHidden($subject: Parameters<(typeof cy)['wrap']>[0]) {
+export function shouldBeHidden($subject: JQuery<HTMLElement>) {
   Cypress.log({
     displayName: 'hidden',
     name: 'shouldBeHidden',

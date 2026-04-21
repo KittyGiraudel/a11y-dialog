@@ -1,4 +1,4 @@
-import { shouldBeHidden, shouldBeVisible } from './utils.ts'
+import { shouldBeHidden } from './utils.ts'
 
 describe('Web Components', () => {
   beforeEach(() => cy.visit('/web-components'))

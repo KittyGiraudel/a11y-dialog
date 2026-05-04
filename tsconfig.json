@@ -26,14 +26,11 @@
     "noUncheckedIndexedAccess": true,
     // Tells TypeScript where to put the output declaration files
     "outDir": "./dist",
+    // Tells TypeScript where to find the source files
+    "rootDir": "./src",
     // Skips checking the types of .d.ts files; this is important for
     // performance, because otherwise all node_modules will be checked
     "skipLibCheck": true,
-    // Enables all strict type checking options
-    "strict": true,
-    // The version of JavaScript we’re targeting; we use `es2022` over `esnext`
-    // for stability
-    "target": "es2022",
     // Forces to use import type and export type, leading to more predictable
     // behavior and fewer unnecessary imports — with `module` set to `NodeNext`,
     // it also enforces using the correct import syntax for ESM or CJS

@@ -1,5 +1,8 @@
 import { shouldBeHidden, shouldBeVisible } from './utils.ts'
 
+type InstanceEventDetail = { target: Element; key?: string } | null
+type InstanceEvent = CustomEvent<InstanceEventDetail> & { target: HTMLElement }
+
 describe('Instance', { testIsolation: false }, () => {
   before(() => cy.visit('/instance'))
 
@@ -40,44 +43,49 @@ describe('Instance', { testIsolation: false }, () => {
 
   it('should be possible to register/unregister events', () => {
     const handlers = {
-      show: event => {
+      show: (event: InstanceEvent) => {
         // When programmatically showing the dialog, event details are not set.
         expect(event.detail).to.eq(null)
         expect(event.target.id).to.eq('my-dialog')
       },
-      showManual: event => {
+      showManual: (event: InstanceEvent) => {
         // When manually showing the dialog, event details should contain the
         // element that was interacted with. Important to note that the `target`
         // is the element that was *interacted with*, which is not always the
         // element with the `data-a11y-dialog-show` attribute (which could be an
         // ancestor).
-        const target = event.detail.target
+        const target = event.detail?.target
+        expect(target).to.not.eq(undefined)
+        if (!target) return
 
         expect(target.getAttribute('data-testid')).to.eq('inside-span')
-        expect(
-          target
-            .closest('[data-a11y-dialog-show]')
-            .getAttribute('data-a11y-dialog-show')
-        ).to.eq('my-dialog')
+        const trigger = target.closest('[data-a11y-dialog-show]')
+        expect(trigger).to.not.eq(null)
+        if (!trigger) return
+        expect(trigger.getAttribute('data-a11y-dialog-show')).to.eq('my-dialog')
         expect(event.target.id).to.eq('my-dialog')
       },
-      showPrevented: event => event.preventDefault(),
-      hide: event => {
+      showPrevented: (event: InstanceEvent) => event.preventDefault(),
+      hide: (event: InstanceEvent) => {
         // When programmatically hiding the dialog, event details are not set.
         expect(event.detail).to.eq(null)
         expect(event.target.id).to.eq('my-dialog')
       },
-      hideManual: event => {
+      hideManual: (event: InstanceEvent) => {
         // When manually showing the dialog, event details should contain the
         // closer.
-        expect(event.detail.target.hasAttribute('data-a11y-dialog-hide'))
+        const target = event.detail?.target
+        expect(target).to.not.eq(undefined)
+        if (!target) return
+
+        expect(target.hasAttribute('data-a11y-dialog-hide'))
         expect(event.target.id).to.eq('my-dialog')
       },
-      hidePrevented: event => event.preventDefault(),
-      hideConditionallyPrevented: event => {
+      hidePrevented: (event: InstanceEvent) => event.preventDefault(),
+      hideConditionallyPrevented: (event: InstanceEvent) => {
         if (event.detail?.key === 'Escape') event.preventDefault()
       },
-      destroy: event => {
+      destroy: (event: InstanceEvent) => {
         expect(event.target.id).to.eq('my-dialog')
       },
     }

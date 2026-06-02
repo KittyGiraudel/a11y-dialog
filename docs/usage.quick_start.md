@@ -6,7 +6,7 @@ slug: /usage/quick_start
 The minimal setup follows the [WAI-ARIA dialog modal pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialogmodal/): a dialog container, an overlay, a titled dialog panel, and one or more open/close triggers. Find detailed explanation in [Markup](./usage.markup.md).
 
 ```html
-<button type="button" data-a11y-dialog-show="my-dialog">Open dialog</button>
+<button type="button" data-a11y-dialog-show="your-dialog-identifier">Open dialog</button>
 
 <div
   id="your-dialog-id"
@@ -35,7 +35,7 @@ If you prefer to instantiate dialogs yourself (for example to keep a reference t
 ```js
 import A11yDialog from 'a11y-dialog'
 
-const el = document.querySelector('#my-dialog')
+const el = document.querySelector('#your-dialog-id')
 const dialog = new A11yDialog(el)
 
 dialog.show()

@@ -1,15 +1,25 @@
+// TypeScript 7 has no compiler API, so `@rollup/plugin-typescript` cannot load.
+// `tsc` emits JS + .d.ts into `out/`; Rollup bundles that JS and copies the
+// declarations next to the published and Cypress outputs.
+import { cpSync } from 'node:fs'
 import { createRequire } from 'node:module'
+import { join } from 'node:path'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import terser from '@rollup/plugin-terser'
-import typescript from '@rollup/plugin-typescript'
 
 const require = createRequire(import.meta.url)
 const pkg = require('./package.json')
 
-const getPlugins = (outDir) => [
-  nodeResolve(),
-  typescript({ tsconfig: './tsconfig.json', compilerOptions: { outDir } })
-]
+const BUILD_DIR = 'out'
+
+const copyDts = dest => ({
+  name: 'copy-dts',
+  writeBundle() {
+    for (const file of ['a11y-dialog.d.ts', 'dom-utils.d.ts', 'index.d.ts']) {
+      cpSync(join(BUILD_DIR, file), join(dest, file))
+    }
+  },
+})
 
 const minify = terser({
   format: {
@@ -25,8 +35,8 @@ const umdCfg = {
 
 export default [
   {
-    input: 'src/index.ts',
-    plugins: getPlugins('dist'),
+    input: `${BUILD_DIR}/index.js`,
+    plugins: [nodeResolve(), copyDts('dist')],
     output: [
       // UMD
       { file: 'dist/a11y-dialog.js', ...umdCfg },
@@ -39,14 +49,14 @@ export default [
     ],
   },
   {
-    input: 'src/index.ts',
-    plugins: getPlugins('cypress/fixtures'),
+    input: `${BUILD_DIR}/index.js`,
+    plugins: [nodeResolve(), copyDts('cypress/fixtures')],
     // Library output for the Cypress fixtures to import
     output: { file: 'cypress/fixtures/a11y-dialog.js', ...umdCfg },
   },
   {
-    input: 'src/dom-utils.ts',
-    plugins: getPlugins('cypress/fixtures'),
+    input: `${BUILD_DIR}/dom-utils.js`,
+    plugins: [nodeResolve()],
     // Library utilities for the Cypress tests to consume
     output: { file: 'cypress/fixtures/dom-utils.js' },
   },

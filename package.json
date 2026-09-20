@@ -33,7 +33,7 @@
     "dist/*"
   ],
   "scripts": {
-    "build": "rollup -c",
+    "build": "tsc --outDir out && rollup -c",
     "serve": "npx serve cypress/fixtures -p 5000",
     "test": "cypress run --browser chrome",
     "test:cjs": "npm install --prefix tests/cjs && npm test --prefix tests/cjs",
@@ -49,13 +49,11 @@
     "@cypress/fiddle": "^1.19.3",
     "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-terser": "^1.0.0",
-    "@rollup/plugin-typescript": "^12.1.2",
     "cypress": "^15.5.0",
     "cypress-real-events": "^1.7.6",
     "husky": "^9.0.11",
     "rollup": "^4.4.0",
-    "tslib": "^2.8.1",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   },
   "dependencies": {
     "focusable-selectors": "^0.8.0"
